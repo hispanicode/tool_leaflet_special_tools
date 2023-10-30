@@ -1,0 +1,11 @@
+{"basemaps":
+    [
+        {
+            "url":"https://mt1.google.com/vt/lyrs=h&x={x}&y={y}&z={z}",
+            "name":"Google Roads",
+            "attribution":"@copy Google Maps",
+            "minzoom": 0,
+            "maxzoom": 19
+        }
+    ]
+}

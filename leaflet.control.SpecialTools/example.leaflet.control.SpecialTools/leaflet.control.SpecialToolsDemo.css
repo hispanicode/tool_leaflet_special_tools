@@ -1,0 +1,18 @@
+/*
+ * Author: Manuel Jesús Dávila González
+ * e-mail: manudavgonz@gmail.com
+ */
+.special-tools-demo {
+    width: 35px;
+    height: 35px;
+    padding: 2px;
+    text-align: center;
+    background-image: url('img/demo.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #fff;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+    border-radius: 2px;
+    line-height: 28px !important;
+    cursor: pointer;
+}

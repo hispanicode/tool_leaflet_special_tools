@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="marker-filter-color.js"></script>
+    </head>
+    <body>
+        
+        <div style="margin: 30px;">
+            
+            <p>color: <input type="color" id="color"></p>
+        
+            <div id="filter"></div>
+            
+        </div>
+        
+        <script>
+            
+            color = document.getElementById('color');
+            filter = document.getElementById('filter');
+            
+            color.addEventListener('change', function(){
+                
+                if (validateColor(this.value)) {
+                    
+                    _compute = compute(this.value);
+                    
+                    alert(_compute.result.filterRaw);
+                    
+                }
+                
+            });
+            
+        </script>
+        
+    </body>
+</html>

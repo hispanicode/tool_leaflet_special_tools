@@ -1,0 +1,46 @@
+
+.special-tools-legend {
+    width: 35px;
+    height: 35px;
+    padding: 2px;
+    text-align: center;
+    background-image: url('img/legend.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #fff;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+    border-radius: 2px;
+    line-height: 28px !important;
+    cursor: pointer;
+}
+
+.special-tools-legend-div {
+    
+    width: 325px;
+    height: auto;
+    background-color: #ffffff;
+    padding: 6px;
+    position: absolute;
+    opacity: 0.8;
+    display: none;
+    
+}
+
+.special-tools-legend-name {
+    
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.special-tools-column-name {
+    
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.special-tools-column-div {
+    
+    width: 25%;
+    float: left;
+}
+

@@ -1,0 +1,11 @@
+{"basemaps":
+    [
+        {
+            "url":"//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+            "name":"OSM",
+            "attribution":"&copy; <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors",
+            "minzoom": 0,
+            "maxzoom": 19
+        }
+    ]
+}
