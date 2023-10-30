@@ -8,8 +8,6 @@
 
 <img src='https://raw.githubusercontent.com/hispanicode/tool_leaflet_special_tools/main/contributors/WONDERLOGO_2023.gif' width='300' height='300'>
 
-<img src='https://raw.githubusercontent.com/hispanicode/tool_leaflet_special_tools/main/dedalo.svg' width='145' height='154'>
-
 <h3>tool_leaflet_special_tools para <a href='https://github.com/renderpci/dedalo'>Dédalo</a></h3>
 
 <img src='https://raw.githubusercontent.com/hispanicode/tool_leaflet_special_tools/main/dedalo.svg' width='145' height='154'>
