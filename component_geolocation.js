@@ -16,9 +16,8 @@
 	import {render_list_component_geolocation} from '../../component_geolocation/js/render_list_component_geolocation.js'
 	import {render_search_component_geolocation} from '../../component_geolocation/js/render_search_component_geolocation.js'
 
-        /* SPECIALTOOLS (subida de imágenes) */
-        import {get_instance} from '../../common/js/instances.js'
-        import {open_tool} from '../../../tools/tool_common/js/tool_common.js'
+        /* SPECIALTOOLS (se incluye el tool) */
+        import {tool_leaflet_special_tools} from '../../../tools/tool_leaflet_special_tools/js/tool_leaflet_special_tools.js';
         /* SPECIALTOOLS */
 
 
@@ -178,114 +177,20 @@ component_geolocation.prototype.init = async function(options) {
 			const color_picker_lib_js_file = DEDALO_ROOT_WEB + '/lib/iro/dist/iro.min.js'
 			load_promises.push( common.prototype.load_script(color_picker_lib_js_file, license) )
 
-                        /* SPECIALTOOLS CSS */
- 
-                        const leaflet_modal_lib_css_file = DEDALO_ROOT_WEB + '/core/component_geolocation/leaflet.control.SpecialTools/external-js/leaflet-modal/dist/leaflet.modal.min.css'
-			load_promises.push( common.prototype.load_style(leaflet_modal_lib_css_file, license) )                       
-
-                        const leaflet_graphicscale_lib_css_file = DEDALO_ROOT_WEB + '/core/component_geolocation/leaflet.control.SpecialTools/external-js/leaflet-graphicscale/dist/Leaflet.GraphicScale.min.css?v='+Math.floor(Math.random() * 10000000000000000000000000000000000000000000000000000000000000000000000000)
-			load_promises.push( common.prototype.load_style(leaflet_graphicscale_lib_css_file, license) ) 
-
-                        const leaflet_special_tools_lib_css_file = DEDALO_ROOT_WEB + '/core/component_geolocation/leaflet.control.SpecialTools/leaflet.control.SpecialTools.css?v='+Math.floor(Math.random() * 10000000000000000000000000000000000000000000000000000000000000000000000000)
-			load_promises.push( common.prototype.load_style(leaflet_special_tools_lib_css_file, license) )
-
-                        const leaflet_special_tools_oneXone_lib_css_file = DEDALO_ROOT_WEB + '/core/component_geolocation/leaflet.control.SpecialTools/leaflet.control.SpecialToolsOneXOne/leaflet.control.SpecialToolsOneXOne.css?v='+Math.floor(Math.random() * 10000000000000000000000000000000000000000000000000000000000000000000000000)
-			load_promises.push( common.prototype.load_style(leaflet_special_tools_oneXone_lib_css_file, license) )
+                        const lib_special_tools = tool_leaflet_special_tools.prototype.get_lib();
                         
-                        const leaflet_special_tools_catastro_lib_css_file = DEDALO_ROOT_WEB + '/core/component_geolocation/leaflet.control.SpecialTools/leaflet.control.SpecialToolsCatastro/leaflet.control.SpecialToolsCatastro.css?v='+Math.floor(Math.random() * 10000000000000000000000000000000000000000000000000000000000000000000000000)
-			load_promises.push( common.prototype.load_style(leaflet_special_tools_catastro_lib_css_file, license) )
-    
-                        const leaflet_special_tools_UA_lib_css_file = DEDALO_ROOT_WEB + '/core/component_geolocation/leaflet.control.SpecialTools/leaflet.control.SpecialToolsUA/leaflet.control.SpecialToolsUA.css?v='+Math.floor(Math.random() * 10000000000000000000000000000000000000000000000000000000000000000000000000)
-			load_promises.push( common.prototype.load_style(leaflet_special_tools_UA_lib_css_file, license) )
-    
-                        const leaflet_special_tools_roman_empire_lib_css_file = DEDALO_ROOT_WEB + '/core/component_geolocation/leaflet.control.SpecialTools/leaflet.control.SpecialToolsRomanEmpire/leaflet.control.SpecialToolsRomanEmpire.css?v='+Math.floor(Math.random() * 10000000000000000000000000000000000000000000000000000000000000000000000000)
-			load_promises.push( common.prototype.load_style(leaflet_special_tools_roman_empire_lib_css_file, license) )
+                        /* SPECIAL TOOLS */
                         
-                        const leaflet_special_tools_objects_lib_css_file = DEDALO_ROOT_WEB + '/core/component_geolocation/leaflet.control.SpecialTools/leaflet.control.SpecialToolsObjects/leaflet.control.SpecialToolsObjects.css?v='+Math.floor(Math.random() * 10000000000000000000000000000000000000000000000000000000000000000000000000)
-			load_promises.push( common.prototype.load_style(leaflet_special_tools_objects_lib_css_file, license) )
-    
-                        const leaflet_special_tools_map_image_download_lib_css_file = DEDALO_ROOT_WEB + '/core/component_geolocation/leaflet.control.SpecialTools/leaflet.control.SpecialToolsMapImageDownload/leaflet.control.SpecialToolsMapImageDownload.css?v='+Math.floor(Math.random() * 10000000000000000000000000000000000000000000000000000000000000000000000000)
-			load_promises.push( common.prototype.load_style(leaflet_special_tools_map_image_download_lib_css_file, license) )
-    
-                        const leaflet_special_tools_upload_lib_css_file = DEDALO_ROOT_WEB + '/core/component_geolocation/leaflet.control.SpecialTools/leaflet.control.SpecialToolsUpload/leaflet.control.SpecialToolsUpload.css?v='+Math.floor(Math.random() * 10000000000000000000000000000000000000000000000000000000000000000000000000)
-			load_promises.push( common.prototype.load_style(leaflet_special_tools_upload_lib_css_file, license) )
-                        
-                        const leaflet_special_tools_legend_lib_css_file = DEDALO_ROOT_WEB + '/core/component_geolocation/leaflet.control.SpecialTools/leaflet.control.SpecialToolsLegend/leaflet.control.SpecialToolsLegend.css?v='+Math.floor(Math.random() * 10000000000000000000000000000000000000000000000000000000000000000000000000)
-			load_promises.push( common.prototype.load_style(leaflet_special_tools_legend_lib_css_file, license) )
-    
-                        const leaflet_special_tools_geolocation_lib_css_file = DEDALO_ROOT_WEB + '/core/component_geolocation/leaflet.control.SpecialTools/leaflet.control.SpecialToolsGeolocation/leaflet.control.SpecialToolsGeolocation.css?v='+Math.floor(Math.random() * 10000000000000000000000000000000000000000000000000000000000000000000000000)
-			load_promises.push( common.prototype.load_style(leaflet_special_tools_geolocation_lib_css_file, license) )
-    
-                        /* SPECIALTOOLS CSS */
-                        
-                        /* SPECIALTOOLS JS */
-    			const leaflet_catiline_lib_js_file = DEDALO_ROOT_WEB + '/core/component_geolocation/leaflet.control.SpecialTools/external-js/leaflet.shapefile/catiline.js'
-			load_promises.push( common.prototype.load_script(leaflet_catiline_lib_js_file, license) )
-                        
-    			const leaflet_shpfile_lib_js_file = DEDALO_ROOT_WEB + '/core/component_geolocation/leaflet.control.SpecialTools/external-js/leaflet.shapefile/leaflet.shpfile.js'
-			load_promises.push( common.prototype.load_script(leaflet_shpfile_lib_js_file, license) )
-    
-     			const leaflet_kml_lib_js_file = DEDALO_ROOT_WEB + '/core/component_geolocation/leaflet.control.SpecialTools/external-js/leaflet-kml/L.KML.js'
-			load_promises.push( common.prototype.load_script(leaflet_kml_lib_js_file, license) )
-
-    			const leaflet_georaster_lib_js_file = DEDALO_ROOT_WEB + '/core/component_geolocation/leaflet.control.SpecialTools/external-js/georaster/dist/georaster.browser.bundle.js'
-			load_promises.push( common.prototype.load_script(leaflet_georaster_lib_js_file, license) )
-    
-     			const leaflet_georaster_layer_for_leaflet_lib_js_file = 'https://unpkg.com/georaster-layer-for-leaflet/dist/georaster-layer-for-leaflet.min.js'
-			load_promises.push( common.prototype.load_script(leaflet_georaster_layer_for_leaflet_lib_js_file, license) ) 
-                        
-     			const leaflet_imageoverlay_rotated_lib_js_file = DEDALO_ROOT_WEB + '/core/component_geolocation/leaflet.control.SpecialTools/external-js/Leaflet.ImageOverlay.Rotated/Leaflet.ImageOverlay.Rotated.js'
-			load_promises.push( common.prototype.load_script(leaflet_imageoverlay_rotated_lib_js_file, license) ) 
-    
-     			const leaflet_domtoimage_lib_js_file = DEDALO_ROOT_WEB + '/core/component_geolocation/leaflet.control.SpecialTools/external-js/dom-to-image/dist/dom-to-image.min.js'
-			load_promises.push( common.prototype.load_script(leaflet_domtoimage_lib_js_file, license) )
-                        
-     			const leaflet_marker_filter_color_lib_js_file = DEDALO_ROOT_WEB + '/core/component_geolocation/leaflet.control.SpecialTools/external-js/marker-filter-color/marker-filter-color.js'
-			load_promises.push( common.prototype.load_script(leaflet_marker_filter_color_lib_js_file, license) )
-       
-     			const leaflet_graphicscale_lib_js_file = DEDALO_ROOT_WEB + '/core/component_geolocation/leaflet.control.SpecialTools/external-js/leaflet-graphicscale/dist/Leaflet.GraphicScale.min.js?v='+Math.floor(Math.random() * 1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000);
-			load_promises.push( common.prototype.load_script(leaflet_graphicscale_lib_js_file, license) )                     
-    
-                        const leaflet_modal_lib_js_file = DEDALO_ROOT_WEB + '/core/component_geolocation/leaflet.control.SpecialTools/external-js/leaflet-modal/dist/L.Modal.min.js'
-			load_promises.push( common.prototype.load_script(leaflet_modal_lib_js_file, license) )
-
-    			const leaflet_utm_lib_js_file = DEDALO_ROOT_WEB + '/core/component_geolocation/leaflet.control.SpecialTools/external-js/Leaflet.UTM/L.LatLng.UTM.js'
-			load_promises.push( common.prototype.load_script(leaflet_utm_lib_js_file, license) )
-    
-                        const leaflet_projections_lib_js_file = DEDALO_ROOT_WEB + '/core/component_geolocation/leaflet.control.SpecialTools/external-js/projections/projections.js?v='+Math.floor(Math.random() * 1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000);
-			load_promises.push( common.prototype.load_script(leaflet_projections_lib_js_file, license) )
-    
-                        const leaflet_special_tools_lib_js_file = DEDALO_ROOT_WEB + '/core/component_geolocation/leaflet.control.SpecialTools/leaflet.control.SpecialTools.js?v='+Math.floor(Math.random() * 1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000);
-			load_promises.push( common.prototype.load_script(leaflet_special_tools_lib_js_file, license) )
-                        
-                        const leaflet_special_tools_oneXone_lib_js_file = DEDALO_ROOT_WEB + '/core/component_geolocation/leaflet.control.SpecialTools/leaflet.control.SpecialToolsOneXOne/leaflet.control.SpecialToolsOneXOne.js?v='+Math.floor(Math.random() * 1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000);
-			load_promises.push( common.prototype.load_script(leaflet_special_tools_oneXone_lib_js_file, license) )
-                        
-                        const leaflet_special_tools_catastro_lib_js_file = DEDALO_ROOT_WEB + '/core/component_geolocation/leaflet.control.SpecialTools/leaflet.control.SpecialToolsCatastro/leaflet.control.SpecialToolsCatastro.js?v='+Math.floor(Math.random() * 1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000);
-			load_promises.push( common.prototype.load_script(leaflet_special_tools_catastro_lib_js_file, license) )
-    
-                        const leaflet_special_tools_UA_lib_js_file = DEDALO_ROOT_WEB + '/core/component_geolocation/leaflet.control.SpecialTools/leaflet.control.SpecialToolsUA/leaflet.control.SpecialToolsUA.js?v='+Math.floor(Math.random() * 1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000);
-			load_promises.push( common.prototype.load_script(leaflet_special_tools_UA_lib_js_file, license) )
-    
-                        const leaflet_special_tools_roman_empire_lib_js_file = DEDALO_ROOT_WEB + '/core/component_geolocation/leaflet.control.SpecialTools/leaflet.control.SpecialToolsRomanEmpire/leaflet.control.SpecialToolsRomanEmpire.js?v='+Math.floor(Math.random() * 1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000);
-			load_promises.push( common.prototype.load_script(leaflet_special_tools_roman_empire_lib_js_file, license) )
-
-                        const leaflet_special_tools_objects_lib_js_file = DEDALO_ROOT_WEB + '/core/component_geolocation/leaflet.control.SpecialTools/leaflet.control.SpecialToolsObjects/leaflet.control.SpecialToolsObjects.js?v='+Math.floor(Math.random() * 1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000);
-			load_promises.push( common.prototype.load_script(leaflet_special_tools_objects_lib_js_file, license) )
-                        
-                        const leaflet_special_tools_upload_lib_js_file = DEDALO_ROOT_WEB + '/core/component_geolocation/leaflet.control.SpecialTools/leaflet.control.SpecialToolsUpload/leaflet.control.SpecialToolsUpload.js?v='+Math.floor(Math.random() * 1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000);
-			load_promises.push( common.prototype.load_script(leaflet_special_tools_upload_lib_js_file, license) )
-                        
-                        const leaflet_special_tools_map_image_download_lib_js_file = DEDALO_ROOT_WEB + '/core/component_geolocation/leaflet.control.SpecialTools/leaflet.control.SpecialToolsMapImageDownload/leaflet.control.SpecialToolsMapImageDownload.js?v='+Math.floor(Math.random() * 1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000);
-			load_promises.push( common.prototype.load_script(leaflet_special_tools_map_image_download_lib_js_file, license) )
-                        
-                        const leaflet_special_tools_legend_lib_js_file = DEDALO_ROOT_WEB + '/core/component_geolocation/leaflet.control.SpecialTools/leaflet.control.SpecialToolsLegend/leaflet.control.SpecialToolsLegend.js?v='+Math.floor(Math.random() * 1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000);
-			load_promises.push( common.prototype.load_script(leaflet_special_tools_legend_lib_js_file, license) )
-                        
-                        const leaflet_special_tools_geolocation_lib_js_file = DEDALO_ROOT_WEB + '/core/component_geolocation/leaflet.control.SpecialTools/leaflet.control.SpecialToolsGeolocation/leaflet.control.SpecialToolsGeolocation.js?v='+Math.floor(Math.random() * 1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000);
-			load_promises.push( common.prototype.load_script(leaflet_special_tools_geolocation_lib_js_file, license) )
-    
-                        /* SPECIALTOOLS JS */
+                        /*
+                         * En este punto se añaden las librerías dependientes
+                         * de tool_leaflet_special_tools
+                         */
+                        for (let index = 0; index < lib_special_tools.length; index++) {
+                            
+                            load_promises.push(lib_special_tools[index]);
+                            
+                        }
+                        /* SPECIAL TOOLS */
 
 
 		// load and set JSON langs file
@@ -306,8 +211,10 @@ component_geolocation.prototype.init = async function(options) {
 
 		await Promise.all(load_promises)
 		.then(async function(){
+                    
 			// console.log('All component_geolocation items are loaded:', response);
-		})
+		});
+                
 
 	// event subscriptions
 		// (!) Note that component properties could set observe events like (numisdata264, hierarchy31):
@@ -335,11 +242,12 @@ component_geolocation.prototype.init = async function(options) {
 * @return bool
 */
 component_geolocation.prototype.get_map = async function(map_container, key) {
+    
 
-	const self = this
+	const self = this;
 
 	// defaults
-		const value = self.data.value || self.default_value
+	const value = self.data.value || self.default_value
 
 	// get data
 		// const key			= JSON.parse(map_container.dataset.key)
@@ -379,6 +287,18 @@ component_geolocation.prototype.get_map = async function(map_container, key) {
 		let base_maps	= {}
 
 	// Add layer to map
+
+                /* SPECIAL TOOLS */
+                
+                /*
+                 * Se realizan modificaciones en el siguiente switch para permitir
+                 * la administración de mapas base desde un formulario, la configuración 
+                 * inicial que había en este switch se encuentra en archivos .json en 
+                 * la carpeta basemaps del tool_leaflet_special_tools
+                 */
+                
+                /* SPECIAL TOOLS */
+
 		switch(self.context.features.geo_provider) {
 
 			case 'OSM':
@@ -411,12 +331,14 @@ component_geolocation.prototype.get_map = async function(map_container, key) {
 				// dare = new L.tileLayer('http://pelagios.org/tilesets/imperium/{z}/{x}/{y}.png',{
 				// 	maxZoom: 11
 				// });
+                                /*
 				dare = new L.TileLayer('https://dh.gu.se/tiles/imperium/{z}/{x}/{y}.png',{
 					maxZoom: 11
 				});
+                                */
 
 
-				arcgis = new L.tileLayer('//server.arcgisonline.com/ArcGIS/' + 'rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}');
+				//arcgis = new L.tileLayer('//server.arcgisonline.com/ArcGIS/' + 'rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}');
 
 				osm = new L.tileLayer('//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom: 19, maxNativeZoom: 19});
 
@@ -424,23 +346,26 @@ component_geolocation.prototype.get_map = async function(map_container, key) {
 				self.map = new L.map(map_container, {layers: [osm], center: new L.LatLng(map_data.x, map_data.y), zoom: map_data.zoom});
 
 				// LAYER SELECTOR
+                                /*
 				base_maps = {
 					dare	: dare,
 					arcgis	: arcgis,
 					osm		: osm
 				}
+                                */
 				if(self.layer_control===false) {
-					self.layer_control = L.control.layers(base_maps).addTo(self.map);
+					//self.layer_control = L.control.layers(base_maps).addTo(self.map);
+                                        self.layer_control = L.control.layers().addTo(self.map);
 				}
 				break;
 
 			case 'VARIOUS':
 				// LAYER
 				//var arcgis 		= new L.tileLayer('http://server.arcgisonline.com/ArcGIS/' + 'rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}');
-				arcgis = new L.tileLayer('//server.arcgisonline.com/ArcGIS/' + 'rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}');
+				//arcgis = new L.tileLayer('//server.arcgisonline.com/ArcGIS/' + 'rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}');
 				//var cloudmade 	= new L.TileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png');
 				//var osm 		= new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
-				osm = new L.tileLayer('//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+				osm = new L.tileLayer('//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom: 19, maxNativeZoom: 19});
 				// des
 					// mapbox https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v9/static/-74.0237,40.6609,10,100,0/100x100?access_token=pk.eyJ1IjoibWFwc29mc3VtaXQiLCJhIjoiY2p5MDd2dTkxMDBkMjNubXNiaDVvdHo5ZCJ9.eMqOWuqoFITk01ie1I2BYQ
 					// https://api.mapbox.com/styles/v1/mapbox/dark-v9/static/-74.0237,40.6609,10,100,0/100x100?access_token=pk.eyJ1IjoibWFwc29mc3VtaXQiLCJhIjoiY2p5MDd2dTkxMDBkMjNubXNiaDVvdHo5ZCJ9.eMqOWuqoFITk01ie1I2BYQ
@@ -474,17 +399,20 @@ component_geolocation.prototype.get_map = async function(map_container, key) {
 
 					//var ggl 	= new L.Google();
 					//var ggl2 	= new L.Google('TERRAIN');
-
+                                
 				// MAP
 				self.map = new L.map(map_container, {layers: [osm], center: new L.LatLng(map_data.x, map_data.y), zoom: map_data.zoom});
-
+                                
 				// layer selector
+                                /*
 				base_maps = {
 					arcgis  : arcgis,
 					osm 	: osm
 				}
+                                */
 				if(self.layer_control===false) {
-					self.layer_control = L.control.layers(base_maps).addTo(self.map);
+					//self.layer_control = L.control.layers(base_maps).addTo(self.map);
+                                        self.layer_control = L.control.layers().addTo(self.map)
 				}
 				break;
 		}//end switch(self.context.features.geo_provider)
@@ -565,75 +493,123 @@ component_geolocation.prototype.get_map = async function(map_container, key) {
 					})
 				}
                                 
-                                /* SPECIALTOOLS CONTROLS */
+                                /* SPECIAL TOOLS */
                                 
-                                self.specialTools = L.control.specialTools({
+                                /*
+                                 * 
+                                 * Se obtienen los proveedores para determinar que control se carga o no
+                                 * 
+                                 */
+                                
+                                const geo_provider = self.context.features.geo_provider;
+                                
+                                let special_tools_controls;
+                                
+                                /* Si es numisdata y es lg-spa|lg-cat|lg-eus */
+                                if (geo_provider === 'NUMISDATA' && self.section_lang === 'lg-spa' && self.section_lang === 'lg-cat' && self.section_lang === 'lg-eus') {
+                                    
+                                    special_tools_controls = {
+                                        
+                                        Objects: true,
+                                        XYZ: true,
+                                        WMS: true,
+                                        OneXOne: true,
+                                        Catastro: true,
+                                        UA: true,
+                                        RomanEmpire: true,
+                                        MapImageDownload: true,
+                                        Upload: true,
+                                        Legend: true,
+                                        Geolocation: true
+                                        
+                                    };
+                                    
+                                } 
+                                
+                                /* Si es numisdata pero no es lg-spa|lg-cat|lg-eus (Se excluyen Catastro y UA) */
+                                else if (geo_provider === 'NUMISDATA' && self.section_lang !== 'lg-spa'  && self.section_lang !== 'lg-cat' && self.section_lang !== 'lg-eus') {
+                                    
+                                    special_tools_controls = {
+                                        
+                                        Objects: true,
+                                        XYZ: true,
+                                        WMS: true,
+                                        OneXOne: true,
+                                        RomanEmpire: true,
+                                        MapImageDownload: true,
+                                        Upload: true,
+                                        Legend: true,
+                                        Geolocation: true
+                                        
+                                    };
+                                    
+                                } 
+                                
+                                /* Si es de los otros proveedores y es lg-spa|lg-cat|lg-eus (Se excluye RomanEmpire) */
+                                else if (
+                                    geo_provider === 'VARIOUS' || 
+                                    geo_provider === 'OSM' || 
+                                    geo_provider === 'ARCGIS' || 
+                                    geo_provider === 'GOOGLE' &&
+                                    self.section_lang === 'lg-spa'  && 
+                                    self.section_lang === 'lg-cat' && 
+                                    self.section_lang === 'lg-eus'
+                                ) 
+                                {
+                                    special_tools_controls = { 
+                                        
+                                        Objects: true,
+                                        XYZ: true,
+                                        WMS: true,
+                                        OneXOne: true,
+                                        Catastro: true,
+                                        UA: true,
+                                        MapImageDownload: true,
+                                        Upload: true,
+                                        Legend: true,
+                                        Geolocation: true
+                                        
+                                    }
+                            
+                                }
+                                
+                                /* Si es de los otros proveedores pero no es lg-spa (Se excluyen RomanEmpire, Catastro y UA) */
+                                else if (
+                                    geo_provider === 'VARIOUS' || 
+                                    geo_provider === 'OSM' || 
+                                    geo_provider === 'ARCGIS' || 
+                                    geo_provider === 'GOOGLE' &&
+                                    self.section_lang !== 'lg-spa' && 
+                                    self.section_lang !== 'lg-cat' && 
+                                    self.section_lang !== 'lg-eus'
+                                ) 
+                                {
+                                    special_tools_controls = { 
+                                        
+                                        Objects: true,
+                                        XYZ: true,
+                                        WMS: true,
+                                        OneXOne: true,
+                                        MapImageDownload: true,
+                                        Upload: true,
+                                        Legend: true,
+                                        Geolocation: true
+                                        
+                                    }
+                            
+                                }
+
+                                const special_tools_options = {
+
                                     position: "topleft",
-                                    route: DEDALO_ROOT_WEB + '/core/component_geolocation/leaflet.control.SpecialTools',
                                     lang: self.section_lang,
-                                    server: true,
-                                    component_geolocation: self
-                                });
+                                    controls: special_tools_controls
+                                            
+                                };
+
+                                tool_leaflet_special_tools.prototype.control(self, special_tools_options);
                                 
-                                self.specialTools.addTo(self.map);
-                                
-                                self.specialToolsObjects = L.control.specialToolsObjects({
-                                    special_tools: self.specialTools
-                                });
-                                
-                                self.specialToolsObjects.addTo(self.map);
-                                
-                                self.specialToolsOneXOne = L.control.specialToolsOneXOne({
-                                    special_tools: self.specialTools
-                                });
-                                
-                                self.specialToolsOneXOne.addTo(self.map);
-                                
-                                self.specialToolsCatastro = L.control.specialToolsCatastro({
-                                    special_tools: self.specialTools
-                                });
-                                
-                                self.specialToolsCatastro.addTo(self.map);
-                                
-                                self.specialToolsUA = L.control.specialToolsUA({
-                                    special_tools: self.specialTools
-                                });
-                                
-                                self.specialToolsUA.addTo(self.map);
- 
-                                self.specialToolsRomanEmpire = L.control.specialToolsRomanEmpire({
-                                    special_tools: self.specialTools
-                                });
-                                
-                                self.specialToolsRomanEmpire.addTo(self.map);
-                                
-                                self.specialToolsUpload = L.control.specialToolsUpload({
-                                    special_tools: self.specialTools
-                                });
-                                
-                                self.specialToolsUpload.addTo(self.map);
-                                
-                                self.specialToolsMapImageDownload = L.control.specialToolsMapImageDownload({
-                                    special_tools: self.specialTools
-                                });
-                                
-                                self.specialToolsMapImageDownload.addTo(self.map);
-                                
-                                self.specialToolsLegend = L.control.specialToolsLegend({
-                                    special_tools: self.specialTools
-                                });
-                                
-                                self.specialToolsLegend.addTo(self.map);
-                                
-                                self.specialToolsGeolocation = L.control.specialToolsGeolocation({
-                                    special_tools: self.specialTools
-                                });
-                                
-                                self.specialToolsGeolocation.addTo(self.map);
-                                
-                                L.control.graphicScale({fill: 'hollow', doubleLine: true, position: 'bottomright'}).addTo(self.map);
-                                
-                                /* SPECIALTOOLS CONTROLS */
+                                /* SPECIAL TOOLS */
                                 
 		});
 
@@ -1545,8 +1521,11 @@ component_geolocation.prototype.create_point = function(point) {
 	const new_point = L.marker(point).addTo(self.map);
 
 	// add new point to the active layer
-	self.FeatureGroup[self.active_layer_id].addLayer(new_point)
-
+	//self.FeatureGroup[self.active_layer_id].addLayer(new_point)
+        
+        /* SPECIAL TOOLS */
+        self.map.fire('pm:create', {layer: new_point});
+        /* SPECIAL TOOLS */
 	// update the layer data with the new point
 	self.update_draw_data(self.active_layer_id)
 
@@ -1682,103 +1661,4 @@ const readable_area = function (area, metric=true) {
 	return area_string
 }//end readable_area
 
-/* SPECIALTOOLS */
-component_geolocation.prototype.get_upload_tool = async function() {
-    
-        self = this;
-    
-        // create new section for the image, it will create new record in the database.
-        // the result will be the data to stored into ...
-        // DD_TIPOS object has the most common media sections, in this case we using the image section and component, but it's possible to use the ontology tipo or other sections.
-        
-        const image_section_tipo    =  'rsc170'; //DD_TIPOS.DEDALO_SECTION_RESOURCES_IMAGE_TIPO // 'rsc170'
-        const component_image_tipo  = 'rsc29'; // DD_TIPOS.DEDALO_COMPONENT_RESOURCES_IMAGE_TIPO //'rsc29'
-
-        // create API call as rqo (request query object), with the action to create new section
-        const rqo = {
-            action  : 'create',
-            source  : {
-                section_tipo : image_section_tipo
-            }
-        }
-        // call to API
-        const api_response = await data_manager.request({
-            body : rqo
-        })
-
-        // if the API result is ok go ahead
-        if (api_response.result) {
-            // section_id of the new record
-            const section_id = api_response.result
-
-            // data to be stored into ...., it will be used to load the image
-            // the storage could be an array of images objects as:
-            const to_stored_image_data = [{
-                section_tipo    : image_section_tipo,
-                section_id      : section_id,
-                component_tipo  : component_image_tipo
-            }]
-
-            // To create the new image instance with the result data of uploaded process and build it. 
-            const component_image = await get_instance({
-                model           : 'component_image',
-                mode            : 'edit',
-                tipo            : component_image_tipo,
-                section_tipo    : image_section_tipo,
-                section_id      : section_id
-            })
-            await component_image.build(true)// Note the await here to indicate that this process need to be complete before continue, you can create a promise or do it inside a async function... as you want
-
-            // get the upload tool to be fired
-            const tool_upload = component_image.tools.find(el => el.model === 'tool_upload')
-
-            open_tool({
-                tool_context    : tool_upload,
-                caller          : component_image
-            });
-
-            return {
-                section_tipo: image_section_tipo,
-                section_id: section_id,
-                component_tipo: component_image_tipo
-            };
-        }
-        
-};
-/* SPECIALTOOLS */
-
-/* SPECIALTOOLS */
-component_geolocation.prototype.get_image_upload = async function(stored_image_data_item) {
-    
-        self = this;
-
-        // NOTE: this variable is used to show the locator data and to understand the next code.
-        // It need to be the specific locator object to be loaded.
-
-        // create the new image instance and build it with the data stored
-        const component_image = await get_instance({
-            model           : 'component_image',
-            mode            : 'edit',
-            tipo            : stored_image_data_item.component_tipo,
-            section_tipo    : stored_image_data_item.section_tipo,
-            section_id      : stored_image_data_item.section_id,
-        })
-        await component_image.build(true)// Note the await here to indicate that this process need to be complete before continue, you can create a promise or do it inside a async function... as you want
-
-        // Get the quality of the image, it could be default_quality, but maybe original_quality would be better here... ???
-        // Perhaps is possible add a quality selector to be decided by user.
-        const file_info_default_target_quality = component_image.data.datalist.find(el => el.quality===component_image.context.features.default_target_quality && el.file_exist===true)
-
-        console.log(component_image.context.features);
-
-        // so the url of the image to use will be: (don't forget to check if the uri exist!)
-        const url = file_info_default_target_quality
-            ? file_info_default_target_quality.file_url
-            : null
-            return url;
-};
-/* SPECIALTOOLS */
-
 // @license-end
-
-
