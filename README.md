@@ -1,4 +1,4 @@
-# leaflet.control.SpecialTools
+# tool_leaflet_special_tools
 
 <h3>CONTRIBUTORS</h3>
 
@@ -10,7 +10,9 @@
 
 <img src='https://raw.githubusercontent.com/hispanicode/tool_leaflet_special_tools/main/dedalo.svg' width='145' height='154'>
 
-<h3>Tool - tool_leaflet_special_tools para <a href='https://github.com/renderpci/dedalo'>Dédalo</a></h3>
+<h3>tool_leaflet_special_tools para <a href='https://github.com/renderpci/dedalo'>Dédalo</a></h3>
+
+<img src='https://raw.githubusercontent.com/hispanicode/tool_leaflet_special_tools/main/dedalo.svg' width='145' height='154'>
 
 <h4>Requisitos:</h4>
 
