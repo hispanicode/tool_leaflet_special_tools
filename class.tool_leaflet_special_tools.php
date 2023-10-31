@@ -102,7 +102,7 @@ class tool_leaflet_special_tools extends tool_common  {
             
             sleep(2);
 
-            shell_exec("ogr2ogr -f 'ESRI ShapeFile' $temporal_shape_file $temporal_geojson_file");
+            shell_exec("ogr2ogr -f 'ESRI ShapeFile' -a_srs EPSG:4326 $temporal_shape_file $temporal_geojson_file");
 
             
             $zipArchive = new ZipArchive();
@@ -162,7 +162,7 @@ class tool_leaflet_special_tools extends tool_common  {
 
             sleep(2);
 
-            shell_exec("ogr2ogr -f 'KML' $temporal_kml_file $temporal_geojson_file");
+            shell_exec("ogr2ogr -f 'KML' -a_srs EPSG:4326 $temporal_kml_file $temporal_geojson_file");
 
             sleep(2);
 

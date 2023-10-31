@@ -1,0 +1,7 @@
+{
+"type": "FeatureCollection",
+"name": "epsg_23030",
+"features": [
+{ "type": "Feature", "properties": { "fid": 1 }, "geometry": { "type": "Point", "coordinates": [ 261624.876618281792616, 4057317.615227784030139 ] } }
+]
+}
