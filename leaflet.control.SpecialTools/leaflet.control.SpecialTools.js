@@ -502,10 +502,14 @@ L.Control.SpecialTools = L.Control.extend({
 
                 } else {
                     
-                    layer.feature = layer.toGeoJSON();
-                    layer.feature.special_tools = {};
-                    layer.feature.special_tools.tools_id = self.make_id(20);
-                    layer.feature.special_tools.geoman_edition = false;
+                    try {
+                        
+                        layer.feature = layer.toGeoJSON();
+                        layer.feature.special_tools = {};
+                        layer.feature.special_tools.tools_id = self.make_id(20);
+                        layer.feature.special_tools.geoman_edition = false;
+                        
+                    } catch (e){}
                     
                 }
             }
