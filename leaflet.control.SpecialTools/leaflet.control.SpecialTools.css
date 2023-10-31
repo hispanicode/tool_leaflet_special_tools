@@ -291,36 +291,42 @@
 .special-tools-h1 {
     
     font-size: 17px !important;
+    font-weight: bold;
    
 }
 
 .special-tools-h2 {
     
     font-size: 15px !important;
+    font-weight: bold;
     
 }
 
 .special-tools-h3 {
     
-font-size: 12px !important;
+    font-size: 12px !important;
+    font-weight: bold;
     
 }
 
 .special-tools-h4 {
     
     font-size: 13px !important;
+    font-weight: bold;
     
 }
 
 .special-tools-h5 {
     
     font-size: 12px !important;
+    font-weight: bold;
     
 }
 
 .special-tools-h6 {
     
     font-size: 11px !important;
+    font-weight: bold;
     
 }
 

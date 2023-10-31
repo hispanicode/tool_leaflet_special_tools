@@ -631,55 +631,7 @@ L.Control.SpecialTools = L.Control.extend({
                     lat_lng_span_2.innerText = this._latlng.lat + " " + this._latlng.lng;
                     
                     lat_lng_div.appendChild(lat_lng_span_2);
-                    
-                    const properties_div = L.DomUtil.create('div');
-                    properties_div.setAttribute('class', 'special-tools-container');
-                    self.special_tools_info_console.appendChild(properties_div);
-                    
-                    let properties = this.feature.properties;
 
-                    for (let prop in properties) {
-
-                        if (
-                            properties[prop] !== null 
-                            && prop !== 'color' 
-                            && prop !== 'layer_id'
-                            && typeof properties[prop] !== 'object'
-                        ){
-                            if (self.is_url(properties[prop])) {
-
-                                const properties_content_div = L.DomUtil.create('div');
-                                properties_content_div.setAttribute('class', 'special-tools-container');
-                                
-                                const properties_link_div = L.DomUtil.create('a');
-                                properties_link_div.href = properties[prop];
-                                properties_link_div.target = '_blank';
-                                
-                                properties_content_div.appendChild(properties_link_div);
-                                
-                                properties_div.appendChild(properties_content_div);
-
-                                self.tool.google_translate({
-
-                                    element_html: properties_link_div,
-                                    str: "Más información", 
-                                    lang: self.lang
-
-                                });
-                                
-                            } else {
-                                
-                                const properties_content_div = L.DomUtil.create('div');
-                                properties_content_div.setAttribute('class', 'special-tools-container');
-                                properties_content_div.innerText = prop + ": " + properties[prop];
-                                
-                                properties_div.appendChild(properties_content_div);
-
-                            }
-                        }
-
-                    }
-                    
                     const tools_id = self.get_tools_id_by_layer(this);
                     
                     let checked_geoman = false;
@@ -749,6 +701,56 @@ L.Control.SpecialTools = L.Control.extend({
                     });
                     
                     options_div.appendChild(vector_download_options_btn);
+                    
+                    /**********************************************************/
+                    
+                    const properties_div = L.DomUtil.create('div');
+                    properties_div.setAttribute('class', 'special-tools-container');
+                    self.special_tools_info_console.appendChild(properties_div);
+                    
+                    let properties = this.feature.properties;
+
+                    for (let prop in properties) {
+
+                        if (
+                            properties[prop] !== null 
+                            && prop !== 'color' 
+                            && prop !== 'layer_id'
+                            && typeof properties[prop] !== 'object'
+                        ){
+                            if (self.is_url(properties[prop])) {
+
+                                const properties_content_div = L.DomUtil.create('div');
+                                properties_content_div.setAttribute('class', 'special-tools-container');
+                                
+                                const properties_link_div = L.DomUtil.create('a');
+                                properties_link_div.href = properties[prop];
+                                properties_link_div.target = '_blank';
+                                
+                                properties_content_div.appendChild(properties_link_div);
+                                
+                                properties_div.appendChild(properties_content_div);
+
+                                self.tool.google_translate({
+
+                                    element_html: properties_link_div,
+                                    str: "Más información", 
+                                    lang: self.lang
+
+                                });
+                                
+                            } else {
+                                
+                                const properties_content_div = L.DomUtil.create('div');
+                                properties_content_div.setAttribute('class', 'special-tools-container');
+                                properties_content_div.innerText = prop + ": " + properties[prop];
+                                
+                                properties_div.appendChild(properties_content_div);
+
+                            }
+                        }
+
+                    }
                     
                     const _this = this; //layer
 
@@ -960,55 +962,7 @@ L.Control.SpecialTools = L.Control.extend({
                         lang: self.lang
 
                     });
-                    
-                    const properties_div = L.DomUtil.create('div');
-                    properties_div.setAttribute('class', 'special-tools-container');
-                    self.special_tools_info_console.appendChild(properties_div);
-                    
-                    const properties = this.feature.properties;
 
-                    for (let prop in properties) {
-
-                        if (
-                            properties[prop] !== null 
-                            && prop !== 'color' 
-                            && prop !== 'layer_id'
-                            && typeof properties[prop] !== 'object'
-                        ){
-                            if (self.is_url(properties[prop])) {
-
-                                const properties_content_div = L.DomUtil.create('div');
-                                properties_content_div.setAttribute('class', 'special-tools-container');
-                                
-                                const properties_link_div = L.DomUtil.create('a');
-                                properties_link_div.href = properties[prop];
-                                properties_link_div.target = '_blank';
-                                
-                                properties_content_div.appendChild(properties_link_div);
-                                
-                                properties_div.appendChild(properties_content_div);
-
-                                self.tool.google_translate({
-
-                                    element_html: properties_link_div,
-                                    str: "Más información", 
-                                    lang: self.lang
-
-                                });
-                                
-                            } else {
-                                
-                                const properties_content_div = L.DomUtil.create('div');
-                                properties_content_div.setAttribute('class', 'special-tools-container');
-                                properties_content_div.innerText = prop + ": " + properties[prop];
-                                
-                                properties_div.appendChild(properties_content_div);
-
-                            }
-                        }
-
-                    }
-                     
                     const tools_id = self.get_tools_id_by_layer(this);
 
                     let checked_centroid = false;
@@ -1171,6 +1125,56 @@ L.Control.SpecialTools = L.Control.extend({
                     });
                     
                     options_div.appendChild(vector_download_options_btn);
+                    
+                    /**********************************************************/
+                    
+                    const properties_div = L.DomUtil.create('div');
+                    properties_div.setAttribute('class', 'special-tools-container');
+                    self.special_tools_info_console.appendChild(properties_div);
+                    
+                    const properties = this.feature.properties;
+
+                    for (let prop in properties) {
+
+                        if (
+                            properties[prop] !== null 
+                            && prop !== 'color' 
+                            && prop !== 'layer_id'
+                            && typeof properties[prop] !== 'object'
+                        ){
+                            if (self.is_url(properties[prop])) {
+
+                                const properties_content_div = L.DomUtil.create('div');
+                                properties_content_div.setAttribute('class', 'special-tools-container');
+                                
+                                const properties_link_div = L.DomUtil.create('a');
+                                properties_link_div.href = properties[prop];
+                                properties_link_div.target = '_blank';
+                                
+                                properties_content_div.appendChild(properties_link_div);
+                                
+                                properties_div.appendChild(properties_content_div);
+
+                                self.tool.google_translate({
+
+                                    element_html: properties_link_div,
+                                    str: "Más información", 
+                                    lang: self.lang
+
+                                });
+                                
+                            } else {
+                                
+                                const properties_content_div = L.DomUtil.create('div');
+                                properties_content_div.setAttribute('class', 'special-tools-container');
+                                properties_content_div.innerText = prop + ": " + properties[prop];
+                                
+                                properties_div.appendChild(properties_content_div);
+
+                            }
+                        }
+
+                    }
                     
                     const _this = this; //layer
                     
@@ -1435,55 +1439,7 @@ L.Control.SpecialTools = L.Control.extend({
                         lang: self.lang
 
                     });
-                    
-                    const properties_div = L.DomUtil.create('div');
-                    properties_div.setAttribute('class', 'special-tools-container');
-                    self.special_tools_info_console.appendChild(properties_div);
 
-                    const properties = this.feature.properties;
-
-                    for (let prop in properties) {
-
-                        if (
-                            properties[prop] !== null 
-                            && prop !== 'color' 
-                            && prop !== 'layer_id'
-                            && typeof properties[prop] !== 'object'
-                        ){
-                            if (self.is_url(properties[prop])) {
-                                
-                                const properties_content_div = L.DomUtil.create('div');
-                                properties_content_div.setAttribute('class', 'special-tools-container');
-                                
-                                const properties_link_div = L.DomUtil.create('a');
-                                properties_link_div.href = properties[prop];
-                                properties_link_div.target = '_blank';
-                                
-                                properties_content_div.appendChild(properties_link_div);
-                                
-                                properties_div.appendChild(properties_content_div);
-
-                                self.tool.google_translate({
-
-                                    element_html: properties_link_div,
-                                    str: "Más información", 
-                                    lang: self.lang
-
-                                });
-
-                            } else {
-                                
-                                const properties_content_div = L.DomUtil.create('div');
-                                properties_content_div.setAttribute('class', 'special-tools-container');
-                                properties_content_div.innerText = prop + ": " + properties[prop];
-                                
-                                properties_div.appendChild(properties_content_div);
-
-                            }
-                        }
-
-                    }
-                    
                     const tools_id = self.get_tools_id_by_layer(this);
                     
                     let checked_geoman = false;
@@ -1613,6 +1569,56 @@ L.Control.SpecialTools = L.Control.extend({
                     });
                     
                     options_div.appendChild(vector_download_options_btn);
+                    
+                    /**********************************************************/
+                    
+                    const properties_div = L.DomUtil.create('div');
+                    properties_div.setAttribute('class', 'special-tools-container');
+                    self.special_tools_info_console.appendChild(properties_div);
+
+                    const properties = this.feature.properties;
+
+                    for (let prop in properties) {
+
+                        if (
+                            properties[prop] !== null 
+                            && prop !== 'color' 
+                            && prop !== 'layer_id'
+                            && typeof properties[prop] !== 'object'
+                        ){
+                            if (self.is_url(properties[prop])) {
+                                
+                                const properties_content_div = L.DomUtil.create('div');
+                                properties_content_div.setAttribute('class', 'special-tools-container');
+                                
+                                const properties_link_div = L.DomUtil.create('a');
+                                properties_link_div.href = properties[prop];
+                                properties_link_div.target = '_blank';
+                                
+                                properties_content_div.appendChild(properties_link_div);
+                                
+                                properties_div.appendChild(properties_content_div);
+
+                                self.tool.google_translate({
+
+                                    element_html: properties_link_div,
+                                    str: "Más información", 
+                                    lang: self.lang
+
+                                });
+
+                            } else {
+                                
+                                const properties_content_div = L.DomUtil.create('div');
+                                properties_content_div.setAttribute('class', 'special-tools-container');
+                                properties_content_div.innerText = prop + ": " + properties[prop];
+                                
+                                properties_div.appendChild(properties_content_div);
+
+                            }
+                        }
+
+                    }
 
                     const _this = this;
 
@@ -1917,18 +1923,7 @@ L.Control.SpecialTools = L.Control.extend({
                         const url_image_div = L.DomUtil.create('div');
                         url_image_div.setAttribute('class', 'special-tools-container');
                         self.special_tools_info_console.appendChild(url_image_div);
-                        
-                        const url_image_span = L.DomUtil.create('span');
-                        url_image_div.appendChild(url_image_span);
 
-                        self.tool.google_translate({
-
-                            element_html: url_image_span,
-                            str: "Url: ", 
-                            lang: self.lang
-
-                        });
-                       
                         const url_image_link = L.DomUtil.create('a');
                         url_image_link.href = "?t=" + stored_image_data_item.section_tipo + "&section_id=" + stored_image_data_item.section_id  + "&component_tipo=" + stored_image_data_item.component_tipo;
                         url_image_link.target = '_blank';
@@ -2238,55 +2233,7 @@ L.Control.SpecialTools = L.Control.extend({
                             });
                             
                         }
-                        
-                        const properties_div = L.DomUtil.create('div');
-                        properties_div.setAttribute('class', 'special-tools-container');
-                        self.special_tools_info_console.appendChild(properties_div);
 
-                        const properties = this.feature.properties;
-
-                        for (let prop in properties) {
-
-                            if (
-                                properties[prop] !== null 
-                                && prop !== 'color' 
-                                && prop !== 'layer_id'
-                                && typeof properties[prop] !== 'object'
-                            ){
-                                if (self.is_url(properties[prop])) {
-
-                                    const properties_content_div = L.DomUtil.create('div');
-                                    properties_content_div.setAttribute('class', 'special-tools-container');
-
-                                    const properties_link_div = L.DomUtil.create('a');
-                                    properties_link_div.href = properties[prop];
-                                    properties_link_div.target = '_blank';
-
-                                    properties_content_div.appendChild(properties_link_div);
-
-                                    properties_div.appendChild(properties_content_div);
-
-                                    self.tool.google_translate({
-
-                                        element_html: properties_link_div,
-                                        str: "Más información", 
-                                        lang: self.lang
-
-                                    });
-                                    
-                                } else {
-
-                                    const properties_content_div = L.DomUtil.create('div');
-                                    properties_content_div.setAttribute('class', 'special-tools-container');
-                                    properties_content_div.innerText = prop + ": " + properties[prop];
-
-                                    properties_div.appendChild(properties_content_div);
-                                    
-                                }
-                            }
-
-                        }
-                        
                         const tools_id = self.get_tools_id_by_layer(this);
                         
                         let checked_centroid = false;
@@ -2498,6 +2445,83 @@ L.Control.SpecialTools = L.Control.extend({
                         });
 
                         options_div.appendChild(vector_download_options_btn);
+
+                        /******************************************************/
+                        
+                        const hr = L.DomUtil.create('hr');
+                        self.special_tools_info_console.appendChild(hr);
+                        
+                        /******************************************************/
+                        
+                        const properties_title = L.DomUtil.create('div');
+                        properties_title.setAttribute('class', 'special-tools-h3');
+                        
+                        self.tool.google_translate({
+
+                            element_html: properties_title,
+                            str: "Propiedades del objeto:", 
+                            lang: self.lang
+
+                        });
+                        
+                        self.special_tools_info_console.appendChild(properties_title);
+                        
+                        /******************************************************/
+                        
+                        const properties_div = L.DomUtil.create('div');
+                        properties_div.setAttribute('class', 'special-tools-container');
+                        self.special_tools_info_console.appendChild(properties_div);
+
+                        const properties = this.feature.properties;
+
+                        for (let prop in properties) {
+
+                            if (
+                                properties[prop] !== null 
+                                && prop !== 'color' 
+                                && prop !== 'layer_id'
+                                && typeof properties[prop] !== 'object'
+                            ){
+                                if (self.is_url(properties[prop])) {
+
+                                    const properties_content_div = L.DomUtil.create('div');
+                                    properties_content_div.setAttribute('class', 'special-tools-container');
+
+                                    const properties_link_div = L.DomUtil.create('a');
+                                    properties_link_div.href = properties[prop];
+                                    properties_link_div.target = '_blank';
+
+                                    properties_content_div.appendChild(properties_link_div);
+
+                                    properties_div.appendChild(properties_content_div);
+
+                                    self.tool.google_translate({
+
+                                        element_html: properties_link_div,
+                                        str: "Más información", 
+                                        lang: self.lang
+
+                                    });
+                                    
+                                } else {
+
+                                    const properties_content_div = L.DomUtil.create('div');
+                                    properties_content_div.setAttribute('class', 'special-tools-container');
+                                    
+                                    if (properties[prop].length > 80) {
+                                        
+                                        properties[prop] = properties[prop].substring(0, 80) + '...';
+                                        
+                                    }
+                                    
+                                    properties_content_div.innerHTML = "<strong>" + prop + "</strong>" + ": " + properties[prop];
+
+                                    properties_div.appendChild(properties_content_div);
+                                    
+                                }
+                            }
+
+                        }
 
                         const _this = this;
                         
