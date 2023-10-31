@@ -702,13 +702,33 @@ L.Control.SpecialTools = L.Control.extend({
                     
                     options_div.appendChild(vector_download_options_btn);
                     
-                    /**********************************************************/
-                    
+                    /******************************************************/
+
+                    const hr = L.DomUtil.create('hr');
+                    self.special_tools_info_console.appendChild(hr);
+
+                    /******************************************************/
+
+                    const properties_title = L.DomUtil.create('div');
+                    properties_title.setAttribute('class', 'special-tools-h3');
+
+                    self.tool.google_translate({
+
+                        element_html: properties_title,
+                        str: "Propiedades del objeto:", 
+                        lang: self.lang
+
+                    });
+
+                    self.special_tools_info_console.appendChild(properties_title);
+
+                    /******************************************************/
+
                     const properties_div = L.DomUtil.create('div');
                     properties_div.setAttribute('class', 'special-tools-container');
                     self.special_tools_info_console.appendChild(properties_div);
-                    
-                    let properties = this.feature.properties;
+
+                    const properties = this.feature.properties;
 
                     for (let prop in properties) {
 
@@ -722,13 +742,13 @@ L.Control.SpecialTools = L.Control.extend({
 
                                 const properties_content_div = L.DomUtil.create('div');
                                 properties_content_div.setAttribute('class', 'special-tools-container');
-                                
+
                                 const properties_link_div = L.DomUtil.create('a');
                                 properties_link_div.href = properties[prop];
                                 properties_link_div.target = '_blank';
-                                
+
                                 properties_content_div.appendChild(properties_link_div);
-                                
+
                                 properties_div.appendChild(properties_content_div);
 
                                 self.tool.google_translate({
@@ -738,13 +758,20 @@ L.Control.SpecialTools = L.Control.extend({
                                     lang: self.lang
 
                                 });
-                                
+
                             } else {
-                                
+
                                 const properties_content_div = L.DomUtil.create('div');
                                 properties_content_div.setAttribute('class', 'special-tools-container');
-                                properties_content_div.innerText = prop + ": " + properties[prop];
-                                
+
+                                if (properties[prop].length > 80) {
+
+                                    properties[prop] = properties[prop].substring(0, 80) + '...';
+
+                                }
+
+                                properties_content_div.innerHTML = "<strong>" + prop + "</strong>" + ": " + properties[prop];
+
                                 properties_div.appendChild(properties_content_div);
 
                             }
@@ -1126,12 +1153,32 @@ L.Control.SpecialTools = L.Control.extend({
                     
                     options_div.appendChild(vector_download_options_btn);
                     
-                    /**********************************************************/
-                    
+                    /******************************************************/
+
+                    const hr = L.DomUtil.create('hr');
+                    self.special_tools_info_console.appendChild(hr);
+
+                    /******************************************************/
+
+                    const properties_title = L.DomUtil.create('div');
+                    properties_title.setAttribute('class', 'special-tools-h3');
+
+                    self.tool.google_translate({
+
+                        element_html: properties_title,
+                        str: "Propiedades del objeto:", 
+                        lang: self.lang
+
+                    });
+
+                    self.special_tools_info_console.appendChild(properties_title);
+
+                    /******************************************************/
+
                     const properties_div = L.DomUtil.create('div');
                     properties_div.setAttribute('class', 'special-tools-container');
                     self.special_tools_info_console.appendChild(properties_div);
-                    
+
                     const properties = this.feature.properties;
 
                     for (let prop in properties) {
@@ -1146,13 +1193,13 @@ L.Control.SpecialTools = L.Control.extend({
 
                                 const properties_content_div = L.DomUtil.create('div');
                                 properties_content_div.setAttribute('class', 'special-tools-container');
-                                
+
                                 const properties_link_div = L.DomUtil.create('a');
                                 properties_link_div.href = properties[prop];
                                 properties_link_div.target = '_blank';
-                                
+
                                 properties_content_div.appendChild(properties_link_div);
-                                
+
                                 properties_div.appendChild(properties_content_div);
 
                                 self.tool.google_translate({
@@ -1162,13 +1209,20 @@ L.Control.SpecialTools = L.Control.extend({
                                     lang: self.lang
 
                                 });
-                                
+
                             } else {
-                                
+
                                 const properties_content_div = L.DomUtil.create('div');
                                 properties_content_div.setAttribute('class', 'special-tools-container');
-                                properties_content_div.innerText = prop + ": " + properties[prop];
-                                
+
+                                if (properties[prop].length > 80) {
+
+                                    properties[prop] = properties[prop].substring(0, 80) + '...';
+
+                                }
+
+                                properties_content_div.innerHTML = "<strong>" + prop + "</strong>" + ": " + properties[prop];
+
                                 properties_div.appendChild(properties_content_div);
 
                             }
@@ -1570,8 +1624,28 @@ L.Control.SpecialTools = L.Control.extend({
                     
                     options_div.appendChild(vector_download_options_btn);
                     
-                    /**********************************************************/
-                    
+                    /******************************************************/
+
+                    const hr = L.DomUtil.create('hr');
+                    self.special_tools_info_console.appendChild(hr);
+
+                    /******************************************************/
+
+                    const properties_title = L.DomUtil.create('div');
+                    properties_title.setAttribute('class', 'special-tools-h3');
+
+                    self.tool.google_translate({
+
+                        element_html: properties_title,
+                        str: "Propiedades del objeto:", 
+                        lang: self.lang
+
+                    });
+
+                    self.special_tools_info_console.appendChild(properties_title);
+
+                    /******************************************************/
+
                     const properties_div = L.DomUtil.create('div');
                     properties_div.setAttribute('class', 'special-tools-container');
                     self.special_tools_info_console.appendChild(properties_div);
@@ -1587,16 +1661,16 @@ L.Control.SpecialTools = L.Control.extend({
                             && typeof properties[prop] !== 'object'
                         ){
                             if (self.is_url(properties[prop])) {
-                                
+
                                 const properties_content_div = L.DomUtil.create('div');
                                 properties_content_div.setAttribute('class', 'special-tools-container');
-                                
+
                                 const properties_link_div = L.DomUtil.create('a');
                                 properties_link_div.href = properties[prop];
                                 properties_link_div.target = '_blank';
-                                
+
                                 properties_content_div.appendChild(properties_link_div);
-                                
+
                                 properties_div.appendChild(properties_content_div);
 
                                 self.tool.google_translate({
@@ -1608,11 +1682,18 @@ L.Control.SpecialTools = L.Control.extend({
                                 });
 
                             } else {
-                                
+
                                 const properties_content_div = L.DomUtil.create('div');
                                 properties_content_div.setAttribute('class', 'special-tools-container');
-                                properties_content_div.innerText = prop + ": " + properties[prop];
-                                
+
+                                if (properties[prop].length > 80) {
+
+                                    properties[prop] = properties[prop].substring(0, 80) + '...';
+
+                                }
+
+                                properties_content_div.innerHTML = "<strong>" + prop + "</strong>" + ": " + properties[prop];
+
                                 properties_div.appendChild(properties_content_div);
 
                             }
