@@ -1393,6 +1393,48 @@ tool_leaflet_special_tools.prototype.remove_wms = async function(options) {
     
 };
 
+tool_leaflet_special_tools.prototype.create_property = async function(options) {
+    
+    const self = this;
+
+    this.model = 'tool_leaflet_special_tools';
+
+    const method = 'create_property';
+    
+    const source = create_source(this, method);
+    
+    const rqo = {
+
+        dd_api: 'dd_tools_api',
+        action: 'tool_request',
+        source: source,
+        prevent_lock: true,
+        options: options
+    };
+    
+    return new Promise(function(resolve){
+
+        data_manager.request({
+
+            body : rqo
+
+        })
+        .then(function(response){
+
+            if (SHOW_DEVELOPER) {
+
+                dd_console("-> API " + self.model + "::" + method  + " response:",'DEBUG', response);
+
+            }
+
+            resolve(response);
+
+        });
+
+    });
+    
+};
+
 tool_leaflet_special_tools.prototype.google_translate = async function(options) {
 
         this.model = 'tool_leaflet_special_tools';

@@ -627,6 +627,9 @@ L.Control.SpecialTools = L.Control.extend({
 
                     });
                     
+                    const br = L.DomUtil.create('br');
+                    lat_lng_div.appendChild(br);
+                    
                     const lat_lng_span_2 = L.DomUtil.create('span');
                     lat_lng_span_2.innerText = this._latlng.lat + " " + this._latlng.lng;
                     
@@ -703,199 +706,10 @@ L.Control.SpecialTools = L.Control.extend({
                     options_div.appendChild(vector_download_options_btn);
                     
                     /******************************************************/
-                    
-                    const properties_btn = L.DomUtil.create('button');
-                    properties_btn.type = 'button';
-                    properties_btn.id = 'properties_btn';
-                    properties_btn.setAttribute('class', 'special-tools-btn-default');
-                    properties_btn.style.fontSize = '9px';
-                    
-                    self.tool.google_translate({
 
-                        element_html: properties_btn,
-                        str: "Propiedades", 
-                        lang: self.lang
-
-                    });
-                    
-                    options_div.appendChild(properties_btn);
-                    
-                    /******************************************************/
-
-                    const hr = L.DomUtil.create('hr');
-                    self.special_tools_info_console.appendChild(hr);
-
-                    /******************************************************/
-
-                    const properties_title = L.DomUtil.create('div');
-                    properties_title.setAttribute('class', 'special-tools-h3');
-
-                    self.tool.google_translate({
-
-                        element_html: properties_title,
-                        str: "Propiedades del objeto:", 
-                        lang: self.lang
-
-                    });
-
-                    self.special_tools_info_console.appendChild(properties_title);
-
-                    /******************************************************/
-                    
-                    const properties_div = L.DomUtil.create('div');
-                    properties_div.setAttribute('class', 'special-tools-container');
-                    self.special_tools_info_console.appendChild(properties_div);
-
-                    const properties = this.feature.properties;
-
-                    for (let prop in properties) {
-
-                        if (
-                            properties[prop] !== null 
-                            && prop !== 'color' 
-                            && prop !== 'layer_id'
-                            && typeof properties[prop] !== 'object'
-                        ){
-                            if (self.is_url(properties[prop])) {
-
-                                const properties_content_div = L.DomUtil.create('div');
-                                properties_content_div.setAttribute('class', 'special-tools-container');
-
-                                const properties_link_div = L.DomUtil.create('a');
-                                properties_link_div.href = properties[prop];
-                                properties_link_div.target = '_blank';
-
-                                properties_content_div.appendChild(properties_link_div);
-
-                                properties_div.appendChild(properties_content_div);
-
-                                self.tool.google_translate({
-
-                                    element_html: properties_link_div,
-                                    str: "Más información", 
-                                    lang: self.lang
-
-                                });
-
-                            } else {
-
-                                const properties_content_div = L.DomUtil.create('div');
-                                properties_content_div.setAttribute('class', 'special-tools-container');
-
-                                if (properties[prop].length > 80) {
-
-                                    properties[prop] = properties[prop].substring(0, 80) + '...';
-
-                                }
-
-                                properties_content_div.innerHTML = "<strong>" + prop + "</strong>" + ": " + properties[prop];
-
-                                properties_div.appendChild(properties_content_div);
-
-                            }
-                        }
-
-                    }
+                    self.info_console_load_properties(self, this);
                     
                     const _this = this; //layer
-                    
-                    L.DomEvent.on(properties_btn, 'click', function() {
-                        
-                        self.map.fire('modal', {
-
-                            template: ['<div class="modal-header"></div>',
-                              '<hr>',
-                              '<div class="modal-body"></div>'
-                            ].join(''),
-
-                            width: 'auto',
-
-                            onShow: function(evt) {
-
-                                const modal = evt.modal;
-
-                                const modal_content = modal._container.querySelector('.modal-content');
-
-                                modal_content.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
-                                modal_content.style.marginTop = '80px';
-
-                                const modal_header = modal._container.querySelector('.modal-header');
-
-                                const modal_title = L.DomUtil.create('div');
-                                modal_title.setAttribute('class', 'special-tools-h1');
-
-                                modal_header.appendChild(modal_title);
-
-                                self.tool.google_translate({
-
-                                    element_html: modal_title,
-                                    str: "Propiedades", 
-                                    lang: self.lang
-
-                                });
-
-                                const modal_body = modal._container.querySelector('.modal-body');
-                                
-                                /********************************************************/
-                                
-                                const properties_div = L.DomUtil.create('div');
-                                properties_div.setAttribute('class', 'special-tools-container');
-                                modal_body.appendChild(properties_div);
-
-                                /*********************************************************/
-                            
-                                const properties = _this.feature.properties;
-
-                                for (let prop in properties) {
-
-                                    if (
-                                        properties[prop] !== null 
-                                        && prop !== 'color' 
-                                        && prop !== 'layer_id'
-                                        && typeof properties[prop] !== 'object'
-                                    ){
-                                        if (self.is_url(properties[prop])) {
-
-                                            const properties_content_div = L.DomUtil.create('div');
-                                            properties_content_div.setAttribute('class', 'special-tools-container');
-
-                                            properties_div.appendChild(properties_content_div);
-                                            
-                                            /**************************************************/
-                                            
-                                            const properties_link_div = L.DomUtil.create('a');
-                                            properties_link_div.href = properties[prop];
-                                            properties_link_div.target = '_blank';
-
-                                            self.tool.google_translate({
-
-                                                element_html: properties_link_div,
-                                                str: "Más información", 
-                                                lang: self.lang
-
-                                            });
-                                            
-                                            properties_content_div.appendChild(properties_link_div);
-
-                                        } else {
-
-                                            const properties_content_div = L.DomUtil.create('div');
-                                            properties_content_div.setAttribute('class', 'special-tools-container');
-
-                                            properties_content_div.innerHTML = "<strong>" + prop + "</strong>" + ": " + properties[prop];
-
-                                            properties_div.appendChild(properties_content_div);
-
-                                        }
-                                    }
-
-                                }
-                            
-                            }
-
-                        });
-                        
-                    });
 
                     const _geoman_edition_input = self.special_tools_info_console.querySelector('#geoman_edition_input');
                     
@@ -1271,80 +1085,9 @@ L.Control.SpecialTools = L.Control.extend({
                     
                     /******************************************************/
 
-                    const hr = L.DomUtil.create('hr');
-                    self.special_tools_info_console.appendChild(hr);
-
-                    /******************************************************/
-
-                    const properties_title = L.DomUtil.create('div');
-                    properties_title.setAttribute('class', 'special-tools-h3');
-
-                    self.tool.google_translate({
-
-                        element_html: properties_title,
-                        str: "Propiedades del objeto:", 
-                        lang: self.lang
-
-                    });
-
-                    self.special_tools_info_console.appendChild(properties_title);
+                    self.info_console_load_properties(self, this);
                     
                     /******************************************************/
-
-                    const properties_div = L.DomUtil.create('div');
-                    properties_div.setAttribute('class', 'special-tools-container');
-                    self.special_tools_info_console.appendChild(properties_div);
-
-                    const properties = this.feature.properties;
-
-                    for (let prop in properties) {
-
-                        if (
-                            properties[prop] !== null 
-                            && prop !== 'color' 
-                            && prop !== 'layer_id'
-                            && typeof properties[prop] !== 'object'
-                        ){
-                            if (self.is_url(properties[prop])) {
-
-                                const properties_content_div = L.DomUtil.create('div');
-                                properties_content_div.setAttribute('class', 'special-tools-container');
-
-                                const properties_link_div = L.DomUtil.create('a');
-                                properties_link_div.href = properties[prop];
-                                properties_link_div.target = '_blank';
-
-                                properties_content_div.appendChild(properties_link_div);
-
-                                properties_div.appendChild(properties_content_div);
-
-                                self.tool.google_translate({
-
-                                    element_html: properties_link_div,
-                                    str: "Más información", 
-                                    lang: self.lang
-
-                                });
-
-                            } else {
-
-                                const properties_content_div = L.DomUtil.create('div');
-                                properties_content_div.setAttribute('class', 'special-tools-container');
-
-                                if (properties[prop].length > 80) {
-
-                                    properties[prop] = properties[prop].substring(0, 80) + '...';
-
-                                }
-
-                                properties_content_div.innerHTML = "<strong>" + prop + "</strong>" + ": " + properties[prop];
-
-                                properties_div.appendChild(properties_content_div);
-
-                            }
-                        }
-
-                    }
                     
                     const _this = this; //layer
                     
@@ -1742,80 +1485,9 @@ L.Control.SpecialTools = L.Control.extend({
                     
                     /******************************************************/
 
-                    const hr = L.DomUtil.create('hr');
-                    self.special_tools_info_console.appendChild(hr);
-
+                    self.info_console_load_properties(self, this);
+                    
                     /******************************************************/
-
-                    const properties_title = L.DomUtil.create('div');
-                    properties_title.setAttribute('class', 'special-tools-h3');
-
-                    self.tool.google_translate({
-
-                        element_html: properties_title,
-                        str: "Propiedades del objeto:", 
-                        lang: self.lang
-
-                    });
-
-                    self.special_tools_info_console.appendChild(properties_title);
-
-                    /******************************************************/
-
-                    const properties_div = L.DomUtil.create('div');
-                    properties_div.setAttribute('class', 'special-tools-container');
-                    self.special_tools_info_console.appendChild(properties_div);
-
-                    const properties = this.feature.properties;
-
-                    for (let prop in properties) {
-
-                        if (
-                            properties[prop] !== null 
-                            && prop !== 'color' 
-                            && prop !== 'layer_id'
-                            && typeof properties[prop] !== 'object'
-                        ){
-                            if (self.is_url(properties[prop])) {
-
-                                const properties_content_div = L.DomUtil.create('div');
-                                properties_content_div.setAttribute('class', 'special-tools-container');
-
-                                const properties_link_div = L.DomUtil.create('a');
-                                properties_link_div.href = properties[prop];
-                                properties_link_div.target = '_blank';
-
-                                properties_content_div.appendChild(properties_link_div);
-
-                                properties_div.appendChild(properties_content_div);
-
-                                self.tool.google_translate({
-
-                                    element_html: properties_link_div,
-                                    str: "Más información", 
-                                    lang: self.lang
-
-                                });
-
-                            } else {
-
-                                const properties_content_div = L.DomUtil.create('div');
-                                properties_content_div.setAttribute('class', 'special-tools-container');
-
-                                if (properties[prop].length > 80) {
-
-                                    properties[prop] = properties[prop].substring(0, 80) + '...';
-
-                                }
-
-                                properties_content_div.innerHTML = "<strong>" + prop + "</strong>" + ": " + properties[prop];
-
-                                properties_div.appendChild(properties_content_div);
-
-                            }
-                        }
-
-                    }
 
                     const _this = this;
 
@@ -2224,6 +1896,12 @@ L.Control.SpecialTools = L.Control.extend({
                         });
                     
                         options_div.appendChild(raster_download_options_btn);
+                        
+                        /****************************************************/
+                        
+                        self.info_console_load_properties(self, layer, this);
+                        
+                        /****************************************************/
 
                         const _image_opacity_input = self.special_tools_info_console.querySelector('#image_opacity_input');
 
@@ -2645,80 +2323,9 @@ L.Control.SpecialTools = L.Control.extend({
 
                         /******************************************************/
                         
-                        const hr = L.DomUtil.create('hr');
-                        self.special_tools_info_console.appendChild(hr);
+                        self.info_console_load_properties(self, this);
                         
                         /******************************************************/
-                        
-                        const properties_title = L.DomUtil.create('div');
-                        properties_title.setAttribute('class', 'special-tools-h3');
-                        
-                        self.tool.google_translate({
-
-                            element_html: properties_title,
-                            str: "Propiedades del objeto:", 
-                            lang: self.lang
-
-                        });
-                        
-                        self.special_tools_info_console.appendChild(properties_title);
-                        
-                        /******************************************************/
-                        
-                        const properties_div = L.DomUtil.create('div');
-                        properties_div.setAttribute('class', 'special-tools-container');
-                        self.special_tools_info_console.appendChild(properties_div);
-
-                        const properties = this.feature.properties;
-
-                        for (let prop in properties) {
-
-                            if (
-                                properties[prop] !== null 
-                                && prop !== 'color' 
-                                && prop !== 'layer_id'
-                                && typeof properties[prop] !== 'object'
-                            ){
-                                if (self.is_url(properties[prop])) {
-
-                                    const properties_content_div = L.DomUtil.create('div');
-                                    properties_content_div.setAttribute('class', 'special-tools-container');
-
-                                    const properties_link_div = L.DomUtil.create('a');
-                                    properties_link_div.href = properties[prop];
-                                    properties_link_div.target = '_blank';
-
-                                    properties_content_div.appendChild(properties_link_div);
-
-                                    properties_div.appendChild(properties_content_div);
-
-                                    self.tool.google_translate({
-
-                                        element_html: properties_link_div,
-                                        str: "Más información", 
-                                        lang: self.lang
-
-                                    });
-                                    
-                                } else {
-
-                                    const properties_content_div = L.DomUtil.create('div');
-                                    properties_content_div.setAttribute('class', 'special-tools-container');
-                                    
-                                    if (properties[prop].length > 80) {
-                                        
-                                        properties[prop] = properties[prop].substring(0, 80) + '...';
-                                        
-                                    }
-                                    
-                                    properties_content_div.innerHTML = "<strong>" + prop + "</strong>" + ": " + properties[prop];
-
-                                    properties_div.appendChild(properties_content_div);
-                                    
-                                }
-                            }
-
-                        }
 
                         const _this = this;
                         
@@ -5679,6 +5286,537 @@ L.Control.SpecialTools = L.Control.extend({
             modal_message.remove();
             
         }, miliseconds);
+    },
+    
+    modal_properties_form_create: function(self, layer, overlay) {
+        
+        if (typeof overlay === 'undefined') {
+            
+            overlay = false;
+            
+        }
+
+        if (self.map._container.querySelector('.special-tools-modal-properties-form') !== null) {
+            
+            self.map._container.querySelector('.special-tools-modal-properties-form').remove();
+        
+        }
+        
+        const map_width = self.map._container.clientWidth;
+        const map_height = self.map._container.clientHeight;
+  
+        const modal_properties_form = L.DomUtil.create('div');
+        modal_properties_form.setAttribute('class', 'special-tools-modal-properties-form');
+
+        
+        const modal_top = (map_height / 2) - 100;
+        modal_properties_form.style.top = modal_top + 'px';
+        
+        const modal_left = (map_width / 2) - (350 / 2);
+        modal_properties_form.style.left = modal_left + 'px';
+
+        self.map._container.append(modal_properties_form);
+        
+        const title = L.DomUtil.create('div');
+        title.setAttribute('class', 'special-tools-h2');
+        
+        self.tool.google_translate({
+
+            element_html: title,
+            str: "Nueva propiedad", 
+            lang: self.lang
+
+        });
+        
+        modal_properties_form.appendChild(title);
+        
+        /**********************************************************/
+        
+        const br = L.DomUtil.create('br');
+        modal_properties_form.appendChild(br);
+        
+        /**********************************************************/
+        
+
+        const text_propertie_name_span = L.DomUtil.create('span');
+
+            self.tool.google_translate({
+
+                element_html: text_propertie_name_span,
+                str: "Nombre de la propiedad: ", 
+                lang: self.lang
+
+            });
+
+        modal_properties_form.appendChild(text_propertie_name_span);
+
+        /*******************************************************/
+
+        const text_propertie_name_input = L.DomUtil.create('input');
+        text_propertie_name_input.type = 'text';
+        text_propertie_name_input.setAttribute('class', 'special-tools-input-200');
+
+        modal_properties_form.appendChild(text_propertie_name_input);
+
+        /********************************************************/
+
+        modal_properties_form.appendChild(br.cloneNode(true));
+        modal_properties_form.appendChild(br.cloneNode(true));
+
+        /*******************************************************/
+
+        const text_propertie_value_span = L.DomUtil.create('span');
+
+            self.tool.google_translate({
+
+                element_html: text_propertie_value_span,
+                str: "Valor de la propiedad: ", 
+                lang: self.lang
+
+            });
+
+        modal_properties_form.appendChild(text_propertie_value_span);
+
+        /********************************************************/
+
+        modal_properties_form.appendChild(br.cloneNode(true));
+        modal_properties_form.appendChild(br.cloneNode(true));
+
+        /********************************************************/
+
+        const text_propertie_value_input = L.DomUtil.create('textarea');
+        text_propertie_value_input.style.width = '100%';
+        text_propertie_value_input.style.height = '100px';
+        text_propertie_value_input.setAttribute('class', 'special-tools-textarea');
+
+        modal_properties_form.appendChild(text_propertie_value_input);
+
+        /*********************************************************/
+
+        modal_properties_form.appendChild(br.cloneNode(true));
+        modal_properties_form.appendChild(br.cloneNode(true));
+
+        /*********************************************************/
+
+        const create_button = L.DomUtil.create('button');
+        create_button.type = 'button';
+        create_button.setAttribute('class', 'special-tools-btn-success');
+
+        self.tool.google_translate({
+
+            element_html: create_button,
+            str: "Crear propiedad", 
+            lang: self.lang
+
+        });
+
+        modal_properties_form.appendChild(create_button);
+
+        /*********************************************************/
+
+        const close_button = L.DomUtil.create('button');
+        close_button.type = 'button';
+        close_button.setAttribute('class', 'special-tools-btn-danger');
+
+        self.tool.google_translate({
+
+            element_html: close_button,
+            str: "Cancelar", 
+            lang: self.lang
+
+        });
+
+        modal_properties_form.appendChild(close_button);
+
+        /**********************************************************/
+
+        L.DomEvent.on(close_button, 'click', function() {
+
+            modal_properties_form.remove();
+
+        });
+
+        L.DomEvent.on(create_button, 'click', function() {
+
+            const name = text_propertie_name_input.value;
+            const value = text_propertie_value_input.value;
+
+            const name_allows = /^[A-Za-z\_]+$/;
+
+            if (name === '') {
+
+                self.modal_message(self, "El campo nombre de la propiedad no puede estar vacío", self.lang);
+
+                return;
+
+            } else if (name.length > 50) {
+
+                self.modal_message(self, "El campo nombre de la propiedad no puede superar los 50 caracteres", self.lang);
+
+                return;
+
+            } else if (!name.match(name_allows)) {
+
+                self.modal_message(self, "El campo nombre de la propiedad solo acepta valores alfanúmericos y guiones bajos", self.lang);
+
+                return;
+
+            }
+
+            if (value === '') {
+
+                self.modal_message(self, "El campo valor de la propiedad no puede estar vacío", self.lang);
+
+                return;
+
+            } else if (value.length > 250) {
+
+                self.modal_message(self, "El campo valor de la propiedad no puede superar los 250 caracteres", self.lang);
+
+                return;
+
+            }
+
+            let options = {};
+
+            options.name = name;
+            options.value = self.strip_tags(value);
+
+            let promise = self.tool.create_property(options);
+
+            promise.then(function(data) {
+
+                if (data.success) {
+
+                    const new_property = JSON.parse('{"'+data.name+'": "'+data.value+'"}');
+
+                    Object.assign(layer.feature.properties, new_property);
+
+                    const active_layer_id = self.component_geolocation.active_layer_id;
+                    self.component_geolocation.update_draw_data(active_layer_id);
+                    
+                    if (overlay !== false) {
+                        
+                        overlay.fireEvent('click');
+                        
+                    } else {
+                        
+                        layer.fireEvent('click');
+                        
+                    }
+
+                    modal_properties_form.remove();
+                    
+                    self.special_tools_info_console.querySelector('#properties_btn').click();
+
+                    self.modal_message(self, "Propiedad creada con éxito", self.lang);
+
+                } else {
+
+                    self.modal_message(self, data.msg, self.lang);
+
+                }
+
+            });
+
+        });
+
+    },
+    
+    modal_properties: function(self, layer, overlay) {
+        
+        if (typeof overlay === 'undefined') {
+            
+            overlay = false;
+            
+        }
+        
+        self.map.fire('modal', {
+
+            template: ['<div class="modal-header"></div>',
+              '<hr>',
+              '<div class="modal-body"></div>'
+            ].join(''),
+
+            width: 'auto',
+
+            onShow: function(evt) {
+
+                const modal = evt.modal;
+
+                const modal_content = modal._container.querySelector('.modal-content');
+
+                modal_content.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
+                modal_content.style.marginTop = '80px';
+
+                const modal_header = modal._container.querySelector('.modal-header');
+
+                const modal_title = L.DomUtil.create('div');
+                modal_title.setAttribute('class', 'special-tools-h1');
+
+                modal_header.appendChild(modal_title);
+
+                self.tool.google_translate({
+
+                    element_html: modal_title,
+                    str: "Propiedades del objeto", 
+                    lang: self.lang
+
+                });
+
+                const modal_body = modal._container.querySelector('.modal-body');
+
+                /********************************************************/
+
+                const select_container = L.DomUtil.create('div');
+                select_container.setAttribute('class', 'special-tools-container');
+
+                modal_body.appendChild(select_container); 
+
+                /********************************************************/
+
+                const new_property = L.DomUtil.create('button');
+                new_property.type = 'button';
+                new_property.setAttribute('class', 'special-tools-btn-success');
+
+                self.tool.google_translate({
+
+                    element_html: new_property,
+                    str: "Nueva propiedad", 
+                    lang: self.lang
+
+                });
+
+                select_container.appendChild(new_property);
+
+                /********************************************************/
+
+                const properties_div = L.DomUtil.create('div');
+                properties_div.setAttribute('class', 'special-tools-container');
+                properties_div.style.padding = '5px';
+                properties_div.style.backgroundColor = '#ffffff';
+                properties_div.style.borderRadius = '4px';
+
+                modal_body.appendChild(properties_div);
+
+                /*********************************************************/
+
+                const properties = layer.feature.properties;
+
+                for (let prop in properties) {
+
+                    if (
+                        properties[prop] !== null 
+                        && prop !== 'color' 
+                        && prop !== 'layer_id'
+                        && typeof properties[prop] !== 'object'
+                    ){
+                        if (self.is_url(properties[prop])) {
+
+                            const properties_content_div = L.DomUtil.create('div');
+                            properties_content_div.setAttribute('class', 'special-tools-container');
+
+                            properties_div.appendChild(properties_content_div);
+
+                            /**************************************************/
+
+                            const properties_link_div = L.DomUtil.create('a');
+                            properties_link_div.href = properties[prop];
+                            properties_link_div.target = '_blank';
+
+                            self.tool.google_translate({
+
+                                element_html: properties_link_div,
+                                str: "Más información", 
+                                lang: self.lang
+
+                            });
+
+                            properties_content_div.appendChild(properties_link_div);
+
+                        } else {
+
+                            const properties_content_div = L.DomUtil.create('div');
+                            properties_content_div.setAttribute('class', 'special-tools-container');
+                            properties_content_div.style.borderBottom = '1px solid #b0cdd2';
+                            properties_content_div.style.paddingBottom = '4px';
+                            properties_content_div.style.fontSize = '12px';
+                            
+                            properties_content_div.innerHTML = "<strong>" + prop + "</strong>" + ": <br>" + properties[prop] + "<br>";
+
+                            properties_div.appendChild(properties_content_div);
+                            
+                            /***************************************************/
+                            
+                            const br = L.DomUtil.create('br');
+                            properties_content_div.appendChild(br);
+                            
+                            /***************************************************/
+                            
+                            const update_property = L.DomUtil.create('button');
+                            update_property.type = 'button';
+                            update_property.setAttribute('class', 'special-tools-btn-info');
+                            update_property.setAttribute('property-name', prop);
+                            
+                            properties_content_div.appendChild(update_property);
+                            
+                            /***************************************************/
+                            
+                            const update_property_image = L.DomUtil.create('img');
+                            update_property_image.src = self.tool.controls_url() + '/img/edit.png';
+                            update_property_image.style.width = '10px';
+                            update_property_image.style.height = '10px';
+                            const _compute = compute('#ffffff'); 
+                            update_property_image.style.filter = _compute.result.filterRaw;
+                            
+                            update_property.appendChild(update_property_image);
+                            
+                            /***************************************************/
+                            
+                            const delete_property = L.DomUtil.create('button');
+                            delete_property.type = 'button';
+                            delete_property.setAttribute('class', 'special-tools-btn-danger');
+                            delete_property.setAttribute('property-name', prop);
+                            
+                            properties_content_div.appendChild(delete_property);
+                            
+                            /***************************************************/
+                            
+                            const delete_property_image = L.DomUtil.create('img');
+                            delete_property_image.src = self.tool.controls_url() + '/img/trash.png';
+                            delete_property_image.style.width = '10px';
+                            delete_property_image.style.height = '10px';
+                            
+                            delete_property.appendChild(delete_property_image);
+                            
+                            /***************************************************/
+
+                            properties_content_div.appendChild(br.cloneNode(true));
+
+                        }
+                    }
+
+                }
+
+                L.DomEvent.on(new_property, 'click', function() {
+
+                    self.modal_properties_form_create(self, layer, overlay);
+
+                });
+
+            }
+
+        });
+        
+    },
+    
+    info_console_load_properties: function(self, layer, overlay) {
+        
+        if (typeof overlay === 'undefined') {
+            
+            overlay = false;
+            
+        }
+        
+        const hr = L.DomUtil.create('hr');
+        self.special_tools_info_console.appendChild(hr);
+
+        /******************************************************/
+
+        const properties_title = L.DomUtil.create('div');
+        properties_title.setAttribute('class', 'special-tools-h3');
+
+        self.tool.google_translate({
+
+            element_html: properties_title,
+            str: "Propiedades del objeto:", 
+            lang: self.lang
+
+        });
+
+        self.special_tools_info_console.appendChild(properties_title);
+
+        /******************************************************/
+
+        const properties_div = L.DomUtil.create('div');
+        properties_div.setAttribute('class', 'special-tools-container');
+        self.special_tools_info_console.appendChild(properties_div);
+
+        const properties_btn = L.DomUtil.create('button');
+        properties_btn.type = 'button';
+        properties_btn.id = 'properties_btn';
+        properties_btn.setAttribute('class', 'special-tools-btn-default');
+        properties_btn.style.fontSize = '9px';
+
+        self.tool.google_translate({
+
+            element_html: properties_btn,
+            str: "Propiedades", 
+            lang: self.lang
+
+        });
+
+        properties_div.appendChild(properties_btn);
+
+        /******************************************************/
+
+        const properties = layer.feature.properties;
+
+        for (let prop in properties) {
+
+            if (
+                properties[prop] !== null 
+                && prop !== 'color' 
+                && prop !== 'layer_id'
+                && typeof properties[prop] !== 'object'
+            ){
+                if (self.is_url(properties[prop])) {
+
+                    const properties_content_div = L.DomUtil.create('div');
+                    properties_content_div.setAttribute('class', 'special-tools-container');
+
+                    const properties_link_div = L.DomUtil.create('a');
+                    properties_link_div.href = properties[prop];
+                    properties_link_div.target = '_blank';
+
+                    properties_content_div.appendChild(properties_link_div);
+
+                    properties_div.appendChild(properties_content_div);
+
+                    self.tool.google_translate({
+
+                        element_html: properties_link_div,
+                        str: "Más información", 
+                        lang: self.lang
+
+                    });
+
+                } else {
+
+                    const properties_content_div = L.DomUtil.create('div');
+                    properties_content_div.setAttribute('class', 'special-tools-container');
+
+                    if (properties[prop].length > 80) {
+
+                        properties[prop] = properties[prop].substring(0, 80) + '...';
+
+                    }
+
+                    properties_content_div.innerHTML = "<strong>" + prop + "</strong>" + ": " + properties[prop];
+
+                    properties_div.appendChild(properties_content_div);
+
+                }
+            }
+
+        }
+
+        L.DomEvent.on(properties_btn, 'click', function() {
+
+            self.modal_properties(self, layer, overlay);
+
+        });
+        
     }
     
 });

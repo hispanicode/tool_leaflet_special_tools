@@ -74,7 +74,7 @@ class tool_leaflet_special_tools extends tool_common  {
 
                 $response->success = true;
                 $response->zip = self::downloads_url() . '/vector-download/geojson/' . $zipName;
-                $response->msg = '';
+                $response->msg = 'ok';
             
             }
             
@@ -144,7 +144,7 @@ class tool_leaflet_special_tools extends tool_common  {
 
                 $response->success = true;
                 $response->zip = self::downloads_url() . '/vector-download/shp/' . $zipName;
-                $response->msg = '';
+                $response->msg = 'ok';
             
             }
 
@@ -200,7 +200,7 @@ class tool_leaflet_special_tools extends tool_common  {
 
                 $response->success = true;
                 $response->zip = self::downloads_url() . '/vector-download/kml/' . $zipName;
-                $response->msg = '';
+                $response->msg = 'ok';
             
             }
 
@@ -297,7 +297,7 @@ class tool_leaflet_special_tools extends tool_common  {
 
                 $response->success = true;
                 $response->zip = self::downloads_url() . '/geotiff-download/' . $zipName;
-                $response->msg = '';
+                $response->msg = 'ok';
             
             }
             
@@ -395,7 +395,7 @@ class tool_leaflet_special_tools extends tool_common  {
 
             $response->success = true;
             $response->zip = self::downloads_url() . '/image-download/' . $zipName;
-            $response->msg = '';
+            $response->msg = 'ok';
         
         }
        
@@ -426,7 +426,7 @@ class tool_leaflet_special_tools extends tool_common  {
             $response->content = str_replace('</p></body></html>', '', $response->content);
                 
             $response->success = true;
-            $response->msg = '';
+            $response->msg = 'ok';
             
         } else {
             
@@ -479,7 +479,7 @@ class tool_leaflet_special_tools extends tool_common  {
                     
                     $response->feature = json_encode($elements);
                     
-                    $response->msg = '';
+                    $response->msg = 'ok';
 
                 }
 
@@ -509,7 +509,7 @@ class tool_leaflet_special_tools extends tool_common  {
             
             $response->success = true;
             
-            $response->msg = '';
+            $response->msg = 'ok';
 
         } 
         
@@ -596,7 +596,7 @@ class tool_leaflet_special_tools extends tool_common  {
 
             $response->content = json_encode($object);
             $response->success = true;
-            $response->msg = '';
+            $response->msg = 'ok';
         
         }
         
@@ -621,7 +621,7 @@ class tool_leaflet_special_tools extends tool_common  {
         if ($response->content) {
             
             $response->success = true;
-            $response->msg = '';
+            $response->msg = 'ok';
             
         } else {
             
@@ -869,7 +869,7 @@ class tool_leaflet_special_tools extends tool_common  {
                     
                     $response->shape = $shape_file_url;
                     
-                    $response->msg = '';
+                    $response->msg = 'ok';
                     
                     unlink($tmp_file);
                     
@@ -907,7 +907,7 @@ class tool_leaflet_special_tools extends tool_common  {
 
                     $response->success = true;
                     $response->geojson = json_encode(json_decode(file_get_contents($target_file)));
-                    $response->msg = '';
+                    $response->msg = 'ok';
                     
                     unlink($tmp_file);
                     
@@ -947,7 +947,7 @@ class tool_leaflet_special_tools extends tool_common  {
 
                 $response->success = true;
                 $response->kml = file_get_contents($target_file);
-                $response->msg = '';
+                $response->msg = 'ok';
                 
                 unlink($tmp_file);
                 
@@ -997,7 +997,7 @@ class tool_leaflet_special_tools extends tool_common  {
             
             $response->success = true;
             $response->png = self::geotiff_to_png_url() . '/' . $response->geotiff_file_name;
-            $response->msg = '';
+            $response->msg = 'ok';
             
         } else {
             
@@ -1106,7 +1106,7 @@ class tool_leaflet_special_tools extends tool_common  {
 
                 $response->success = true;
                 $response->zip = self::downloads_url() . '/map-image-download/' . $response->file_type . '/' . $zipName;
-                $response->msg = '';
+                $response->msg = 'ok';
                 
                 return $response;
 
@@ -1168,7 +1168,7 @@ class tool_leaflet_special_tools extends tool_common  {
             
             $response->success = true;
             $response->zip = self::downloads_url() . '/map-image-download/' . $response->file_type . '/' . $zipName;
-            $response->msg = '';
+            $response->msg = 'ok';
             
             return $response;
 
@@ -1209,7 +1209,7 @@ class tool_leaflet_special_tools extends tool_common  {
 
                 $response->success = true;
                 $response->content = json_encode(json_decode($json));
-                $response->msg = '';
+                $response->msg = 'ok';
                 
             } catch (Exception $e) {
                 
@@ -1224,7 +1224,7 @@ class tool_leaflet_special_tools extends tool_common  {
 
                 $response->success = true;
                 $response->content = json_encode(json_decode($response->content));
-                $response->msg = '';
+                $response->msg = 'ok';
                 
             } else {
 
@@ -1237,7 +1237,7 @@ class tool_leaflet_special_tools extends tool_common  {
             
             $response->success = true;
             $response->content = json_encode(json_decode(file_get_contents($legend_file)));
-            $response->msg = '';
+            $response->msg = 'ok';
             
         }
 
@@ -1263,7 +1263,7 @@ class tool_leaflet_special_tools extends tool_common  {
 
             $response->content = json_encode($json_file);
             $response->success = true;
-            $response->msg = '';
+            $response->msg = 'ok';
             
         } 
         
@@ -1339,7 +1339,7 @@ class tool_leaflet_special_tools extends tool_common  {
 
             $response->success = true;
             $response->content = json_encode($json_file);
-            $response->msg = '';
+            $response->msg = 'ok';
             
             } catch (Exception $e) {
                 
@@ -1385,7 +1385,7 @@ class tool_leaflet_special_tools extends tool_common  {
                     fclose($handle);
 
                     $response->success = true;
-                    $response->msg = '';
+                    $response->msg = 'ok';
                 
                 } catch (Exception $e) {
                     
@@ -1438,7 +1438,7 @@ class tool_leaflet_special_tools extends tool_common  {
             
             $response->success = true;
             $response->content = $content;
-            $response->msg = '';
+            $response->msg = 'ok';
             
         } else {
             
@@ -1469,7 +1469,7 @@ class tool_leaflet_special_tools extends tool_common  {
 
             $response->content = json_encode($json_file);
             $response->success = true;
-            $response->msg = '';
+            $response->msg = 'ok';
             
         } else {
             
@@ -1545,7 +1545,7 @@ class tool_leaflet_special_tools extends tool_common  {
 
                 $response->success = true;
                 $response->content = json_encode($json_file);
-                $response->msg = '';
+                $response->msg = 'ok';
             
             } catch (Exception $e) {
                 
@@ -1618,7 +1618,7 @@ class tool_leaflet_special_tools extends tool_common  {
 
                 $response->content = json_encode($json_file);
                 $response->success = true;
-                $response->msg = '';
+                $response->msg = 'ok';
                 
             } catch (Exception $e) {
                 
@@ -1662,7 +1662,7 @@ class tool_leaflet_special_tools extends tool_common  {
                 fclose($handle);
                 
                 $response->success = true;
-                $response->msg = '';
+                $response->msg = 'ok';
                 
                 } catch (Exception $e) {
                     
@@ -1676,6 +1676,57 @@ class tool_leaflet_special_tools extends tool_common  {
         }
         
         return $response;
+        
+    }
+    
+    public static function create_property(object $options): object {
+        
+        $response = new stdClass();
+        
+        $response->success = false;
+        $response->msg = 'Ha ocurrido un error';
+        
+        $response->name = $options->name;
+        $response->value = strip_tags($options->value);
+        
+        $name_allows = "/^[A-Za-z\_]+$/";
+
+        if ($response->name === '') {
+
+            $response->success = false;
+            $response->msg = "El campo nombre de la propiedad no puede estar vacío";
+
+
+        } else if (strlen($response->name) > 50) {
+
+            $response->success = false;
+            $response->msg = "El campo nombre de la propiedad no puede superar los 50 caracteres";
+
+        } else if (!preg_match($name_allows, $response->name)) {
+
+            $response->success = false;
+            $response->msg = "El campo nombre de la propiedad solo acepta valores alfanúmericos y guiones bajos";
+
+        } else if ($response->value === '') {
+
+            $response->success = false;
+            $response->msg = "El campo valor de la propiedad no puede estar vacío";
+
+
+        } else if (strlen($response->value) > 250) {
+
+            $response->success = false;
+            $response->msg = "El campo valor de la propiedad no puede superar los 250 caracteres";
+
+        } else {
+            
+            $response->success = true;
+            $response->msg = "ok";
+            
+        }
+        
+        return $response;
+        
         
     }
     
