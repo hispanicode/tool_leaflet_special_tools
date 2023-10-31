@@ -12,7 +12,7 @@ const projections = {
 
             }
 
-            const default_crs = {"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3857" } }};
+            const default_crs = {"type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3857" }};
 
             var OBJECTS = new Array();
 
@@ -44,7 +44,7 @@ const projections = {
                             point.feature.special_tools.is_geojson = true;
                             point.feature.special_tools.geoman_edition = false;
                             point.feature.properties = json.properties;
-                            point.feature.crs = default_crs.crs;
+                            point.feature.crs = default_crs;
                             OBJECTS.push(point); 
 
                         } 
@@ -123,7 +123,7 @@ const projections = {
 
             }
  
-            const default_crs = {"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3857" } }};
+            const default_crs = {"type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3857" }};
 
             var OBJECTS = new Array();
 
@@ -158,7 +158,7 @@ const projections = {
                                 point.feature.special_tools.is_geojson = true;
                                 point.feature.special_tools.geoman_edition = false;
                                 point.feature.properties = json.properties;
-                                point.feature.crs = default_crs.crs;
+                                point.feature.crs = default_crs;
                                 OBJECTS.push(point); 
 
                             }
@@ -249,7 +249,7 @@ const projections = {
 
             }
 
-            const default_crs = {"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3857" } }};
+            const default_crs = {"type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3857" }};
 
             var OBJECTS = new Array();
 
@@ -284,7 +284,7 @@ const projections = {
                                 polygon.feature.special_tools.is_geojson = true;
                                 polygon.feature.special_tools.geoman_edition = false;
                                 polygon.feature.properties = json.properties;
-                                polygon.feature.crs = default_crs.crs;
+                                polygon.feature.crs = default_crs;
                                 OBJECTS.push(polygon); 
                             }
 
@@ -357,7 +357,7 @@ const projections = {
 
             }
 
-            const default_crs = {"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3857" } }};
+            const default_crs = {"type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3857" }};
 
             var OBJECTS = new Array();
 
@@ -415,7 +415,7 @@ const projections = {
                                 polygon.feature.special_tools.geoman_edition = false;
                                 polygon.feature.special_tools.multi_id = multi_id;
                                 polygon.feature.properties = json.properties;
-                                polygon.feature.crs = default_crs.crs;
+                                polygon.feature.crs = default_crs;
                                 OBJECTS.push(polygon);
 
                             }
@@ -494,7 +494,7 @@ const projections = {
 
             }
 
-            const default_crs = {"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3857" } }};
+            const default_crs = {"type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3857" }};
 
             var OBJECTS = new Array();
 
@@ -531,7 +531,7 @@ const projections = {
                             linestring.feature.special_tools.is_geojson = true;
                             linestring.feature.special_tools.geoman_edition = false;
                             linestring.feature.properties = json.properties;
-                            linestring.feature.crs = default_crs.crs;
+                            linestring.feature.crs = default_crs;
                             OBJECTS.push(linestring); 
 
                         } 
@@ -612,7 +612,7 @@ const projections = {
             
             var linestring;
 
-            const default_crs = {"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3857" } }};
+            const default_crs = {"type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3857"}};
 
             var OBJECTS = new Array();
 
@@ -671,7 +671,7 @@ const projections = {
                                 linestring.feature.special_tools.geoman_edition = false;
                                 linestring.feature.special_tools.multi_id = multi_id;
                                 linestring.feature.properties = json.properties;
-                                linestring.feature.crs = default_crs.crs;
+                                linestring.feature.crs = default_crs;
                                 OBJECTS.push(linestring);
                             }
 

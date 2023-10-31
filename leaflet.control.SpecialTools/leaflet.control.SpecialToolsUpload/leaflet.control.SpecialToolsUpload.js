@@ -430,6 +430,7 @@ L.Control.SpecialToolsUpload = L.Control.extend({
                             "EPSG_4326": {crs: "urn:ogc:def:crs:EPSG::4326", zone: null, band: null},
                             "EPSG_4258": {crs: "urn:ogc:def:crs:EPSG::4258", zone: null, band: null},
                             "EPSG_3857": {crs: "urn:ogc:def:crs:EPSG::3857", zone: null, band: null},
+                            "EPSG_CRS84": {crs: "urn:ogc:def:crs:OGC:1.3:CRS84", zone: null, band: null},
                             "EPSG_32628": {crs: "urn:ogc:def:crs:EPSG::32628", zone: 28, band: "N"},
                             "EPSG_32629": {crs: "urn:ogc:def:crs:EPSG::32629", zone: 29, band: "N"},
                             "EPSG_32630": {crs: "urn:ogc:def:crs:EPSG::32630", zone: 30, band: "N"},

@@ -703,6 +703,24 @@ L.Control.SpecialTools = L.Control.extend({
                     options_div.appendChild(vector_download_options_btn);
                     
                     /******************************************************/
+                    
+                    const properties_btn = L.DomUtil.create('button');
+                    properties_btn.type = 'button';
+                    properties_btn.id = 'properties_btn';
+                    properties_btn.setAttribute('class', 'special-tools-btn-default');
+                    properties_btn.style.fontSize = '9px';
+                    
+                    self.tool.google_translate({
+
+                        element_html: properties_btn,
+                        str: "Propiedades", 
+                        lang: self.lang
+
+                    });
+                    
+                    options_div.appendChild(properties_btn);
+                    
+                    /******************************************************/
 
                     const hr = L.DomUtil.create('hr');
                     self.special_tools_info_console.appendChild(hr);
@@ -723,7 +741,7 @@ L.Control.SpecialTools = L.Control.extend({
                     self.special_tools_info_console.appendChild(properties_title);
 
                     /******************************************************/
-
+                    
                     const properties_div = L.DomUtil.create('div');
                     properties_div.setAttribute('class', 'special-tools-container');
                     self.special_tools_info_console.appendChild(properties_div);
@@ -780,6 +798,104 @@ L.Control.SpecialTools = L.Control.extend({
                     }
                     
                     const _this = this; //layer
+                    
+                    L.DomEvent.on(properties_btn, 'click', function() {
+                        
+                        self.map.fire('modal', {
+
+                            template: ['<div class="modal-header"></div>',
+                              '<hr>',
+                              '<div class="modal-body"></div>'
+                            ].join(''),
+
+                            width: 'auto',
+
+                            onShow: function(evt) {
+
+                                const modal = evt.modal;
+
+                                const modal_content = modal._container.querySelector('.modal-content');
+
+                                modal_content.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
+                                modal_content.style.marginTop = '80px';
+
+                                const modal_header = modal._container.querySelector('.modal-header');
+
+                                const modal_title = L.DomUtil.create('div');
+                                modal_title.setAttribute('class', 'special-tools-h1');
+
+                                modal_header.appendChild(modal_title);
+
+                                self.tool.google_translate({
+
+                                    element_html: modal_title,
+                                    str: "Propiedades", 
+                                    lang: self.lang
+
+                                });
+
+                                const modal_body = modal._container.querySelector('.modal-body');
+                                
+                                /********************************************************/
+                                
+                                const properties_div = L.DomUtil.create('div');
+                                properties_div.setAttribute('class', 'special-tools-container');
+                                modal_body.appendChild(properties_div);
+
+                                /*********************************************************/
+                            
+                                const properties = _this.feature.properties;
+
+                                for (let prop in properties) {
+
+                                    if (
+                                        properties[prop] !== null 
+                                        && prop !== 'color' 
+                                        && prop !== 'layer_id'
+                                        && typeof properties[prop] !== 'object'
+                                    ){
+                                        if (self.is_url(properties[prop])) {
+
+                                            const properties_content_div = L.DomUtil.create('div');
+                                            properties_content_div.setAttribute('class', 'special-tools-container');
+
+                                            properties_div.appendChild(properties_content_div);
+                                            
+                                            /**************************************************/
+                                            
+                                            const properties_link_div = L.DomUtil.create('a');
+                                            properties_link_div.href = properties[prop];
+                                            properties_link_div.target = '_blank';
+
+                                            self.tool.google_translate({
+
+                                                element_html: properties_link_div,
+                                                str: "Más información", 
+                                                lang: self.lang
+
+                                            });
+                                            
+                                            properties_content_div.appendChild(properties_link_div);
+
+                                        } else {
+
+                                            const properties_content_div = L.DomUtil.create('div');
+                                            properties_content_div.setAttribute('class', 'special-tools-container');
+
+                                            properties_content_div.innerHTML = "<strong>" + prop + "</strong>" + ": " + properties[prop];
+
+                                            properties_div.appendChild(properties_content_div);
+
+                                        }
+                                    }
+
+                                }
+                            
+                            }
+
+                        });
+                        
+                    });
 
                     const _geoman_edition_input = self.special_tools_info_console.querySelector('#geoman_edition_input');
                     
@@ -1172,7 +1288,7 @@ L.Control.SpecialTools = L.Control.extend({
                     });
 
                     self.special_tools_info_console.appendChild(properties_title);
-
+                    
                     /******************************************************/
 
                     const properties_div = L.DomUtil.create('div');
@@ -3206,7 +3322,7 @@ L.Control.SpecialTools = L.Control.extend({
                     
                     const option_shp = L.DomUtil.create('option');
                     option_shp.value = 'shp';
-                    option_shp.innerText = 'ESRI Shapefilse';
+                    option_shp.innerText = 'ESRI Shapefile';
                     
                     vector_export.appendChild(option_shp);
                     
@@ -3358,7 +3474,7 @@ L.Control.SpecialTools = L.Control.extend({
                             });
                         }
 
-                        const crs = {"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3857" } }};
+                        const crs = {"type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3857" }};
 
                         geojson.crs = crs;
                             
