@@ -11,12 +11,10 @@ const projections = {
                 EPSG = null;
 
             }
-            
-            var point;
 
-            crs = {"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3857" } }};
+            const default_crs = {"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3857" } }};
 
-            OBJECTS = new Array();
+            var OBJECTS = new Array();
 
             if (GEOJSON.hasOwnProperty("crs") && EPSG !== null) {
 
@@ -25,38 +23,50 @@ const projections = {
                     if (GEOJSON.crs.properties.name === EPSG[proj].crs) {
 
                         if (EPSG[proj].zone !== null && EPSG[proj].band !== null) {
-                            json = GEOJSON;
+                            
+                            const json = GEOJSON;
+                            
                             if (typeof json.geometry.coordinates[0] === 'number'
                                 && !Number.isNaN(json.geometry.coordinates[0])
                                 ) {
-                                _x = json.geometry.coordinates[0];
-                                _y = json.geometry.coordinates[1];
-                                item = L.utm({x: _x, y: _y, zone: EPSG[proj].zone, band: EPSG[proj].band});
+                                const _x = json.geometry.coordinates[0];
+                                const _y = json.geometry.coordinates[1];
+                                const item = L.utm({x: _x, y: _y, zone: EPSG[proj].zone, band: EPSG[proj].band});
                                 json.geometry.coordinates[0] = item.latLng().lat;
                                 json.geometry.coordinates[1] = item.latLng().lng;
                             }
 
-                            point = L.marker(json.geometry.coordinates);
+                            const point = L.marker(json.geometry.coordinates);
                             point.feature = point.toGeoJSON();
+                            
                             point.feature.special_tools = {};
                             point.feature.special_tools.tools_id = this.make_id(20);
                             point.feature.special_tools.is_geojson = true;
                             point.feature.special_tools.geoman_edition = false;
                             point.feature.properties = json.properties;
-                            point.feature.crs = crs.crs;
+                            point.feature.crs = default_crs.crs;
                             OBJECTS.push(point); 
 
                         } 
 
                         else {
 
-                            json = GEOJSON;
+                            const json = GEOJSON;
 
-                            coordinates = json.geometry.coordinates;
+                            const coordinates = json.geometry.coordinates;
+                            
+                            let point_coord;
+                            
+                            try {
+                            
+                                point_coord = L.GeoJSON.coordsToLatLngs(coordinates);
+                            
+                            } catch (e) {
+                                
+                                point_coord = [coordinates[1], coordinates[0]];
+                            }
 
-                            point_coord = L.GeoJSON.coordsToLatLngs(coordinates);
-
-                            point = L.marker(point_coord);
+                            const point = L.marker(point_coord);
                             point.feature = point.toGeoJSON();
                             point.feature.special_tools = {};
                             point.feature.special_tools.tools_id = this.make_id(20);
@@ -73,17 +83,30 @@ const projections = {
 
             else {
 
-                json = GEOJSON;
+                const json = GEOJSON;
+                
+                const coordinates = json.geometry.coordinates;
+                
+                let point_coord;
 
-                coordinates = json.geometry.coordinates;
-                point_coord = L.GeoJSON.coordsToLatLngs(coordinates);
-                point = L.marker(point_coord);
+                try {
+
+                    point_coord = L.GeoJSON.coordsToLatLngs(coordinates);
+
+                } catch (e) {
+
+                    point_coord = [coordinates[1], coordinates[0]];
+                }
+                
+                const point = L.marker(point_coord);
+                
                 point.feature = point.toGeoJSON();
                 point.feature.special_tools = {};
                 point.feature.special_tools.tools_id = this.make_id(20);
                 point.feature.special_tools.is_geojson = true;
                 point.feature.special_tools.geoman_edition = false;
                 point.feature.properties = json.properties;
+                
                 OBJECTS.push(point);
 
             }
@@ -99,12 +122,10 @@ const projections = {
                 EPSG = null;
 
             }
-            
-            var point;
+ 
+            const default_crs = {"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3857" } }};
 
-            crs = {"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3857" } }};
-
-            OBJECTS = new Array();
+            var OBJECTS = new Array();
 
             if (GEOJSON.hasOwnProperty("crs") && EPSG !== null) {
 
@@ -114,29 +135,30 @@ const projections = {
 
                         if (EPSG[proj].zone !== null && EPSG[proj].band !== null) {
 
-                            json = GEOJSON;
+                            const json = GEOJSON;
 
                             for (let index in json.geometry.coordinates) {
                                 if (typeof json.geometry.coordinates[index][0] === 'number'
                                     && !Number.isNaN(json.geometry.coordinates[index][0])
                                     ) {
 
-                                    _x = json.geometry.coordinates[index][0];
-                                    _y = json.geometry.coordinates[index][1];
-                                    item = L.utm({x: _x, y: _y, zone: EPSG[proj].zone, band: EPSG[proj].band});
+                                    const _x = json.geometry.coordinates[index][0];
+                                    const _y = json.geometry.coordinates[index][1];
+                                    const item = L.utm({x: _x, y: _y, zone: EPSG[proj].zone, band: EPSG[proj].band});
                                     json.geometry.coordinates[index][0] = item.latLng().lat;
                                     json.geometry.coordinates[index][1] = item.latLng().lng;
 
                                 }
 
-                                point = L.marker(json.geometry.coordinates[index]);
+                                const point = L.marker(json.geometry.coordinates[index]);
+                                
                                 point.feature = point.toGeoJSON();
                                 point.feature.special_tools = {};
                                 point.feature.special_tools.tools_id = this.make_id(20);
                                 point.feature.special_tools.is_geojson = true;
                                 point.feature.special_tools.geoman_edition = false;
                                 point.feature.properties = json.properties;
-                                point.feature.crs = crs.crs;
+                                point.feature.crs = default_crs.crs;
                                 OBJECTS.push(point); 
 
                             }
@@ -145,15 +167,26 @@ const projections = {
 
                         else {
 
-                            json = GEOJSON;
+                            const json = GEOJSON;
 
-                            coordinates = json.geometry.coordinates;
+                            const coordinates = json.geometry.coordinates;
+                            
+                            let point_coord;
 
                             for (let index in coordinates) {
+                                
+                                try {
 
-                                point_coord = L.GeoJSON.coordsToLatLngs(coordinates[index]);
+                                    point_coord = L.GeoJSON.coordsToLatLngs(coordinates[index]);
 
-                                point = L.marker(point_coord);
+                                } catch (e) {
+                                    
+                                    point_coord = [coordinates[index][1], coordinates[index][0]];
+                                    
+                                }
+                                
+                                const point = L.marker(point_coord);
+                                
                                 point.feature = point.toGeoJSON();
                                 point.feature.special_tools = {};
                                 point.feature.special_tools.tools_id = this.make_id(20);
@@ -168,17 +201,31 @@ const projections = {
 
                     } 
                 }
-            } 
+            }
+            
             else {
 
-                json = GEOJSON;
+                const json = GEOJSON;
 
-                coordinates = json.geometry.coordinates;
+                const coordinates = json.geometry.coordinates;
+                
+                let point_coord;
 
                 for (let index in coordinates) {
 
-                    point_coord = L.GeoJSON.coordsToLatLngs(coordinates[index]);
-                    point = L.marker(point_coord);
+                    try {
+                    
+                        point_coord = L.GeoJSON.coordsToLatLngs(coordinates[index]);
+                    
+                    } catch (e) {
+                        
+                        point_coord = [coordinates[index][1], coordinates[index][0]];
+                        
+                    }
+                    
+                    
+                    const point = L.marker(point_coord);
+                    
                     point.feature = point.toGeoJSON();
                     point.feature.special_tools = {};
                     point.feature.special_tools.tools_id = this.make_id(20);
@@ -201,12 +248,10 @@ const projections = {
                 EPSG = null;
 
             }
-            
-            var polygon;
 
-            crs = {"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3857" } }};
+            const default_crs = {"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3857" } }};
 
-            OBJECTS = new Array();
+            var OBJECTS = new Array();
 
             if (GEOJSON.hasOwnProperty("crs") && EPSG !== null) {
 
@@ -216,7 +261,7 @@ const projections = {
 
                         if (EPSG[proj].zone !== null && EPSG[proj].band !== null) {
 
-                            json = GEOJSON;
+                            const json = GEOJSON;
 
                             for (let index in json.geometry.coordinates) {
 
@@ -224,21 +269,22 @@ const projections = {
                                     && !Number.isNaN(json.geometry.coordinates[index][0])
                                     ) {
 
-                                    _x = json.geometry.coordinates[index][0];
-                                    _y = json.geometry.coordinates[index][1];
-                                    item = L.utm({x: _x, y: _y, zone: EPSG[proj].zone, band: EPSG[proj].band});
+                                    const _x = json.geometry.coordinates[index][0];
+                                    const _y = json.geometry.coordinates[index][1];
+                                    const item = L.utm({x: _x, y: _y, zone: EPSG[proj].zone, band: EPSG[proj].band});
                                     json.geometry.coordinates[index][0] = item.latLng().lat;
                                     json.geometry.coordinates[index][1] = item.latLng().lng;
                                 }
 
-                                polygon = L.polygon(json.geometry.coordinates);
+                                const polygon = L.polygon(json.geometry.coordinates);
+                                
                                 polygon.feature = polygon.toGeoJSON();
                                 polygon.feature.special_tools = {};
                                 polygon.feature.special_tools.tools_id = this.make_id(20);
                                 polygon.feature.special_tools.is_geojson = true;
                                 polygon.feature.special_tools.geoman_edition = false;
                                 polygon.feature.properties = json.properties;
-                                polygon.feature.crs = crs.crs;
+                                polygon.feature.crs = default_crs.crs;
                                 OBJECTS.push(polygon); 
                             }
 
@@ -246,15 +292,18 @@ const projections = {
 
                         else {
 
-                            json = GEOJSON;
+                            const json = GEOJSON;
 
-                            coordinates = json.geometry.coordinates;
+                            const coordinates = json.geometry.coordinates;
+                            
+                            let polygon_coord;
 
                             for (let index in coordinates) {
 
                                 polygon_coord = L.GeoJSON.coordsToLatLngs(coordinates[index]);
 
-                                polygon = L.polygon(polygon_coord);
+                                const polygon = L.polygon(polygon_coord);
+                                
                                 polygon.feature = polygon.toGeoJSON();
                                 polygon.feature.special_tools = {};
                                 polygon.feature.special_tools.tools_id = this.make_id(20);
@@ -273,15 +322,18 @@ const projections = {
 
             else {
 
-                json = GEOJSON;
+                const json = GEOJSON;
 
-                coordinates = json.geometry.coordinates;
+                const coordinates = json.geometry.coordinates;
+                
+                let polygon_coord;
 
                 for (let index in coordinates) {
 
                     polygon_coord = L.GeoJSON.coordsToLatLngs(coordinates[index]);
 
-                    polygon = L.polygon(polygon_coord);
+                    const polygon = L.polygon(polygon_coord);
+                    
                     polygon.feature = polygon.toGeoJSON();
                     polygon.feature.special_tools = {};
                     polygon.feature.special_tools.tools_id = this.make_id(20);
@@ -304,14 +356,12 @@ const projections = {
                 EPSG = null;
 
             }
-            
-            var polygon;
 
-            crs = {"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3857" } }};
+            const default_crs = {"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3857" } }};
 
-            OBJECTS = new Array();
+            var OBJECTS = new Array();
 
-            multi_id = this.make_id(20);
+            const multi_id = this.make_id(20);
 
             if (GEOJSON.hasOwnProperty("crs") && EPSG !== null) {
 
@@ -321,7 +371,11 @@ const projections = {
 
                         if (EPSG[proj].zone !== null && EPSG[proj].band !== null) {
 
-                            json = GEOJSON;
+                            const json = GEOJSON;
+                            
+                            let item;
+                            let _x;
+                            let _y;
 
                             for (let index_1 in json.geometry.coordinates) {
 
@@ -352,7 +406,8 @@ const projections = {
                                     }
                                 }
 
-                                polygon = L.polygon(json.geometry.coordinates[index_1]);
+                                const polygon = L.polygon(json.geometry.coordinates[index_1]);
+                                
                                 polygon.feature = polygon.toGeoJSON();
                                 polygon.feature.special_tools = {};
                                 polygon.feature.special_tools.tools_id = this.make_id(20);
@@ -360,7 +415,7 @@ const projections = {
                                 polygon.feature.special_tools.geoman_edition = false;
                                 polygon.feature.special_tools.multi_id = multi_id;
                                 polygon.feature.properties = json.properties;
-                                polygon.feature.crs = crs.crs;
+                                polygon.feature.crs = default_crs.crs;
                                 OBJECTS.push(polygon);
 
                             }
@@ -368,17 +423,19 @@ const projections = {
                         } 
                         else {
 
-                            json = GEOJSON;
+                            const json = GEOJSON;
 
-                            coordinates = json.geometry.coordinates;
+                            const coordinates = json.geometry.coordinates;
+
 
                             for (let index_1 in coordinates) {
 
                                 for(let index_2 in coordinates[index_1]) {
 
-                                    polygon_coord = L.GeoJSON.coordsToLatLngs(coordinates[index_1][index_2]);
+                                    const polygon_coord = L.GeoJSON.coordsToLatLngs(coordinates[index_1][index_2]);
 
-                                    polygon = L.polygon(polygon_coord);
+                                    const polygon = L.polygon(polygon_coord);
+                                    
                                     polygon.feature = polygon.toGeoJSON();
                                     polygon.feature.special_tools = {};
                                     polygon.feature.special_tools.tools_id = this.make_id(20);
@@ -399,17 +456,18 @@ const projections = {
             } 
             else {
 
-                json = GEOJSON;
+                const json = GEOJSON;
 
-                coordinates = json.geometry.coordinates;
+                const coordinates = json.geometry.coordinates;
 
                 for (let index_1 in coordinates) {
 
                     for(let index_2 in coordinates[index_1]) {
 
-                        polygon_coord = L.GeoJSON.coordsToLatLngs(coordinates[index_1][index_2]);
+                        const polygon_coord = L.GeoJSON.coordsToLatLngs(coordinates[index_1][index_2]);
 
-                        polygon = L.polygon(polygon_coord);
+                        const polygon = L.polygon(polygon_coord);
+                        
                         polygon.feature = polygon.toGeoJSON();
                         polygon.feature.special_tools = {};
                         polygon.feature.special_tools.tools_id = this.make_id(20);
@@ -435,12 +493,10 @@ const projections = {
                 EPSG = null;
 
             }
-            
-            var linestring;
 
-            crs = {"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3857" } }};
+            const default_crs = {"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3857" } }};
 
-            OBJECTS = new Array();
+            var OBJECTS = new Array();
 
             if (GEOJSON.hasOwnProperty("crs") && EPSG !== null) {
 
@@ -450,7 +506,7 @@ const projections = {
 
                         if (EPSG[proj].zone !== null && EPSG[proj].band !== null) {
 
-                            json = GEOJSON;
+                            const json = GEOJSON;
 
                             for (let index in json.geometry.coordinates) {
 
@@ -458,35 +514,47 @@ const projections = {
                                     && !Number.isNaN(json.geometry.coordinates[index][0])
                                     ) {
 
-                                    _x = json.geometry.coordinates[index][0];
-                                    _y = json.geometry.coordinates[index][1];
-                                    item = L.utm({x: _x, y: _y, zone: EPSG[proj].zone, band: EPSG[proj].band});
+                                    const _x = json.geometry.coordinates[index][0];
+                                    const _y = json.geometry.coordinates[index][1];
+                                    const item = L.utm({x: _x, y: _y, zone: EPSG[proj].zone, band: EPSG[proj].band});
                                     json.geometry.coordinates[index][0] = item.latLng().lat;
                                     json.geometry.coordinates[index][1] = item.latLng().lng;
 
                                 }
                             }
 
-                            linestring = L.polyline(json.geometry.coordinates);
+                            const linestring = L.polyline(json.geometry.coordinates);
+                            
                             linestring.feature = linestring.toGeoJSON();
                             linestring.feature.special_tools = {};
                             linestring.feature.special_tools.tools_id = this.make_id(20);
                             linestring.feature.special_tools.is_geojson = true;
                             linestring.feature.special_tools.geoman_edition = false;
                             linestring.feature.properties = json.properties;
-                            linestring.feature.crs = crs.crs;
+                            linestring.feature.crs = default_crs.crs;
                             OBJECTS.push(linestring); 
 
                         } 
                         else {
 
-                            json = GEOJSON;
+                            const json = GEOJSON;
 
-                            coordinates = json.geometry.coordinates;
+                            const coordinates = json.geometry.coordinates;
+                            
+                            let linestring_coord;
+                            
+                            try {
+                                
+                                linestring_coord = L.GeoJSON.coordsToLatLngs(coordinates);
+                                
+                            } catch (e) {
+                                
+                                linestring_coord = [coordinates[1], coordinates[0]];
+                                
+                            }
 
-                            linestring_coord = L.GeoJSON.coordsToLatLngs(coordinates);
-
-                            linestring = L.polyline(linestring_coord);
+                            const linestring = L.polyline(linestring_coord);
+                            
                             linestring.feature = linestring.toGeoJSON();
                             linestring.feature.special_tools = {};
                             linestring.feature.special_tools.tools_id = this.make_id(20);
@@ -501,11 +569,25 @@ const projections = {
             } 
             else {
 
-                json = GEOJSON;
+                const json = GEOJSON;
 
-                coordinates = json.geometry.coordinates;
-                linestring_coord = L.GeoJSON.coordsToLatLngs(coordinates);
-                linestring = L.polyline(linestring_coord);
+                const coordinates = json.geometry.coordinates;
+                
+                let linestring_coord;
+                
+                try {
+                    
+                    linestring_coord = L.GeoJSON.coordsToLatLngs(coordinates);
+                
+                } catch (e) {
+                    
+                    linestring_coord = [coordinates[1], coordinates[0]];
+                    
+                }
+                
+                
+                const linestring = L.polyline(linestring_coord);
+                
                 linestring.feature = linestring.toGeoJSON();
                 linestring.feature.special_tools = {};
                 linestring.feature.special_tools.tools_id = this.make_id(20);
@@ -530,11 +612,11 @@ const projections = {
             
             var linestring;
 
-            crs = {"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3857" } }};
+            const default_crs = {"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3857" } }};
 
-            OBJECTS = new Array();
+            var OBJECTS = new Array();
 
-            multi_id = this.make_id(20);
+            const multi_id = this.make_id(20);
 
             if (GEOJSON.hasOwnProperty("crs") && EPSG !== null) {
 
@@ -544,7 +626,10 @@ const projections = {
 
                         if (EPSG[proj].zone !== null && EPSG[proj].band !== null) {
 
-                            json = GEOJSON;
+                            const json = GEOJSON;
+                            let _x;
+                            let _y;
+                            let item;
 
                             for (let index_1 in json.geometry.coordinates) {
 
@@ -577,7 +662,8 @@ const projections = {
                                     }
                                 }
 
-                                linestring = L.polyline(json.geometry.coordinates[index_1]);
+                                const linestring = L.polyline(json.geometry.coordinates[index_1]);
+                                
                                 linestring.feature = linestring.toGeoJSON();
                                 linestring.feature.special_tools = {};
                                 linestring.feature.special_tools.tools_id = this.make_id(20);
@@ -585,7 +671,7 @@ const projections = {
                                 linestring.feature.special_tools.geoman_edition = false;
                                 linestring.feature.special_tools.multi_id = multi_id;
                                 linestring.feature.properties = json.properties;
-                                linestring.feature.crs = crs.crs;
+                                linestring.feature.crs = default_crs.crs;
                                 OBJECTS.push(linestring);
                             }
 
@@ -593,15 +679,16 @@ const projections = {
 
                         else {
 
-                            json = GEOJSON;
+                            const json = GEOJSON;
 
-                            coordinates = json.geometry.coordinates;
+                            const coordinates = json.geometry.coordinates;
 
                             for (let index in coordinates) {
 
-                                linestring_coord = L.GeoJSON.coordsToLatLngs(coordinates[index]);
+                                const linestring_coord = L.GeoJSON.coordsToLatLngs(coordinates[index]);
 
                                 linestring = L.polyline(linestring_coord);
+                                
                                 linestring.feature = linestring.toGeoJSON();
                                 linestring.feature.special_tools = {};
                                 linestring.feature.special_tools.tools_id = this.make_id(20);
@@ -609,7 +696,7 @@ const projections = {
                                 linestring.feature.special_tools.geoman_edition = false;
                                 linestring.feature.special_tools.multi_id = multi_id;
                                 linestring.feature.properties = json.properties;
-                                linestring.push(linestring);
+                                OBJECTS.push(linestring);
 
                             }
 
@@ -620,13 +707,13 @@ const projections = {
             } 
             else {
 
-                json = GEOJSON;
+                const json = GEOJSON;
 
-                coordinates = json.geometry.coordinates;
+                const coordinates = json.geometry.coordinates;
 
                 for (let index in coordinates) {
 
-                    linestring_coord = L.GeoJSON.coordsToLatLngs(coordinates[index]);
+                    const linestring_coord = L.GeoJSON.coordsToLatLngs(coordinates[index]);
 
                     linestring = L.polyline(linestring_coord);
                     linestring.feature = linestring.toGeoJSON();
