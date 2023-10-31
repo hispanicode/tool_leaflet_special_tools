@@ -595,7 +595,7 @@ L.Control.SpecialToolsWMS = L.Control.extend({
                                                         const layer_opacity_input = L.DomUtil.create('input');
                                                         layer_opacity_input.type = 'range';
                                                         layer_opacity_input.id = 'layer_opacity_input';
-                                                        layer_opacity_input.setAttribute('class', 'special-tools-input-50');
+                                                        layer_opacity_input.setAttribute('class', 'special-tools-input-75');
                                                         layer_opacity_input.setAttribute('wms-index', wms_array.lenght-1);
                                                         layer_opacity_input.setAttribute('min', 0);
                                                         layer_opacity_input.setAttribute('max', 1);
@@ -716,7 +716,7 @@ L.Control.SpecialToolsWMS = L.Control.extend({
                                                         
                                                         L.DomEvent.on(layer_opacity_input, 'input change', function() {
 
-                                                            if (parseInt(this.value) >= 0 && parseInt(this.value) <= 1) {
+                                                            if (parseFloat(this.value) >= 0 && parseFloat(this.value) <= 1) {
 
                                                                 const wms_index = this.getAttribute('wms-index');
 
@@ -727,7 +727,7 @@ L.Control.SpecialToolsWMS = L.Control.extend({
                                                                 
                                                                 tool.update_wms(options);
                                                                 
-                                                                wms_array[wms_index].setParams({opacity: this.value});
+                                                                wms_array[wms_index].setOpacity(parseFloat(this.value));
 
                                                             }
 
