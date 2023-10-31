@@ -1,7 +1,0 @@
-{
-"type": "FeatureCollection",
-"name": "archive-2",
-"features": [
-{ "type": "Feature", "properties": { }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -5.616561, 36.419487 ], [ -5.616561, 36.619457 ], [ -5.219549, 36.619457 ], [ -5.219549, 36.419487 ], [ -5.616561, 36.419487 ] ] ] } }
-]
-}

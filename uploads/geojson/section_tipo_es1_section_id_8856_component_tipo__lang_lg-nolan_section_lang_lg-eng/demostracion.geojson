@@ -1,7 +1,0 @@
-{
-"type": "FeatureCollection",
-"name": "demostracion",
-"features": [
-{ "type": "Feature", "properties": { "layer_id": 1, "demo": "cadena de texto de ejemplo", "code": "cadena de " }, "geometry": { "type": "Point", "coordinates": [ -0.527174, 39.510927 ] } }
-]
-}
