@@ -287,7 +287,10 @@ component_geolocation.prototype.get_map = async function(map_container, key) {
 		let base_maps	= {}
 
 	// Add layer to map
-
+        
+        
+                console.log("geoprovider: " + self.context.features.geo_provider);
+                
                 /* SPECIAL TOOLS */
                 
                 /*
@@ -501,99 +504,96 @@ component_geolocation.prototype.get_map = async function(map_container, key) {
                                  * 
                                  */
                                 
+                                console.log("section_lang: " + self.section_lang);
+                                
                                 const geo_provider = self.context.features.geo_provider;
                                 
                                 let special_tools_controls;
-                                
-                                /* Si es numisdata y es lg-spa|lg-cat|lg-eus */
-                                if (geo_provider === 'NUMISDATA' && self.section_lang === 'lg-spa' && self.section_lang === 'lg-cat' && self.section_lang === 'lg-eus') {
+
+                                /* Si es numisdata y es lg-spa || lg-cat || lg-eus */
+                                if (geo_provider === 'NUMISDATA') {
                                     
-                                    special_tools_controls = {
-                                        
-                                        Objects: true,
-                                        XYZ: true,
-                                        WMS: true,
-                                        OneXOne: true,
-                                        Catastro: true,
-                                        UA: true,
-                                        RomanEmpire: true,
-                                        MapImageDownload: true,
-                                        Upload: true,
-                                        Legend: true,
-                                        Geolocation: true
-                                        
-                                    };
+                                    if (self.section_lang === 'lg-spa' || 
+                                        self.section_lang === 'lg-cat' || 
+                                        self.section_lang === 'lg-eus') {
                                     
-                                } 
-                                
-                                /* Si es numisdata pero no es lg-spa|lg-cat|lg-eus (Se excluyen Catastro y UA) */
-                                else if (geo_provider === 'NUMISDATA' && self.section_lang !== 'lg-spa'  && self.section_lang !== 'lg-cat' && self.section_lang !== 'lg-eus') {
+                                        special_tools_controls = {
+
+                                            Objects: true,
+                                            XYZ: true,
+                                            WMS: true,
+                                            OneXOne: true,
+                                            Catastro: true,
+                                            UA: true,
+                                            RomanEmpire: true,
+                                            MapImageDownload: true,
+                                            Upload: true,
+                                            Legend: true,
+                                            Geolocation: true
+
+                                        };
                                     
-                                    special_tools_controls = {
+                                    } else {
                                         
-                                        Objects: true,
-                                        XYZ: true,
-                                        WMS: true,
-                                        OneXOne: true,
-                                        RomanEmpire: true,
-                                        MapImageDownload: true,
-                                        Upload: true,
-                                        Legend: true,
-                                        Geolocation: true
-                                        
-                                    };
-                                    
-                                } 
-                                
-                                /* Si es de los otros proveedores y es lg-spa|lg-cat|lg-eus (Se excluye RomanEmpire) */
-                                else if (
-                                    geo_provider === 'VARIOUS' || 
-                                    geo_provider === 'OSM' || 
-                                    geo_provider === 'ARCGIS' || 
-                                    geo_provider === 'GOOGLE' &&
-                                    self.section_lang === 'lg-spa'  && 
-                                    self.section_lang === 'lg-cat' && 
-                                    self.section_lang === 'lg-eus'
-                                ) 
-                                {
-                                    special_tools_controls = { 
-                                        
-                                        Objects: true,
-                                        XYZ: true,
-                                        WMS: true,
-                                        OneXOne: true,
-                                        Catastro: true,
-                                        UA: true,
-                                        MapImageDownload: true,
-                                        Upload: true,
-                                        Legend: true,
-                                        Geolocation: true
+                                        special_tools_controls = {
+
+                                            Objects: true,
+                                            XYZ: true,
+                                            WMS: true,
+                                            OneXOne: true,
+                                            RomanEmpire: true,
+                                            MapImageDownload: true,
+                                            Upload: true,
+                                            Legend: true,
+                                            Geolocation: true
+
+                                        };
                                         
                                     }
-                            
-                                }
+                                    
+                                } 
                                 
-                                /* Si es de los otros proveedores pero no es lg-spa (Se excluyen RomanEmpire, Catastro y UA) */
                                 else if (
                                     geo_provider === 'VARIOUS' || 
                                     geo_provider === 'OSM' || 
                                     geo_provider === 'ARCGIS' || 
-                                    geo_provider === 'GOOGLE' &&
-                                    self.section_lang !== 'lg-spa' && 
-                                    self.section_lang !== 'lg-cat' && 
-                                    self.section_lang !== 'lg-eus'
+                                    geo_provider === 'GOOGLE'
                                 ) 
                                 {
-                                    special_tools_controls = { 
+                                    
+                                    if (self.section_lang === 'lg-spa' || 
+                                        self.section_lang === 'lg-cat' || 
+                                        self.section_lang === 'lg-eus') {
+                                
+                                        special_tools_controls = { 
+
+                                            Objects: true,
+                                            XYZ: true,
+                                            WMS: true,
+                                            OneXOne: true,
+                                            Catastro: true,
+                                            UA: true,
+                                            MapImageDownload: true,
+                                            Upload: true,
+                                            Legend: true,
+                                            Geolocation: true
+                                            
+                                        };
                                         
-                                        Objects: true,
-                                        XYZ: true,
-                                        WMS: true,
-                                        OneXOne: true,
-                                        MapImageDownload: true,
-                                        Upload: true,
-                                        Legend: true,
-                                        Geolocation: true
+                                    } else {
+                                        
+                                        special_tools_controls = { 
+
+                                            Objects: true,
+                                            XYZ: true,
+                                            WMS: true,
+                                            OneXOne: true,
+                                            MapImageDownload: true,
+                                            Upload: true,
+                                            Legend: true,
+                                            Geolocation: true
+                                            
+                                        };
                                         
                                     }
                             
@@ -602,7 +602,6 @@ component_geolocation.prototype.get_map = async function(map_container, key) {
                                 const special_tools_options = {
 
                                     position: "topleft",
-                                    lang: self.section_lang,
                                     controls: special_tools_controls
                                             
                                 };

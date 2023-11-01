@@ -1726,8 +1726,36 @@ class tool_leaflet_special_tools extends tool_common  {
         }
         
         return $response;
+
+    }
+    
+    public static function edit_property(object $options): object {
         
+        $response = new stdClass();
         
+        $response->success = false;
+        $response->msg = 'Ha ocurrido un error inesperado';
+        
+        $response->name = $options->name;
+        $response->value = strip_tags($options->value);
+
+        if ($response->value === '') {
+
+            $response->success = false;
+
+        } else if (strlen($response->value) > 250) {
+
+            $response->success = false;
+
+        } else {
+            
+            $response->success = true;
+            $response->msg = "ok";
+            
+        }
+        
+        return $response;
+
     }
     
     public static function downloads_path(): string {

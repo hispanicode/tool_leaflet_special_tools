@@ -5338,25 +5338,25 @@ L.Control.SpecialTools = L.Control.extend({
         /**********************************************************/
         
 
-        const text_propertie_name_span = L.DomUtil.create('span');
+        const text_property_name_span = L.DomUtil.create('span');
 
             self.tool.google_translate({
 
-                element_html: text_propertie_name_span,
+                element_html: text_property_name_span,
                 str: "Nombre de la propiedad: ", 
                 lang: self.lang
 
             });
 
-        modal_properties_form.appendChild(text_propertie_name_span);
+        modal_properties_form.appendChild(text_property_name_span);
 
         /*******************************************************/
 
-        const text_propertie_name_input = L.DomUtil.create('input');
-        text_propertie_name_input.type = 'text';
-        text_propertie_name_input.setAttribute('class', 'special-tools-input-200');
+        const text_property_name_input = L.DomUtil.create('input');
+        text_property_name_input.type = 'text';
+        text_property_name_input.setAttribute('class', 'special-tools-input-200');
 
-        modal_properties_form.appendChild(text_propertie_name_input);
+        modal_properties_form.appendChild(text_property_name_input);
 
         /********************************************************/
 
@@ -5365,17 +5365,17 @@ L.Control.SpecialTools = L.Control.extend({
 
         /*******************************************************/
 
-        const text_propertie_value_span = L.DomUtil.create('span');
+        const text_property_value_span = L.DomUtil.create('span');
 
             self.tool.google_translate({
 
-                element_html: text_propertie_value_span,
+                element_html: text_property_value_span,
                 str: "Valor de la propiedad: ", 
                 lang: self.lang
 
             });
 
-        modal_properties_form.appendChild(text_propertie_value_span);
+        modal_properties_form.appendChild(text_property_value_span);
 
         /********************************************************/
 
@@ -5384,12 +5384,12 @@ L.Control.SpecialTools = L.Control.extend({
 
         /********************************************************/
 
-        const text_propertie_value_input = L.DomUtil.create('textarea');
-        text_propertie_value_input.style.width = '100%';
-        text_propertie_value_input.style.height = '100px';
-        text_propertie_value_input.setAttribute('class', 'special-tools-textarea');
+        const text_property_value_input = L.DomUtil.create('textarea');
+        text_property_value_input.style.width = '100%';
+        text_property_value_input.style.height = '100px';
+        text_property_value_input.setAttribute('class', 'special-tools-textarea');
 
-        modal_properties_form.appendChild(text_propertie_value_input);
+        modal_properties_form.appendChild(text_property_value_input);
 
         /*********************************************************/
 
@@ -5431,15 +5431,21 @@ L.Control.SpecialTools = L.Control.extend({
         /**********************************************************/
 
         L.DomEvent.on(close_button, 'click', function() {
+            
+            this.disabled = true;
 
-            modal_properties_form.remove();
-
+            window.setTimeout(function() {
+                
+                modal_properties_form.remove();
+                
+            }, 100);
+ 
         });
 
         L.DomEvent.on(create_button, 'click', function() {
 
-            const name = text_propertie_name_input.value;
-            const value = text_propertie_value_input.value;
+            const name = text_property_name_input.value;
+            const value = text_property_value_input.value;
 
             const name_allows = /^[A-Za-z\_]+$/;
 
@@ -5521,6 +5527,397 @@ L.Control.SpecialTools = L.Control.extend({
 
         });
 
+    },
+    
+    modal_properties_form_update: function(self, property, layer, overlay) {
+        
+        if (typeof overlay === 'undefined') {
+            
+            overlay = false;
+            
+        }
+
+        if (self.map._container.querySelector('.special-tools-modal-properties-form') !== null) {
+            
+            self.map._container.querySelector('.special-tools-modal-properties-form').remove();
+        
+        }
+        
+        const map_width = self.map._container.clientWidth;
+        const map_height = self.map._container.clientHeight;
+  
+        const modal_properties_form = L.DomUtil.create('div');
+        modal_properties_form.setAttribute('class', 'special-tools-modal-properties-form');
+
+        
+        const modal_top = (map_height / 2) - 100;
+        modal_properties_form.style.top = modal_top + 'px';
+        
+        const modal_left = (map_width / 2) - (350 / 2);
+        modal_properties_form.style.left = modal_left + 'px';
+
+        self.map._container.append(modal_properties_form);
+        
+        const title = L.DomUtil.create('div');
+        title.setAttribute('class', 'special-tools-h2');
+        
+        self.tool.google_translate({
+
+            element_html: title,
+            str: "Editar propiedad", 
+            lang: self.lang
+
+        });
+        
+        modal_properties_form.appendChild(title);
+        
+        /**********************************************************/
+        
+        const br = L.DomUtil.create('br');
+        modal_properties_form.appendChild(br);
+        
+        /**********************************************************/
+        
+
+        const text_property_name_span = L.DomUtil.create('span');
+
+            self.tool.google_translate({
+
+                element_html: text_property_name_span,
+                str: "Nombre de la propiedad: ", 
+                lang: self.lang
+
+            });
+
+        modal_properties_form.appendChild(text_property_name_span);
+
+        /*******************************************************/
+
+        const text_property_name_title = L.DomUtil.create('span');
+        text_property_name_title.setAttribute('class', 'special-tools-h3');
+        text_property_name_title.innerText = " " + property.name;
+
+        modal_properties_form.appendChild(text_property_name_title);
+
+        /********************************************************/
+
+        modal_properties_form.appendChild(br.cloneNode(true));
+        modal_properties_form.appendChild(br.cloneNode(true));
+
+        /*******************************************************/
+
+        const text_property_value_span = L.DomUtil.create('span');
+
+            self.tool.google_translate({
+
+                element_html: text_property_value_span,
+                str: "Valor de la propiedad: ", 
+                lang: self.lang
+
+            });
+
+        modal_properties_form.appendChild(text_property_value_span);
+
+        /********************************************************/
+
+        modal_properties_form.appendChild(br.cloneNode(true));
+        modal_properties_form.appendChild(br.cloneNode(true));
+
+        /********************************************************/
+
+        const text_property_value_input = L.DomUtil.create('textarea');
+        text_property_value_input.style.width = '100%';
+        text_property_value_input.style.height = '100px';
+        text_property_value_input.setAttribute('class', 'special-tools-textarea');
+        text_property_value_input.value = property.value;
+
+        modal_properties_form.appendChild(text_property_value_input);
+
+        /*********************************************************/
+
+        modal_properties_form.appendChild(br.cloneNode(true));
+        modal_properties_form.appendChild(br.cloneNode(true));
+
+        /*********************************************************/
+
+        const edit_button = L.DomUtil.create('button');
+        edit_button.type = 'button';
+        edit_button.setAttribute('class', 'special-tools-btn-success');
+
+        self.tool.google_translate({
+
+            element_html: edit_button,
+            str: "Guardar propiedad", 
+            lang: self.lang
+
+        });
+
+        modal_properties_form.appendChild(edit_button);
+
+        /*********************************************************/
+
+        const close_button = L.DomUtil.create('button');
+        close_button.type = 'button';
+        close_button.setAttribute('class', 'special-tools-btn-danger');
+
+        self.tool.google_translate({
+
+            element_html: close_button,
+            str: "Cerrar", 
+            lang: self.lang
+
+        });
+
+        modal_properties_form.appendChild(close_button);
+
+        /**********************************************************/
+
+        L.DomEvent.on(close_button, 'click', function() {
+            
+            this.disabled = true;
+            
+            window.setTimeout(function() {
+                
+                modal_properties_form.remove();
+                
+            }, 100);
+
+        });
+
+        L.DomEvent.on(edit_button, 'click', function() {
+
+            const name = property.name;
+            const value = text_property_value_input.value;
+
+            if (value === '') {
+
+                self.modal_message(self, "El campo valor de la propiedad no puede estar vacío", self.lang);
+
+                return;
+
+            } else if (value.length > 250) {
+
+                self.modal_message(self, "El campo valor de la propiedad no puede superar los 250 caracteres", self.lang);
+
+                return;
+
+            }
+
+            let options = {};
+
+            options.name = name;
+            options.value = self.strip_tags(value);
+
+            let promise = self.tool.edit_property(options);
+
+            promise.then(function(data) {
+
+                if (data.success && layer.feature.properties.hasOwnProperty(data.name)) {
+                    
+                    layer.feature.properties[data.name] = data.value;
+                    
+                    const active_layer_id = self.component_geolocation.active_layer_id;
+                    self.component_geolocation.update_draw_data(active_layer_id);
+                    
+                    if (overlay !== false) {
+                        
+                        overlay.fireEvent('click');
+                        
+                    } else {
+                        
+                        layer.fireEvent('click');
+                        
+                    }
+                    
+                    self.special_tools_info_console.querySelector('#properties_btn').click();
+
+                    self.modal_message(self, "Propiedad editada con éxito", self.lang);
+
+                } else {
+                    
+                    window.setTimeout(function() {
+                        
+                        modal_properties_form.remove();
+                        
+                    }, 100);
+
+                    self.modal_message(self, "Ha ocurrido un error inesperado", self.lang);
+
+                }
+
+            });
+
+        });
+        
+    },
+    
+    modal_properties_form_delete: function(self, property, layer, overlay) {
+        
+        if (typeof overlay === 'undefined') {
+            
+            overlay = false;
+            
+        }
+
+        if (self.map._container.querySelector('.special-tools-modal-properties-form') !== null) {
+            
+            self.map._container.querySelector('.special-tools-modal-properties-form').remove();
+        
+        }
+        
+        const map_width = self.map._container.clientWidth;
+        const map_height = self.map._container.clientHeight;
+  
+        const modal_properties_form = L.DomUtil.create('div');
+        modal_properties_form.setAttribute('class', 'special-tools-modal-properties-form');
+
+        
+        const modal_top = (map_height / 2) - 100;
+        modal_properties_form.style.top = modal_top + 'px';
+        
+        const modal_left = (map_width / 2) - (350 / 2);
+        modal_properties_form.style.left = modal_left + 'px';
+
+        self.map._container.append(modal_properties_form);
+        
+        const title = L.DomUtil.create('div');
+        title.setAttribute('class', 'special-tools-h2');
+        
+        self.tool.google_translate({
+
+            element_html: title,
+            str: "Eliminar propiedad", 
+            lang: self.lang
+
+        });
+        
+        modal_properties_form.appendChild(title);
+        
+        /**********************************************************/
+        
+        const br = L.DomUtil.create('br');
+        modal_properties_form.appendChild(br);
+        
+        /**********************************************************/
+        
+
+        const text_property_name_span = L.DomUtil.create('span');
+
+            self.tool.google_translate({
+
+                element_html: text_property_name_span,
+                str: "Nombre de la propiedad: ", 
+                lang: self.lang
+
+            });
+
+        modal_properties_form.appendChild(text_property_name_span);
+
+        /*******************************************************/
+
+        const text_property_name_title = L.DomUtil.create('span');
+        text_property_name_title.setAttribute('class', 'special-tools-h3');
+        text_property_name_title.innerText = " " + property.name;
+
+        modal_properties_form.appendChild(text_property_name_title);
+
+        /********************************************************/
+
+        modal_properties_form.appendChild(br.cloneNode(true));
+        modal_properties_form.appendChild(br.cloneNode(true));
+
+        /*******************************************************/
+
+        modal_properties_form.appendChild(br.cloneNode(true));
+        modal_properties_form.appendChild(br.cloneNode(true));
+
+        /*********************************************************/
+
+        const delete_button = L.DomUtil.create('button');
+        delete_button.type = 'button';
+        delete_button.setAttribute('class', 'special-tools-btn-danger');
+
+        self.tool.google_translate({
+
+            element_html: delete_button,
+            str: "Eliminar propiedad", 
+            lang: self.lang
+
+        });
+
+        modal_properties_form.appendChild(delete_button);
+
+        /*********************************************************/
+
+        const close_button = L.DomUtil.create('button');
+        close_button.type = 'button';
+        close_button.setAttribute('class', 'special-tools-btn-default');
+
+        self.tool.google_translate({
+
+            element_html: close_button,
+            str: "Cancelar", 
+            lang: self.lang
+
+        });
+
+        modal_properties_form.appendChild(close_button);
+
+        /**********************************************************/
+
+        L.DomEvent.on(close_button, 'click', function() {
+            
+            this.disabled = true;
+            
+            window.setTimeout(function() {
+                
+                modal_properties_form.remove();
+                
+            }, 100);
+
+        });
+
+        L.DomEvent.on(delete_button, 'click', function() {
+            
+            this.disabled = true;
+
+            const name = property.name;
+
+            if (layer.feature.properties.hasOwnProperty(name)) {
+
+                delete layer.feature.properties[name];
+
+                const active_layer_id = self.component_geolocation.active_layer_id;
+                self.component_geolocation.update_draw_data(active_layer_id);
+
+                self.modal_message(self, "Propiedad eliminada con éxito", self.lang);
+
+            } else {
+
+                self.modal_message(self, 'Ha ocurrido un error, la propiedad no existe', self.lang);
+
+            }
+            
+            if (overlay !== false) {
+
+                overlay.fireEvent('click');
+
+            } else {
+
+                layer.fireEvent('click');
+
+            }
+
+            window.setTimeout(function() {
+
+                modal_properties_form.remove();
+
+            }, 100);
+
+            self.special_tools_info_console.querySelector('#properties_btn').click();
+
+        });
+        
     },
     
     modal_properties: function(self, layer, overlay) {
@@ -5692,6 +6089,30 @@ L.Control.SpecialTools = L.Control.extend({
                             /***************************************************/
 
                             properties_content_div.appendChild(br.cloneNode(true));
+                            
+                            /***************************************************/
+                            
+                            /* EVENTS */
+                            L.DomEvent.on(update_property, 'click', function() {
+                                
+                                const property = {name: prop, value: properties[prop]};
+                                
+                                self.modal_properties_form_update(self, property, layer, overlay);
+                                
+                            });
+                            
+                            /***************************************************/
+                            
+                            /* EVENTS */
+                            L.DomEvent.on(delete_property, 'click', function() {
+                                
+                                const property = {name: prop};
+                                
+                                self.modal_properties_form_delete(self, property, layer, overlay);
+                                
+                            });
+                            
+                            /***************************************************/
 
                         }
                     }
