@@ -2,11 +2,11 @@
 /*global get_label, page_globals, SHOW_DEBUG, DEDALO_CORE_URL */
 /*eslint no-undef: "error"*/
 
-	import {clone, dd_console} from '../../../core/common/js/utils/index.js'
+	import {clone, dd_console} from '../../../core/common/js/utils/index.js';
 // import data_manager if you want to access to Dédalo API
-	import {data_manager} from '../../../core/common/js/data_manager.js'
+	import {data_manager} from '../../../core/common/js/data_manager.js';
 // import get_instance to create and init sections or components.
-	import {get_instance, delete_instance} from '../../../core/common/js/instances.js'
+	import * as instances from '../../../core/common/js/instances.js';
 // import common to use destroy, render, refresh and other useful methods
 	import {common, create_source} from '../../../core/common/js/common.js';
 // tool_common, basic methods used by all the tools
@@ -87,6 +87,9 @@ load_promises.push( common.prototype.load_style(graphicscale_css));
 const geocoder_css = 'https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css';
 load_promises.push( common.prototype.load_style(geocoder_css));
 
+const simplelightbox_css = this.controls_url() + '/external-lib/simpleLightbox/dist/simpleLightbox.min.css';
+load_promises.push( common.prototype.load_style(simplelightbox_css));
+
 const special_tools_css = this.controls_url() + '/leaflet.control.SpecialTools.css?v=' + this.make_id(30);
 load_promises.push(common.prototype.load_style(special_tools_css));
 
@@ -166,6 +169,9 @@ load_promises.push(common.prototype.load_script(projections_js));
 const geocoder_js = 'https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js';
 load_promises.push(common.prototype.load_script(geocoder_js));
 
+const simplelightbox_js = this.controls_url() + '/external-lib/simpleLightbox/dist/simpleLightbox.min.js';
+load_promises.push(common.prototype.load_script(simplelightbox_js));
+
 const special_tools_js = this.controls_url() + '/leaflet.control.SpecialTools.js?v=' + this.make_id(30);
 load_promises.push(common.prototype.load_script(special_tools_js));
 
@@ -216,14 +222,23 @@ tool_leaflet_special_tools.prototype.control = function(component_geolocation, o
     
     options.tool = this;
     
-    const geocoder = L.Control.geocoder({position: 'topleft', defaultMarkGeocode: false});
-            
-    geocoder.on('markgeocode', function(e) {
-          
-        const bbox = e.geocode.bbox;
-        component_geolocation.map.fitBounds(bbox);
+    try {
+    
+        const geocoder = L.Control.geocoder({position: 'topleft', defaultMarkGeocode: false});
         
-    }).addTo(component_geolocation.map);
+        geocoder.on('markgeocode', function(e) {
+
+            const bbox = e.geocode.bbox;
+            component_geolocation.map.fitBounds(bbox);
+
+        }).addTo(component_geolocation.map);
+    
+    } catch (e) {
+        
+        //NOT INTERNET CONNECTION
+        console.log(e);
+        
+    }
     
     this.set_component_geolocation(component_geolocation);
     
@@ -897,15 +912,13 @@ tool_leaflet_special_tools.prototype.get_uploaded_image = async function(stored_
             mode            : 'edit',
             tipo            : stored_image_data_item.component_tipo,
             section_tipo    : stored_image_data_item.section_tipo,
-            section_id      : stored_image_data_item.section_id,
+            section_id      : stored_image_data_item.section_id
         })
         await component_image.build(true)// Note the await here to indicate that this process need to be complete before continue, you can create a promise or do it inside a async function... as you want
 
         // Get the quality of the image, it could be default_quality, but maybe original_quality would be better here... ???
         // Perhaps is possible add a quality selector to be decided by user.
         const file_info_default_target_quality = component_image.data.datalist.find(el => el.quality===component_image.context.features.default_target_quality && el.file_exist===true)
-
-        console.log(component_image.context.features);
 
         // so the url of the image to use will be: (don't forget to check if the uri exist!)
         const url = file_info_default_target_quality
@@ -1481,57 +1494,208 @@ tool_leaflet_special_tools.prototype.edit_property = async function(options) {
 
 tool_leaflet_special_tools.prototype.google_translate = async function(options) {
 
-        this.model = 'tool_leaflet_special_tools';
+    this.model = 'tool_leaflet_special_tools';
 
-	const source = create_source(this, 'google_translate');
+    const source = create_source(this, 'google_translate');
 
-        const rqo = {
-            
-                dd_api	: 'dd_tools_api',
-                action	: 'tool_request',
-                source	: source,
-                options	: options,
-                prevent_lock: true
-        };
+    const rqo = {
 
-	// call to the API, fetch data and get response
-        return new Promise(function(resolve){
+            dd_api	: 'dd_tools_api',
+            action	: 'tool_request',
+            source	: source,
+            options	: options,
+            prevent_lock: true
+    };
 
-            data_manager.request({
-                
-                body : rqo
-                
-            })
-            .then(function(response){
-                
-                if (SHOW_DEVELOPER) {
-                    
-                    dd_console("-> Google Translate API response:",'DEBUG',response);
+    // call to the API, fetch data and get response
+    return new Promise(function(resolve){
 
-                    resolve(response);
-                    
-                    if (options.hasOwnProperty('attribute')) {
-                        
-                        if (options.attribute === 'value') {
-                            
-                            options.element_html.value = response.str_translate;
-                            
-                        } else if (options.attribute === 'title') {
-                            
-                            options.element_html.setAttribute('title', response.str_translate);
-                            
-                        }
-                        
-                    } else {
-                    
-                        options.element_html.innerText = response.str_translate;
-                        
-                    }
+        data_manager.request({
+
+            body : rqo
+
+        })
+        .then(function(response){
+
+            if (SHOW_DEVELOPER) {
+
+                dd_console("-> Google Translate API response:",'DEBUG',response);
+
+                resolve(response);
+
+                if (options.hasOwnProperty('attribute')) {
+
+                    options.element_html.setAttribute(options.attribute, response.str_translate);
+
+
+                } else {
+
+                    options.element_html.innerText = response.str_translate;
 
                 }
 
-            });
+            }
+
         });
+    });
+};
+
+tool_leaflet_special_tools.prototype.image_service_upload = async function(container, allowed_extensions) {
+    
+    const self = this;
+    
+    container.innerHTML = '';
+    
+    const image_section_tipo    =  'rsc170'; //DD_TIPOS.DEDALO_SECTION_RESOURCES_IMAGE_TIPO // 'rsc170'
+    const component_image_tipo  = 'rsc29'; // DD_TIPOS.DEDALO_COMPONENT_RESOURCES_IMAGE_TIPO //'rsc29'
+
+    // create API call as rqo (request query object), with the action to create new section
+    const rqo = {
+        action  : 'create',
+        source  : {
+
+            section_tipo : image_section_tipo
+
+        }
+    };
+    // call to API
+    const api_response = await data_manager.request({
+
+        body : rqo
+
+    });
+
+    // if the API result is ok go ahead
+    if (api_response.result) {
+        // section_id of the new record
+        const section_id = api_response.result;
+        // To create the new image instance with the result data of uploaded process and build it. 
+        const component_image = await instances.get_instance({
+
+            model           : 'component_image',
+            mode            : 'edit',
+            tipo            : component_image_tipo,
+            section_tipo    : image_section_tipo,
+            section_id      : section_id
+
+        });
+
+        await component_image.build(true);
+        
+        self.component_image = component_image;
+
+        const service_upload = await instances.get_instance({
+
+            model: 'service_upload',
+            allowed_extensions: allowed_extensions,
+            mode: 'edit',
+            id_variant: 'special_tools_service_upload_' + section_id, // optionally set to prevent id collisions
+            caller: self.component_image // object mandatory, normally a component, tool or section instance
+        });
+
+        // build
+        await service_upload.build();
+
+        // render
+        const service_node = await service_upload.render();
+
+        // Place it
+        container.appendChild(service_node);
+    
+    }
+    
+};
+
+tool_leaflet_special_tools.prototype.image_subscribe = async function(callback) {
+    
+    const self = this;
+
+    event_manager.subscribe('upload_file_done_' + self.component_image.id, callback);
+
+};
+
+tool_leaflet_special_tools.prototype.get_image_data = async function(options) {
+
+
+        this.model = 'tool_leaflet_special_tools';
+    
+        const source = create_source(this, 'process_uploaded_image');
+
+        const rqo = {
+            dd_api  : 'dd_tools_api',
+            action  : 'tool_request',
+            source  : source,
+            options : options
+
+        };
+            
+        const api_response = data_manager.request({
+
+            body : rqo
+
+        });
+        
+        return api_response;
+    
+};
+
+tool_leaflet_special_tools.prototype.vector_service_upload = async function(container, allowed_extensions) {
+    
+    const self = this;
+    
+    container.innerHTML = '';
+
+    const service_upload = await instances.get_instance({
+
+        model: 'service_upload',
+        allowed_extensions: allowed_extensions,
+        mode: 'edit',
+        id_variant: 'special_tools_service_upload_' + self.get_component_geolocation().section_id, // optionally set to prevent id collisions
+        caller: self.get_component_geolocation() // object mandatory, normally a component, tool or section instance
+    });
+
+    // build
+    await service_upload.build();
+
+    // render
+    const service_node = await service_upload.render();
+
+    // Place it
+    container.appendChild(service_node);
+    
+};
+
+tool_leaflet_special_tools.prototype.vector_subscribe = async function(callback) {
+    
+    const self = this;
+
+    event_manager.subscribe('upload_file_done_' + self.get_component_geolocation().id, callback);
+
+};
+
+tool_leaflet_special_tools.prototype.get_vector_data = async function(options) {
+
+
+        this.model = 'tool_leaflet_special_tools';
+    
+        const source = create_source(this, 'process_uploaded_vector');
+
+        const rqo = {
+            dd_api  : 'dd_tools_api',
+            action  : 'tool_request',
+            source  : source,
+            options : options
+
+        };
+            
+        const api_response = data_manager.request({
+
+            body : rqo
+
+        });
+        
+        return api_response;
+    
 };
 
 tool_leaflet_special_tools.prototype.set_component_geolocation = function(component_geolocation) {

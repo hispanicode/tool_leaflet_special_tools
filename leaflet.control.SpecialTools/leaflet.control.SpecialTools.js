@@ -6163,6 +6163,8 @@ L.Control.SpecialTools = L.Control.extend({
         properties_div.setAttribute('class', 'special-tools-container');
         self.special_tools_info_console.appendChild(properties_div);
 
+        /*******************************************************/
+
         const properties_btn = L.DomUtil.create('button');
         properties_btn.type = 'button';
         properties_btn.id = 'properties_btn';
@@ -6180,8 +6182,45 @@ L.Control.SpecialTools = L.Control.extend({
         properties_div.appendChild(properties_btn);
 
         /******************************************************/
+        
+        const image_btn = L.DomUtil.create('button');
+        image_btn.type = 'button';
+        image_btn.id = 'image_btn';
+        image_btn.setAttribute('class', 'special-tools-btn-default');
+        image_btn.style.fontSize = '9px';
+        
+        self.tool.google_translate({
+
+            element_html: image_btn,
+            str: "Asociar imagen", 
+            lang: self.lang
+
+        });
+        
+        properties_div.appendChild(image_btn);
+        
+        /*****************************************************/
+        
+       const images_gallery_btn = L.DomUtil.create('button');
+        images_gallery_btn.type = 'button';
+        images_gallery_btn.id = 'images_gallery';
+        images_gallery_btn.setAttribute('class', 'special-tools-btn-default');
+        images_gallery_btn.style.fontSize = '9px';
+        
+        self.tool.google_translate({
+
+            element_html: images_gallery_btn,
+            str: "Galería", 
+            lang: self.lang
+
+        });
+        
+        properties_div.appendChild(images_gallery_btn);
+        
+        /******************************************************/
 
         const properties = layer.feature.properties;
+        var images_urls = new Array();
 
         for (let prop in properties) {
 
@@ -6231,6 +6270,34 @@ L.Control.SpecialTools = L.Control.extend({
             }
 
         }
+        
+        /******************IMAGES GALLERY**********************/
+
+        if (properties.hasOwnProperty('images')) {
+
+            for (let x = 0; x < properties.images.length; x++) {
+
+                if (properties.images[x].hasOwnProperty('url')) {
+
+                    //Check if image exist
+                    fetch(properties.images[x].url, {method: 'HEAD'})
+                    .then(function(res) {
+
+                        if (res.ok) {
+
+                            images_urls.push(properties.images[x].url);
+
+                        }
+
+                    });
+
+                }
+
+            }
+
+        }
+
+        /******************IMAGES GALLERY**********************/
 
         L.DomEvent.on(properties_btn, 'click', function() {
 
@@ -6238,8 +6305,152 @@ L.Control.SpecialTools = L.Control.extend({
 
         });
         
-    }
+        L.DomEvent.on(image_btn, 'click', function() {
+            
+            self.modal_associate_image(self, layer, overlay);
+            
+        });
+        
+        L.DomEvent.on(images_gallery_btn, 'click', function() {
+            
+            if (images_urls.length > 0) {
+            
+                const lightbox = SimpleLightbox.open({
+
+                    items: images_urls
+
+                });
+            
+            } else {
+                
+                self.modal_message(self, "No existen imágenes asociadas al objeto", self.lang);
+                
+            }
+
+        });
+        
+        
+    }, 
     
+    modal_associate_image: function(self, layer, overlay) {
+        
+        if (typeof overlay === 'undefined') {
+            
+            overlay = false;
+            
+        }
+        
+        self.map.fire('modal', {
+            
+            template: ['<div class="modal-header"></div>',
+              '<hr>',
+              '<div class="modal-body"></div>'
+            ].join(''),
+
+            width: 'auto',
+
+            onShow: function(evt) {
+
+                const modal = evt.modal;
+
+                const modal_content = modal._container.querySelector('.modal-content');
+
+                modal_content.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
+                modal_content.style.marginTop = '80px';
+
+                const modal_header = modal._container.querySelector('.modal-header');
+
+                const modal_title = L.DomUtil.create('div');
+                modal_title.setAttribute('class', 'special-tools-h1');
+
+                modal_header.appendChild(modal_title);
+
+                self.tool.google_translate({
+
+                    element_html: modal_title,
+                    str: "Asociar imagen al objeto", 
+                    lang: self.lang
+
+                });
+
+                const modal_body = modal._container.querySelector('.modal-body');
+
+                /********************************************************/
+                
+                const container = L.DomUtil.create('div');
+                container.setAttribute('class', 'special-tools-container');
+                
+                modal_body.appendChild(container);
+                
+                /********************************************************/
+                
+                self.tool.image_service_upload(container, ['jpg','jpeg','png','gif', 'webp'])
+                .then(function() {
+                    
+                    self.tool.image_subscribe(
+                            
+                        function(response) {
+
+                            const options = {
+
+                                file_data: response.file_data,
+                                tipo: self.tool.component_image.tipo,
+                                section_tipo: self.tool.component_image.section_tipo,
+                                section_id: self.tool.component_image.section_id,
+                                default_quality: self.tool.component_image.context.features.default_target_quality
+
+                            };
+
+                            self.tool.get_image_data(options).then(function(data) {
+
+                                if (!data.success) {
+
+                                    return;
+
+                                }
+
+                                const image_object = {
+
+                                    url: data.image_src,
+                                    tipo: self.tool.component_image.tipo,
+                                    section_tipo: self.tool.component_image.section_tipo,
+                                    section_id: self.tool.component_image.section_id
+
+                                };
+
+                                if (!layer.feature.properties.hasOwnProperty('images')) {
+
+                                    layer.feature.properties.images = [];
+                                    layer.feature.properties.images.push(image_object);
+
+                                } else {
+
+                                    layer.feature.properties.images.push(image_object);
+
+                                }
+
+                                const active_layer_id = self.component_geolocation.active_layer_id;
+                                self.component_geolocation.update_draw_data(active_layer_id);
+
+                                self.modal_message(self, "Imagen asociada con éxito al objeto", self.lang);
+
+                                if (overlay !== false) {
+
+                                    overlay.fireEvent('click');
+
+                                } else {
+
+                                    layer.fireEvent('click');
+
+                                }
+                                        
+                            });
+                    });
+ 
+                });  
+            }
+        }); 
+    }  
 });
 
 L.control.specialTools = function (options) {

@@ -855,15 +855,13 @@ class tool_leaflet_special_tools extends tool_common  {
 
             mkdir(self::shape_uploads_path() . '/' . $folder_name, 0777);
             
-            $tmp_file = self::shape_tmp_path() . '/' . $response->name;
-            
             $target_dir = self::shape_uploads_path() . '/' . $folder_name;
             
             $target_file = $target_dir . '/' . $response->name;
            
             $shape_file_url = self::shape_uploads_url() . '/' . $folder_name . '/' . $response->name;
             
-            if (copy($tmp_file, $target_file)) {
+            if (copy($response->tmp_file, $target_file)) {
 
                     $response->success = true;
                     
@@ -871,7 +869,7 @@ class tool_leaflet_special_tools extends tool_common  {
                     
                     $response->msg = 'ok';
                     
-                    unlink($tmp_file);
+                    unlink($response->tmp_file);
                     
                     return $response;
 
@@ -897,19 +895,17 @@ class tool_leaflet_special_tools extends tool_common  {
             
             mkdir(self::geojson_uploads_path() . '/' . $folder_name, 0777);
             
-            $tmp_file = self::geojson_tmp_path() . '/' . $response->name;
-            
             $target_dir = self::geojson_uploads_path() . '/' . $folder_name;
             
             $target_file = $target_dir . '/' . $response->name;
 
-            if (copy($tmp_file, $target_file)) {
+            if (copy($response->tmp_file, $target_file)) {
 
                     $response->success = true;
                     $response->geojson = json_encode(json_decode(file_get_contents($target_file)));
                     $response->msg = 'ok';
                     
-                    unlink($tmp_file);
+                    unlink($response->tmp_file);
                     
                     return $response;
 
@@ -937,19 +933,17 @@ class tool_leaflet_special_tools extends tool_common  {
 
             mkdir(self::kml_uploads_path() . '/' . $folder_name, 0777);
             
-            $tmp_file = self::kml_tmp_path() . '/' . $response->name;
-            
             $target_dir = self::kml_uploads_path() . '/' . $folder_name;
             
             $target_file = $target_dir . '/' . $response->name;
 
-            if (copy($tmp_file, $target_file)) {
+            if (copy($response->tmp_file, $target_file)) {
 
                 $response->success = true;
                 $response->kml = file_get_contents($target_file);
                 $response->msg = 'ok';
                 
-                unlink($tmp_file);
+                unlink($response->tmp_file);
                 
                 return $response;
 
@@ -971,46 +965,6 @@ class tool_leaflet_special_tools extends tool_common  {
             
         }
 
-    }
-    
-    public static function geotiff_to_png(object $options): object {
-        
-        $response = new stdClass();
-        
-        //Default $response
-        $response->success = false;
-        $response->msg = 'Ha ocurrido un error inesperado.';
-        
-        $response->url = $options->url;
-
-        $response->geotiff_file_name = '/geotiff-'.bin2hex(random_bytes(10)).'.png';
-        
-        $response->new_file = self::geotiff_to_png_path() . '/' . $response->geotiff_file_name;
-
-        $image = new Imagick($response->url);
-
-        $image->setImageFormat('png');
-        
-        $image->setImageCompressionQuality(100);
-        
-        if ($image->writeImage($response->new_file)) {
-            
-            $response->success = true;
-            $response->png = self::geotiff_to_png_url() . '/' . $response->geotiff_file_name;
-            $response->msg = 'ok';
-            
-        } else {
-            
-            $response->success = false;
-            
-        }
-
-        $image->clear();
-
-        $image->destroy();
-
-        return $response;
-        
     }
     
     public static function map_image_download(object $options): object {
@@ -1764,76 +1718,51 @@ class tool_leaflet_special_tools extends tool_common  {
         
     }
     
-
     public static function downloads_url(): string {
         
         return DEDALO_ROOT_WEB . '/tools/tool_leaflet_special_tools/downloads';
         
     }
+    
+   public static function vector_layers_uploads_path(): string {
+        
+        return DEDALO_MEDIA_PATH . '/vector_layers';
+        
+    }
 
     public static function geojson_uploads_path(): string {
         
-        return DEDALO_TOOLS_PATH . '/tool_leaflet_special_tools/uploads/geojson';
+        return DEDALO_MEDIA_PATH . '/vector_layers/geojson';
         
     }
     
     public static function shape_uploads_path(): string {
         
-        return DEDALO_TOOLS_PATH . '/tool_leaflet_special_tools/uploads/shape';
+        return DEDALO_MEDIA_PATH . '/vector_layers/shape';
         
     }
     
     public static function kml_uploads_path(): string {
         
-        return DEDALO_TOOLS_PATH . '/tool_leaflet_special_tools/uploads/kml';
-        
-    }
-    
-    public static function geojson_tmp_path(): string {
-        
-        return DEDALO_TOOLS_PATH . '/tool_leaflet_special_tools/uploads/geojson/tmp';
-        
-    }
-    
-    public static function shape_tmp_path(): string {
-        
-        return DEDALO_TOOLS_PATH . '/tool_leaflet_special_tools/uploads/shape/tmp';
-        
-    }
-    
-    public static function kml_tmp_path(): string {
-        
-        return DEDALO_TOOLS_PATH . '/tool_leaflet_special_tools/uploads/kml/tmp';
-        
-    }
-    
-    public static function geotiff_to_png_path(): string {
-        
-        return DEDALO_TOOLS_PATH . '/tool_leaflet_special_tools/uploads/geotiff-to-png';
+        return DEDALO_MEDIA_PATH . '/vector_layers/kml';
         
     }
     
     public static function geojson_uploads_url(): string {
         
-        return DEDALO_ROOT_WEB . '/tools/tool_leaflet_special_tools/uploads/geojson';
+        return DEDALO_ROOT_WEB . '/media/vector_layers/geojson';
         
     }
     
     public static function shape_uploads_url(): string {
         
-        return DEDALO_ROOT_WEB . '/tools/tool_leaflet_special_tools/uploads/shape';
+        return DEDALO_ROOT_WEB . '/media/vector_layers/shape';
         
     }
     
     public static function kml_uploads_url(): string {
         
-        return DEDALO_ROOT_WEB . '/tools/tool_leaflet_special_tools/uploads/kml';
-        
-    }
-    
-    public static function geotiff_to_png_url(): string {
-        
-        return DEDALO_ROOT_WEB . '/tools/tool_leaflet_special_tools/uploads/geotiff-to-png';
+        return DEDALO_ROOT_WEB . '/media/vector_layers/kml';
         
     }
     
@@ -1842,7 +1771,6 @@ class tool_leaflet_special_tools extends tool_common  {
         return DEDALO_TOOLS_PATH . '/tool_leaflet_special_tools/legends';
         
     }
-    
 
     public static function legends_url(): string {
         
@@ -1935,7 +1863,7 @@ class tool_leaflet_special_tools extends tool_common  {
         
         } catch (Exception $e) {
             
-            $response->msg = $e;
+            $response->msg = $e->getMessage();
             
             $response->str_translate = $response->str;
         }
@@ -1944,4 +1872,254 @@ class tool_leaflet_special_tools extends tool_common  {
         
     }
     
+    public static function handle_upload_file(object $options): object {
+        
+        $response = new stdClass();
+        
+        $response->file_data = $options->file_data;
+        
+        return $response;
+        
+    }
+    
+    public static function process_uploaded_image(object $options) : object {
+        
+
+        $response = new stdClass();
+        $response->success = false;
+        $response->msg = 'Error. Request failed. '.__METHOD__.' ';
+        $response->file_data = $options->file_data;
+        $response->tipo =  $options->tipo;
+        $response->section_tipo = $options->section_tipo;
+        $response->section_id = $options->section_id;
+        $response->model = 'component_image';
+        $response->default_quality = $options->default_quality;
+
+        $model = RecordObj_dd::get_modelo_name_by_tipo($response->tipo, true);
+        
+        $component_image = component_common::get_instance(
+                
+            $model,
+            $response->tipo,
+            $response->section_id,
+            'edit',
+            DEDALO_DATA_NOLAN,
+            $response->section_tipo
+                
+        );
+        
+        $component_image->set_quality($response->default_quality);
+        
+        $add_file = $component_image->add_file($response->file_data);
+        
+        if (!$add_file->result) {
+            
+                $response->msg .= $add_file->msg;
+                $response->success = false;
+                
+                return $response;
+                
+        }
+        
+        $process_file = $component_image->process_uploaded_file($add_file->ready);
+        
+        if (!$process_file->result) {
+            
+            $response->msg .= 'Ha ocurrido un error mientras se procesaba el archivo: '.$process_file->msg;
+            $response->success = false;
+            
+            return $response;
+                
+        }
+        
+        $id = $component_image->get_id();
+        
+        if (substr($response->file_data->name, -3) === 'tif') {
+
+            $response->is_geotiff = true;
+            $response->geotiff_src = $url = $component_image->get_media_url_dir($response->default_quality) .'/'. $id .'.tif';
+            
+        }
+
+	$url = $component_image->get_media_url_dir($response->default_quality) .'/'. $id .'.'. $component_image->get_extension();
+        
+        $response->image_src = $url;
+        
+        $response->msg = 'OK. archivo procesado correctamente';
+        $response->success = true;
+        
+        return $response;
+        
+    }
+    
+    public static function process_uploaded_vector(object $options) : object {
+
+        if (!is_dir(self::vector_layers_uploads_path())) {
+            
+            mkdir(self::vector_layers_uploads_path(), 0777);
+        }
+        
+        if (!is_dir(self::shape_uploads_path())) {
+            
+            mkdir(self::shape_uploads_path(), 0777);
+            
+        }
+        
+        if (!is_dir(self::geojson_uploads_path())) {
+            
+            mkdir(self::geojson_uploads_path(), 0777);
+            
+        }
+        
+        if (!is_dir(self::kml_uploads_path())) {
+            
+            mkdir(self::kml_uploads_path(), 0777);
+            
+        }
+        
+        $response = new stdClass();
+        
+        $response->tmp_dir = DEDALO_UPLOAD_TMP_DIR;
+        $response->user_id = get_user_id();
+        $response->key_dir = $options->file_data->key_dir;
+        $response->name = $options->file_data->name;
+        $response->type = $options->file_data->type;
+        $response->size = $options->file_data->size;
+        $response->tmp_file = $response->tmp_dir . '/' . $response->user_id . '/' . $response->key_dir . '/' . $response->name;
+        $response->tipo = $options->tipo;
+        $response->section_tipo = $options->section_tipo;
+        $response->section_id = $options->section_id;
+        
+        //Default $response
+        $response->success = false;
+        $response->msg = 'Ha ocurrido un error inesperado.';
+ 
+        $folder_name = $response->user_id . '_' . $response->tipo . '_' . $response->section_tipo . '_' . $response->section_id;
+
+        if ($response->type === "application/zip") {
+
+            if ($response->size > 1500000) {
+                
+                $response->success = false;
+                $response->msg = 'El archivo no debe superar los 1500 kilobytes';
+            
+                return $response;
+                
+            }
+
+            mkdir(self::shape_uploads_path() . '/' . $folder_name, 0777);
+
+            $target_dir = self::shape_uploads_path() . '/' . $folder_name;
+
+            $target_file = $target_dir . '/' . $response->name;
+
+            $shape_file_url = self::shape_uploads_url() . '/' . $folder_name . '/' . $response->name;
+
+            if (copy($response->tmp_file, $target_file)) {
+
+                    $response->success = true;
+                    
+                    $response->shape = $shape_file_url;
+                    
+                    $response->msg = 'ok';
+                    
+                    unlink($response->tmp_file);
+                    
+                    return $response;
+
+            } else {
+
+                $response->success = false;
+                $response->msg = "Ha ocurrido un error al guardar el archivo";
+                
+                return $response;
+
+            }
+
+        } else if ($response->type === 'application/geo+json') {
+
+            if ($response->size > 1500000) {
+
+                $response->success = false;
+                $response->msg = 'El archivo no debe superar los 1500 kilobytes';
+                
+                return $response;
+
+            }
+            
+            mkdir(self::geojson_uploads_path() . '/' . $folder_name, 0777);
+            
+            $target_dir = self::geojson_uploads_path() . '/' . $folder_name;
+            
+            $target_file = $target_dir . '/' . $response->name;
+
+            if (copy($response->tmp_file, $target_file)) {
+
+                    $response->success = true;
+                    $response->geojson = json_encode(json_decode(file_get_contents($target_file)));
+                    $response->msg = 'ok';
+                    
+                    unlink($response->tmp_file);
+                    
+                    return $response;
+
+            } else {
+
+                $response->success = false;
+                $response->msg = "Ha ocurrido un error al guardar el archivo";
+                
+                return $response;
+                
+            }
+
+        }
+
+        else if ($response->type === 'application/vnd.google-earth.kml+xml') {
+
+            if ($response->size > 1500000) {
+
+                $response->success = false;
+                $response->msg = 'El archivo no debe superar los 1500 kilobytes';
+
+                return $response;
+
+            }
+
+            mkdir(self::kml_uploads_path() . '/' . $folder_name, 0777);
+            
+            $target_dir = self::kml_uploads_path() . '/' . $folder_name;
+            
+            $target_file = $target_dir . '/' . $response->name;
+
+            if (copy($response->tmp_file, $target_file)) {
+
+                $response->success = true;
+                $response->kml = file_get_contents($target_file);
+                $response->msg = 'ok';
+                
+                unlink($response->tmp_file);
+                
+                return $response;
+
+            } else {
+
+                $response->success = false;
+                $response->msg = "Ha ocurrido un error al guardar el archivo";
+
+                return $response;
+                
+            }
+        } else {
+            
+            $response->success = false;
+            
+            $response->msg = "Tipo de archivo no válido";
+            
+            return $response;
+            
+        }
+        
+    }
+
+
 }

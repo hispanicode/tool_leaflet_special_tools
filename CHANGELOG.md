@@ -12,7 +12,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Initial Version
 
-### Changed
+## [Unreleased]
 
-### Removed
+## [1.0.1-dev] - 2023-11-03
+
+### Added
+
+- Properties administration, service_upload and associate images to objects.
 
