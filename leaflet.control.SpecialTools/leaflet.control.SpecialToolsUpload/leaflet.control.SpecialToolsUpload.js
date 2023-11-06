@@ -766,8 +766,7 @@ L.Control.SpecialToolsUpload = L.Control.extend({
                     });
                     
                     const modal_body = modal._container.querySelector('.modal-body');
-                    
-                    
+
                     /**********************************************************/
                     
                     const open_vector_modal = L.DomUtil.create('button');
