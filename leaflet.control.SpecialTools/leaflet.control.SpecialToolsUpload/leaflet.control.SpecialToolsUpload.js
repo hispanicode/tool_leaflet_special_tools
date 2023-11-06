@@ -83,6 +83,21 @@ L.Control.SpecialToolsUpload = L.Control.extend({
         
         /**********************************************************************/
         
+        const msg_extension_vector = L.DomUtil.create('div');
+        msg_extension_vector.setAttribute('class', 'special-tools-container special-tools-text-info');
+        
+        tool.google_translate({
+
+           element_html: msg_extension_vector,
+           str: "Extensiones permitidas: .zip (shape), .geojson y .kml", 
+           lang: lang
+
+        });
+        
+        modal_vector.appendChild(msg_extension_vector);
+        
+        /**********************************************************************/
+        
         const btn_list_projections = L.DomUtil.create('button');
         btn_list_projections.type = 'button';
         btn_list_projections.id = 'btn_list_projections';
@@ -564,6 +579,26 @@ L.Control.SpecialToolsUpload = L.Control.extend({
         
         /**********************************************************************/
 
+        modal_image.appendChild(br.cloneNode(true));
+        modal_image.appendChild(br.cloneNode(true));
+        
+        /**********************************************************************/
+        
+        const msg_extension_images = L.DomUtil.create('div');
+        msg_extension_images.setAttribute('class', 'special-tools-container special-tools-text-info');
+        
+        tool.google_translate({
+
+           element_html: msg_extension_images,
+           str: "Extensiones permitidas: .tif (georreferenciada), .jpg, .jpeg, .png, .gif y .webp", 
+           lang: lang
+
+        });
+        
+        modal_image.appendChild(msg_extension_images);
+        
+        /**********************************************************************/
+        
         modal_image.appendChild(br.cloneNode(true));
         modal_image.appendChild(br.cloneNode(true));
         

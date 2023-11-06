@@ -61,6 +61,24 @@ L.Control.SpecialTools = L.Control.extend({
             L.DomEvent.preventDefault(e);
             
         });
+        
+        L.DomEvent.on(this.special_tools_btns, 'mouseover', function(e){
+            
+            map.dragging.disable();
+            map.doubleClickZoom.disable();
+            
+            L.DomEvent.preventDefault(e);
+            
+        });
+        
+        L.DomEvent.on(this.special_tools_btns, 'mouseout', function(e) {
+            
+            map.dragging.enable();
+            map.doubleClickZoom.enable();
+            
+            L.DomEvent.preventDefault(e);
+            
+        });
 
         window.setTimeout(function(){
             
@@ -5554,19 +5572,9 @@ L.Control.SpecialTools = L.Control.extend({
             self.map._container.querySelector('.special-tools-modal-properties-form').remove();
         
         }
-        
-        const map_width = self.map._container.clientWidth;
-        const map_height = self.map._container.clientHeight;
   
         const modal_properties_form = L.DomUtil.create('div');
         modal_properties_form.setAttribute('class', 'special-tools-modal-properties-form');
-
-        
-        const modal_top = (map_height / 2) - 100;
-        modal_properties_form.style.top = modal_top + 'px';
-        
-        const modal_left = (map_width / 2) - (350 / 2);
-        modal_properties_form.style.left = modal_left + 'px';
 
         self.map._container.append(modal_properties_form);
         
@@ -5777,18 +5785,8 @@ L.Control.SpecialTools = L.Control.extend({
         
         }
         
-        const map_width = self.map._container.clientWidth;
-        const map_height = self.map._container.clientHeight;
-  
         const modal_properties_form = L.DomUtil.create('div');
         modal_properties_form.setAttribute('class', 'special-tools-modal-properties-form');
-
-        
-        const modal_top = (map_height / 2) - 100;
-        modal_properties_form.style.top = modal_top + 'px';
-        
-        const modal_left = (map_width / 2) - (350 / 2);
-        modal_properties_form.style.left = modal_left + 'px';
 
         self.map._container.append(modal_properties_form);
         
@@ -6394,6 +6392,27 @@ L.Control.SpecialTools = L.Control.extend({
                 modal_body.appendChild(container);
                 
                 /********************************************************/
+                
+                let br = L.DomUtil.create('br');
+                modal_body.appendChild(br);
+                modal_body.appendChild(br.cloneNode(true));
+                
+                /********************************************************/
+                
+                const msg_extension_images = L.DomUtil.create('div');
+                msg_extension_images.setAttribute('class', 'special-tools-container special-tools-text-info');
+
+                self.tool.google_translate({
+
+                   element_html: msg_extension_images,
+                   str: "Extensiones permitidas: .jpg, .jpeg, .png, .gif y .webp", 
+                   lang: self.lang
+
+                });
+
+                modal_body.appendChild(msg_extension_images);
+
+                /**********************************************************************/
                 
                 self.tool.image_service_upload(container, ['jpg','jpeg','png','gif', 'webp'])
                 .then(function() {
