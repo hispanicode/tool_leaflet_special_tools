@@ -175,7 +175,7 @@ L.Control.SpecialToolsUpload = L.Control.extend({
 
         const list_projections = L.DomUtil.create('div');
         list_projections.id = 'list_projections';
-        list_projections.setAttribute('class', 'special-tools-display-none');
+        list_projections.setAttribute('class', 'special-tools-display-none special-tools-text-info');
 
         tool.google_translate({
 
