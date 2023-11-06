@@ -130,6 +130,9 @@ load_promises.push(common.prototype.load_style(special_tools_geolocation_css));
 
 /* JS */
 
+const html2pdfbundle_js = this.controls_url() + '/external-lib/html2pdf.js/dist/html2pdf.bundle.min.js';
+load_promises.push(common.prototype.load_script(html2pdfbundle_js));
+
 const catiline_js = this.controls_url() + '/external-lib/leaflet.shapefile/catiline.js';
 load_promises.push(common.prototype.load_script(catiline_js));
 
@@ -1517,22 +1520,16 @@ tool_leaflet_special_tools.prototype.google_translate = async function(options) 
         })
         .then(function(response){
 
-            if (SHOW_DEVELOPER) {
+            resolve(response);
 
-                dd_console("-> Google Translate API response:",'DEBUG',response);
+            if (options.hasOwnProperty('attribute')) {
 
-                resolve(response);
-
-                if (options.hasOwnProperty('attribute')) {
-
-                    options.element_html.setAttribute(options.attribute, response.str_translate);
+                options.element_html.setAttribute(options.attribute, response.str_translate);
 
 
-                } else {
+            } else {
 
-                    options.element_html.innerText = response.str_translate;
-
-                }
+                options.element_html.innerText = response.str_translate;
 
             }
 
@@ -1643,6 +1640,8 @@ tool_leaflet_special_tools.prototype.vector_service_upload = async function(cont
     
     const self = this;
     
+    this.random_id = self.make_id(50);
+    
     container.innerHTML = '';
 
     const service_upload = await instances.get_instance({
@@ -1650,7 +1649,7 @@ tool_leaflet_special_tools.prototype.vector_service_upload = async function(cont
         model: 'service_upload',
         allowed_extensions: allowed_extensions,
         mode: 'edit',
-        id_variant: 'special_tools_service_upload_' + self.get_component_geolocation().section_id, // optionally set to prevent id collisions
+        id_variant: 'special_tools_service_upload_' + self.random_id, // optionally set to prevent id collisions
         caller: self.get_component_geolocation() // object mandatory, normally a component, tool or section instance
     });
 
@@ -1668,7 +1667,6 @@ tool_leaflet_special_tools.prototype.vector_service_upload = async function(cont
 tool_leaflet_special_tools.prototype.vector_subscribe = async function(callback) {
     
     const self = this;
-
     event_manager.subscribe('upload_file_done_' + self.get_component_geolocation().id, callback);
 
 };

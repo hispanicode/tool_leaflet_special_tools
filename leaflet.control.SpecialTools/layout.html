@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this template
+-->
+<html>
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div id="container"></div>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+        <script>
+
+	var opt = {
+            
+	  margin:       1,
+	  filename:     'file.pdf',
+	  image:        { type: 'jpeg', quality: 0.98 },
+	  html2canvas:  { scale: 2 },
+	  jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' },
+          pagebreak: { before: '.beforeClass', after: ['#after1', '#after2'], avoid: 'img' }
+	
+        };
+        
+        window.setTimeout(function() {
+            
+            const element = document.body.querySelector('#container');
+
+            html2pdf().set(opt).from(element).save();
+            
+        }, 3000);
+
+        </script>
+        
+    </body>
+</html>

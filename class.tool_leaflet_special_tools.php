@@ -1095,8 +1095,10 @@ class tool_leaflet_special_tools extends tool_common  {
 
             sleep(3);
 
-            shell_exec("gdal_translate -of GTiff -a_srs EPSG:4326 -a_ullr " . $response->tif_bounds . " -outsize 100% 100% -co TILED=YES -co COMPRESS=LZW -co ALPHA=YES $blob_file $new_file"); 
-
+            //shell_exec("gdal_translate -of GTiff -a_srs EPSG:4326 -a_ullr " . $response->tif_bounds . " -outsize 100% 100% -co TILED=YES -co COMPRESS=LZW -co ALPHA=YES $blob_file $new_file");
+            
+            shell_exec("gdal_translate -of GTiff -a_srs '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs' -a_ullr " . $response->tif_bounds . " -outsize 100% 100% -co TILED=YES -co COMPRESS=LZW -co ALPHA=YES -co TFW=YES $blob_file $new_file");
+            
             sleep(2);
 
             $zipArchive = new ZipArchive();
@@ -1872,16 +1874,6 @@ class tool_leaflet_special_tools extends tool_common  {
         
     }
     
-    public static function handle_upload_file(object $options): object {
-        
-        $response = new stdClass();
-        
-        $response->file_data = $options->file_data;
-        
-        return $response;
-        
-    }
-    
     public static function process_uploaded_image(object $options) : object {
         
 
@@ -2012,28 +2004,37 @@ class tool_leaflet_special_tools extends tool_common  {
             $target_dir = self::shape_uploads_path() . '/' . $folder_name;
 
             $target_file = $target_dir . '/' . $response->name;
+            
+            if (is_file($target_file)) {
+                
+                $target_file = $target_dir . '/' . rand(10000, 99999) . '-' . $response->name;
+                
+            }
 
             $shape_file_url = self::shape_uploads_url() . '/' . $folder_name . '/' . $response->name;
 
-            if (copy($response->tmp_file, $target_file)) {
-
-                    $response->success = true;
-                    
-                    $response->shape = $shape_file_url;
-                    
-                    $response->msg = 'ok';
-                    
-                    unlink($response->tmp_file);
-                    
-                    return $response;
-
-            } else {
-
-                $response->success = false;
-                $response->msg = "Ha ocurrido un error al guardar el archivo";
+             
+            try {
                 
+                copy($response->tmp_file, $target_file);
+
+                $response->success = true;
+
+                $response->shape = $shape_file_url;
+
+                $response->msg = 'ok';
+
+                unlink($response->tmp_file);
+
                 return $response;
 
+            } catch (Exception $e) {
+                
+                $response->success = false;
+                $response->msg = $e->getMessage();
+                
+                return $response;
+                
             }
 
         } else if ($response->type === 'application/geo+json') {
@@ -2052,24 +2053,32 @@ class tool_leaflet_special_tools extends tool_common  {
             $target_dir = self::geojson_uploads_path() . '/' . $folder_name;
             
             $target_file = $target_dir . '/' . $response->name;
-
-            if (copy($response->tmp_file, $target_file)) {
-
-                    $response->success = true;
-                    $response->geojson = json_encode(json_decode(file_get_contents($target_file)));
-                    $response->msg = 'ok';
-                    
-                    unlink($response->tmp_file);
-                    
-                    return $response;
-
-            } else {
-
-                $response->success = false;
-                $response->msg = "Ha ocurrido un error al guardar el archivo";
+            
+            if (is_file($target_file)) {
                 
+                $target_file = $target_dir . '/' . rand(10000, 99999) . '-' . $response->name;
+                
+            }
+
+            try {
+            
+                copy($response->tmp_file, $target_file);
+
+                $response->success = true;
+                $response->geojson = json_encode(json_decode(file_get_contents($target_file)));
+                $response->msg = 'ok';
+
+                unlink($response->tmp_file);
+
                 return $response;
                 
+            } catch (Exception $e) {
+                
+                $response->success = false;
+                $response->msg = $e->getMessage();
+                
+                return $response;
+
             }
 
         }
@@ -2090,8 +2099,16 @@ class tool_leaflet_special_tools extends tool_common  {
             $target_dir = self::kml_uploads_path() . '/' . $folder_name;
             
             $target_file = $target_dir . '/' . $response->name;
+            
+            if (is_file($target_file)) {
+                
+                $target_file = $target_dir . '/' . rand(10000, 99999) . '-' . $response->name;
+                
+            }
 
-            if (copy($response->tmp_file, $target_file)) {
+            try {
+                
+                copy($response->tmp_file, $target_file);
 
                 $response->success = true;
                 $response->kml = file_get_contents($target_file);
@@ -2100,15 +2117,17 @@ class tool_leaflet_special_tools extends tool_common  {
                 unlink($response->tmp_file);
                 
                 return $response;
-
-            } else {
-
+                
+            } catch (Exception $e) {
+                
                 $response->success = false;
-                $response->msg = "Ha ocurrido un error al guardar el archivo";
-
+                $response->msg = $e->getMessage();
+                
                 return $response;
                 
             }
+
+            
         } else {
             
             $response->success = false;

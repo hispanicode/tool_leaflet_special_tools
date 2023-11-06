@@ -47,6 +47,7 @@ L.Control.SpecialTools = L.Control.extend({
         L.DomEvent.on(this.special_tools_console, 'mouseover', function(e){
             
             map.dragging.disable();
+            map.doubleClickZoom.disable();
             
             L.DomEvent.preventDefault(e);
             
@@ -55,6 +56,7 @@ L.Control.SpecialTools = L.Control.extend({
         L.DomEvent.on(this.special_tools_console, 'mouseout', function(e) {
             
             map.dragging.enable();
+            map.doubleClickZoom.enable();
             
             L.DomEvent.preventDefault(e);
             
@@ -5302,20 +5304,28 @@ L.Control.SpecialTools = L.Control.extend({
         
         }
         
-        const map_width = self.map._container.clientWidth;
-        const map_height = self.map._container.clientHeight;
+        /**********************************************************************/
   
         const modal_properties_form = L.DomUtil.create('div');
         modal_properties_form.setAttribute('class', 'special-tools-modal-properties-form');
 
-        
-        const modal_top = (map_height / 2) - 100;
-        modal_properties_form.style.top = modal_top + 'px';
-        
-        const modal_left = (map_width / 2) - (350 / 2);
-        modal_properties_form.style.left = modal_left + 'px';
-
         self.map._container.append(modal_properties_form);
+        
+        L.DomEvent.on(modal_properties_form, 'mouseover', function() {
+            
+            self.map.dragging.disable();
+            self.map.doubleClickZoom.disable();
+            document.querySelector('.map_inputs').style.zIndex = 0;
+            
+        });
+        
+        L.DomEvent.on(modal_properties_form, 'mouseout', function() {
+            
+            self.map.dragging.enable();
+            self.map.doubleClickZoom.enable();
+        });
+        
+        /**********************************************************************/
         
         const title = L.DomUtil.create('div');
         title.setAttribute('class', 'special-tools-h2');
@@ -5433,7 +5443,9 @@ L.Control.SpecialTools = L.Control.extend({
         L.DomEvent.on(close_button, 'click', function() {
             
             this.disabled = true;
-
+            
+            document.querySelector('.map_inputs').style.zIndex = 1;
+            
             window.setTimeout(function() {
                 
                 modal_properties_form.remove();
@@ -5985,14 +5997,27 @@ L.Control.SpecialTools = L.Control.extend({
                 });
 
                 select_container.appendChild(new_property);
+                
+                /********************************************************/
+                
+                const pdf_export = L.DomUtil.create('button');
+                pdf_export.type = 'button';
+                pdf_export.setAttribute('class', 'special-tools-btn-success');
 
+                self.tool.google_translate({
+
+                    element_html: pdf_export,
+                    str: "Exportar como PDF", 
+                    lang: self.lang
+
+                });
+                
+                select_container.appendChild(pdf_export);
                 /********************************************************/
 
                 const properties_div = L.DomUtil.create('div');
                 properties_div.setAttribute('class', 'special-tools-container');
                 properties_div.style.padding = '5px';
-                properties_div.style.backgroundColor = '#ffffff';
-                properties_div.style.borderRadius = '4px';
 
                 modal_body.appendChild(properties_div);
 
@@ -6008,113 +6033,88 @@ L.Control.SpecialTools = L.Control.extend({
                         && prop !== 'layer_id'
                         && typeof properties[prop] !== 'object'
                     ){
-                        if (self.is_url(properties[prop])) {
 
-                            const properties_content_div = L.DomUtil.create('div');
-                            properties_content_div.setAttribute('class', 'special-tools-container');
+                        const properties_content_div = L.DomUtil.create('div');
+                        properties_content_div.setAttribute('class', 'special-tools-container');
+                        properties_content_div.style.borderBottom = '1px solid #ee9113';
+                        properties_content_div.style.paddingBottom = '4px';
+                        properties_content_div.style.fontSize = '12px';
 
-                            properties_div.appendChild(properties_content_div);
+                        properties_content_div.innerHTML = "<strong>" + prop + "</strong>" + ": <br>" + properties[prop] + "<br>";
 
-                            /**************************************************/
+                        properties_div.appendChild(properties_content_div);
 
-                            const properties_link_div = L.DomUtil.create('a');
-                            properties_link_div.href = properties[prop];
-                            properties_link_div.target = '_blank';
+                        /***************************************************/
 
-                            self.tool.google_translate({
+                        const br = L.DomUtil.create('br');
+                        properties_content_div.appendChild(br);
 
-                                element_html: properties_link_div,
-                                str: "Más información", 
-                                lang: self.lang
+                        /***************************************************/
 
-                            });
+                        const update_property = L.DomUtil.create('button');
+                        update_property.type = 'button';
+                        update_property.setAttribute('class', 'special-tools-btn-info');
+                        update_property.setAttribute('property-name', prop);
 
-                            properties_content_div.appendChild(properties_link_div);
+                        properties_content_div.appendChild(update_property);
 
-                        } else {
+                        /***************************************************/
 
-                            const properties_content_div = L.DomUtil.create('div');
-                            properties_content_div.setAttribute('class', 'special-tools-container');
-                            properties_content_div.style.borderBottom = '1px solid #b0cdd2';
-                            properties_content_div.style.paddingBottom = '4px';
-                            properties_content_div.style.fontSize = '12px';
-                            
-                            properties_content_div.innerHTML = "<strong>" + prop + "</strong>" + ": <br>" + properties[prop] + "<br>";
+                        const update_property_image = L.DomUtil.create('img');
+                        update_property_image.src = self.tool.controls_url() + '/img/edit.png';
+                        update_property_image.style.width = '10px';
+                        update_property_image.style.height = '10px';
+                        const _compute = compute('#ffffff'); 
+                        update_property_image.style.filter = _compute.result.filterRaw;
 
-                            properties_div.appendChild(properties_content_div);
-                            
-                            /***************************************************/
-                            
-                            const br = L.DomUtil.create('br');
-                            properties_content_div.appendChild(br);
-                            
-                            /***************************************************/
-                            
-                            const update_property = L.DomUtil.create('button');
-                            update_property.type = 'button';
-                            update_property.setAttribute('class', 'special-tools-btn-info');
-                            update_property.setAttribute('property-name', prop);
-                            
-                            properties_content_div.appendChild(update_property);
-                            
-                            /***************************************************/
-                            
-                            const update_property_image = L.DomUtil.create('img');
-                            update_property_image.src = self.tool.controls_url() + '/img/edit.png';
-                            update_property_image.style.width = '10px';
-                            update_property_image.style.height = '10px';
-                            const _compute = compute('#ffffff'); 
-                            update_property_image.style.filter = _compute.result.filterRaw;
-                            
-                            update_property.appendChild(update_property_image);
-                            
-                            /***************************************************/
-                            
-                            const delete_property = L.DomUtil.create('button');
-                            delete_property.type = 'button';
-                            delete_property.setAttribute('class', 'special-tools-btn-danger');
-                            delete_property.setAttribute('property-name', prop);
-                            
-                            properties_content_div.appendChild(delete_property);
-                            
-                            /***************************************************/
-                            
-                            const delete_property_image = L.DomUtil.create('img');
-                            delete_property_image.src = self.tool.controls_url() + '/img/trash.png';
-                            delete_property_image.style.width = '10px';
-                            delete_property_image.style.height = '10px';
-                            
-                            delete_property.appendChild(delete_property_image);
-                            
-                            /***************************************************/
+                        update_property.appendChild(update_property_image);
 
-                            properties_content_div.appendChild(br.cloneNode(true));
-                            
-                            /***************************************************/
-                            
-                            /* EVENTS */
-                            L.DomEvent.on(update_property, 'click', function() {
-                                
-                                const property = {name: prop, value: properties[prop]};
-                                
-                                self.modal_properties_form_update(self, property, layer, overlay);
-                                
-                            });
-                            
-                            /***************************************************/
-                            
-                            /* EVENTS */
-                            L.DomEvent.on(delete_property, 'click', function() {
-                                
-                                const property = {name: prop};
-                                
-                                self.modal_properties_form_delete(self, property, layer, overlay);
-                                
-                            });
-                            
-                            /***************************************************/
+                        /***************************************************/
 
-                        }
+                        const delete_property = L.DomUtil.create('button');
+                        delete_property.type = 'button';
+                        delete_property.setAttribute('class', 'special-tools-btn-danger');
+                        delete_property.setAttribute('property-name', prop);
+
+                        properties_content_div.appendChild(delete_property);
+
+                        /***************************************************/
+
+                        const delete_property_image = L.DomUtil.create('img');
+                        delete_property_image.src = self.tool.controls_url() + '/img/trash.png';
+                        delete_property_image.style.width = '10px';
+                        delete_property_image.style.height = '10px';
+
+                        delete_property.appendChild(delete_property_image);
+
+                        /***************************************************/
+
+                        properties_content_div.appendChild(br.cloneNode(true));
+
+                        /***************************************************/
+
+                        /* EVENTS */
+                        L.DomEvent.on(update_property, 'click', function() {
+
+                            const property = {name: prop, value: properties[prop]};
+
+                            self.modal_properties_form_update(self, property, layer, overlay);
+
+                        });
+
+                        /***************************************************/
+
+                        /* EVENTS */
+                        L.DomEvent.on(delete_property, 'click', function() {
+
+                            const property = {name: prop};
+
+                            self.modal_properties_form_delete(self, property, layer, overlay);
+
+                        });
+
+                        /***************************************************/
+
                     }
 
                 }
@@ -6123,6 +6123,12 @@ L.Control.SpecialTools = L.Control.extend({
 
                     self.modal_properties_form_create(self, layer, overlay);
 
+                });
+                
+                L.DomEvent.on(pdf_export, 'click', function() {
+
+                    self.create_pdf(self, layer, modal);
+                    
                 });
 
             }
@@ -6139,13 +6145,14 @@ L.Control.SpecialTools = L.Control.extend({
             
         }
         
-        const hr = L.DomUtil.create('hr');
-        self.special_tools_info_console.appendChild(hr);
+        const br = L.DomUtil.create('br');
+        self.special_tools_info_console.appendChild(br);
 
         /******************************************************/
 
         const properties_title = L.DomUtil.create('div');
         properties_title.setAttribute('class', 'special-tools-h3');
+        properties_title.style.borderTop = '1px solid #fff';
 
         self.tool.google_translate({
 
@@ -6218,7 +6225,9 @@ L.Control.SpecialTools = L.Control.extend({
         properties_div.appendChild(images_gallery_btn);
         
         /******************************************************/
-
+        
+        properties_div.appendChild(br.cloneNode(true));
+        
         const properties = layer.feature.properties;
         var images_urls = new Array();
 
@@ -6234,6 +6243,7 @@ L.Control.SpecialTools = L.Control.extend({
 
                     const properties_content_div = L.DomUtil.create('div');
                     properties_content_div.setAttribute('class', 'special-tools-container');
+                    properties_content_div.style.borderTop = '1px solid #ee9113';
 
                     const properties_link_div = L.DomUtil.create('a');
                     properties_link_div.href = properties[prop];
@@ -6255,6 +6265,7 @@ L.Control.SpecialTools = L.Control.extend({
 
                     const properties_content_div = L.DomUtil.create('div');
                     properties_content_div.setAttribute('class', 'special-tools-container');
+                    properties_content_div.style.borderTop = '1px solid #ee9113';
 
                     if (properties[prop].length > 80) {
 
@@ -6443,6 +6454,8 @@ L.Control.SpecialTools = L.Control.extend({
                                     layer.fireEvent('click');
 
                                 }
+                                
+                                modal._container.querySelector('.close').click();
                                         
                             });
                     });
@@ -6450,7 +6463,184 @@ L.Control.SpecialTools = L.Control.extend({
                 });  
             }
         }); 
-    }  
+    },
+    
+    create_pdf: function(self, layer, modal) {
+
+        const properties = layer.feature.properties;
+        
+        const type = layer.feature.geometry.type;
+        
+        const coordinates = JSON.stringify(layer.feature.geometry.coordinates);
+        
+        const tipo = self.component_geolocation.tipo;
+        const section_tipo = self.component_geolocation.section_tipo;
+        const section_id = self.component_geolocation.section_id;
+        
+        /***************************************************/
+        
+        const div = document.createElement('div');
+        
+        /***************************************************/
+        
+        const dedalo_img = document.createElement('img');
+        dedalo_img.src = self.tool.tool_url() + '/dedalo.png';
+        dedalo_img.style.position = 'relative';
+        dedalo_img.style.float = 'left';
+        
+        div.appendChild(dedalo_img);
+        
+        /*****************************************************/
+
+        const title = document.createElement('h1');
+        title.style.position = 'relative';
+        title.style.float = 'right';
+        
+        self.tool.google_translate({
+
+            element_html: title,
+            str: "Propiedades del objeto", 
+            lang: self.lang
+
+        });
+        
+        div.appendChild(title);
+        
+        /****************************************************/
+        
+        const clear_left_div = document.createElement('div');
+        clear_left_div.style.clear = 'left';
+        
+        div.appendChild(clear_left_div);
+        
+        /*****************************************************/
+        
+        const clear_right_div = document.createElement('div');
+        clear_right_div.style.clear = 'right';
+        
+        div.appendChild(clear_right_div);
+        
+        /*****************************************************/
+
+        const component_geolocation_info = document.createElement('div');
+        component_geolocation_info.innerHTML = tipo + ' - ' + section_tipo + ' - ' + section_id;
+        
+        div.appendChild(component_geolocation_info);
+        /****************************************************/
+
+        const hr = document.createElement('hr');
+        div.appendChild(hr);
+        
+        /*****************************************************/
+        
+        for (let prop in properties) {
+            
+            if (
+                properties[prop] !== null 
+                && prop !== 'color' 
+                && prop !== 'layer_id'
+                && typeof properties[prop] !== 'object'
+            ){
+                
+                const property_name = document.createElement('strong');
+                property_name.innerText = prop;
+                div.appendChild(property_name);
+                
+                /*************************************************/
+                
+                const property_value = document.createElement('p');
+                property_value.innerText = properties[prop];
+                div.appendChild(property_value);
+                
+            }
+            
+        }
+        
+        /*****************************************************/
+        
+        const geometry_title = document.createElement('h3');
+        geometry_title.innerText = 'Geometry';
+        div.appendChild(geometry_title);
+        
+        /*****************************************************/
+        
+        div.appendChild(hr.cloneNode(true));
+        
+        /*****************************************************/
+        
+        const geometry_type = document.createElement('p');
+        geometry_type.innerHTML = "<strong>Type: </strong>" + type;
+        div.appendChild(geometry_type);
+        
+        /*****************************************************/
+        
+        const geometry_coordinates = document.createElement('p');
+        geometry_coordinates.innerHTML = "<strong>Coordinates: </strong>" + coordinates;
+        div.appendChild(geometry_coordinates);
+        
+        /*****************************************************/
+        
+        const images_title = document.createElement('h3');
+        
+        self.tool.google_translate({
+
+            element_html: images_title,
+            str: "Imágenes asociadas", 
+            lang: self.lang
+
+        });
+        
+        div.appendChild(images_title);
+        
+        /****************************************************/
+        
+        div.appendChild(hr.cloneNode(true));
+        
+        /****************************************************/
+        
+        if (layer.feature.properties.hasOwnProperty('images')) {
+            
+            const images = layer.feature.properties.images;
+            
+            for (let i in images) {
+                
+                if (images[i].hasOwnProperty('url')) {
+                    
+                    const img_gallery = document.createElement('img');
+                    img_gallery.src = images[i].url;
+                    img_gallery.style.width = '100%';
+                    div.appendChild(img_gallery);
+                    
+                }
+                
+            }
+            
+        }
+        
+        /****************************************************/
+        
+        const iframe = document.createElement('iframe');
+        iframe.src = self.tool.controls_url() + '/layout.html';
+        
+        document.body.appendChild(iframe);
+        
+        self.modal_message(self, "Creando el archivo pdf, por favor espere, ...", self.lang);
+        
+        window.setTimeout(function() {
+            
+            iframe.contentWindow.document.body.querySelector('#container').innerHTML = div.innerHTML;
+            
+        }, 1000);
+        
+        window.setTimeout(function() {
+            
+            iframe.remove();
+            div.remove();
+            
+        }, 8000);
+
+    }
+    
 });
 
 L.control.specialTools = function (options) {
