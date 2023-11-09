@@ -287,10 +287,7 @@ component_geolocation.prototype.get_map = async function(map_container, key) {
 		let base_maps	= {}
 
 	// Add layer to map
-        
-        
-                console.log("geoprovider: " + self.context.features.geo_provider);
-                
+
                 /* SPECIAL TOOLS */
                 
                 /*
@@ -503,14 +500,11 @@ component_geolocation.prototype.get_map = async function(map_container, key) {
                                  * Se obtienen los proveedores para determinar que control se carga o no
                                  * 
                                  */
-                                
-                                console.log("section_lang: " + self.section_lang);
-                                
+
                                 const geo_provider = self.context.features.geo_provider;
                                 
                                 let special_tools_controls;
 
-                                /* Si es numisdata y es lg-spa || lg-cat || lg-eus */
                                 if (geo_provider === 'NUMISDATA') {
                                     
                                     if (self.section_lang === 'lg-spa' || 

@@ -43,6 +43,19 @@ L.Control.SpecialTools = L.Control.extend({
             this.special_tools_console.style.display = 'none';
             
         }
+        
+        const icon = L.icon({
+
+            iconUrl: self.tool.controls_url() + '/img/pin.svg',
+            iconSize: [36, 36],
+            iconAnchor: [18, 34],
+            shadowUrl: self.tool.controls_url() + '/img/marker-shadow.png',
+            shadowSize: [41, 41],
+            shadowAnchor: [11, 41]
+
+        });
+        
+        map.pm.Draw.Marker.setOptions({markerStyle: {icon: icon}});
 
         L.DomEvent.on(this.special_tools_console, 'mouseover', function(e){
             
@@ -542,7 +555,10 @@ L.Control.SpecialTools = L.Control.extend({
                         
                         iconUrl: self.tool.controls_url() + '/img/pin.svg',
                         iconSize: [36, 36],
-                        iconAnchor: [18, 34]
+                        iconAnchor: [18, 34],
+                        shadowUrl: self.tool.controls_url() + '/img/marker-shadow.png',
+                        shadowSize: [41, 41],
+                        shadowAnchor: [11, 41]
                         
                     });
 
@@ -563,8 +579,8 @@ L.Control.SpecialTools = L.Control.extend({
                     if (!layer.feature.special_tools.hasOwnProperty('marker_filter')) {
                     
                         let _compute = compute(default_color);
-                        
-                        layer._icon.style.filter = _compute.result.filterRaw;
+
+                        layer._icon.style.filter = _compute.result.filterRaw + ' ' + 'drop-shadow(2px -3px 2px #fff)';
 
                     
                     } else {
@@ -588,14 +604,33 @@ L.Control.SpecialTools = L.Control.extend({
                 layer.on('click pm:edit', function(){
                     
                     self.special_tools_info_console.innerHTML = '';
-
+                    
                     self.special_tools_info_console.style.display = 'none';
+                    
+                    try {
+                        
+                        self.map._container.querySelector('#special_tools_loading').remove();
+                        
+                    } catch (Exception) {};
+
+                    const loading = L.DomUtil.create('img');
+                    loading.id = 'special_tools_loading';
+                    loading.src = self.tool.controls_url() + '/img/loading.gif';
+                    loading.style.width = '100%';
+
+                    self.special_tools_console.appendChild(loading);
 
                     window.setTimeout(function() {
 
                         self.special_tools_info_console.style.display = 'block';
 
-                    }, 1000);
+                        try {
+
+                            self.map._container.querySelector('#special_tools_loading').remove();
+
+                        } catch (Exception) {};
+                        
+                    }, 2500);
                     
                     geometry_type = this.feature.geometry.type;
                     
@@ -846,12 +881,31 @@ L.Control.SpecialTools = L.Control.extend({
                     self.special_tools_info_console.innerHTML = '';
 
                     self.special_tools_info_console.style.display = 'none';
+                    
+                    try {
+                        
+                        self.map._container.querySelector('#special_tools_loading').remove();
+                        
+                    } catch (Exception) {};
+                    
+                    const loading = L.DomUtil.create('img');
+                    loading.id = 'special_tools_loading';
+                    loading.src = self.tool.controls_url() + '/img/loading.gif';
+                    loading.style.width = '100%';
+
+                    self.special_tools_console.appendChild(loading);
 
                     window.setTimeout(function() {
 
                         self.special_tools_info_console.style.display = 'block';
 
-                    }, 1000);
+                        try {
+
+                            self.map._container.querySelector('#special_tools_loading').remove();
+
+                        } catch (Exception) {};
+
+                    }, 2500);
 
                     const geometry_type = this.feature.geometry.type;
                     
@@ -1309,12 +1363,31 @@ L.Control.SpecialTools = L.Control.extend({
                     self.special_tools_info_console.innerHTML = '';
 
                     self.special_tools_info_console.style.display = 'none';
+                    
+                    try {
+                        
+                        self.map._container.querySelector('#special_tools_loading').remove();
+                        
+                    } catch (Exception) {};
+                    
+                    const loading = L.DomUtil.create('img');
+                    loading.id = 'special_tools_loading';
+                    loading.src = self.tool.controls_url() + '/img/loading.gif';
+                    loading.style.width = '100%';
+
+                    self.special_tools_console.appendChild(loading);
 
                     window.setTimeout(function() {
 
                         self.special_tools_info_console.style.display = 'block';
 
-                    }, 1000);
+                        try {
+
+                            self.map._container.querySelector('#special_tools_loading').remove();
+
+                        } catch (Exception) {};
+
+                    }, 2500);
 
                     const geometry_type = this.feature.geometry.type;
                     
@@ -1628,6 +1701,21 @@ L.Control.SpecialTools = L.Control.extend({
                     const marker2 = L.marker(point2, {draggable: true, pmIgnore: true, snapIgnore: true} );
                     const marker3 = L.marker(point3, {draggable: true, pmIgnore: true, snapIgnore: true} );
 
+                    const icon = L.icon({
+                        
+                        iconUrl: self.tool.controls_url() + '/img/button.png',
+                        iconSize: [18, 18],
+                        iconAnchor: [9, 9],
+                        shadowUrl: self.tool.controls_url() + '/img/marker-shadow.png',
+                        shadowSize: [41, 41],
+                        shadowAnchor: [8, 36]
+                        
+                    });
+
+                    marker1.setIcon(icon);
+                    marker2.setIcon(icon);
+                    marker3.setIcon(icon);
+
                     marker1.addTo(self.map);
                     marker2.addTo(self.map);
                     marker3.addTo(self.map);
@@ -1791,11 +1879,30 @@ L.Control.SpecialTools = L.Control.extend({
                         
                         self.special_tools_info_console.style.display = 'none';
                         
+                        try {
+
+                            self.map._container.querySelector('#special_tools_loading').remove();
+
+                        } catch (Exception) {};
+                        
+                        const loading = L.DomUtil.create('img');
+                        loading.id = 'special_tools_loading';
+                        loading.src = self.tool.controls_url() + '/img/loading.gif';
+                        loading.style.width = '100%';
+
+                        self.special_tools_console.appendChild(loading);
+                        
                         window.setTimeout(function() {
                             
                             self.special_tools_info_console.style.display = 'block';
+
+                            try {
+
+                                self.map._container.querySelector('#special_tools_loading').remove();
+
+                            } catch (Exception) {};
                             
-                        }, 1000);
+                        }, 2500);
                         
                         const div_geometry_type = L.DomUtil.create('div');
                         div_geometry_type.setAttribute('class', 'special-tools-container');
@@ -1814,7 +1921,7 @@ L.Control.SpecialTools = L.Control.extend({
                         self.special_tools_info_console.appendChild(url_image_div);
 
                         const url_image_link = L.DomUtil.create('a');
-                        url_image_link.href = "?t=" + stored_image_data_item.section_tipo + "&section_id=" + stored_image_data_item.section_id  + "&component_tipo=" + stored_image_data_item.component_tipo;
+                        url_image_link.href = "?t=" + layer.feature.properties.images[0].section_tipo + "&section_id=" + layer.feature.properties.images[0].section_id  + "&component_tipo=" + layer.feature.properties.images[0].tipo;
                         url_image_link.target = '_blank';
                         url_image_div.appendChild(url_image_link);
 
@@ -2053,16 +2160,63 @@ L.Control.SpecialTools = L.Control.extend({
                         
                         self.special_tools_info_console.style.display = 'none';
                         
+                        try {
+
+                            self.map._container.querySelector('#special_tools_loading').remove();
+
+                        } catch (Exception) {};
+                        
+                        const loading = L.DomUtil.create('img');
+                        loading.id = 'special_tools_loading';
+                        loading.src = self.tool.controls_url() + '/img/loading.gif';
+                        loading.style.width = '100%';
+
+                        self.special_tools_console.appendChild(loading);
+
                         window.setTimeout(function() {
                             
                             self.special_tools_info_console.style.display = 'block';
-                            
-                        }, 1000);
 
-                        const geometry_type = this.feature.geometry.type;
+                            try {
+
+                                self.map._container.querySelector('#special_tools_loading').remove();
+
+                            } catch (Exception) {};
+                            
+                        }, 2500);
+
+                        let geometry_type;
+                        
+                        let is_multipolygon = false;
+                        
+                        if (this.feature.special_tools.hasOwnProperty('multi_id')) {
+                            
+                            is_multipolygon = true;
+                            
+                        } else {
+                            
+                            geometry_type = this.feature.geometry.type;
+                            
+                        }
 
                         const div_geometry_type = L.DomUtil.create('div');
-                        div_geometry_type.innerText = geometry_type;
+                        
+                        if (!is_multipolygon) {
+                        
+                            div_geometry_type.innerText = geometry_type;
+                        
+                        } else {
+                            
+                            self.tool.google_translate({
+
+                                element_html: div_geometry_type,
+                                str: "Es parte de un Multipolígono", 
+                                lang: self.lang
+
+                            });
+                            
+                        }
+                        
                         div_geometry_type.setAttribute('class', 'special-tools-container');
                         self.special_tools_info_console.appendChild(div_geometry_type);
 
@@ -3711,7 +3865,7 @@ L.Control.SpecialTools = L.Control.extend({
 
                         const _compute = compute(default_color);
                         
-                        marker_preview.style.filter = _compute.result.filterRaw;
+                        marker_preview.style.filter = _compute.result.filterRaw + ' ' + 'drop-shadow(2px -3px 2px #fff)';
 
                         
                     }
@@ -3722,16 +3876,16 @@ L.Control.SpecialTools = L.Control.extend({
 
                             const _compute = compute(color.hexString);
 
-                            layer._icon.style.filter = _compute.result.filterRaw;
+                            layer._icon.style.filter = _compute.result.filterRaw  + ' ' + 'drop-shadow(2px -3px 2px #fff)';
                             
-                            layer.feature.special_tools.marker_filter = _compute.result.filterRaw;
+                            layer.feature.special_tools.marker_filter = _compute.result.filterRaw  + ' ' + 'drop-shadow(2px -3px 2px #fff)';
                             layer.feature.special_tools.marker_color = color.hexString;
                             
                             readonly_color.value = color.hexString;
                             
                             marker_color.style.backgroundColor = color.hexString;
                             
-                            marker_preview.style.filter = _compute.result.filterRaw;
+                            marker_preview.style.filter = _compute.result.filterRaw + ' ' + 'drop-shadow(2px -3px 2px #fff)';
  
                             const active_layer_id = self.component_geolocation.active_layer_id;
                             self.component_geolocation.update_draw_data(active_layer_id);
@@ -3773,11 +3927,11 @@ L.Control.SpecialTools = L.Control.extend({
 
                             const _compute = compute(color);
 
-                            layer._icon.style.filter = _compute.result.filterRaw;
-                            layer.feature.special_tools.marker_filter = _compute.result.filterRaw;
+                            layer._icon.style.filter = _compute.result.filterRaw + ' ' + 'drop-shadow(2px -3px 2px #fff)';
+                            layer.feature.special_tools.marker_filter = _compute.result.filterRaw + ' ' + 'drop-shadow(2px -3px 2px #fff)';
                             layer.feature.special_tools.marker_color = color;
 
-                            marker_preview.style.filter = _compute.result.filterRaw;
+                            marker_preview.style.filter = _compute.result.filterRaw + ' ' + 'drop-shadow(2px -3px 2px #fff)';
  
                             const active_layer_id = self.component_geolocation.active_layer_id;
                             self.component_geolocation.update_draw_data(active_layer_id);
@@ -5541,6 +5695,7 @@ L.Control.SpecialTools = L.Control.extend({
                         
                     }
 
+                    document.querySelector('.map_inputs').style.zIndex = 1;
                     modal_properties_form.remove();
                     
                     self.special_tools_info_console.querySelector('#properties_btn').click();
@@ -5691,6 +5846,8 @@ L.Control.SpecialTools = L.Control.extend({
         modal_properties_form.appendChild(close_button);
 
         /**********************************************************/
+        
+        document.querySelector('.map_inputs').style.zIndex = 0;
 
         L.DomEvent.on(close_button, 'click', function() {
             
@@ -5699,6 +5856,8 @@ L.Control.SpecialTools = L.Control.extend({
             window.setTimeout(function() {
                 
                 modal_properties_form.remove();
+                
+                document.querySelector('.map_inputs').style.zIndex = 1;
                 
             }, 100);
 
@@ -5872,6 +6031,8 @@ L.Control.SpecialTools = L.Control.extend({
         });
 
         modal_properties_form.appendChild(close_button);
+        
+        document.querySelector('.map_inputs').style.zIndex = 0;
 
         /**********************************************************/
 
@@ -5882,6 +6043,7 @@ L.Control.SpecialTools = L.Control.extend({
             window.setTimeout(function() {
                 
                 modal_properties_form.remove();
+                document.querySelector('.map_inputs').style.zIndex = 1;
                 
             }, 100);
 
@@ -5921,6 +6083,7 @@ L.Control.SpecialTools = L.Control.extend({
             window.setTimeout(function() {
 
                 modal_properties_form.remove();
+                document.querySelector('.map_inputs').style.zIndex = 1;
 
             }, 100);
 
@@ -6639,7 +6802,7 @@ L.Control.SpecialTools = L.Control.extend({
         /****************************************************/
         
         const iframe = document.createElement('iframe');
-        iframe.src = self.tool.controls_url() + '/layout.html';
+        iframe.src = self.tool.controls_url() + '/pdf/layout.html';
         
         document.body.appendChild(iframe);
         

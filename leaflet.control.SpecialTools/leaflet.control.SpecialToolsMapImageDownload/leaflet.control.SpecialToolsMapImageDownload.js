@@ -279,22 +279,26 @@ L.Control.SpecialToolsMapImageDownload = L.Control.extend({
 
                         const leaflet_pane = map._container.querySelector('.leaflet-pane');
 
-                        console.log(document.querySelector('.leaflet_map').offsetWidth);
-
-                        domtoimage.toPng(leaflet_pane, {cacheBust: true, width: map._size.x, height: map._size.y})
+                        domtoimage.toPng(leaflet_pane, {cacheBust: true, width: leaflet_pane.offsetParent.offsetWidth, height: leaflet_pane.offsetParent.offsetHeight})
 
                         .then(function (dataUrl) {
                             
                                 var tif_bounds;
+                                
+                                const bounds = map.getBounds();
+                                
+                                const NW = bounds.getNorthWest();
+                                
+                                const SE = bounds.getSouthEast();
 
                                 special_tools.modal_message(special_tools, "Descargando ...", lang);
 
                                 if (file_type === 'tif') {
 
-                                    tif_bounds = map.getBounds().getNorthWest().lng;
-                                    tif_bounds = tif_bounds + ' ' + map.getBounds().getNorthWest().lat;
-                                    tif_bounds = tif_bounds + ' ' + map.getBounds().getSouthEast().lng;
-                                    tif_bounds = tif_bounds + ' ' + map.getBounds().getSouthEast().lat;
+                                    tif_bounds = NW.lng;
+                                    tif_bounds = tif_bounds + ' ' + NW.lat;
+                                    tif_bounds = tif_bounds + ' ' + SE.lng;
+                                    tif_bounds = tif_bounds + ' ' + SE.lat;
                                     
                                     console.log("tif_bounds: " + tif_bounds);
                                     

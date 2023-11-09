@@ -225,6 +225,8 @@ tool_leaflet_special_tools.prototype.control = function(component_geolocation, o
     
     options.tool = this;
     
+    
+    
     try {
     
         const geocoder = L.Control.geocoder({position: 'topleft', defaultMarkGeocode: false});
@@ -242,6 +244,8 @@ tool_leaflet_special_tools.prototype.control = function(component_geolocation, o
         console.log(e);
         
     }
+    
+    
     
     this.set_component_geolocation(component_geolocation);
     
@@ -1377,6 +1381,8 @@ tool_leaflet_special_tools.prototype.image_service_upload = async function(conta
     
     const self = this;
     
+    this.random_id = self.make_id(50);
+    
     container.innerHTML = '';
     
     const image_section_tipo    =  'rsc170'; //DD_TIPOS.DEDALO_SECTION_RESOURCES_IMAGE_TIPO // 'rsc170'
@@ -1402,6 +1408,7 @@ tool_leaflet_special_tools.prototype.image_service_upload = async function(conta
     if (api_response.result) {
         // section_id of the new record
         const section_id = api_response.result;
+
         // To create the new image instance with the result data of uploaded process and build it. 
         const component_image = await instances.get_instance({
 
@@ -1415,15 +1422,15 @@ tool_leaflet_special_tools.prototype.image_service_upload = async function(conta
 
         await component_image.build(true);
         
-        self.component_image = component_image;
+        self.set_component_image(component_image);
 
         const service_upload = await instances.get_instance({
 
             model: 'service_upload',
             allowed_extensions: allowed_extensions,
             mode: 'edit',
-            id_variant: 'special_tools_service_upload_' + section_id, // optionally set to prevent id collisions
-            caller: self.component_image // object mandatory, normally a component, tool or section instance
+            id_variant: 'special_tools_service_upload_' + self.random_id, // optionally set to prevent id collisions
+            caller: component_image // object mandatory, normally a component, tool or section instance
         });
 
         // build
@@ -1443,6 +1450,18 @@ tool_leaflet_special_tools.prototype.image_subscribe = async function(callback) 
     
     const self = this;
 
+    const events = event_manager.get_events();
+    
+    for (let x in events) {
+        
+        if (events[x].event_name === 'upload_file_done_' + self.component_image.id) {
+
+            event_manager.unsubscribe(events[x].token);
+            
+        } 
+        
+    }
+    
     event_manager.subscribe('upload_file_done_' + self.component_image.id, callback);
 
 };
@@ -1503,6 +1522,19 @@ tool_leaflet_special_tools.prototype.vector_service_upload = async function(cont
 tool_leaflet_special_tools.prototype.vector_subscribe = async function(callback) {
     
     const self = this;
+    
+    const events = event_manager.get_events();
+    
+    for (let x in events) {
+        
+        if (events[x].event_name === 'upload_file_done_' + self.get_component_geolocation().id) {
+
+            event_manager.unsubscribe(events[x].token);
+            
+        } 
+        
+    }
+    
     event_manager.subscribe('upload_file_done_' + self.get_component_geolocation().id, callback);
 
 };
@@ -1541,6 +1573,18 @@ tool_leaflet_special_tools.prototype.set_component_geolocation = function(compon
 tool_leaflet_special_tools.prototype.get_component_geolocation = function() {
     
     return this.component_geolocation;
+    
+};
+
+tool_leaflet_special_tools.prototype.set_component_image = function(component_image) {
+    
+    this.component_image = component_image;
+    
+};
+
+tool_leaflet_special_tools.prototype.get_component_image = function() {
+    
+    return this.component_image;
     
 };
 

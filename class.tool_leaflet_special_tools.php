@@ -947,7 +947,9 @@ class tool_leaflet_special_tools extends tool_common  {
 
             //shell_exec("gdal_translate -of GTiff -a_srs EPSG:4326 -a_ullr " . $response->tif_bounds . " -outsize 100% 100% -co TILED=YES -co COMPRESS=LZW -co ALPHA=YES $blob_file $new_file");
             
-            shell_exec("gdal_translate -of GTiff -a_srs '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs' -a_ullr " . $response->tif_bounds . " -outsize 100% 100% -co TILED=YES -co COMPRESS=LZW -co ALPHA=YES -co TFW=YES $blob_file $new_file");
+            shell_exec("gdal_translate -of GTiff -a_srs EPSG:4326 -a_ullr " . $response->tif_bounds . " $blob_file $new_file");
+            
+            //shell_exec("gdal_translate -of GTiff -a_srs EPSG:4326 -a_gt 7514 1007 0 5972 0 476 -co COMPRESS=LZW -co ALPHA=YES -co TFW=YES $blob_file $new_file");
             
             sleep(2);
 
@@ -1776,14 +1778,20 @@ class tool_leaflet_special_tools extends tool_common  {
         
         $id = $component_image->get_id();
         
+        $explode_original_extension = explode('.', $response->file_data->name);
+        $get_original_extension = $explode_original_extension[count($explode_original_extension)-1];
+        
         if (substr($response->file_data->name, -3) === 'tif') {
 
             $response->is_geotiff = true;
-            $response->geotiff_src = $url = $component_image->get_media_url_dir($response->default_quality) .'/'. $id .'.tif';
+            $response->geotiff_src = $component_image->get_media_url_dir($response->default_quality) .'/'. $id .'.tif';
+            $get_original_extension = 'jpg';
             
         }
 
-	$url = $component_image->get_media_url_dir($response->default_quality) .'/'. $id .'.'. $component_image->get_extension();
+        
+        
+	$url = $component_image->get_media_url_dir($response->default_quality) .'/'. $id .'.'. $get_original_extension;
         
         $response->image_src = $url;
         
