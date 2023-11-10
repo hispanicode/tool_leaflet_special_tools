@@ -1317,7 +1317,7 @@ class tool_leaflet_special_tools extends tool_common  {
             $response->success = false;
             $response->msg = 'Existen campos vacíos. No ha sido posible guardar el servicio WMS.';
 
-        } else if (intval($response->wms_opacity) < 0 || intval($response->wms_opacity) > 1) {
+        } else if (floatval($response->wms_opacity) < 0 || floatval($response->wms_opacity) > 1) {
 
             $response->error = true;
             $response->msg = 'Valor incorrecto de opacidad. La opacidad debe de estar entre el intervalo de 0 a 1.';
@@ -1871,7 +1871,6 @@ class tool_leaflet_special_tools extends tool_common  {
 
             $shape_file_url = self::shape_uploads_url() . '/' . $folder_name . '/' . $response->name;
 
-             
             try {
                 
                 copy($response->tmp_file, $target_file);
