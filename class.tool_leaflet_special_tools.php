@@ -2048,5 +2048,28 @@ class tool_leaflet_special_tools extends tool_common  {
         }
         
     }
+    
+    public static function get_elevation(object $options): object {
+        
+        $response = new stdClass();
+        $response->success = false;
+        $response->json = null;
+        $response->lat = $options->lat;
+        $response->lng = $options->lng;
+        
+        $response->url = "https://api.open-elevation.com/api/v1/lookup?locations=". $response->lat . "," . $response->lng; 
+        
+        $json = file_get_contents($response->url);
+        
+        if ($json) {
+            
+            $response->json = $json;
+            $response->success = true;
+            
+        }
+        
+        return $response;
+        
+    }
 
 }

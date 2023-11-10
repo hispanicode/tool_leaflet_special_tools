@@ -1499,7 +1499,6 @@ tool_leaflet_special_tools.prototype.vector_subscribe = async function(callback)
 
 tool_leaflet_special_tools.prototype.get_vector_data = async function(options) {
 
-
         this.model = 'tool_leaflet_special_tools';
     
         const source = create_source(this, 'process_uploaded_vector');
@@ -1520,6 +1519,47 @@ tool_leaflet_special_tools.prototype.get_vector_data = async function(options) {
         
         return api_response;
     
+};
+
+tool_leaflet_special_tools.prototype.get_elevation = function(options) {
+    
+    const self = this;
+
+    this.model = 'tool_leaflet_special_tools';
+
+    const method = 'get_elevation';
+    
+    const source = create_source(this, method);
+    
+    const rqo = {
+
+        dd_api: 'dd_tools_api',
+        action: 'tool_request',
+        source: source,
+        prevent_lock: true,
+        options: options
+    };
+    
+    return new Promise(function(resolve){
+
+        data_manager.request({
+
+            body : rqo
+
+        })
+        .then(function(response){
+
+            if (SHOW_DEVELOPER) {
+
+                dd_console("-> API " + self.model + "::" + method  + " response:",'DEBUG', response);
+
+            }
+
+            resolve(response);
+
+        });
+
+    });
 };
 
 tool_leaflet_special_tools.prototype.set_component_geolocation = function(component_geolocation) {

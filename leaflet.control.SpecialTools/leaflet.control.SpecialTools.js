@@ -520,8 +520,6 @@ L.Control.SpecialTools = L.Control.extend({
     },
     
     set_info_console: function(self, layer) {
-
-        let geometry_type = null;
   
         if (!(layer instanceof L.TileLayer)) {
 
@@ -550,1140 +548,114 @@ L.Control.SpecialTools = L.Control.extend({
             if (self.is_point(layer) && !self.is_circle(layer)) {
                 
                 if (layer instanceof L.Marker) {
-
-                    const icon = L.icon({
-                        
-                        iconUrl: self.tool.controls_url() + '/img/pin.svg',
-                        iconSize: [36, 36],
-                        iconAnchor: [18, 34],
-                        shadowUrl: self.tool.controls_url() + '/img/marker-shadow.png',
-                        shadowSize: [41, 41],
-                        shadowAnchor: [11, 41]
-                        
-                    });
-
-                    layer.setIcon(icon);
                     
-                    var default_color;
-
-                    if (layer.feature.properties.hasOwnProperty('color')) {
-                        
-                        default_color = layer.feature.properties.color;
-                        
-                    } else {
-                        
-                        default_color = '#3d5880';
-                        
-                    }
-
-                    if (!layer.feature.special_tools.hasOwnProperty('marker_filter')) {
+                    self.get_style_of_marker(self, layer);
                     
-                        let _compute = compute(default_color);
-
-                        layer._icon.style.filter = _compute.result.filterRaw + ' ' + 'drop-shadow(2px -3px 2px #fff)';
-
-                    
-                    } else {
-                        
-                        layer._icon.style.filter = layer.feature.special_tools.marker_filter;
-                        
-                    }
-
                 }
 
-                if (!self.is_geoman_edition_mode(layer)) {
-                    
-                    self.pm_disable(layer);
-
-                } else {
-                    
-                    self.pm_enable(layer);
-
-                }
+                self.get_geoman_edition_mode(self, layer);
 
                 layer.on('click pm:edit', function(){
                     
-                    self.special_tools_info_console.innerHTML = '';
+                    self.init_console(self);
                     
-                    self.special_tools_info_console.style.display = 'none';
+                    self.get_geoman_edition_mode(self, this);
                     
-                    try {
-                        
-                        self.map._container.querySelector('#special_tools_loading').remove();
-                        
-                    } catch (Exception) {};
+                    self.get_div_geometry_type(self, this);
 
-                    const loading = L.DomUtil.create('img');
-                    loading.id = 'special_tools_loading';
-                    loading.src = self.tool.controls_url() + '/img/loading.gif';
-                    loading.style.width = '100%';
+                    self.get_div_oneXone(self, this);
 
-                    self.special_tools_console.appendChild(loading);
-
-                    window.setTimeout(function() {
-
-                        self.special_tools_info_console.style.display = 'block';
-
-                        try {
-
-                            self.map._container.querySelector('#special_tools_loading').remove();
-
-                        } catch (Exception) {};
-                        
-                    }, 2500);
+                    self.get_div_latlng(self, this);
                     
-                    geometry_type = this.feature.geometry.type;
-                    
-                    const div_geometry_type = L.DomUtil.create('div');
-                    div_geometry_type.innerText = geometry_type;
-                    div_geometry_type.setAttribute('class', 'special-tools-container');
-                    self.special_tools_info_console.appendChild(div_geometry_type);
+                    self.get_div_elevation(self, this);
 
-                    if (!self.is_geoman_edition_mode(this)) {
-
-                        self.pm_disable(this);
-
-                    } else {
-
-                        self.pm_enable(this);
-
-                    }
-
-                    if (self.is_oneXone(this)) {
-                        
-                        let point_reference_div = L.DomUtil.create('div');
-                        point_reference_div.setAttribute('class', 'special-tools-container');
-                        self.special_tools_info_console.appendChild(point_reference_div);
-                        
-                        self.tool.google_translate({
-
-                            element_html: point_reference_div,
-                            str: "Punto de referencia de polígono de 1 m²", 
-                            lang: self.lang
-
-                        });
-                        
-                    }
+                    self.get_div_geoman_edition_mode(self, this);
                     
-                    const lat_lng_div = L.DomUtil.create('div');
-                    lat_lng_div.setAttribute('class', 'special-tools-container');
-                    
-                    self.special_tools_info_console.appendChild(lat_lng_div);
-
-                    const lat_lng_span_1 = L.DomUtil.create('span');
-                    
-                    lat_lng_div.appendChild(lat_lng_span_1);
-
-                    self.tool.google_translate({
-
-                        element_html: lat_lng_span_1,
-                        str: "Coordenadas: ", 
-                        lang: self.lang
-
-                    });
-                    
-                    const br = L.DomUtil.create('br');
-                    lat_lng_div.appendChild(br);
-                    
-                    const lat_lng_span_2 = L.DomUtil.create('span');
-                    lat_lng_span_2.innerText = this._latlng.lat + " " + this._latlng.lng;
-                    
-                    lat_lng_div.appendChild(lat_lng_span_2);
-
-                    const tools_id = self.get_tools_id_by_layer(this);
-                    
-                    let checked_geoman = false;
-                    
-                    if (self.is_geoman_edition_mode(this)) {
-
-                        checked_geoman = true;
-
-                    }
-                    
-                    const geoman_edition_div = L.DomUtil.create('div');
-                    geoman_edition_div.setAttribute('class', 'special-tools-container');
-
-                    self.special_tools_info_console.appendChild(geoman_edition_div);
-                    
-                    const geoman_edition_input = L.DomUtil.create('input');
-                    geoman_edition_input.type = 'checkbox';
-                    geoman_edition_input.id = 'geoman_edition_input';
-                    geoman_edition_input.setAttribute('tools-id', tools_id);
-                    geoman_edition_input.checked = checked_geoman;
-                    
-                    geoman_edition_div.appendChild(geoman_edition_input);
-                    
-                    const geoman_edition_span = L.DomUtil.create('span');
-                    
-                    geoman_edition_div.appendChild(geoman_edition_span);
-                    
-                    self.tool.google_translate({
-
-                        element_html: geoman_edition_span,
-                        str: "  Edición Geoman activa", 
-                        lang: self.lang
-
-                    });
-                    
-                    const options_div = L.DomUtil.create('div');
-                    options_div.setAttribute('class', 'special-tools-container');
-                    
-                    self.special_tools_info_console.appendChild(options_div);
-                    
-                    const marker_options_btn = L.DomUtil.create('button');
-                    marker_options_btn.type = 'button';
-                    marker_options_btn.setAttribute('class', 'special-tools-btn-default');
-                    marker_options_btn.style.fontSize = '9px';
-                    
-                    self.tool.google_translate({
-
-                        element_html: marker_options_btn,
-                        str: "Editar estilos", 
-                        lang: self.lang
-
-                    });
-                    
-                    options_div.appendChild(marker_options_btn);
-                    
-                    const vector_download_options_btn = L.DomUtil.create('button');
-                    vector_download_options_btn.type = 'button';
-                    vector_download_options_btn.setAttribute('class', 'special-tools-btn-default');
-                    vector_download_options_btn.style.fontSize = '9px';
-                    
-                    self.tool.google_translate({
-
-                        element_html: vector_download_options_btn,
-                        str: "Descargar Vectorial", 
-                        lang: self.lang
-
-                    });
-                    
-                    options_div.appendChild(vector_download_options_btn);
-                    
-                    /******************************************************/
+                    self.get_buttons_options_div(self, this, {is_marker: true})
 
                     self.info_console_load_properties(self, this);
-                    
-                    const _this = this; //layer
 
-                    const _geoman_edition_input = self.special_tools_info_console.querySelector('#geoman_edition_input');
-                    
-                    L.DomEvent.on(_geoman_edition_input, "click", function(){
-
-                        if (this.checked) {
-                            
-                            self.pm_enable(_this);
-
-                            _this.feature.special_tools.geoman_edition = true;
-
-                        } else {
-                            
-                            self.pm_disable(_this);
-
-                            _this.feature.special_tools.geoman_edition = false;
-
-                        }
-                        
-                        const active_layer_id = self.component_geolocation.active_layer_id;
-                        self.component_geolocation.update_draw_data(active_layer_id);
-                        
-                    });
-
-                    self.show_modal_vector_download(vector_download_options_btn, self, layer);
-
-                    self.marker_style(marker_options_btn, self.map, layer);
-                    
                 });
             }
 
             else if (self.is_circle(layer)) {
                 
-                var default_color;
-     
-                if (layer.feature.special_tools.hasOwnProperty('obj_stroke_color')) {
+                self.get_style_of_circle_polygon(layer);
 
-                    layer.setStyle({color: layer.feature.special_tools.obj_stroke_color});
-                    layer.setStyle({fillColor: layer.feature.special_tools.obj_stroke_color});
-
-                } else if (layer.feature.properties.hasOwnProperty('color')) {
-                        
-                    default_color = layer.feature.properties.color;
-                    layer.setStyle({color: default_color});
-                    layer.setStyle({fillColor: default_color});
-                        
-                } else {
-
-                    default_color = '#3388ff';
-                    layer.setStyle({color: default_color});
-                    layer.setStyle({fillColor: default_color});
-
-                }
-
-                if (layer.feature.special_tools.hasOwnProperty('obj_stroke_width')) {
-
-                    layer.setStyle({weight: layer.feature.special_tools.obj_stroke_width});
-
-                }
-
-                if (layer.feature.special_tools.hasOwnProperty('obj_stroke_opacity')) {
-
-                    layer.setStyle({opacity: layer.feature.special_tools.obj_stroke_opacity});
-
-                }
-
-                if (layer.feature.special_tools.hasOwnProperty('obj_stroke_dasharray')) {
-
-                    layer.setStyle({
-                        
-                        dashArray: layer.feature.special_tools.obj_stroke_dasharray,
-                        dashOffset: 0
-                    
-                    });
-
-                }
-
-                if (layer.feature.special_tools.hasOwnProperty('obj_fill_opacity')) {
-
-                    layer.setStyle({fillOpacity: layer.feature.special_tools.obj_fill_opacity});
-
-                }
+                self.get_geoman_edition_mode(self, layer);
                 
-                if (!self.is_geoman_edition_mode(layer)) {
-                    
-                    self.pm_disable(layer);
+                self.get_hierarchy(layer);
 
-                } else {
-                    
-                    self.pm_enable(layer);
-
-                }
-                
-                if (layer.feature.special_tools.hasOwnProperty('bringToBack')) {
-                    
-                    if (layer.feature.special_tools.bringToBack) {
-                        
-                        layer.bringToBack();
-                        
-                    }
-                }
-
-                if (layer.feature.special_tools.hasOwnProperty('bringToFront')) {
-                    
-                    if (layer.feature.special_tools.bringToFront) {
-                        
-                        layer.bringToFront();
-                        
-                    }
-                }
-   
                 layer.on('click pm:edit', function() {
                     
-                    self.special_tools_info_console.innerHTML = '';
+                    self.init_console(self);
+                    
+                    self.get_geoman_edition_mode(self, this);
+                    
+                    self.get_hierarchy(this);
 
-                    self.special_tools_info_console.style.display = 'none';
-                    
-                    try {
-                        
-                        self.map._container.querySelector('#special_tools_loading').remove();
-                        
-                    } catch (Exception) {};
-                    
-                    const loading = L.DomUtil.create('img');
-                    loading.id = 'special_tools_loading';
-                    loading.src = self.tool.controls_url() + '/img/loading.gif';
-                    loading.style.width = '100%';
+                    self.get_div_geometry_type(self, this);
 
-                    self.special_tools_console.appendChild(loading);
+                    self.get_div_latlng(self, this, {is_circle: true});
+                    
+                    self.get_div_elevation(self, this);
+                    
+                    self.get_div_radius(self, this);
 
-                    window.setTimeout(function() {
+                    self.get_div_circle_area(self, this);
+                    
+                    self.get_div_centroid(self, this);
+                    
+                    self.get_div_geoman_edition_mode(self, this);
+                    
+                    self.get_div_hierarchy(self, this);
 
-                        self.special_tools_info_console.style.display = 'block';
-
-                        try {
-
-                            self.map._container.querySelector('#special_tools_loading').remove();
-
-                        } catch (Exception) {};
-
-                    }, 2500);
-
-                    const geometry_type = this.feature.geometry.type;
-                    
-                    const div_geometry_type = L.DomUtil.create('div');
-                    div_geometry_type.innerText = geometry_type;
-                    div_geometry_type.setAttribute('class', 'special-tools-container');
-                    self.special_tools_info_console.appendChild(div_geometry_type);
-
-                    if (!self.is_geoman_edition_mode(this)) {
-                        
-                        self.pm_disable(this);
-
-                    } else {
-                        
-                        self.pm_enable(this);
-                    }
-                    
-                    let checked_bringtoback = false;
-                    let checked_bringtofront = false;
-
-                    if (layer.feature.special_tools.hasOwnProperty('bringToBack')) {
-                        if (layer.feature.special_tools.bringToBack) {
-                            layer.bringToBack();
-                            checked_bringtoback = true;
-                            checked_bringtofront = false;
-                        }
-                    }
-
-                    if (layer.feature.special_tools.hasOwnProperty('bringToFront')) {
-                        if (layer.feature.special_tools.bringToFront) {
-                            layer.bringToFront();
-                            checked_bringtoback = false;
-                            checked_bringtofront = true;
-                        }
-                    }
-                    
-                    const lat_lng_div = L.DomUtil.create('div');
-                    lat_lng_div.setAttribute('class', 'special-tools-container');
-                    
-                    self.special_tools_info_console.appendChild(lat_lng_div);
-
-                    const lat_lng_div_1 = L.DomUtil.create('div');
-                    
-                    lat_lng_div.appendChild(lat_lng_div_1);
-                    
-                    self.tool.google_translate({
-
-                        element_html: lat_lng_div_1,
-                        str: "Coordenadas del centro: ", 
-                        lang: self.lang
-
-                    });
-                    
-                    const lat_lng_div_2 = L.DomUtil.create('div');
-                    lat_lng_div_2.innerText = this._latlng.lat + " " + this._latlng.lng;
-                    
-                    lat_lng_div.appendChild(lat_lng_div_2);
-                    
-                    const radius_div = L.DomUtil.create('div');
-                    radius_div.setAttribute('class', 'special-tools-container');
-                    
-                    self.special_tools_info_console.appendChild(radius_div);
-
-                    const radius = this.getRadius().toFixed(2);
-                    
-                    self.tool.google_translate({
-
-                        element_html: radius_div,
-                        str: "Radio: " + radius + "m.", 
-                        lang: self.lang
-
-                    });
-                    
-                    const area_div = L.DomUtil.create('div');
-                    area_div.setAttribute('class', 'special-tools-container');
-                    
-                    self.special_tools_info_console.appendChild(area_div);
-  
-                    const area = (2 * Math.PI * radius).toFixed(2);
-                    
-                    self.tool.google_translate({
-
-                        element_html: area_div,
-                        str: "Área: " + area + "m.", 
-                        lang: self.lang
-
-                    });
-
-                    const tools_id = self.get_tools_id_by_layer(this);
-
-                    let checked_centroid = false;
-                    
-                    if (self.has_centroid(this)) {
-
-                        checked_centroid = true;
-
-                    }
-
-                    let checked_geoman = false;
-                    
-                    if (self.is_geoman_edition_mode(this)) {
-
-                        checked_geoman = true;
-
-                    }
-                    
-                    const centroide_div = L.DomUtil.create('div');
-                    centroide_div.setAttribute('class', 'special-tools-container');
-
-                    self.special_tools_info_console.appendChild(centroide_div);
-                    
-                    const centroide_input = L.DomUtil.create('input');
-                    centroide_input.type = 'checkbox';
-                    centroide_input.id = 'centroide_input';
-                    centroide_input.setAttribute('tools-id', tools_id);
-                    centroide_input.checked = checked_centroid;
-                    
-                    centroide_div.appendChild(centroide_input);
-                    
-                    const centroide_span = L.DomUtil.create('span');
-                    
-                    centroide_div.appendChild(centroide_span);
-                    
-                    self.tool.google_translate({
-
-                        element_html: centroide_span,
-                        str: " Centroide", 
-                        lang: self.lang
-
-                    });
-                    
-                    const geoman_edition_div = L.DomUtil.create('div');
-                    geoman_edition_div.setAttribute('class', 'special-tools-container');
-
-                    self.special_tools_info_console.appendChild(geoman_edition_div);
-                    
-                    const geoman_edition_input = L.DomUtil.create('input');
-                    geoman_edition_input.type = 'checkbox';
-                    geoman_edition_input.id = 'geoman_edition_input';
-                    geoman_edition_input.setAttribute('tools-id', tools_id);
-                    geoman_edition_input.checked = checked_geoman;
-                    
-                    geoman_edition_div.appendChild(geoman_edition_input);
-                    
-                    const geoman_edition_span = L.DomUtil.create('span');
-                    
-                    geoman_edition_div.appendChild(geoman_edition_span);
-                    
-                    self.tool.google_translate({
-
-                        element_html: geoman_edition_span,
-                        str: "  Edición Geoman activa", 
-                        lang: self.lang
-
-                    });
-                    
-                    const hierarchy_div = L.DomUtil.create('div');
-                    hierarchy_div.setAttribute('class', 'special-tools-container');
-                    self.special_tools_info_console.appendChild(hierarchy_div);
-                    
-                    self.tool.google_translate({
-
-                        element_html: hierarchy_div,
-                        str: "Jerarquía del objeto: ", 
-                        lang: self.lang
-
-                    });
-                    
-                    const bringtofront_div = L.DomUtil.create('div');
-                    bringtofront_div.setAttribute('class', 'special-tools-container');
-                    self.special_tools_info_console.appendChild(bringtofront_div);
-                    
-                    const bringtofront_input = L.DomUtil.create('input');
-                    bringtofront_input.type = 'checkbox';
-                    bringtofront_input.id = 'bringtofront_input';
-                    bringtofront_input.setAttribute('tools-id', tools_id);
-                    bringtofront_input.checked = checked_bringtofront;
-                    
-                    bringtofront_div.appendChild(bringtofront_input);
-                    
-                    const bringtofront_span = L.DomUtil.create('span');
-                    
-                    bringtofront_div.appendChild(bringtofront_span);
-                    
-                    self.tool.google_translate({
-
-                        element_html: bringtofront_span,
-                        str: " Delante", 
-                        lang: self.lang
-
-                    });
-                    
-                    const bringtoback_div = L.DomUtil.create('div');
-                    bringtoback_div.setAttribute('class', 'special-tools-container');
-                    self.special_tools_info_console.appendChild(bringtoback_div);
-                    
-                    const bringtoback_input = L.DomUtil.create('input');
-                    bringtoback_input.type = 'checkbox';
-                    bringtoback_input.id = 'bringtoback_input';
-                    bringtoback_input.setAttribute('tools-id', tools_id);
-                    bringtoback_input.checked = checked_bringtoback;
-                    
-                    bringtoback_div.appendChild(bringtoback_input);
-                    
-                    const bringtoback_span = L.DomUtil.create('span');
-                    
-                    bringtoback_div.appendChild(bringtoback_span);
-                    
-                    self.tool.google_translate({
-
-                        element_html: bringtoback_span,
-                        str: " Detrás", 
-                        lang: self.lang
-
-                    });
-                    
-                    const options_div = L.DomUtil.create('div');
-                    options_div.setAttribute('class', 'special-tools-container');
-                    
-                    self.special_tools_info_console.appendChild(options_div);
-                    
-                    const circle_options_btn = L.DomUtil.create('button');
-                    circle_options_btn.type = 'button';
-                    circle_options_btn.setAttribute('class', 'special-tools-btn-default');
-                    circle_options_btn.style.fontSize = '9px';
-                    
-                    self.tool.google_translate({
-
-                        element_html: circle_options_btn,
-                        str: "Editar estilos", 
-                        lang: self.lang
-
-                    });
-                    
-                    options_div.appendChild(circle_options_btn);
-                    
-                    const vector_download_options_btn = L.DomUtil.create('button');
-                    vector_download_options_btn.type = 'button';
-                    vector_download_options_btn.setAttribute('class', 'special-tools-btn-default');
-                    vector_download_options_btn.style.fontSize = '9px';
-                    
-                    self.tool.google_translate({
-
-                        element_html: vector_download_options_btn,
-                        str: "Descargar Vectorial", 
-                        lang: self.lang
-
-                    });
-                    
-                    options_div.appendChild(vector_download_options_btn);
-                    
-                    /******************************************************/
+                    self.get_buttons_options_div(self, this, {is_circle: true});
 
                     self.info_console_load_properties(self, this);
-                    
-                    /******************************************************/
-                    
-                    const _this = this; //layer
-                    
-                    const _centroide_input = self.special_tools_info_console.querySelector('#centroide_input');
-                    
-                    L.DomEvent.on(_centroide_input, "click", function(){
 
-                        if (this.checked) {
-
-                            centroid = layer.getBounds().getCenter();
-                            
-                            const marker = L.marker(centroid);
-
-                            marker.feature = marker.toGeoJSON();
-                            marker.feature.special_tools = {};
-                            marker.feature.special_tools.is_centroid = true;
-
-                            const new_tools_id = self.make_id(20);
-
-                            marker.feature.special_tools.tools_id = new_tools_id;
-
-                            _this.feature.special_tools.has_centroid = true;
-                            _this.feature.special_tools.centroid_tools_id = new_tools_id;
-                                
-                            self.map.fire('pm:create', {layer: marker});
-                            
-                            self.modal_message(self, "Centroide creado con éxito", self.lang);
-
-                        } else {
-
-                            if (self.has_centroid(_this)) {
-
-                                const centroid_tools_id = _this.feature.special_tools.centroid_tools_id;
-
-                                const centroid = self.get_layer_by_tools_id(self.map, centroid_tools_id);
-
-                                _this.feature.special_tools.has_centroid = false;
-                                _this.feature.special_tools.centroid_tools_id = null;
-
-                                centroid.pm.remove();
-                                
-                                self.modal_message(self, "Centroide eliminado con éxito", self.lang);
-                            }
-                        }
-
-                    });
-                    
-                    const _geoman_edition_input = self.special_tools_info_console.querySelector('#geoman_edition_input');
-
-                    L.DomEvent.on(_geoman_edition_input, "click", function(){
-
-                        if (this.checked) {
-                            
-                            self.pm_enable(_this);
-
-                            _this.feature.special_tools.geoman_edition = true;
-
-                        } else {
-                            
-                            self.pm_disable(_this);
-
-                            _this.feature.special_tools.geoman_edition = false;
-
-                        }
-                        
-                        const active_layer_id = self.component_geolocation.active_layer_id;
-                        self.component_geolocation.update_draw_data(active_layer_id);
-                    
-                    });
-                    
-                    const _bringtoback_input = self.special_tools_info_console.querySelector('#bringtoback_input');
-                    
-                    L.DomEvent.on(_bringtoback_input, "click", function(){
-                        
-                        if (this.checked) {
-                            
-                            _this.feature.special_tools.bringToBack = true;
-                            _this.feature.special_tools.bringToFront = false;
-                            bringtofront_input.checked = false;
-                            
-                            _this.bringToBack();
-                            
-                        } else {
-                            
-                            _this.feature.special_tools.bringToBack = false;
-                            _this.bringToFront();
-                            
-                        }
-
-                        const active_layer_id = self.component_geolocation.active_layer_id;
-                        self.component_geolocation.update_draw_data(active_layer_id);
-
-                    });
-                    
-                    const _bringtofront_input = self.special_tools_info_console.querySelector('#bringtofront_input');
-                    
-                    L.DomEvent.on(_bringtofront_input, "click", function(){
-
-                        if (this.checked) {
-                            
-                            _this.feature.special_tools.bringToFront = true;
-                            _this.feature.special_tools.bringToBack = false;
-                            bringtoback_input.checked = false;
-                            
-                            _this.bringToFront();
-                            
-                        } else {
-                            
-                            _this.feature.special_tools.bringToFront = false;
-                            
-                            _this.bringToBack();
-                        }
-
-                        const active_layer_id = self.component_geolocation.active_layer_id;
-                        self.component_geolocation.update_draw_data(active_layer_id);
-
-                    });
-          
-                    self.show_modal_vector_download(vector_download_options_btn, self, layer);
-                 
-                    self.polygon_circle_style(circle_options_btn, self.map, layer);
-                
                 });
             }
 
             else if (self.is_linestring(layer)) {
                 
-                var default_color;
-                
-                if (layer.feature.special_tools.hasOwnProperty('obj_stroke_color')) {
-                            
-                    layer.setStyle({color: layer.feature.special_tools.obj_stroke_color});
-                
-                } else if (layer.feature.properties.hasOwnProperty('color')) {
-                        
-                    default_color = layer.feature.properties.color;
-                    layer.setStyle({color: default_color});
-                        
-                } else {
+                self.get_style_of_linestring(layer);
 
-                    default_color = '#3388ff';
-                    layer.setStyle({color: default_color});
+                self.get_geoman_edition_mode(self, layer);
+                
+                self.get_hierarchy(layer);
 
-                }
-                
-                if (layer.feature.special_tools.hasOwnProperty('obj_stroke_width')) {
-                            
-                    layer.setStyle({weight: layer.feature.special_tools.obj_stroke_width});
-                
-                }
-                
-                if (layer.feature.special_tools.hasOwnProperty('obj_stroke_opacity')) {
-                            
-                    layer.setStyle({opacity: layer.feature.special_tools.obj_stroke_opacity});
-                
-                }
-                
-                if (layer.feature.special_tools.hasOwnProperty('obj_stroke_dasharray')) {
-                            
-                    layer.setStyle({
-                        
-                        dashArray: layer.feature.special_tools.obj_stroke_dasharray,
-                        dashOffset: 0
-                        
-                    });
-                
-                }
-                
-                if (!self.is_geoman_edition_mode(layer)) {
-
-                    self.pm_disable(layer); 
-
-                } else {
-
-                    self.pm_enable(layer);
-
-                }
-                
-                if (layer.feature.special_tools.hasOwnProperty('bringToBack')) {
-                    
-                    if (layer.feature.special_tools.bringToBack) {
-                        
-                        layer.bringToBack();
-                        
-                    }
-                }
-
-                if (layer.feature.special_tools.hasOwnProperty('bringToFront')) {
-                    
-                    if (layer.feature.special_tools.bringToFront) {
-                        
-                        layer.bringToFront();
-                        
-                    }
-                }
-                
                 layer.on('click pm:edit', function(){
                     
-                    self.special_tools_info_console.innerHTML = '';
+                    self.init_console(self);
+                    
+                    self.get_geoman_edition_mode(self, this);
+                    
+                    self.get_hierarchy(this);
+                    
+                    self.get_div_geometry_type(self, this);
 
-                    self.special_tools_info_console.style.display = 'none';
+                    self.get_div_distance(self, this);
                     
-                    try {
-                        
-                        self.map._container.querySelector('#special_tools_loading').remove();
-                        
-                    } catch (Exception) {};
-                    
-                    const loading = L.DomUtil.create('img');
-                    loading.id = 'special_tools_loading';
-                    loading.src = self.tool.controls_url() + '/img/loading.gif';
-                    loading.style.width = '100%';
+                    self.get_div_elevation(self, this);
 
-                    self.special_tools_console.appendChild(loading);
+                    self.get_div_geoman_edition_mode(self, this);
 
-                    window.setTimeout(function() {
-
-                        self.special_tools_info_console.style.display = 'block';
-
-                        try {
-
-                            self.map._container.querySelector('#special_tools_loading').remove();
-
-                        } catch (Exception) {};
-
-                    }, 2500);
-
-                    const geometry_type = this.feature.geometry.type;
+                    self.get_div_hierarchy(self, this);
                     
-                    const div_geometry_type = L.DomUtil.create('div');
-                    div_geometry_type.innerText = geometry_type;
-                    div_geometry_type.setAttribute('class', 'special-tools-container');
-                    self.special_tools_info_console.appendChild(div_geometry_type);
-
-                    if (!self.is_geoman_edition_mode(this)) {
-                        
-                        self.pm_disable(this);
-
-                    } else {
-                        
-                        self.pm_enable(this);
-
-                    }
-                    
-                    let checked_bringtoback = false;
-                    let checked_bringtofront = false;
-
-                    if (layer.feature.special_tools.hasOwnProperty('bringToBack')) {
-                        
-                        if (layer.feature.special_tools.bringToBack) {
-                            
-                            layer.bringToBack();
-                            checked_bringtoback = true;
-                            checked_bringtofront = false;
-                            
-                        }
-                    }
-
-                    if (layer.feature.special_tools.hasOwnProperty('bringToFront')) {
-                        
-                        if (layer.feature.special_tools.bringToFront) {
-                            
-                            layer.bringToFront();
-                            checked_bringtoback = false;
-                            checked_bringtofront = true;
-                            
-                        }
-                    }
-
-                    const distance_div = L.DomUtil.create('div');
-                    distance_div.setAttribute('class', 'special-tools-container');
-                    
-                    self.special_tools_info_console.appendChild(distance_div);
-
-                    const length = turf.length(layer.toGeoJSON());
-                    
-                    self.tool.google_translate({
-
-                        element_html: distance_div,
-                        str: "Distancia: " + length.toFixed(2) + " km", 
-                        lang: self.lang
-
-                    });
-
-                    const tools_id = self.get_tools_id_by_layer(this);
-                    
-                    let checked_geoman = false;
-                    
-                    if (self.is_geoman_edition_mode(this)) {
-
-                        checked_geoman = true;
-
-                    }
-                    
-                    const geoman_edition_div = L.DomUtil.create('div');
-                    geoman_edition_div.setAttribute('class', 'special-tools-container');
-
-                    self.special_tools_info_console.appendChild(geoman_edition_div);
-                    
-                    const geoman_edition_input = L.DomUtil.create('input');
-                    geoman_edition_input.type = 'checkbox';
-                    geoman_edition_input.id = 'geoman_edition_input';
-                    geoman_edition_input.setAttribute('tools-id', tools_id);
-                    geoman_edition_input.checked = checked_geoman;
-                    
-                    geoman_edition_div.appendChild(geoman_edition_input);
-                    
-                    const geoman_edition_span = L.DomUtil.create('span');
-                    
-                    geoman_edition_div.appendChild(geoman_edition_span);
-                    
-                    self.tool.google_translate({
-
-                        element_html: geoman_edition_span,
-                        str: "  Edición Geoman activa", 
-                        lang: self.lang
-
-                    });
-
-                    const hierarchy_div = L.DomUtil.create('div');
-                    hierarchy_div.setAttribute('class', 'special-tools-container');
-                    self.special_tools_info_console.appendChild(hierarchy_div);
-                    
-                    self.tool.google_translate({
-
-                        element_html: hierarchy_div,
-                        str: "Jerarquía del objeto: ", 
-                        lang: self.lang
-
-                    });
-                    
-                    const bringtofront_div = L.DomUtil.create('div');
-                    bringtofront_div.setAttribute('class', 'special-tools-container');
-                    self.special_tools_info_console.appendChild(bringtofront_div);
-                    
-                    const bringtofront_input = L.DomUtil.create('input');
-                    bringtofront_input.type = 'checkbox';
-                    bringtofront_input.id = 'bringtofront_input';
-                    bringtofront_input.setAttribute('tools-id', tools_id);
-                    bringtofront_input.checked = checked_bringtofront;
-                    
-                    bringtofront_div.appendChild(bringtofront_input);
-                    
-                    const bringtofront_span = L.DomUtil.create('span');
-                    
-                    bringtofront_div.appendChild(bringtofront_span);
-                    
-                    self.tool.google_translate({
-
-                        element_html: bringtofront_span,
-                        str: " Delante", 
-                        lang: self.lang
-
-                    });
-                    
-                    const bringtoback_div = L.DomUtil.create('div');
-                    bringtoback_div.setAttribute('class', 'special-tools-container');
-                    self.special_tools_info_console.appendChild(bringtoback_div);
-                    
-                    const bringtoback_input = L.DomUtil.create('input');
-                    bringtoback_input.type = 'checkbox';
-                    bringtoback_input.id = 'bringtoback_input';
-                    bringtoback_input.setAttribute('tools-id', tools_id);
-                    bringtoback_input.checked = checked_bringtoback;
-                    
-                    bringtoback_div.appendChild(bringtoback_input);
-                    
-                    const bringtoback_span = L.DomUtil.create('span');
-                    
-                    bringtoback_div.appendChild(bringtoback_span);
-                    
-                    self.tool.google_translate({
-
-                        element_html: bringtoback_span,
-                        str: " Detrás", 
-                        lang: self.lang
-
-                    });
-                    
-                    const options_div = L.DomUtil.create('div');
-                    options_div.setAttribute('class', 'special-tools-container');
-                    
-                    self.special_tools_info_console.appendChild(options_div);
-                    
-                    const linestring_options_btn = L.DomUtil.create('button');
-                    linestring_options_btn.type = 'button';
-                    linestring_options_btn.setAttribute('class', 'special-tools-btn-default');
-                    linestring_options_btn.style.fontSize = '9px';
-                    
-                    self.tool.google_translate({
-
-                        element_html: linestring_options_btn,
-                        str: "Editar estilos", 
-                        lang: self.lang
-
-                    });
-                    
-                    options_div.appendChild(linestring_options_btn);
-                    
-                    const vector_download_options_btn = L.DomUtil.create('button');
-                    vector_download_options_btn.type = 'button';
-                    vector_download_options_btn.setAttribute('class', 'special-tools-btn-default');
-                    vector_download_options_btn.style.fontSize = '9px';
-                    
-                    self.tool.google_translate({
-
-                        element_html: vector_download_options_btn,
-                        str: "Descargar Vectorial", 
-                        lang: self.lang
-
-                    });
-                    
-                    options_div.appendChild(vector_download_options_btn);
-                    
-                    /******************************************************/
+                    self.get_buttons_options_div(self, this, {is_linestring: true});
 
                     self.info_console_load_properties(self, this);
-                    
-                    /******************************************************/
 
-                    const _this = this;
-
-                    const _geoman_edition_input = self.special_tools_info_console.querySelector('#geoman_edition_input');
-
-                    L.DomEvent.on(_geoman_edition_input, "click", function(){
-
-                        if (this.checked) {
-                            
-                            self.pm_enable(_this);
-
-                            _this.feature.special_tools.geoman_edition = true;
-
-                        } else {
-                            
-                            self.pm_disable(_this);
-
-                            _this.feature.special_tools.geoman_edition = false;
-
-                        }
-
-                        const active_layer_id = self.component_geolocation.active_layer_id;
-                        self.component_geolocation.update_draw_data(active_layer_id);
-                        
-                    });
-                    
-                    const _bringtoback_input = self.special_tools_info_console.querySelector('#bringtoback_input');
-                    
-                    L.DomEvent.on(_bringtoback_input, "click", function(){
-                        
-                        if (this.checked) {
-                            
-                            _this.feature.special_tools.bringToBack = true;
-                            _this.feature.special_tools.bringToFront = false;
-                            bringtofront_input.checked = false;
-                            
-                            _this.bringToBack();
-                            
-                        } else {
-                            
-                            _this.feature.special_tools.bringToBack = false;
-                            
-                            _this.bringToFront();
-                        }
-
-                        const active_layer_id = self.component_geolocation.active_layer_id;
-                        self.component_geolocation.update_draw_data(active_layer_id);
-
-                    });
-                    
-                    const _bringtofront_input = self.special_tools_info_console.querySelector('#bringtofront_input');
-
-                    L.DomEvent.on(_bringtofront_input, "click", function(){
-
-                        if (this.checked) {
-                            
-                            _this.feature.special_tools.bringToFront = true;
-                            _this.feature.special_tools.bringToBack = false;
-                            bringtoback_input.checked = false;
-                            
-                            _this.bringToFront();
-                            
-                        } else {
-                            _this.feature.special_tools.bringToFront = false;
-                            
-                            _this.bringToBack();
-                        }
-
-                        const active_layer_id = self.component_geolocation.active_layer_id;
-                        self.component_geolocation.update_draw_data(active_layer_id);
-                    
-                    });
-        
-                    self.show_modal_vector_download(vector_download_options_btn, self, layer);
-                  
-                    self.linestring_style(linestring_options_btn, self.map, layer);
-                    
                 });
             }
 
             else if (self.is_polygon(layer)) {
                 
-                if (!self.is_geoman_edition_mode(layer)) {
-
-                    self.pm_disable(layer); 
-
-                } else {
-
-                    self.pm_enable(layer);
-
-                }
+                self.get_geoman_edition_mode(self, layer);
                 
-                if (layer.feature.special_tools.hasOwnProperty('bringToBack')) {
-                    if (layer.feature.special_tools.bringToBack) {
-                        layer.bringToBack();
-                    }
-                }
-
-                if (layer.feature.special_tools.hasOwnProperty('bringToFront')) {
-                    if (layer.feature.special_tools.bringToFront) {
-                        layer.bringToFront();
-                    }
-                }
+                self.get_hierarchy(layer);
+                
 
                 if (self.is_clipPolygon(layer)) {
 
@@ -1833,22 +805,19 @@ L.Control.SpecialTools = L.Control.extend({
 
                     marker1.on('dragend', function(){
                             
-                        const active_layer_id = self.component_geolocation.active_layer_id;
-                        self.component_geolocation.update_draw_data(active_layer_id);
+                        self.save_object(self);
 
                     });
 
                     marker2.on('dragend', function(){
 
-                        const active_layer_id = self.component_geolocation.active_layer_id;
-                        self.component_geolocation.update_draw_data(active_layer_id);
+                        self.save_object(self);
 
                     });
 
                     marker3.on('dragend', function(){
                             
-                        const active_layer_id = self.component_geolocation.active_layer_id;
-                        self.component_geolocation.update_draw_data(active_layer_id);
+                        self.save_object(self);
 
                     });
 
@@ -1862,6 +831,9 @@ L.Control.SpecialTools = L.Control.extend({
                     });
 
                     overlay.on('click', function () {
+
+                        self.init_console(self);
+                        self.get_div_geometry_type(self, this, {is_overlay: true});
                         
                         const image_interactive = layer.feature.special_tools.imageInteractive;
                         
@@ -1874,47 +846,6 @@ L.Control.SpecialTools = L.Control.extend({
                             is_interactive = true;
                             
                         }
-                        
-                        self.special_tools_info_console.innerHTML = '';
-                        
-                        self.special_tools_info_console.style.display = 'none';
-                        
-                        try {
-
-                            self.map._container.querySelector('#special_tools_loading').remove();
-
-                        } catch (Exception) {};
-                        
-                        const loading = L.DomUtil.create('img');
-                        loading.id = 'special_tools_loading';
-                        loading.src = self.tool.controls_url() + '/img/loading.gif';
-                        loading.style.width = '100%';
-
-                        self.special_tools_console.appendChild(loading);
-                        
-                        window.setTimeout(function() {
-                            
-                            self.special_tools_info_console.style.display = 'block';
-
-                            try {
-
-                                self.map._container.querySelector('#special_tools_loading').remove();
-
-                            } catch (Exception) {};
-                            
-                        }, 2500);
-                        
-                        const div_geometry_type = L.DomUtil.create('div');
-                        div_geometry_type.setAttribute('class', 'special-tools-container');
-                        self.special_tools_info_console.appendChild(div_geometry_type);
-
-                        self.tool.google_translate({
-
-                            element_html: div_geometry_type,
-                            str: "Imagen", 
-                            lang: self.lang
-
-                        });
                         
                         const url_image_div = L.DomUtil.create('div');
                         url_image_div.setAttribute('class', 'special-tools-container');
@@ -2040,8 +971,7 @@ L.Control.SpecialTools = L.Control.extend({
                             
                             layer.feature.special_tools.imageOpacity = this.value;
                             
-                            const active_layer_id = self.component_geolocation.active_layer_id;
-                            self.component_geolocation.update_draw_data(active_layer_id);
+                            self.save_object(self);
 
                         });
                         
@@ -2055,8 +985,7 @@ L.Control.SpecialTools = L.Control.extend({
                             
                             layer.feature.special_tools.image_zIndex = this.value;
 
-                            const active_layer_id = self.component_geolocation.active_layer_id;
-                            self.component_geolocation.update_draw_data(active_layer_id);
+                            self.save_object(self);
 
                         });
                         
@@ -2075,8 +1004,7 @@ L.Control.SpecialTools = L.Control.extend({
                                 marker2._shadow.style.display = 'none';
                                 marker3._shadow.style.display = 'none';
 
-                                active_layer_id = self.component_geolocation.active_layer_id;
-                                self.component_geolocation.update_draw_data(active_layer_id);
+                                self.save_object(self);
 
                             } else {
 
@@ -2089,8 +1017,7 @@ L.Control.SpecialTools = L.Control.extend({
                                 marker2._shadow.style.display = 'block';
                                 marker3._shadow.style.display = 'block';
 
-                                const active_layer_id = self.component_geolocation.active_layer_id;
-                                self.component_geolocation.update_draw_data(active_layer_id);
+                                self.save_object(self);
 
                             }
 
@@ -2104,571 +1031,33 @@ L.Control.SpecialTools = L.Control.extend({
                 
                 else {
                     
-                    var default_color;
-
-                    if (layer.feature.special_tools.hasOwnProperty('obj_stroke_color')) {
-
-                        layer.setStyle({color: layer.feature.special_tools.obj_stroke_color});
-                        layer.setStyle({fillColor: layer.feature.special_tools.obj_stroke_color});
-                    
-                    } else if (layer.feature.properties.hasOwnProperty('color')) {
-                        
-                        default_color = layer.feature.properties.color;
-                        layer.setStyle({color: default_color});
-                        layer.setStyle({fillColor: default_color});
-                        
-                    } else {
-
-                        default_color = '#3388ff';
-                        layer.setStyle({color: default_color});
-                        layer.setStyle({fillColor: default_color});
-
-                    }
-
-                    if (layer.feature.special_tools.hasOwnProperty('obj_stroke_width')) {
-
-                        layer.setStyle({weight: layer.feature.special_tools.obj_stroke_width});
-
-                    }
-
-                    if (layer.feature.special_tools.hasOwnProperty('obj_stroke_opacity')) {
-
-                        layer.setStyle({opacity: layer.feature.special_tools.obj_stroke_opacity});
-
-                    }
-
-                    if (layer.feature.special_tools.hasOwnProperty('obj_stroke_dasharray')) {
-
-                        layer.setStyle({
-                            
-                            dashArray: layer.feature.special_tools.obj_stroke_dasharray,
-                            dashOffset: 0
-                        
-                        });
-
-                    }
-
-                    if (layer.feature.special_tools.hasOwnProperty('obj_fill_opacity')) {
-
-                        layer.setStyle({fillOpacity: layer.feature.special_tools.obj_fill_opacity});
-
-                    }
+                    self.get_style_of_circle_polygon(layer);
 
                     layer.on('click pm:edit', function() {
 
-                        self.special_tools_info_console.innerHTML = '';
+                        self.init_console(self);
                         
-                        self.special_tools_info_console.style.display = 'none';
+                        self.get_geoman_edition_mode(self, this);
+                    
+                        self.get_hierarchy(this);
+
+                        self.get_div_geometry_type(self, this, {is_polygon: true});
+ 
+                        self.get_div_polygon_area(self, this);
                         
-                        try {
-
-                            self.map._container.querySelector('#special_tools_loading').remove();
-
-                        } catch (Exception) {};
+                        self.get_div_elevation(self, this);
                         
-                        const loading = L.DomUtil.create('img');
-                        loading.id = 'special_tools_loading';
-                        loading.src = self.tool.controls_url() + '/img/loading.gif';
-                        loading.style.width = '100%';
+                        self.get_div_centroid(self, this);
 
-                        self.special_tools_console.appendChild(loading);
+                        self.get_div_incertidumbre(self, this);
 
-                        window.setTimeout(function() {
-                            
-                            self.special_tools_info_console.style.display = 'block';
+                        self.get_div_geoman_edition_mode(self, this);
 
-                            try {
-
-                                self.map._container.querySelector('#special_tools_loading').remove();
-
-                            } catch (Exception) {};
-                            
-                        }, 2500);
-
-                        let geometry_type;
+                        self.get_div_hierarchy(self, this);
                         
-                        let is_multipolygon = false;
-                        
-                        if (this.feature.special_tools.hasOwnProperty('multi_id')) {
-                            
-                            is_multipolygon = true;
-                            
-                        } else {
-                            
-                            geometry_type = this.feature.geometry.type;
-                            
-                        }
+                        self.get_buttons_options_div(self, this, {is_polygon: true});
 
-                        const div_geometry_type = L.DomUtil.create('div');
-                        
-                        if (!is_multipolygon) {
-                        
-                            div_geometry_type.innerText = geometry_type;
-                        
-                        } else {
-                            
-                            self.tool.google_translate({
-
-                                element_html: div_geometry_type,
-                                str: "Es parte de un Multipolígono", 
-                                lang: self.lang
-
-                            });
-                            
-                        }
-                        
-                        div_geometry_type.setAttribute('class', 'special-tools-container');
-                        self.special_tools_info_console.appendChild(div_geometry_type);
-
-                            
-                        if (!self.is_geoman_edition_mode(this)) {
-
-                            self.pm_disable(this);
-
-                        } else {
-
-                            self.pm_enable(this);
-
-                        }
-                        
-                        let checked_bringtoback = false;
-                        let checked_bringtofront = false;
-
-                        if (layer.feature.special_tools.hasOwnProperty('bringToBack')) {
-                            if (layer.feature.special_tools.bringToBack) {
-                                layer.bringToBack();
-                                checked_bringtoback = true;
-                                checked_bringtofront = false;
-                            }
-                        }
-
-                        if (layer.feature.special_tools.hasOwnProperty('bringToFront')) {
-                            if (layer.feature.special_tools.bringToFront) {
-                                layer.bringToFront();
-                                checked_bringtoback = false;
-                                checked_bringtofront = true;
-                            }
-                        }
-
-                        if (self.is_oneXone(this)) {
-                            
-                            const onexone_div = L.DomUtil.create('div');
-                            onexone_div.setAttribute('class', 'special-tools-container');
-                            self.special_tools_info_console.appendChild(onexone_div);
-                            
-                            self.tool.google_translate({
-
-                                element_html: onexone_div,
-                                str: "Área: 1 m²", 
-                                lang: self.lang
-
-                            });
-                            
-                        } else {
-                            
-                            const area_div = L.DomUtil.create('div');
-                            area_div.setAttribute('class', 'special-tools-container');
-
-                            const area_meters = turf.area(this.toGeoJSON());
-                            const area = self.get_area_square_meters(area_meters);
-                            self.special_tools_info_console.appendChild(area_div);
-                            
-                            self.tool.google_translate({
-
-                                element_html: area_div,
-                                str: "Área: " + area, 
-                                lang: self.lang
-
-                            });
-                            
-                        }
-
-                        const tools_id = self.get_tools_id_by_layer(this);
-                        
-                        let checked_centroid = false;
-                        
-                        if (self.has_centroid(this)) {
-
-                            checked_centroid = true;
-
-                        }
-                        
-                        let incertidumbre = '';
-                        let checked_incertidumbre = false;
-                        
-                        if (self.is_incertidumbre(this) && self.on_incertidumbre(this)) {
-                            
-                            area = turf.area(this.toGeoJSON());
-                            incertidumbre = self.get_incertidumbre(area);
-                            checked_incertidumbre = true;   
-
-                        }
-                        
-                        let checked_geoman = false;
-                        
-                        if (self.is_geoman_edition_mode(this)) {
-
-                            checked_geoman = true;
-
-                        }
-                        
-                        if (!self.is_oneXone(this)) { 
-                            
-                            const centroide_div = L.DomUtil.create('div');
-                            centroide_div.setAttribute('class', 'special-tools-container');
-
-                            self.special_tools_info_console.appendChild(centroide_div);
-
-                            const centroide_input = L.DomUtil.create('input');
-                            centroide_input.type = 'checkbox';
-                            centroide_input.id = 'centroide_input';
-                            centroide_input.setAttribute('tools-id', tools_id);
-                            centroide_input.checked = checked_centroid;
-                            centroide_input.id = 'centroide_input';
-
-                            centroide_div.appendChild(centroide_input);
-
-                            const centroide_span = L.DomUtil.create('span');
-
-                            centroide_div.appendChild(centroide_span);
-
-                            self.tool.google_translate({
-
-                                element_html: centroide_span,
-                                str: " Centroide", 
-                                lang: self.lang
-
-                            });
-                            
-                            const incertidumbre_div = L.DomUtil.create('div');
-                            incertidumbre_div.setAttribute('class', 'special-tools-container');
-
-                            self.special_tools_info_console.appendChild(incertidumbre_div);
-
-                            const incertidumbre_input = L.DomUtil.create('input');
-                            incertidumbre_input.type = 'checkbox';
-                            incertidumbre_input.id = 'incertidumbre_input';
-                            incertidumbre_input.setAttribute('tools-id', tools_id);
-                            incertidumbre_input.checked = checked_incertidumbre;
-
-                            incertidumbre_div.appendChild(incertidumbre_input);
-
-                            const incertidumbre_span = L.DomUtil.create('span');
-
-                            incertidumbre_div.appendChild(incertidumbre_span);
-
-                            self.tool.google_translate({
-
-                                element_html: incertidumbre_span,
-                                str: " Incertidumbre", 
-                                lang: self.lang
-
-                            });
-                            
-                            const incertidumbre_color = L.DomUtil.create('div');
-                            incertidumbre_color.id = 'incertidumbre_color';
-                            incertidumbre_color.style.color = 'yellow';
-                            incertidumbre_color.setAttribute('class', 'special-tools-container');
-                            incertidumbre_color.innerText = incertidumbre;
-                            
-                            incertidumbre_div.appendChild(incertidumbre_color);
-
-                            const geoman_edition_div = L.DomUtil.create('div');
-                            geoman_edition_div.setAttribute('class', 'special-tools-container');
-
-                            self.special_tools_info_console.appendChild(geoman_edition_div);
-
-                            const geoman_edition_input = L.DomUtil.create('input');
-                            geoman_edition_input.type = 'checkbox';
-                            geoman_edition_input.id = 'geoman_edition_input';
-                            geoman_edition_input.setAttribute('tools-id', tools_id);
-                            geoman_edition_input.checked = checked_geoman;
-
-                            geoman_edition_div.appendChild(geoman_edition_input);
-
-                            const geoman_edition_span = L.DomUtil.create('span');
-
-                            geoman_edition_div.appendChild(geoman_edition_span);
-
-                            self.tool.google_translate({
-
-                                element_html: geoman_edition_span,
-                                str: "  Edición Geoman activa", 
-                                lang: self.lang
-
-                            });
-                            
-                        } 
-
-                        const hierarchy_div = L.DomUtil.create('div');
-                        hierarchy_div.setAttribute('class', 'special-tools-container');
-                        self.special_tools_info_console.appendChild(hierarchy_div);
-
-                        self.tool.google_translate({
-
-                            element_html: hierarchy_div,
-                            str: "Jerarquía del objeto: ", 
-                            lang: self.lang
-
-                        });
-
-                        const bringtofront_div = L.DomUtil.create('div');
-                        bringtofront_div.setAttribute('class', 'special-tools-container');
-                        self.special_tools_info_console.appendChild(bringtofront_div);
-
-                        const bringtofront_input = L.DomUtil.create('input');
-                        bringtofront_input.type = 'checkbox';
-                        bringtofront_input.id = 'bringtofront_input';
-                        bringtofront_input.setAttribute('tools-id', tools_id);
-                        bringtofront_input.checked = checked_bringtofront;
-
-                        bringtofront_div.appendChild(bringtofront_input);
-
-                        const bringtofront_span = L.DomUtil.create('span');
-
-                        bringtofront_div.appendChild(bringtofront_span);
-
-                        self.tool.google_translate({
-
-                            element_html: bringtofront_span,
-                            str: " Delante", 
-                            lang: self.lang
-
-                        });
-
-                        const bringtoback_div = L.DomUtil.create('div');
-                        bringtoback_div.setAttribute('class', 'special-tools-container');
-                        self.special_tools_info_console.appendChild(bringtoback_div);
-
-                        const bringtoback_input = L.DomUtil.create('input');
-                        bringtoback_input.type = 'checkbox';
-                        bringtoback_input.id = 'bringtoback_input';
-                        bringtoback_input.setAttribute('tools-id', tools_id);
-                        bringtoback_input.checked = checked_bringtoback;
-
-                        bringtoback_div.appendChild(bringtoback_input);
-
-                        const bringtoback_span = L.DomUtil.create('span');
-
-                        bringtoback_div.appendChild(bringtoback_span);
-
-                        self.tool.google_translate({
-
-                            element_html: bringtoback_span,
-                            str: " Detrás", 
-                            lang: self.lang
-
-                        });
-
-                        const options_div = L.DomUtil.create('div');
-                        options_div.setAttribute('class', 'special-tools-container');
-
-                        self.special_tools_info_console.appendChild(options_div);
-
-                        const polygon_options_btn = L.DomUtil.create('button');
-                        polygon_options_btn.type = 'button';
-                        polygon_options_btn.setAttribute('class', 'special-tools-btn-default');
-                        polygon_options_btn.style.fontSize = '9px';
-
-                        self.tool.google_translate({
-
-                            element_html: polygon_options_btn,
-                            str: "Editar estilos", 
-                            lang: self.lang
-
-                        });
-
-                        options_div.appendChild(polygon_options_btn);
-
-                        const vector_download_options_btn = L.DomUtil.create('button');
-                        vector_download_options_btn.type = 'button';
-                        vector_download_options_btn.setAttribute('class', 'special-tools-btn-default');
-                        vector_download_options_btn.style.fontSize = '9px';
-
-                        self.tool.google_translate({
-
-                            element_html: vector_download_options_btn,
-                            str: "Descargar Vectorial", 
-                            lang: self.lang
-
-                        });
-
-                        options_div.appendChild(vector_download_options_btn);
-
-                        /******************************************************/
-                        
                         self.info_console_load_properties(self, this);
-                        
-                        /******************************************************/
-
-                        const _this = this;
-                        
-                        if (!self.is_oneXone(this)) {
-                            
-                            const _centroide_input = self.special_tools_info_console.querySelector('#centroide_input');
-                            
-                            L.DomEvent.on(_centroide_input, "click", function(){
-
-                                if (this.checked) {
-
-                                    const polygon = turf.polygon(_this.feature.geometry.coordinates);
-
-                                    //Centro de la masa
-                                    let centroid_latlng = turf.centerOfMass(polygon);
-
-                                    const coordinates = {'lng': centroid_latlng.geometry.coordinates[1], 'lat': centroid_latlng.geometry.coordinates[0]};
-
-                                    if (!self.point_in_polygon(coordinates, _this)) {
-                                        
-                                        //Centro de la masa para polígonos donde su centro queda fuera de la misma
-                                        centroid_latlng = turf.pointOnFeature(polygon);
-                                        
-                                    }
-
-                                    const marker = L.marker([centroid_latlng.geometry.coordinates[1], centroid_latlng.geometry.coordinates[0]]);
-                                    
-                                    marker.feature = marker.toGeoJSON();
-                                    marker.feature.special_tools = {};
-                                    marker.feature.special_tools.is_centroid = true;
-
-                                    const new_tools_id = self.make_id(20);
-
-                                    marker.feature.special_tools.tools_id = new_tools_id;
-
-                                    _this.feature.special_tools.has_centroid = true;
-                                    _this.feature.special_tools.centroid_tools_id = new_tools_id;
-                                        
-                                    self.map.fire('pm:create', {layer: marker});
-                                    
-                                    self.modal_message(self, "Centroide creado con éxito", self.lang);
-
-                                } else {
-
-                                    if (self.has_centroid(_this)) {
-
-                                        const centroid_tools_id = _this.feature.special_tools.centroid_tools_id;
-
-                                        const centroid = self.get_layer_by_tools_id(self.map, centroid_tools_id);
-
-                                        _this.feature.special_tools.has_centroid = false;
-                                        _this.feature.special_tools.centroid_tools_id = null;
-
-                                        centroid.pm.remove();
-                                        
-                                        self.modal_message(self, "Centroide eliminado con éxito", self.lang);
-                                        
-                                    }
-                                }
-
-                            });
-                            
-                            const _incertidumbre_input = self.special_tools_info_console.querySelector('#incertidumbre_input');
-                            const _incertidumbre_color = self.special_tools_info_console.querySelector('#incertidumbre_color');
-
-                            L.DomEvent.on(_incertidumbre_input, "click", function(){
-
-                                if (this.checked) {
-
-                                    _this.feature.special_tools.is_incertidumbre = true;
-                                    _this.feature.special_tools.on_incertidumbre = true;
-
-                                    const area = turf.area(_this.toGeoJSON());
-
-                                    const incertidumbre = self.get_incertidumbre(area);
-
-                                    _incertidumbre_color.innerHTML = incertidumbre;
-
-                                } else {
-
-                                    _this.feature.special_tools.is_incertidumbre = false;
-                                    _this.feature.special_tools.on_incertidumbre = false;
-                                    
-                                    _incertidumbre_color.innerHTML = '';
-
-                                }
-                                
-                                    
-                                const active_layer_id = self.component_geolocation.active_layer_id;
-                                self.component_geolocation.update_draw_data(active_layer_id);
-
-                            });
-
-                            const _geoman_edition_input = self.special_tools_info_console.querySelector('#geoman_edition_input');
-
-                            L.DomEvent.on(_geoman_edition_input, "click", function(){
-
-                                if (this.checked) {
-                                    
-                                    self.pm_enable(_this);
-
-                                    _this.feature.special_tools.geoman_edition = true;
-
-
-                                } else {
-                                    
-                                    self.pm_disable(_this);
-
-                                    _this.feature.special_tools.geoman_edition = false;
-                                
-                                }
-                                
-                                const active_layer_id = self.component_geolocation.active_layer_id;
-                                self.component_geolocation.update_draw_data(active_layer_id);
-                                
-                            });
-  
-                        }
-
-                        const _bringtoback_input = self.special_tools_info_console.querySelector('#bringtoback_input');
-
-                        L.DomEvent.on(_bringtoback_input, "click", function(){
-
-                            if (this.checked) {
-
-                                _this.feature.special_tools.bringToBack = true;
-                                _this.feature.special_tools.bringToFront = false;
-                                bringtofront_input.checked = false;
-                                
-                                _this.bringToBack();
-
-                            } else {
-                                
-                                _this.feature.special_tools.bringToBack = false;
-                                _this.bringToFront();
-                                
-                            }
-
-                            const active_layer_id = self.component_geolocation.active_layer_id;
-                            self.component_geolocation.update_draw_data(active_layer_id);
-                            
-                        });
-                        
-                        const _bringtofront_input = self.special_tools_info_console.querySelector('#bringtofront_input');
-
-                        L.DomEvent.on(_bringtofront_input, "click", function(){
-
-                            if (this.checked) {
-
-                                _this.feature.special_tools.bringToFront = true;
-                                _this.feature.special_tools.bringToBack = false;
-                                bringtoback_input.checked = false;
-                                _this.bringToFront();
-
-                            } else {
-                                
-                                _this.feature.special_tools.bringToFront = false;
-                                _this.bringToBack();
-                                
-                            }
-
-                            const active_layer_id = self.component_geolocation.active_layer_id;
-                            self.component_geolocation.update_draw_data(active_layer_id);
-                        
-                        });
-                        
-                        self.show_modal_vector_download(vector_download_options_btn, self, layer);
-            
-                        self.polygon_circle_style(polygon_options_btn, self.map, layer);
                         
                     });
 
@@ -3887,8 +2276,7 @@ L.Control.SpecialTools = L.Control.extend({
                             
                             marker_preview.style.filter = _compute.result.filterRaw + ' ' + 'drop-shadow(2px -3px 2px #fff)';
  
-                            const active_layer_id = self.component_geolocation.active_layer_id;
-                            self.component_geolocation.update_draw_data(active_layer_id);
+                            self.save_object(self);
                             
                         }
                       
@@ -3933,8 +2321,7 @@ L.Control.SpecialTools = L.Control.extend({
 
                             marker_preview.style.filter = _compute.result.filterRaw + ' ' + 'drop-shadow(2px -3px 2px #fff)';
  
-                            const active_layer_id = self.component_geolocation.active_layer_id;
-                            self.component_geolocation.update_draw_data(active_layer_id);
+                            self.save_object(self);
                             
                         } else {
                             
@@ -4372,8 +2759,7 @@ L.Control.SpecialTools = L.Control.extend({
                             
                             layer.feature.properties.color = color.hexString;
 
-                            const active_layer_id = self.component_geolocation.active_layer_id;
-                            self.component_geolocation.update_draw_data(active_layer_id);
+                            self.save_object(self);
                             
                         }
 
@@ -4441,8 +2827,7 @@ L.Control.SpecialTools = L.Control.extend({
                             
                             readonly_stroke_color.value = color;
  
-                            const active_layer_id = self.component_geolocation.active_layer_id;
-                            self.component_geolocation.update_draw_data(active_layer_id);
+                            self.save_object(self);
                             
                         } else {
                             
@@ -4490,8 +2875,7 @@ L.Control.SpecialTools = L.Control.extend({
                             
                             linestring_preview.setAttribute('stroke-width', this.value);
                                 
-                            const active_layer_id = self.component_geolocation.active_layer_id;
-                            self.component_geolocation.update_draw_data(active_layer_id);
+                            self.save_object(self);
                             
                         }
                         
@@ -4533,8 +2917,7 @@ L.Control.SpecialTools = L.Control.extend({
                             
                             linestring_preview.setAttribute('stroke-opacity', this.value);
 
-                            const active_layer_id = self.component_geolocation.active_layer_id;
-                            self.component_geolocation.update_draw_data(active_layer_id);
+                            self.save_object(self);
                             
                         }
                         
@@ -4585,8 +2968,7 @@ L.Control.SpecialTools = L.Control.extend({
                             linestring_preview.setAttribute('stroke-dasharray', this.value);
                             linestring_preview.setAttribute('stroke-dashoffset', 0);
                                 
-                            const active_layer_id = self.component_geolocation.active_layer_id;
-                            self.component_geolocation.update_draw_data(active_layer_id);
+                            self.save_object(self);
 
                         }
                         
@@ -5115,8 +3497,7 @@ L.Control.SpecialTools = L.Control.extend({
                             
                             layer.feature.properties.color = color.hexString;
 
-                            const active_layer_id = self.component_geolocation.active_layer_id;
-                            self.component_geolocation.update_draw_data(active_layer_id);
+                            self.save_object(self);
                             
                         }
 
@@ -5185,8 +3566,7 @@ L.Control.SpecialTools = L.Control.extend({
                             
                             readonly_stroke_color.value = color;
  
-                            const active_layer_id = self.component_geolocation.active_layer_id;
-                            self.component_geolocation.update_draw_data(active_layer_id);
+                            self.save_object(self);
                             
                         } else {
                             
@@ -5234,8 +3614,7 @@ L.Control.SpecialTools = L.Control.extend({
                             
                             object_preview.setAttribute('stroke-width', this.value);
  
-                            const active_layer_id = self.component_geolocation.active_layer_id;
-                            self.component_geolocation.update_draw_data(active_layer_id);
+                            self.save_object(self);
                             
                         }
                         
@@ -5279,8 +3658,7 @@ L.Control.SpecialTools = L.Control.extend({
                             
                             object_preview.setAttribute('stroke-opacity', this.value);
 
-                            const active_layer_id = self.component_geolocation.active_layer_id;
-                            self.component_geolocation.update_draw_data(active_layer_id);
+                            self.save_object(self);
                             
                         }
                         
@@ -5335,8 +3713,7 @@ L.Control.SpecialTools = L.Control.extend({
                             object_preview.setAttribute('stroke-dasharray', this.value);
                             object_preview.setAttribute('stroke-dashoffset', 0);
                             
-                            const active_layer_id = self.component_geolocation.active_layer_id;
-                            self.component_geolocation.update_draw_data(active_layer_id);
+                            self.save_object(self);
 
                         }
                         
@@ -5376,8 +3753,7 @@ L.Control.SpecialTools = L.Control.extend({
                                                 
                         object_preview.setAttribute('fill-opacity', this.value);
 
-                        const active_layer_id = self.component_geolocation.active_layer_id;
-                        self.component_geolocation.update_draw_data(active_layer_id);
+                        self.save_object(self);
                         
                     });
                     
@@ -5682,8 +4058,7 @@ L.Control.SpecialTools = L.Control.extend({
 
                     Object.assign(layer.feature.properties, new_property);
 
-                    const active_layer_id = self.component_geolocation.active_layer_id;
-                    self.component_geolocation.update_draw_data(active_layer_id);
+                    self.save_object(self);
                     
                     if (overlay !== false) {
                         
@@ -5895,8 +4270,7 @@ L.Control.SpecialTools = L.Control.extend({
                     
                     layer.feature.properties[data.name] = data.value;
                     
-                    const active_layer_id = self.component_geolocation.active_layer_id;
-                    self.component_geolocation.update_draw_data(active_layer_id);
+                    self.save_object(self);
                     
                     if (overlay !== false) {
                         
@@ -6059,8 +4433,7 @@ L.Control.SpecialTools = L.Control.extend({
 
                 delete layer.feature.properties[name];
 
-                const active_layer_id = self.component_geolocation.active_layer_id;
-                self.component_geolocation.update_draw_data(active_layer_id);
+                self.save_object(self);
 
                 self.modal_message(self, "Propiedad eliminada con éxito", self.lang);
 
@@ -6306,9 +4679,9 @@ L.Control.SpecialTools = L.Control.extend({
             
         }
         
-        const br = L.DomUtil.create('br');
+        var br = L.DomUtil.create('br');
         self.special_tools_info_console.appendChild(br);
-
+        
         /******************************************************/
 
         const properties_title = L.DomUtil.create('div');
@@ -6387,6 +4760,7 @@ L.Control.SpecialTools = L.Control.extend({
         
         /******************************************************/
         
+        properties_div.appendChild(br.cloneNode(true));
         properties_div.appendChild(br.cloneNode(true));
         
         const properties = layer.feature.properties;
@@ -6628,8 +5002,7 @@ L.Control.SpecialTools = L.Control.extend({
 
                                 }
 
-                                const active_layer_id = self.component_geolocation.active_layer_id;
-                                self.component_geolocation.update_draw_data(active_layer_id);
+                                self.save_object(self);
 
                                 self.modal_message(self, "Imagen asociada con éxito al objeto", self.lang);
 
@@ -6827,6 +5200,977 @@ L.Control.SpecialTools = L.Control.extend({
             
         }, 8000);
 
+    },
+    
+    init_console: function(self) {
+        
+        self.special_tools_info_console.innerHTML = '';
+
+        self.special_tools_info_console.style.display = 'none';
+
+        try {
+
+            self.map._container.querySelector('#special_tools_loading').remove();
+
+        } catch (Exception) {};
+
+        const loading = L.DomUtil.create('img');
+        loading.id = 'special_tools_loading';
+        loading.src = self.tool.controls_url() + '/img/loading.gif';
+        loading.style.width = '100%';
+
+        self.special_tools_console.appendChild(loading);
+
+        window.setTimeout(function() {
+
+            self.special_tools_info_console.style.display = 'block';
+
+            try {
+
+                self.map._container.querySelector('#special_tools_loading').remove();
+
+            } catch (Exception) {};
+
+        }, 2500);
+
+    },
+    
+    get_div_geometry_type: function(self, layer, options) {
+        
+        if (typeof options === 'undefined') {
+            
+            options = null;
+            
+        }
+        
+        if (options === null) {
+            
+            const geometry_type = layer.feature.geometry.type;
+            const div_geometry_type = L.DomUtil.create('div');
+
+            div_geometry_type.innerText = geometry_type;
+            div_geometry_type.setAttribute('class', 'special-tools-container');
+
+            self.special_tools_info_console.appendChild(div_geometry_type);
+
+        } else if (options.hasOwnProperty('is_overlay')) {
+            
+            const div_geometry_type = L.DomUtil.create('div');
+            div_geometry_type.setAttribute('class', 'special-tools-container');
+
+            self.tool.google_translate({
+
+                element_html: div_geometry_type,
+                str: "Imagen", 
+                lang: self.lang
+
+            });
+            
+            self.special_tools_info_console.appendChild(div_geometry_type);
+            
+        } else if (options.hasOwnProperty('is_polygon')) {
+
+            let geometry_type;
+
+            let is_multipolygon = false;
+
+            if (layer.feature.special_tools.hasOwnProperty('multi_id')) {
+
+                is_multipolygon = true;
+
+            } else {
+
+                geometry_type = layer.feature.geometry.type;
+
+            }
+
+            const div_geometry_type = L.DomUtil.create('div');
+
+            if (!is_multipolygon) {
+
+                div_geometry_type.innerText = geometry_type;
+
+            } else {
+
+                self.tool.google_translate({
+
+                    element_html: div_geometry_type,
+                    str: "Es parte de un Multipolígono", 
+                    lang: self.lang
+
+                });
+
+            }
+
+            div_geometry_type.setAttribute('class', 'special-tools-container');
+            self.special_tools_info_console.appendChild(div_geometry_type);
+            
+        }
+        
+    },
+    
+    get_div_elevation: function(self, layer) {
+        
+        var lat, lng, str;
+        
+        if (layer instanceof L.Marker) {
+            
+            lat = layer._latlng.lat;
+            lng = layer._latlng.lng;
+            str = "Elevación: ";
+            
+        } else {
+            
+            lat = layer.getBounds().getCenter().lat;
+            lng = layer.getBounds().getCenter().lng;
+            str = "Elevación del centro: ";
+            
+        }
+        
+        const elevation_div = L.DomUtil.create('div');
+        elevation_div.setAttribute('class', 'special-tools-container');
+
+        self.special_tools_info_console.appendChild(elevation_div);
+
+        /**********************************************************/
+
+        const elevation_span_1 = L.DomUtil.create('span');
+
+        self.tool.google_translate({
+
+            element_html: elevation_span_1,
+            str: str, 
+            lang: self.lang
+
+        });
+
+        elevation_div.appendChild(elevation_span_1);
+
+        /**********************************************************/
+
+        const elevation_span_2 = L.DomUtil.create('span');
+
+        self.tool.get_elevation({lat: lat, lng: lng})
+        .then(function(data) {
+
+            if (data.success) {
+
+                const json = JSON.parse(data.json);
+        
+                elevation_span_2.innerText = ' ' + json.results[0].elevation + ' m.';
+                
+                layer.feature.properties.center_elevation = json.results[0].elevation + ' m.';
+                
+                self.save_object(self);
+            
+            }
+
+        });
+
+        elevation_div.appendChild(elevation_span_2);
+
+        /**********************************************************/
+        
+    },
+    
+    get_div_oneXone: function(self, layer) {
+        
+        if (self.is_oneXone(layer)) {
+
+            let point_reference_div = L.DomUtil.create('div');
+            point_reference_div.setAttribute('class', 'special-tools-container');
+
+            self.tool.google_translate({
+
+                element_html: point_reference_div,
+                str: "Punto de referencia de polígono de 1 m²", 
+                lang: self.lang
+
+            });
+            
+            self.special_tools_info_console.appendChild(point_reference_div);
+
+        }
+    },
+    
+    get_geoman_edition_mode: function(self, layer) {
+        
+        if (!self.is_geoman_edition_mode(layer)) {
+
+            self.pm_disable(layer);
+
+        } else {
+
+            self.pm_enable(layer);
+
+        }
+        
+    },
+    
+    get_div_latlng: function(self, layer, options) {
+        
+        if (typeof options === 'undefined') {
+            
+            options = null;
+            
+        }
+        
+        const lat_lng_div = L.DomUtil.create('div');
+        lat_lng_div.setAttribute('class', 'special-tools-container');
+
+        self.special_tools_info_console.appendChild(lat_lng_div);
+
+        const lat_lng_span_1 = L.DomUtil.create('span');
+
+        lat_lng_div.appendChild(lat_lng_span_1);
+        
+        if (options === null) {
+
+            self.tool.google_translate({
+
+                element_html: lat_lng_span_1,
+                str: "Coordenadas: ", 
+                lang: self.lang
+
+            });
+        
+        } else if (options.hasOwnProperty('is_circle')) {
+            
+            self.tool.google_translate({
+
+                element_html: lat_lng_span_1,
+                str: "Coordenadas del centro: ", 
+                lang: self.lang
+
+            });
+            
+        }
+
+        const br = L.DomUtil.create('br');
+        lat_lng_div.appendChild(br);
+
+        const lat_lng_span_2 = L.DomUtil.create('span');
+        lat_lng_span_2.innerText = layer._latlng.lat + " " + layer._latlng.lng;
+
+        lat_lng_div.appendChild(lat_lng_span_2);
+
+        /**********************************************************/
+        
+    },
+    
+    get_div_geoman_edition_mode: function(self, layer) {
+        
+        const tools_id = self.get_tools_id_by_layer(layer);
+        
+        let checked_geoman = false;
+
+        if (self.is_geoman_edition_mode(layer)) {
+
+            checked_geoman = true;
+
+        }
+
+        const geoman_edition_div = L.DomUtil.create('div');
+        geoman_edition_div.setAttribute('class', 'special-tools-container');
+
+        self.special_tools_info_console.appendChild(geoman_edition_div);
+
+        const geoman_edition_input = L.DomUtil.create('input');
+        geoman_edition_input.type = 'checkbox';
+        geoman_edition_input.id = 'geoman_edition_input';
+        geoman_edition_input.setAttribute('tools-id', tools_id);
+        geoman_edition_input.checked = checked_geoman;
+
+        geoman_edition_div.appendChild(geoman_edition_input);
+
+        const geoman_edition_span = L.DomUtil.create('span');
+
+        geoman_edition_div.appendChild(geoman_edition_span);
+
+        self.tool.google_translate({
+
+            element_html: geoman_edition_span,
+            str: "  Edición Geoman activa", 
+            lang: self.lang
+
+        });
+        
+        const _layer = layer;
+        
+        L.DomEvent.on(geoman_edition_input, "click", function(){
+
+            if (this.checked) {
+
+                self.pm_enable(_layer);
+
+                _layer.feature.special_tools.geoman_edition = true;
+
+            } else {
+
+                self.pm_disable(_layer);
+
+                _layer.feature.special_tools.geoman_edition = false;
+
+            }
+
+            self.save_object(self);
+
+        });
+        
+    },
+    
+    get_buttons_options_div: function(self, layer, options) {
+        
+        if (typeof options === 'undefined') {
+            
+            options = null;
+            
+        }
+        
+        const options_div = L.DomUtil.create('div');
+        options_div.setAttribute('class', 'special-tools-container');
+
+        self.special_tools_info_console.appendChild(options_div);
+
+        const style_options_btn = L.DomUtil.create('button');
+        style_options_btn.type = 'button';
+        style_options_btn.setAttribute('class', 'special-tools-btn-default');
+        style_options_btn.style.fontSize = '9px';
+
+        self.tool.google_translate({
+
+            element_html: style_options_btn,
+            str: "Editar estilos", 
+            lang: self.lang
+
+        });
+
+        options_div.appendChild(style_options_btn);
+
+        const vector_download_options_btn = L.DomUtil.create('button');
+        vector_download_options_btn.type = 'button';
+        vector_download_options_btn.setAttribute('class', 'special-tools-btn-default');
+        vector_download_options_btn.style.fontSize = '9px';
+
+        self.tool.google_translate({
+
+            element_html: vector_download_options_btn,
+            str: "Descargar Vectorial", 
+            lang: self.lang
+
+        });
+
+        options_div.appendChild(vector_download_options_btn);
+        
+        self.show_modal_vector_download(vector_download_options_btn, self, layer);
+
+        if (options.hasOwnProperty('is_marker')) {
+
+            self.marker_style(style_options_btn, self.map, layer);
+            
+        } else if (options.hasOwnProperty('is_circle') || options.hasOwnProperty('is_polygon')) {
+            
+            self.polygon_circle_style(style_options_btn, self.map, layer);
+            
+        } else if (options.hasOwnProperty('is_linestring')) {
+            
+            self.linestring_style(style_options_btn, self.map, layer);
+            
+        }
+        
+    },
+    
+    get_hierarchy: function(layer) {
+        
+        if (layer.feature.special_tools.hasOwnProperty('bringToBack')) {
+
+            if (layer.feature.special_tools.bringToBack) {
+
+                layer.bringToBack();
+
+            }
+        }
+
+        if (layer.feature.special_tools.hasOwnProperty('bringToFront')) {
+
+            if (layer.feature.special_tools.bringToFront) {
+
+                layer.bringToFront();
+
+            }
+        }
+        
+    },
+    
+    get_div_hierarchy: function(self, layer) {
+        
+        const tools_id = self.get_tools_id_by_layer(layer);
+        
+        let checked_bringtoback = false;
+        let checked_bringtofront = false;
+
+        if (layer.feature.special_tools.hasOwnProperty('bringToBack')) {
+            
+            if (layer.feature.special_tools.bringToBack) {
+                
+                layer.bringToBack();
+                checked_bringtoback = true;
+                checked_bringtofront = false;
+                
+            }
+        }
+
+        if (layer.feature.special_tools.hasOwnProperty('bringToFront')) {
+            
+            if (layer.feature.special_tools.bringToFront) {
+                
+                layer.bringToFront();
+                checked_bringtoback = false;
+                checked_bringtofront = true;
+                
+            }
+        }
+
+        const hierarchy_div = L.DomUtil.create('div');
+        hierarchy_div.setAttribute('class', 'special-tools-container');
+        self.special_tools_info_console.appendChild(hierarchy_div);
+
+        self.tool.google_translate({
+
+            element_html: hierarchy_div,
+            str: "Jerarquía del objeto: ", 
+            lang: self.lang
+
+        });
+
+        const bringtofront_div = L.DomUtil.create('div');
+        bringtofront_div.setAttribute('class', 'special-tools-container');
+        self.special_tools_info_console.appendChild(bringtofront_div);
+
+        const bringtofront_input = L.DomUtil.create('input');
+        bringtofront_input.type = 'checkbox';
+        bringtofront_input.id = 'bringtofront_input';
+        bringtofront_input.setAttribute('tools-id', tools_id);
+        bringtofront_input.checked = checked_bringtofront;
+
+        bringtofront_div.appendChild(bringtofront_input);
+
+        const bringtofront_span = L.DomUtil.create('span');
+
+        bringtofront_div.appendChild(bringtofront_span);
+
+        self.tool.google_translate({
+
+            element_html: bringtofront_span,
+            str: " Delante", 
+            lang: self.lang
+
+        });
+
+        const bringtoback_div = L.DomUtil.create('div');
+        bringtoback_div.setAttribute('class', 'special-tools-container');
+        self.special_tools_info_console.appendChild(bringtoback_div);
+
+        const bringtoback_input = L.DomUtil.create('input');
+        bringtoback_input.type = 'checkbox';
+        bringtoback_input.id = 'bringtoback_input';
+        bringtoback_input.setAttribute('tools-id', tools_id);
+        bringtoback_input.checked = checked_bringtoback;
+
+        bringtoback_div.appendChild(bringtoback_input);
+
+        const bringtoback_span = L.DomUtil.create('span');
+
+        bringtoback_div.appendChild(bringtoback_span);
+
+        self.tool.google_translate({
+
+            element_html: bringtoback_span,
+            str: " Detrás", 
+            lang: self.lang
+
+        });
+        
+        const _this = layer;
+        
+        L.DomEvent.on(bringtoback_input, "click", function() {
+
+            if (this.checked) {
+
+                _this.feature.special_tools.bringToBack = true;
+                _this.feature.special_tools.bringToFront = false;
+                bringtofront_input.checked = false;
+
+                _this.bringToBack();
+
+            } else {
+
+                _this.feature.special_tools.bringToBack = false;
+                _this.bringToFront();
+
+            }
+
+            self.save_object(self);
+
+        });
+
+        L.DomEvent.on(bringtofront_input, "click", function() {
+
+            if (this.checked) {
+
+                _this.feature.special_tools.bringToFront = true;
+                _this.feature.special_tools.bringToBack = false;
+                bringtoback_input.checked = false;
+
+                _this.bringToFront();
+
+            } else {
+
+                _this.feature.special_tools.bringToFront = false;
+
+                _this.bringToBack();
+            }
+
+            self.save_object(self);
+
+        });
+        
+    },
+    
+    get_div_radius: function(self, layer) {
+        
+        const radius_div = L.DomUtil.create('div');
+        radius_div.setAttribute('class', 'special-tools-container');
+
+        const radius = layer.getRadius().toFixed(2);
+        
+        layer.feature.properties.radius = radius + ' m.';
+        
+        self.save_object(self);
+
+        self.tool.google_translate({
+
+            element_html: radius_div,
+            str: "Radio: " + radius + " m.", 
+            lang: self.lang
+
+        });
+
+        self.special_tools_info_console.appendChild(radius_div);
+        
+    },
+    
+    get_div_circle_area: function(self, layer) {
+        
+        const radius = layer.getRadius().toFixed(2);
+        
+        const area_div = L.DomUtil.create('div');
+        area_div.setAttribute('class', 'special-tools-container');
+
+        self.special_tools_info_console.appendChild(area_div);
+
+        const area = (2 * Math.PI * radius).toFixed(2);
+        
+        layer.feature.properties.area = area + ' m.';
+        
+        self.save_object(self);
+
+        self.tool.google_translate({
+
+            element_html: area_div,
+            str: "Área: " + area + " m.", 
+            lang: self.lang
+
+        });
+        
+    },
+    
+    get_div_polygon_area: function(self, layer) {
+        
+        if (self.is_oneXone(layer)) {
+
+            const onexone_div = L.DomUtil.create('div');
+            onexone_div.setAttribute('class', 'special-tools-container');
+            self.special_tools_info_console.appendChild(onexone_div);
+
+            self.tool.google_translate({
+
+                element_html: onexone_div,
+                str: "Área: 1 m²", 
+                lang: self.lang
+
+            });
+
+        } else {
+
+            const area_div = L.DomUtil.create('div');
+            area_div.setAttribute('class', 'special-tools-container');
+
+            const area_meters = turf.area(layer.toGeoJSON());
+            const area = self.get_area_square_meters(area_meters);
+            self.special_tools_info_console.appendChild(area_div);
+            
+            layer.feature.properties.area = area;
+
+            self.save_object(self);
+
+            self.tool.google_translate({
+
+                element_html: area_div,
+                str: "Área: " + area, 
+                lang: self.lang
+
+            });
+
+        }
+        
+    },
+    
+    get_div_centroid: function(self, layer) {
+        
+        if (!self.is_oneXone(layer)) { 
+        
+            const tools_id = self.get_tools_id_by_layer(layer);
+
+            let checked_centroid = false;
+
+            if (self.has_centroid(layer)) {
+
+                checked_centroid = true;
+
+            }
+
+            const centroide_div = L.DomUtil.create('div');
+            centroide_div.setAttribute('class', 'special-tools-container');
+
+            self.special_tools_info_console.appendChild(centroide_div);
+
+            const centroide_input = L.DomUtil.create('input');
+            centroide_input.type = 'checkbox';
+            centroide_input.id = 'centroide_input';
+            centroide_input.setAttribute('tools-id', tools_id);
+            centroide_input.checked = checked_centroid;
+
+            centroide_div.appendChild(centroide_input);
+
+            const centroide_span = L.DomUtil.create('span');
+
+            centroide_div.appendChild(centroide_span);
+
+            self.tool.google_translate({
+
+                element_html: centroide_span,
+                str: " Centroide", 
+                lang: self.lang
+
+            });
+
+            const _this = layer;
+
+            L.DomEvent.on(centroide_input, "click", function(){
+
+                if (this.checked) {
+
+                    centroid = layer.getBounds().getCenter();
+
+                    const marker = L.marker(centroid);
+
+                    marker.feature = marker.toGeoJSON();
+                    marker.feature.special_tools = {};
+                    marker.feature.special_tools.is_centroid = true;
+
+                    const new_tools_id = self.make_id(20);
+
+                    marker.feature.special_tools.tools_id = new_tools_id;
+
+                    _this.feature.special_tools.has_centroid = true;
+                    _this.feature.special_tools.centroid_tools_id = new_tools_id;
+
+                    self.map.fire('pm:create', {layer: marker});
+
+                    self.modal_message(self, "Centroide creado con éxito", self.lang);
+
+                } else {
+
+                    if (self.has_centroid(_this)) {
+
+                        const centroid_tools_id = _this.feature.special_tools.centroid_tools_id;
+
+                        const centroid = self.get_layer_by_tools_id(self.map, centroid_tools_id);
+
+                        _this.feature.special_tools.has_centroid = false;
+                        _this.feature.special_tools.centroid_tools_id = null;
+
+                        centroid.pm.remove();
+
+                        self.modal_message(self, "Centroide eliminado con éxito", self.lang);
+                    }
+                }
+
+            });
+        
+        }
+        
+    },
+    
+    get_div_incertidumbre: function(self, layer) {
+        
+        if (!self.is_oneXone(layer)) { 
+        
+            const tools_id = self.get_tools_id_by_layer(layer);
+        
+            let incertidumbre = '';
+            let checked_incertidumbre = false;
+
+            if (self.is_incertidumbre(layer) && self.on_incertidumbre(layer)) {
+
+                const area = turf.area(layer.toGeoJSON());
+                incertidumbre = self.get_incertidumbre(area);
+                checked_incertidumbre = true;   
+
+            }
+
+            const incertidumbre_div = L.DomUtil.create('div');
+            incertidumbre_div.setAttribute('class', 'special-tools-container');
+
+            self.special_tools_info_console.appendChild(incertidumbre_div);
+
+            const incertidumbre_input = L.DomUtil.create('input');
+            incertidumbre_input.type = 'checkbox';
+            incertidumbre_input.id = 'incertidumbre_input';
+            incertidumbre_input.setAttribute('tools-id', tools_id);
+            incertidumbre_input.checked = checked_incertidumbre;
+
+            incertidumbre_div.appendChild(incertidumbre_input);
+
+            const incertidumbre_span = L.DomUtil.create('span');
+
+            incertidumbre_div.appendChild(incertidumbre_span);
+
+            self.tool.google_translate({
+
+                element_html: incertidumbre_span,
+                str: " Incertidumbre", 
+                lang: self.lang
+
+            });
+
+            const incertidumbre_color = L.DomUtil.create('div');
+            incertidumbre_color.id = 'incertidumbre_color';
+            incertidumbre_color.style.color = 'yellow';
+            incertidumbre_color.setAttribute('class', 'special-tools-container');
+            incertidumbre_color.innerText = incertidumbre;
+
+            incertidumbre_div.appendChild(incertidumbre_color);
+            
+            const _this = layer;
+            
+            L.DomEvent.on(incertidumbre_input, "click", function() {
+
+                if (this.checked) {
+
+                    _this.feature.special_tools.is_incertidumbre = true;
+                    _this.feature.special_tools.on_incertidumbre = true;
+
+                    const area = turf.area(_this.toGeoJSON());
+
+                    const incertidumbre = self.get_incertidumbre(area);
+
+                    incertidumbre_color.innerHTML = incertidumbre;
+                    
+                    layer.feature.properties.uncertainty = incertidumbre;
+
+
+                } else {
+
+                    _this.feature.special_tools.is_incertidumbre = false;
+                    _this.feature.special_tools.on_incertidumbre = false;
+
+                    incertidumbre_color.innerHTML = '';
+                    
+                    delete layer.feature.properties.uncertainty;
+
+                }
+                
+                self.save_object(self);
+
+            });
+        
+        }
+        
+    },
+    
+    get_div_distance: function(self, layer) {
+        
+        const distance_div = L.DomUtil.create('div');
+        distance_div.setAttribute('class', 'special-tools-container');
+
+        const length = turf.length(layer.toGeoJSON());
+        
+        layer.feature.properties.distance = length.toFixed(2) + " km";
+        
+        self.save_object(self);
+
+        self.tool.google_translate({
+
+            element_html: distance_div,
+            str: "Distancia: " + length.toFixed(2) + " km", 
+            lang: self.lang
+
+        });
+        
+        self.special_tools_info_console.appendChild(distance_div);
+        
+    },
+    
+    get_style_of_marker: function(self, layer) {
+        
+        const icon = L.icon({
+
+            iconUrl: self.tool.controls_url() + '/img/pin.svg',
+            iconSize: [36, 36],
+            iconAnchor: [18, 34],
+            shadowUrl: self.tool.controls_url() + '/img/marker-shadow.png',
+            shadowSize: [41, 41],
+            shadowAnchor: [11, 41]
+
+        });
+
+        layer.setIcon(icon);
+
+        var default_color;
+
+        if (layer.feature.properties.hasOwnProperty('color')) {
+
+            default_color = layer.feature.properties.color;
+
+        } else {
+
+            default_color = '#3d5880';
+
+        }
+
+        if (!layer.feature.special_tools.hasOwnProperty('marker_filter')) {
+
+            let _compute = compute(default_color);
+
+            layer._icon.style.filter = _compute.result.filterRaw + ' ' + 'drop-shadow(2px -3px 2px #fff)';
+
+
+        } else {
+
+            layer._icon.style.filter = layer.feature.special_tools.marker_filter;
+
+        }
+        
+    },
+    
+    get_style_of_circle_polygon: function(layer) {
+        
+        let default_color;
+
+        if (layer.feature.special_tools.hasOwnProperty('obj_stroke_color')) {
+
+            layer.setStyle({color: layer.feature.special_tools.obj_stroke_color});
+            layer.setStyle({fillColor: layer.feature.special_tools.obj_stroke_color});
+
+        } else if (layer.feature.properties.hasOwnProperty('color')) {
+
+            default_color = layer.feature.properties.color;
+            layer.setStyle({color: default_color});
+            layer.setStyle({fillColor: default_color});
+
+        } else {
+
+            default_color = '#3388ff';
+            layer.setStyle({color: default_color});
+            layer.setStyle({fillColor: default_color});
+
+        }
+
+        if (layer.feature.special_tools.hasOwnProperty('obj_stroke_width')) {
+
+            layer.setStyle({weight: layer.feature.special_tools.obj_stroke_width});
+
+        }
+
+        if (layer.feature.special_tools.hasOwnProperty('obj_stroke_opacity')) {
+
+            layer.setStyle({opacity: layer.feature.special_tools.obj_stroke_opacity});
+
+        }
+
+        if (layer.feature.special_tools.hasOwnProperty('obj_stroke_dasharray')) {
+
+            layer.setStyle({
+
+                dashArray: layer.feature.special_tools.obj_stroke_dasharray,
+                dashOffset: 0
+
+            });
+
+        }
+
+        if (layer.feature.special_tools.hasOwnProperty('obj_fill_opacity')) {
+
+            layer.setStyle({fillOpacity: layer.feature.special_tools.obj_fill_opacity});
+
+        }
+        
+    },
+    
+    get_style_of_linestring: function(layer) {
+        
+        let default_color;
+
+        if (layer.feature.special_tools.hasOwnProperty('obj_stroke_color')) {
+
+            layer.setStyle({color: layer.feature.special_tools.obj_stroke_color});
+
+        } else if (layer.feature.properties.hasOwnProperty('color')) {
+
+            default_color = layer.feature.properties.color;
+            
+            layer.setStyle({color: default_color});
+
+        } else {
+
+            default_color = '#3388ff';
+            
+            layer.setStyle({color: default_color});
+
+        }
+
+        if (layer.feature.special_tools.hasOwnProperty('obj_stroke_width')) {
+
+            layer.setStyle({weight: layer.feature.special_tools.obj_stroke_width});
+
+        }
+
+        if (layer.feature.special_tools.hasOwnProperty('obj_stroke_opacity')) {
+
+            layer.setStyle({opacity: layer.feature.special_tools.obj_stroke_opacity});
+
+        }
+
+        if (layer.feature.special_tools.hasOwnProperty('obj_stroke_dasharray')) {
+
+            layer.setStyle({
+
+                dashArray: layer.feature.special_tools.obj_stroke_dasharray,
+                dashOffset: 0
+
+            });
+
+        }
+        
+    },
+    
+    save_object: function(self) {
+        
+        const active_layer_id = self.component_geolocation.active_layer_id;
+        self.component_geolocation.update_draw_data(active_layer_id);
+        
     }
     
 });
