@@ -1784,13 +1784,28 @@ class tool_leaflet_special_tools extends tool_common  {
         if (substr($response->file_data->name, -3) === 'tif') {
 
             $response->is_geotiff = true;
-            $response->geotiff_src = $component_image->get_media_url_dir($response->default_quality) .'/'. $id .'.tif';
-            $get_original_extension = 'jpg';
+            $response->geotiff_src = $component_image->get_media_url_dir($response->default_quality) . '/' . $id .'.tif';
+            
+            
+            $geotiff_to_png = new stdClass();
+            $geotiff_to_png->id = $id;
+            $geotiff_to_png->url = $component_image->get_media_url_dir($response->default_quality);
+            $geotiff_to_png->path = $component_image->get_media_path_dir($response->default_quality);
+            
+            $result = self::geotiff_to_png($geotiff_to_png);
+                    
+            if ($result) {
+            
+                $get_original_extension = 'png';
+            
+            } else {
+                
+                $get_original_extension = 'jpg';
+                
+            }
             
         }
 
-        
-        
 	$url = $component_image->get_media_url_dir($response->default_quality) .'/'. $id .'.'. $get_original_extension;
         
         $response->image_src = $url;
@@ -1802,6 +1817,43 @@ class tool_leaflet_special_tools extends tool_common  {
         
     }
     
+    public static function geotiff_to_png(object $options): bool {
+        
+        $response = new stdClass();
+
+        $response->success = false;
+        
+        $response->id = $options->id;
+
+        $name_png = $response->id . '.png';
+        $name_tif = $response->id . '.tif';
+
+        $response->url = $options->url;
+        $response->path = $options->path;
+        
+        $response->tif_file = $response->path . '/' . $name_tif;
+        $response->png_file = $response->path . '/' . $name_png;
+
+        $image = new Imagick($response->tif_file);
+
+        $image->setImageFormat('png');
+        
+        $image->setImageCompressionQuality(100);
+        
+        if ($image->writeImage($response->png_file)) {
+            
+            $response->success = true;
+            
+        }
+
+        $image->clear();
+
+        $image->destroy();
+
+        return $response->success;
+        
+    }
+
     public static function process_uploaded_vector(object $options) : object {
 
         if (!is_dir(self::vector_layers_uploads_path())) {

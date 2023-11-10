@@ -6568,7 +6568,7 @@ L.Control.SpecialTools = L.Control.extend({
                 self.tool.google_translate({
 
                    element_html: msg_extension_images,
-                   str: "Extensiones permitidas: .jpg, .jpeg, .png, .gif y .webp", 
+                   str: "Extensiones permitidas: .jpg, .jpeg, .png y .webp", 
                    lang: self.lang
 
                 });
@@ -6577,7 +6577,7 @@ L.Control.SpecialTools = L.Control.extend({
 
                 /**********************************************************************/
                 
-                self.tool.image_service_upload(container, ['jpg','jpeg','png','gif', 'webp'])
+                self.tool.image_service_upload(container, ['jpg','jpeg','png','webp'])
                 .then(function() {
                     
                     self.tool.image_subscribe(

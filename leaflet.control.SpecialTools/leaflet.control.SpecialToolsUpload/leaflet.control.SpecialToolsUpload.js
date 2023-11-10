@@ -715,7 +715,7 @@ L.Control.SpecialToolsUpload = L.Control.extend({
                         tool.google_translate({
 
                            element_html: msg_extension_images,
-                           str: "Extensiones permitidas: .tif (georreferenciada), .jpg, .jpeg, .png, .gif y .webp", 
+                           str: "Extensiones permitidas: .tif (georreferenciada), .jpg, .jpeg, .png, y .webp", 
                            lang: lang
 
                         });
@@ -751,7 +751,7 @@ L.Control.SpecialToolsUpload = L.Control.extend({
 
                         });
 
-                        tool.image_service_upload(container_image, ['tif', 'jpg', 'jpeg', 'png', 'gif', 'webp'])
+                        tool.image_service_upload(container_image, ['tif', 'jpg', 'jpeg', 'png', 'webp'])
                         .then(function() {
 
                             tool.image_subscribe(
