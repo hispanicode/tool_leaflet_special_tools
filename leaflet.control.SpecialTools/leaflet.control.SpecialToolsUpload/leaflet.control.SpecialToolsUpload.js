@@ -319,6 +319,7 @@ L.Control.SpecialToolsUpload = L.Control.extend({
                             window.setTimeout(function() {
                                 
                                 modal_vector.remove();
+                                document.querySelector('.map_inputs').style.zIndex = 1;
                                 
                             }, 100);
 

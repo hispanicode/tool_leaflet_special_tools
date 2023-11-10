@@ -6391,6 +6391,7 @@ L.Control.SpecialTools = L.Control.extend({
         
         const properties = layer.feature.properties;
         var images_urls = new Array();
+        var images_dedalo = new Array();
 
         for (let prop in properties) {
 
@@ -6458,6 +6459,10 @@ L.Control.SpecialTools = L.Control.extend({
                         if (res.ok) {
 
                             images_urls.push(properties.images[x].url);
+                    
+                            const dedalo_image_url = "<a href='?t=" + properties.images[x].section_tipo + "&section_id=" + properties.images[x].section_id  + "&component_tipo=" + properties.images[x].tipo + "' target='_blank'><img src='"+self.tool.controls_url()+"/img/link.png"+"'></a>";
+                    
+                            images_dedalo.push(dedalo_image_url);
 
                         }
 
@@ -6484,12 +6489,13 @@ L.Control.SpecialTools = L.Control.extend({
         });
         
         L.DomEvent.on(images_gallery_btn, 'click', function() {
-            
+
             if (images_urls.length > 0) {
             
                 const lightbox = SimpleLightbox.open({
 
-                    items: images_urls
+                    items: images_urls,
+                    captions: images_dedalo
 
                 });
             
