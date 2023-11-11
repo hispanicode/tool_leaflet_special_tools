@@ -130,9 +130,6 @@ load_promises.push(common.prototype.load_style(special_tools_geolocation_css));
 
 /* JS */
 
-const html2pdfbundle_js = this.controls_url() + '/external-lib/html2pdf.js/dist/html2pdf.bundle.min.js';
-load_promises.push(common.prototype.load_script(html2pdfbundle_js));
-
 const catiline_js = this.controls_url() + '/external-lib/leaflet.shapefile/catiline.js';
 load_promises.push(common.prototype.load_script(catiline_js));
 
