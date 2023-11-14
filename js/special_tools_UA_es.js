@@ -45,7 +45,7 @@ special_tools_UA_es.prototype.load = async function(L, special_tools) {
 
                     self.only_one_active_control(controlDivButton);
 
-                    special_tools_UA_es.prototype.catastro_on();
+                    special_tools_UA_es.prototype.UA_on();
 
                 }  else {
 
@@ -53,7 +53,7 @@ special_tools_UA_es.prototype.load = async function(L, special_tools) {
 
                     L.DomUtil.removeClass(controlDivButton, 'special-tools-enable');
 
-                    special_tools_UA_es.prototype.catastro_off();
+                    special_tools_UA_es.prototype.UA_off();
 
                 }
 
@@ -172,7 +172,7 @@ special_tools_UA_es.prototype.create_select = function() {
     
 };
 
-special_tools_UA_es.prototype.catastro_on = function() {
+special_tools_UA_es.prototype.UA_on = function() {
     
     const self = this.special_tools;
     
@@ -205,9 +205,9 @@ special_tools_UA_es.prototype.catastro_on = function() {
 
     });
 
-    self.wms = L.tileLayer.wms('http://www.ign.es/wms-inspire/unidades-administrativas?', {layers: 'AU.AdministrativeUnit'});
+    self.wms_UA = L.tileLayer.wms('http://www.ign.es/wms-inspire/unidades-administrativas?', {layers: 'AU.AdministrativeUnit'});
 
-    self.component_geolocation.layer_control.addBaseLayer(self.wms, "Unidades Administrativas (ES)");
+    self.component_geolocation.layer_control.addBaseLayer(self.wms_UA, "Unidades Administrativas (ES)");
 
     leaflet_control_layers_base = document.querySelector('.leaflet-control-layers-base');
 
@@ -233,15 +233,15 @@ special_tools_UA_es.prototype.catastro_on = function() {
     
 };
 
-special_tools_UA_es.prototype.catastro_off = function() {
+special_tools_UA_es.prototype.UA_off = function() {
     
     const self = this.special_tools;
     
     self.leaflet_control_select_UA.style.display = 'none';
     
-    self.component_geolocation.layer_control.removeLayer(self.wms);
+    self.component_geolocation.layer_control.removeLayer(self.wms_UA);
 
-    self.wms.removeFrom(self.map);
+    self.wms_UA.removeFrom(self.map);
 
     document.querySelectorAll('.leaflet-control-layers-selector')[self.basemap_history].click();
 

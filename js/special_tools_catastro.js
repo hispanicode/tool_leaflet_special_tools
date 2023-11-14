@@ -33,7 +33,7 @@ special_tools_catastro.prototype.load = async function(L, special_tools) {
             
             self.enable_catastro = false;
 
-            self.wms = null;
+            self.wms_catastro = null;
 
             self.basemap_history = null;
 
@@ -109,9 +109,9 @@ special_tools_catastro.prototype.catastro_on = function() {
 
     });
 
-    self.wms = L.tileLayer.wms('http://ovc.catastro.meh.es/Cartografia/WMS/ServidorWMS.aspx?', {opacity: 1, maxZoom: 18});
+    self.wms_catastro = L.tileLayer.wms('http://ovc.catastro.meh.es/Cartografia/WMS/ServidorWMS.aspx?', {opacity: 1, maxZoom: 18});
 
-    self.component_geolocation.layer_control.addBaseLayer(self.wms, "Catastro");
+    self.component_geolocation.layer_control.addBaseLayer(self.wms_catastro, "Catastro");
 
     leaflet_control_layers_base = document.querySelector('.leaflet-control-layers-base');
 
@@ -136,9 +136,9 @@ special_tools_catastro.prototype.catastro_off = function() {
 
     L.DomUtil.removeClass(_this.controlDiv, 'special-tools-enable');
 
-    self.component_geolocation.layer_control.removeLayer(self.wms);
+    self.component_geolocation.layer_control.removeLayer(self.wms_catastro);
 
-    self.wms.removeFrom(self.map);
+    self.wms_catastro.removeFrom(self.map);
 
     document.querySelectorAll('.leaflet-control-layers-selector')[self.basemap_history].click();
 

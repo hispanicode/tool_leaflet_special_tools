@@ -729,8 +729,38 @@ special_tools.prototype.is_url = function(string) {
 };
 
 special_tools.prototype.only_one_active_control = function(element) {
-    
+
     const self = this;
+    
+    if (typeof self.enable_catastro !== 'undefined') {
+        
+        if (self.enable_catastro) {
+            
+            self.component_geolocation.layer_control.removeLayer(self.wms_catastro);
+
+            self.wms_catastro.removeFrom(self.map);
+
+            document.querySelectorAll('.leaflet-control-layers-selector')[self.basemap_history].click();
+
+            self.enable_catastro = false;
+            
+        }
+        
+    }
+    
+    if (typeof self.enable_UA !== 'undefined') {
+        
+        self.leaflet_control_select_UA.style.display = 'none';
+
+        self.component_geolocation.layer_control.removeLayer(self.wms_UA);
+
+        self.wms_UA.removeFrom(self.map);
+
+        document.querySelectorAll('.leaflet-control-layers-selector')[self.basemap_history].click();
+
+        self.enable_UA = false;
+        
+    }
 
     try {
 
