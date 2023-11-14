@@ -17,6 +17,7 @@
 	import {render_search_component_geolocation} from '../../component_geolocation/js/render_search_component_geolocation.js'
 
         /* SPECIALTOOLS (se incluye el tool) */
+        import {render_tool_leaflet_special_tools} from '../../../tools/tool_leaflet_special_tools/js/render_tool_leaflet_special_tools.js';
         import {tool_leaflet_special_tools} from '../../../tools/tool_leaflet_special_tools/js/tool_leaflet_special_tools.js';
         /* SPECIALTOOLS */
 
@@ -287,7 +288,7 @@ component_geolocation.prototype.get_map = async function(map_container, key) {
 		let base_maps	= {}
 
 	// Add layer to map
-
+                
                 /* SPECIAL TOOLS */
                 
                 /*
@@ -494,17 +495,31 @@ component_geolocation.prototype.get_map = async function(map_container, key) {
 				}
                                 
                                 /* SPECIAL TOOLS */
+
+                                render_tool_leaflet_special_tools.prototype.load_special_tools(L);
+                                render_tool_leaflet_special_tools.prototype.load_special_tools_catastro(L);
+                                render_tool_leaflet_special_tools.prototype.load_special_tools_geolocation(L);
+                                render_tool_leaflet_special_tools.prototype.load_special_tools_legend(L);
+                                render_tool_leaflet_special_tools.prototype.load_special_tools_map_image_download(L);
+                                render_tool_leaflet_special_tools.prototype.load_special_tools_objects(L);
+                                render_tool_leaflet_special_tools.prototype.load_special_tools_onexone(L);
+                                render_tool_leaflet_special_tools.prototype.load_special_tools_roman_empire(L);
+                                render_tool_leaflet_special_tools.prototype.load_special_tools_UA_es(L);
+                                render_tool_leaflet_special_tools.prototype.load_special_tools_upload(L);
+                                render_tool_leaflet_special_tools.prototype.load_special_tools_wms(L);
+                                render_tool_leaflet_special_tools.prototype.load_special_tools_xyz(L);
                                 
                                 /*
                                  * 
                                  * Se obtienen los proveedores para determinar que control se carga o no
                                  * 
                                  */
-
+                                
                                 const geo_provider = self.context.features.geo_provider;
                                 
                                 let special_tools_controls;
 
+                                /* Si es numisdata y es lg-spa || lg-cat || lg-eus */
                                 if (geo_provider === 'NUMISDATA') {
                                     
                                     if (self.section_lang === 'lg-spa' || 

@@ -30,8 +30,7 @@ export const tool_leaflet_special_tools = function () {
 	this.target_lang = null;
 	this.langs = null;
 	this.caller = null;
-        this.component_list;
-        this.tool_config;
+        this.tool_config = null;
         
 }//end page
 /**
@@ -66,7 +65,11 @@ tool_leaflet_special_tools.prototype.init = async function(options) {
 */
 tool_leaflet_special_tools.prototype.build = async function(autoload=true) {
 
-	const common_build = await tool_common.prototype.build.call(this, autoload);
+	//const common_build = await tool_common.prototype.build.call(this, autoload);
+
+        const common_build = await tool_common.prototype.build.call(this, autoload, {
+                load_ddo_map : () => { return []} // prevents to auto load ddo_map
+        });
 
 	return common_build;
         
@@ -78,135 +81,65 @@ const load_promises = [];
 
 /* CSS */
 
-const modal_css = this.controls_url() + '/external-lib/leaflet-modal/dist/leaflet.modal.min.css';
+const modal_css = this.tool_url() + '/external-lib/leaflet-modal/dist/leaflet.modal.min.css';
 load_promises.push(common.prototype.load_style(modal_css));                     
 
-const graphicscale_css = this.controls_url() + '/external-lib/leaflet-graphicscale/dist/Leaflet.GraphicScale.min.css';
+const graphicscale_css = this.tool_url() + '/external-lib/leaflet-graphicscale/dist/Leaflet.GraphicScale.min.css';
 load_promises.push( common.prototype.load_style(graphicscale_css));
 
 const geocoder_css = 'https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css';
 load_promises.push( common.prototype.load_style(geocoder_css));
 
-const simplelightbox_css = this.controls_url() + '/external-lib/simpleLightbox/dist/simpleLightbox.min.css';
+const simplelightbox_css = this.tool_url() + '/external-lib/simpleLightbox/dist/simpleLightbox.min.css';
 load_promises.push( common.prototype.load_style(simplelightbox_css));
 
-const special_tools_css = this.controls_url() + '/leaflet.control.SpecialTools.css?v=' + this.make_id(30);
-load_promises.push(common.prototype.load_style(special_tools_css));
-
-const special_tools_oneXone_css = this.controls_url() + '/leaflet.control.SpecialToolsOneXOne/leaflet.control.SpecialToolsOneXOne.css?v=' + this.make_id(30);
-load_promises.push(common.prototype.load_style(special_tools_oneXone_css));
-
-const special_tools_catastro_css = this.controls_url() + '/leaflet.control.SpecialToolsCatastro/leaflet.control.SpecialToolsCatastro.css?v=' + this.make_id(30);
-load_promises.push(common.prototype.load_style(special_tools_catastro_css));
-
-const special_tools_UA_css = this.controls_url() + '/leaflet.control.SpecialToolsUA/leaflet.control.SpecialToolsUA.css?v=' + this.make_id(30);
-load_promises.push(common.prototype.load_style(special_tools_UA_css));
-
-const special_tools_roman_empire_css = this.controls_url() + '/leaflet.control.SpecialToolsRomanEmpire/leaflet.control.SpecialToolsRomanEmpire.css?v=' + this.make_id(30);
-load_promises.push(common.prototype.load_style(special_tools_roman_empire_css));
-
-const special_tools_objects_css = this.controls_url() + '/leaflet.control.SpecialToolsObjects/leaflet.control.SpecialToolsObjects.css?v=' + this.make_id(30);
-load_promises.push(common.prototype.load_style(special_tools_objects_css));
-
-const special_tools_XYZ_css = this.controls_url() + '/leaflet.control.SpecialToolsXYZ/leaflet.control.SpecialToolsXYZ.css?v=' + this.make_id(30);
-load_promises.push(common.prototype.load_style(special_tools_XYZ_css));
-
-const special_tools_WMS_css = this.controls_url() + '/leaflet.control.SpecialToolsWMS/leaflet.control.SpecialToolsWMS.css?v=' + this.make_id(30);
-load_promises.push(common.prototype.load_style(special_tools_WMS_css));
-
-const special_tools_map_image_download_css = this.controls_url() + '/leaflet.control.SpecialToolsMapImageDownload/leaflet.control.SpecialToolsMapImageDownload.css?v=' + this.make_id(30);
-load_promises.push(common.prototype.load_style(special_tools_map_image_download_css));
-
-const special_tools_upload_css = this.controls_url() + '/leaflet.control.SpecialToolsUpload/leaflet.control.SpecialToolsUpload.css?v=' + this.make_id(30);
-load_promises.push(common.prototype.load_style(special_tools_upload_css));
-
-const special_tools_legend_css = this.controls_url() + '/leaflet.control.SpecialToolsLegend/leaflet.control.SpecialToolsLegend.css?v=' + this.make_id(30);
-load_promises.push(common.prototype.load_style(special_tools_legend_css));
-
-const special_tools_geolocation_css = this.controls_url() + '/leaflet.control.SpecialToolsGeolocation/leaflet.control.SpecialToolsGeolocation.css?v=' + this.make_id(30);
-load_promises.push(common.prototype.load_style(special_tools_geolocation_css));
-
+const tool_leaflet_special_tools_css = this.tool_url() + '/css/tool_leaflet_special_tools.css?v=' + this.make_id(30);
+load_promises.push(common.prototype.load_style(tool_leaflet_special_tools_css));
 /* CSS */
 
 /* JS */
 
-const catiline_js = this.controls_url() + '/external-lib/leaflet.shapefile/catiline.js';
+const catiline_js = this.tool_url() + '/external-lib/leaflet.shapefile/catiline.js';
 load_promises.push(common.prototype.load_script(catiline_js));
 
-const shpfile_js = this.controls_url() + '/external-lib/leaflet.shapefile/leaflet.shpfile.js';
+const shpfile_js = this.tool_url() + '/external-lib/leaflet.shapefile/leaflet.shpfile.js';
 load_promises.push(common.prototype.load_script(shpfile_js));
 
-const kml_js = this.controls_url() + '/external-lib/leaflet-kml/L.KML.js';
+const kml_js = this.tool_url() + '/external-lib/leaflet-kml/L.KML.js';
 load_promises.push(common.prototype.load_script(kml_js));
 
-const georaster_js = this.controls_url() + '/external-lib/georaster/dist/georaster.browser.bundle.js';
+const georaster_js = this.tool_url() + '/external-lib/georaster/dist/georaster.browser.bundle.js';
 load_promises.push(common.prototype.load_script(georaster_js));
 
 const georaster_layer_for_leaflet_js = 'https://unpkg.com/georaster-layer-for-leaflet/dist/georaster-layer-for-leaflet.min.js';
 load_promises.push(common.prototype.load_script(georaster_layer_for_leaflet_js)); 
 
-const imageoverlay_rotated_js = this.controls_url() + '/external-lib/Leaflet.ImageOverlay.Rotated/Leaflet.ImageOverlay.Rotated.js'
+const imageoverlay_rotated_js = this.tool_url() + '/external-lib/Leaflet.ImageOverlay.Rotated/Leaflet.ImageOverlay.Rotated.js'
 load_promises.push(common.prototype.load_script(imageoverlay_rotated_js));
 
-const domtoimage_js = this.controls_url() + '/external-lib/dom-to-image/dist/dom-to-image.min.js'
+const domtoimage_js = this.tool_url() + '/external-lib/dom-to-image/dist/dom-to-image.min.js'
 load_promises.push(common.prototype.load_script(domtoimage_js));
 
-const marker_filter_color_js = this.controls_url() + '/external-lib/marker-filter-color/marker-filter-color.js';
+const marker_filter_color_js = this.tool_url() + '/external-lib/marker-filter-color/marker-filter-color.js';
 load_promises.push(common.prototype.load_script(marker_filter_color_js));
 
-const graphicscale_js = this.controls_url() + '/external-lib/leaflet-graphicscale/dist/Leaflet.GraphicScale.min.js';
+const graphicscale_js = this.tool_url() + '/external-lib/leaflet-graphicscale/dist/Leaflet.GraphicScale.min.js';
 load_promises.push(common.prototype.load_script(graphicscale_js));                    
 
-const modal_js = this.controls_url() + '/external-lib/leaflet-modal/dist/L.Modal.min.js';
+const modal_js = this.tool_url() + '/external-lib/leaflet-modal/dist/L.Modal.min.js';
 load_promises.push(common.prototype.load_script(modal_js));
 
-const utm_js = this.controls_url() + '/external-lib/Leaflet.UTM/L.LatLng.UTM.js';
+const utm_js = this.tool_url() + '/external-lib/Leaflet.UTM/L.LatLng.UTM.js';
 load_promises.push(common.prototype.load_script(utm_js));
 
-const projections_js = this.controls_url() + '/external-lib/projections/projections.js';
+const projections_js = this.tool_url() + '/external-lib/projections/projections.js';
 load_promises.push(common.prototype.load_script(projections_js));
 
 const geocoder_js = 'https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js';
 load_promises.push(common.prototype.load_script(geocoder_js));
 
-const simplelightbox_js = this.controls_url() + '/external-lib/simpleLightbox/dist/simpleLightbox.min.js';
+const simplelightbox_js = this.tool_url() + '/external-lib/simpleLightbox/dist/simpleLightbox.min.js';
 load_promises.push(common.prototype.load_script(simplelightbox_js));
-
-const special_tools_js = this.controls_url() + '/leaflet.control.SpecialTools.js?v=' + this.make_id(30);
-load_promises.push(common.prototype.load_script(special_tools_js));
-
-const special_tools_oneXone_js = this.controls_url() + '/leaflet.control.SpecialToolsOneXOne/leaflet.control.SpecialToolsOneXOne.js?v=' + this.make_id(30);
-load_promises.push(common.prototype.load_script(special_tools_oneXone_js));
-
-const special_tools_catastro_js = this.controls_url() + '/leaflet.control.SpecialToolsCatastro/leaflet.control.SpecialToolsCatastro.js?v=' + this.make_id(30);
-load_promises.push(common.prototype.load_script(special_tools_catastro_js));
-
-const special_tools_UA_js = this.controls_url() + '/leaflet.control.SpecialToolsUA/leaflet.control.SpecialToolsUA.js?v=' + this.make_id(30);
-load_promises.push( common.prototype.load_script(special_tools_UA_js));
-
-const special_tools_roman_empire_js = this.controls_url() + '/leaflet.control.SpecialToolsRomanEmpire/leaflet.control.SpecialToolsRomanEmpire.js?v=' + this.make_id(30);
-load_promises.push(common.prototype.load_script(special_tools_roman_empire_js));
-
-const special_tools_objects_js = this.controls_url() + '/leaflet.control.SpecialToolsObjects/leaflet.control.SpecialToolsObjects.js?v=' + this.make_id(30);
-load_promises.push(common.prototype.load_script(special_tools_objects_js));
-
-const special_tools_XYZ_js = this.controls_url() + '/leaflet.control.SpecialToolsXYZ/leaflet.control.SpecialToolsXYZ.js?v=' + this.make_id(30);
-load_promises.push(common.prototype.load_script(special_tools_XYZ_js));
-
-const special_tools_WMS_js = this.controls_url() + '/leaflet.control.SpecialToolsWMS/leaflet.control.SpecialToolsWMS.js?v=' + this.make_id(30);
-load_promises.push(common.prototype.load_script(special_tools_WMS_js));
-
-const special_tools_upload_js = this.controls_url() + '/leaflet.control.SpecialToolsUpload/leaflet.control.SpecialToolsUpload.js?v=' + this.make_id(30);
-load_promises.push(common.prototype.load_script(special_tools_upload_js));
-
-const special_tools_map_image_download_js = this.controls_url() + '/leaflet.control.SpecialToolsMapImageDownload/leaflet.control.SpecialToolsMapImageDownload.js?v=' + this.make_id(30);
-load_promises.push(common.prototype.load_script(special_tools_map_image_download_js));
-
-const special_tools_legend_js = this.controls_url() + '/leaflet.control.SpecialToolsLegend/leaflet.control.SpecialToolsLegend.js?v=' + this.make_id(30);
-load_promises.push(common.prototype.load_script(special_tools_legend_js));
-
-const special_tools_geolocation_js = this.controls_url() + '/leaflet.control.SpecialToolsGeolocation/leaflet.control.SpecialToolsGeolocation.js?v=' + this.make_id(30);
-load_promises.push(common.prototype.load_script(special_tools_geolocation_js));
 
 /* JS */
    
@@ -215,15 +148,11 @@ load_promises.push(common.prototype.load_script(special_tools_geolocation_js));
 };
 
 tool_leaflet_special_tools.prototype.control = function(component_geolocation, options) {
-    
-    self = this;
-    
+
     options.component_geolocation = component_geolocation;
     
     options.tool = this;
-    
-    
-    
+
     try {
     
         const geocoder = L.Control.geocoder({position: 'topleft', defaultMarkGeocode: false});
@@ -241,9 +170,7 @@ tool_leaflet_special_tools.prototype.control = function(component_geolocation, o
         console.log(e);
         
     }
-    
-    
-    
+
     this.set_component_geolocation(component_geolocation);
     
     options.lang = component_geolocation.section_lang;
@@ -1586,12 +1513,6 @@ tool_leaflet_special_tools.prototype.get_component_image = function() {
 tool_leaflet_special_tools.prototype.tool_url = function() {
     
     return DEDALO_ROOT_WEB + '/tools/tool_leaflet_special_tools';
-
-};
-
-tool_leaflet_special_tools.prototype.controls_url = function() {
-    
-    return this.tool_url() + '/leaflet.control.SpecialTools';
 
 };
 

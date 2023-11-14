@@ -529,7 +529,7 @@ class tool_leaflet_special_tools extends tool_common  {
 
         $response->value = $options->value;
         
-        $json_service = DEDALO_TOOLS_PATH . '/tool_leaflet_special_tools/leaflet.control.SpecialTools/leaflet.control.SpecialToolsRomanEmpire/services/pleiades/pleiades.json';
+        $json_service = DEDALO_TOOLS_PATH . '/tool_leaflet_special_tools/services/pleiades/pleiades.json';
 
         if ($response->type === 'name') {
 
@@ -660,7 +660,7 @@ class tool_leaflet_special_tools extends tool_common  {
 
         foreach ($response->files as $file) {
             
-            $geojson_file = DEDALO_TOOLS_PATH . '/tool_leaflet_special_tools/leaflet.control.SpecialTools/leaflet.control.SpecialToolsRomanEmpire/services/pelagios/data/'.$file.'.geojson';
+            $geojson_file = DEDALO_TOOLS_PATH . '/tool_leaflet_special_tools/services/pelagios/data/'.$file.'.geojson';
 
             $content = file_get_contents($geojson_file);
 
@@ -731,6 +731,7 @@ class tool_leaflet_special_tools extends tool_common  {
             
             $response->success = true;
             $response->content = $objects;
+            $response->msg = 'ok';
         
         }
         
@@ -751,8 +752,8 @@ class tool_leaflet_special_tools extends tool_common  {
         $response->type_site = $options->type_site;
 
         $response->type_name = $options->type_name;
-
-        $response->type_country = $response->type_country;
+            
+        $response->type_country = $options->type_country;
 
         $response->type_name = $response->type_name . '=' . $response->query;
         
@@ -809,6 +810,7 @@ class tool_leaflet_special_tools extends tool_common  {
         if (count($objects) > 0) {
             
             $response->success = true;
+            $response->msg = 'ok';
             $response->content = $objects;
             
         }
