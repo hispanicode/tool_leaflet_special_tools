@@ -14,7 +14,19 @@ const projections = {
 
             const default_crs = {"type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3857" }};
 
+
+            if (GEOJSON.hasOwnProperty('crs')) {
+                
+                if (GEOJSON.crs.properties.name === EPSG['EPSG_3857'].crs) {
+
+                    GEOJSON = turf.toWgs84(GEOJSON);
+
+                }
+                
+            }
+
             var OBJECTS = new Array();
+
 
             if (GEOJSON.hasOwnProperty("crs") && EPSG !== null) {
 
@@ -86,7 +98,7 @@ const projections = {
                 const json = GEOJSON;
                 
                 const coordinates = json.geometry.coordinates;
-                
+
                 let point_coord;
 
                 try {
@@ -124,6 +136,16 @@ const projections = {
             }
  
             const default_crs = {"type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3857" }};
+
+            if (GEOJSON.hasOwnProperty('crs')) {
+                
+                if (GEOJSON.crs.properties.name === EPSG['EPSG_3857'].crs) {
+
+                    GEOJSON = turf.toWgs84(GEOJSON);
+
+                }
+            
+            }
 
             var OBJECTS = new Array();
 
@@ -251,6 +273,16 @@ const projections = {
 
             const default_crs = {"type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3857" }};
 
+            if (GEOJSON.hasOwnProperty('crs')) {
+                
+                if (GEOJSON.crs.properties.name === EPSG['EPSG_3857'].crs) {
+
+                    GEOJSON = turf.toWgs84(GEOJSON);
+
+                }
+                
+            }
+
             var OBJECTS = new Array();
 
             if (GEOJSON.hasOwnProperty("crs") && EPSG !== null) {
@@ -359,6 +391,16 @@ const projections = {
 
             const default_crs = {"type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3857" }};
 
+            if (GEOJSON.hasOwnProperty('crs')) {
+
+                if (GEOJSON.crs.properties.name === EPSG['EPSG_3857'].crs) {
+
+                    GEOJSON = turf.toWgs84(GEOJSON);
+
+                }
+            
+            }
+
             var OBJECTS = new Array();
 
             const multi_id = this.make_id(20);
@@ -427,7 +469,6 @@ const projections = {
 
                             const coordinates = json.geometry.coordinates;
 
-
                             for (let index_1 in coordinates) {
 
                                 for(let index_2 in coordinates[index_1]) {
@@ -495,6 +536,16 @@ const projections = {
             }
 
             const default_crs = {"type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3857" }};
+
+            if (GEOJSON.hasOwnProperty('crs')) {          
+        
+                if (GEOJSON.crs.properties.name === EPSG['EPSG_3857'].crs) {
+
+                    GEOJSON = turf.toWgs84(GEOJSON);
+
+                }
+            
+            }
 
             var OBJECTS = new Array();
 
@@ -613,6 +664,16 @@ const projections = {
             var linestring;
 
             const default_crs = {"type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::3857"}};
+
+            if (GEOJSON.hasOwnProperty('crs')) {
+
+                if (GEOJSON.crs.properties.name === EPSG['EPSG_3857'].crs) {
+
+                    GEOJSON = turf.toWgs84(GEOJSON);
+
+                }
+            
+            }
 
             var OBJECTS = new Array();
 
@@ -753,4 +814,4 @@ const projections = {
 
     }
 
-}
+};

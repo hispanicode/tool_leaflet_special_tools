@@ -1217,11 +1217,17 @@ special_tools.prototype.show_modal_raster_download = function(btn_show_modal_ras
                 ctx.drawImage(volatil_image, 0, 0);
 
                 const dataURL = canvas.toDataURL();
-
-                var overlay_bounds_str = overlay.getBounds().getNorthWest().lng;
-                overlay_bounds_str = overlay_bounds_str + ' ' + overlay.getBounds().getNorthWest().lat;
-                overlay_bounds_str = overlay_bounds_str + ' ' + overlay.getBounds().getSouthEast().lng;
-                overlay_bounds_str = overlay_bounds_str + ' ' + overlay.getBounds().getSouthEast().lat;
+                
+                const _NW = overlay.getBounds().getNorthWest();
+                const _SE = overlay.getBounds().getSouthEast();
+                
+                const NW = self.epsg4326_to_Epsg3857([_NW.lng, _NW.lat]);
+                const SE = self.epsg4326_to_Epsg3857([_SE.lng, _SE.lat]);
+                
+                var overlay_bounds_str = NW[0];
+                overlay_bounds_str = overlay_bounds_str + ' ' + NW[1];
+                overlay_bounds_str = overlay_bounds_str + ' ' + SE[0];
+                overlay_bounds_str = overlay_bounds_str + ' ' + SE[1];
 
                 let options = {};
 
@@ -6268,7 +6274,7 @@ special_tools.prototype.centroid_event = function() {
 };
 
 special_tools.prototype.project = function(GEOJSON, EPSG) {
-
+    
     let OBJECTS_GEOJSON = new Array();
 
     if (GEOJSON.hasOwnProperty('features')) {
@@ -6288,7 +6294,7 @@ special_tools.prototype.project = function(GEOJSON, EPSG) {
                 OBJECTS_GEOJSON.push(polygon);
 
             } else if (GEOJSON.features[feature].geometry.type === 'MultiPolygon') {
-
+                
                 const multipolygon = projections.multipolygon(GEOJSON.features[feature], EPSG);
 
                 OBJECTS_GEOJSON.push(multipolygon);
@@ -6359,4 +6365,28 @@ special_tools.prototype.project = function(GEOJSON, EPSG) {
     return OBJECTS_GEOJSON;
 
 };
+
+special_tools.prototype.epsg4326_to_Epsg3857 = function(coordinates) {
+
+    let x = (coordinates[0] * 20037508.34) / 180;
+    
+    let y = Math.log(Math.tan(((90 + coordinates[1]) * Math.PI) / 360)) / (Math.PI / 180);
+      
+    y = (y * 20037508.34) / 180;
+    
+    return [x, y];
+  
+};
+
+special_tools.prototype.epsg3857_to_Epsg4326 = function(coordinates) {
+  
+    let x = coordinates[0];
+    let y = coordinates[1];
+
+    x = (x * 180) / 20037508.34;
+    y = (y * 180) / 20037508.34;
+    y = (Math.atan(Math.pow(Math.E, y * (Math.PI / 180))) * 360) / Math.PI - 90;
+
+    return [x, y];
+}
 

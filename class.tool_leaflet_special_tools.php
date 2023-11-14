@@ -102,7 +102,7 @@ class tool_leaflet_special_tools extends tool_common  {
             
             sleep(2);
 
-            shell_exec("ogr2ogr -f 'ESRI ShapeFile' -a_srs EPSG:4326 $temporal_shape_file $temporal_geojson_file");
+            shell_exec("ogr2ogr -f 'ESRI ShapeFile' -a_srs EPSG:3857 $temporal_shape_file $temporal_geojson_file");
 
             
             $zipArchive = new ZipArchive();
@@ -162,7 +162,7 @@ class tool_leaflet_special_tools extends tool_common  {
 
             sleep(2);
 
-            shell_exec("ogr2ogr -f 'KML' -a_srs EPSG:4326 $temporal_kml_file $temporal_geojson_file");
+            shell_exec("ogr2ogr -f 'KML' -a_srs EPSG:3857 $temporal_kml_file $temporal_geojson_file");
 
             sleep(2);
 
@@ -260,7 +260,7 @@ class tool_leaflet_special_tools extends tool_common  {
 
             sleep(3);
 
-            shell_exec("gdal_translate -of GTiff -a_srs EPSG:4326 -a_ullr " . $response->bounds . " -outsize 100% 100% -co TILED=YES -co COMPRESS=LZW -co ALPHA=YES $blob_file $geotiff_file"); 
+            shell_exec("gdal_translate -of GTiff -a_srs EPSG:3857 -a_ullr " . $response->bounds . " $blob_file $geotiff_file"); 
 
             sleep(2);
 
@@ -946,12 +946,8 @@ class tool_leaflet_special_tools extends tool_common  {
             }
 
             sleep(3);
-
-            //shell_exec("gdal_translate -of GTiff -a_srs EPSG:4326 -a_ullr " . $response->tif_bounds . " -outsize 100% 100% -co TILED=YES -co COMPRESS=LZW -co ALPHA=YES $blob_file $new_file");
             
             shell_exec("gdal_translate -of GTiff -a_srs EPSG:3857 -a_ullr " . $response->tif_bounds . " $blob_file $new_file");
-            
-            //shell_exec("gdal_translate -of GTiff -a_srs EPSG:4326 -a_gt 7514 1007 0 5972 0 476 -co COMPRESS=LZW -co ALPHA=YES -co TFW=YES $blob_file $new_file");
             
             sleep(2);
 
@@ -1959,7 +1955,11 @@ class tool_leaflet_special_tools extends tool_common  {
 
             }
             
-            mkdir(self::geojson_uploads_path() . '/' . $folder_name, 0777);
+            if (!is_dir(self::geojson_uploads_path() . '/' . $folder_name)) {
+            
+                mkdir(self::geojson_uploads_path() . '/' . $folder_name, 0777);
+
+            }
             
             $target_dir = self::geojson_uploads_path() . '/' . $folder_name;
             

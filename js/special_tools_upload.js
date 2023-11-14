@@ -446,7 +446,7 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
                             const GEOJSON = shpfile.toGeoJSON();
 
                             const OBJECTS_GEOJSON = self.project(GEOJSON, EPSG);
-
+  
                             for (let index in OBJECTS_GEOJSON) {
 
                                 let max_fit = 1;
