@@ -949,7 +949,7 @@ class tool_leaflet_special_tools extends tool_common  {
 
             //shell_exec("gdal_translate -of GTiff -a_srs EPSG:4326 -a_ullr " . $response->tif_bounds . " -outsize 100% 100% -co TILED=YES -co COMPRESS=LZW -co ALPHA=YES $blob_file $new_file");
             
-            shell_exec("gdal_translate -of GTiff -a_srs EPSG:4326 -a_ullr " . $response->tif_bounds . " $blob_file $new_file");
+            shell_exec("gdal_translate -of GTiff -a_srs EPSG:3857 -a_ullr " . $response->tif_bounds . " $blob_file $new_file");
             
             //shell_exec("gdal_translate -of GTiff -a_srs EPSG:4326 -a_gt 7514 1007 0 5972 0 476 -co COMPRESS=LZW -co ALPHA=YES -co TFW=YES $blob_file $new_file");
             

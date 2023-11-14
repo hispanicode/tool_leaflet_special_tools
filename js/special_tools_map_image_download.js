@@ -281,18 +281,21 @@ special_tools_map_image_download.prototype.load_modal = function() {
 
                 const bounds = self.map.getBounds();
 
-                const NW = bounds.getNorthWest();
+                const _NW = bounds.getNorthWest();
 
-                const SE = bounds.getSouthEast();
+                const _SE = bounds.getSouthEast();
 
                 self.modal_message("Descargando ...");
 
                 if (file_type === 'tif') {
 
-                    tif_bounds = NW.lng;
-                    tif_bounds = tif_bounds + ' ' + NW.lat;
-                    tif_bounds = tif_bounds + ' ' + SE.lng;
-                    tif_bounds = tif_bounds + ' ' + SE.lat;
+                    const NW = special_tools_map_image_download.prototype.epsg4326_to_Epsg3857([_NW.lng, _NW.lat]);
+                    const SE = special_tools_map_image_download.prototype.epsg4326_to_Epsg3857([_SE.lng, _SE.lat]);
+                    
+                    tif_bounds = NW[0];
+                    tif_bounds = tif_bounds + ' ' + NW[1];
+                    tif_bounds = tif_bounds + ' ' + SE[0];
+                    tif_bounds = tif_bounds + ' ' + SE[1];
 
                     console.log("tif_bounds: " + tif_bounds);
 
@@ -350,4 +353,16 @@ special_tools_map_image_download.prototype.control_corners_display = function(di
     self.map._controlCorners.bottomright.style.display = display;
     self.map._controlCorners.bottomleft.style.display = display;
     
+};
+
+special_tools_map_image_download.prototype.epsg4326_to_Epsg3857 = function(coordinates) {
+
+    let x = (coordinates[0] * 20037508.34) / 180;
+    
+    let y = Math.log(Math.tan(((90 + coordinates[1]) * Math.PI) / 360)) / (Math.PI / 180);
+      
+    y = (y * 20037508.34) / 180;
+    
+    return [x, y];
+  
 };
