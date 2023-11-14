@@ -366,3 +366,15 @@ special_tools_map_image_download.prototype.epsg4326_to_Epsg3857 = function(coord
     return [x, y];
   
 };
+
+special_tools_map_image_download.prototype.epsg3857_to_Epsg4326 = function(coordinates) {
+  
+    let x = coordinates[0];
+    let y = coordinates[1];
+
+    x = (x * 180) / 20037508.34;
+    y = (y * 180) / 20037508.34;
+    y = (Math.atan(Math.pow(Math.E, y * (Math.PI / 180))) * 360) / Math.PI - 90;
+
+    return [x, y];
+}

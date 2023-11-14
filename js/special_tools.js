@@ -963,7 +963,7 @@ special_tools.prototype.show_modal_vector_download = function(btn_show_modal_vec
 
             options.vector_name = self.simple_sanitize_string(vector_name.value);
 
-            options.content = JSON.stringify(geojson);
+            options.content = JSON.stringify(turf.toMercator(geojson));
 
             let promise = self.tool.vector_download(options);
 
