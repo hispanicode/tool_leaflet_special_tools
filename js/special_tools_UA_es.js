@@ -389,8 +389,10 @@ special_tools_UA_es.prototype.init_UA = function() {
                                                     self.is_linestring(OBJECTS_GEOJSON[index][obj])
                                                     || self.is_polygon(OBJECTS_GEOJSON[index][obj])
                                                     ) {
-
-                                                    self.map.fitBounds(OBJECTS_GEOJSON[index][obj].getBounds());
+                                                    
+                                                    const _COLLECTION = L.geoJSON(COLLECTION);
+                                                    self.map.fitBounds(_COLLECTION.getBounds());
+                                                    
 
                                                 }
                                                 max_fit = 0;
