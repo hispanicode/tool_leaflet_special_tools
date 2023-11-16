@@ -13,6 +13,7 @@
 .leaflet-container input[type=text] {
     
     caret-color: blueviolet;
+    
 }
 
 .special-tools-console {
@@ -151,6 +152,9 @@
 .special-tools-textarea {
     
     padding: 5px;
+    caret-color: blueviolet;
+    font-size: 12px;
+    border-radius: 2px;
     
 }
 

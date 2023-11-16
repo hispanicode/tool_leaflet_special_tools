@@ -45,6 +45,11 @@ El archivo <strong>component_geolocation.js</strong> se adjunta entre los archiv
 chmod -R 777 tool_leaflet_special_tools
 </pre>
 
+<p>strong>Configuración del tool</strong></p>
+
+<img src='https://raw.githubusercontent.com/hispanicode/tool_leaflet_special_tools/main/tool_config_1.png'>
+<img src='https://raw.githubusercontent.com/hispanicode/tool_leaflet_special_tools/main/tool_config_2.png'>
+
 
 
 
