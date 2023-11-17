@@ -472,10 +472,14 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
 
                                             ) {
 
-                                            self.map.fitBounds(OBJECTS_GEOJSON[index][obj].getBounds());
+                                            //self.map.fitBounds(OBJECTS_GEOJSON[index][obj].getBounds());
+                                            const _COLLECTION = L.geoJSON(GEOJSON);
+                                            self.map.fitBounds(_COLLECTION.getBounds());
 
                                         }
+                                        
                                         max_fit = 0;
+                                        
                                     }
                                 }
                             }
@@ -545,7 +549,9 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
                                         || self.is_polygon(OBJECTS_GEOJSON[index][obj])
                                         ) {
 
-                                        self.map.fitBounds(OBJECTS_GEOJSON[index][obj].getBounds());
+                                        //self.map.fitBounds(OBJECTS_GEOJSON[index][obj].getBounds());
+                                        const _COLLECTION = L.geoJSON(GEOJSON);
+                                        self.map.fitBounds(_COLLECTION.getBounds());
 
                                     }
 
@@ -615,10 +621,14 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
                                         || self.is_polygon(OBJECTS_GEOJSON[index][obj])
                                         ) {
 
-                                        self.map.fitBounds(OBJECTS_GEOJSON[index][obj].getBounds());
+                                        //self.map.fitBounds(OBJECTS_GEOJSON[index][obj].getBounds());
+                                        const _COLLECTION = L.geoJSON(GEOJSON);
+                                        self.map.fitBounds(_COLLECTION.getBounds());
 
                                     }
+                                    
                                     max_fit = 0;
+                                    
                                 }
                             }
                         }

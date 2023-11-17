@@ -21,7 +21,6 @@
         import {tool_leaflet_special_tools} from '../../../tools/tool_leaflet_special_tools/js/tool_leaflet_special_tools.js';
         /* SPECIALTOOLS */
 
-
 export const component_geolocation = function(){
 
 	this.id
@@ -157,30 +156,26 @@ component_geolocation.prototype.init = async function(options) {
 
 		// leaflet. (!) It's necessary to be loaded fully before 'geoman'
 			const lib_js_file = DEDALO_ROOT_WEB + '/lib/leaflet/dist/leaflet.js'
-			await common.prototype.load_script(
+			const leaflet_promise = common.prototype.load_script(
 				lib_js_file,
 				license
 			)
+			load_promises.push(leaflet_promise)
+			leaflet_promise
+			.then(function(response){
 
-		// another loads in parallel
-			const lib_css_file = DEDALO_ROOT_WEB + '/lib/leaflet/dist/leaflet.css'
-			load_promises.push( common.prototype.load_style(lib_css_file) )
+				const geo_editor_lib_js_file = DEDALO_ROOT_WEB + '/lib/leaflet/dist/leaflet-geoman/leaflet-geoman.min.js'
+				common.prototype.load_script(geo_editor_lib_js_file, license)
 
-			const geo_editor_lib_js_file = DEDALO_ROOT_WEB + '/lib/leaflet/dist/leaflet-geoman/leaflet-geoman.min.js'
-			load_promises.push( common.prototype.load_script(geo_editor_lib_js_file, license) )
+				const geo_messure_lib_js_file = DEDALO_ROOT_WEB + '/lib/leaflet/dist/turf/turf.min.js'
+				common.prototype.load_script(geo_messure_lib_js_file, license)
 
-			const geo_editor_lib_css_file = DEDALO_ROOT_WEB + '/lib/leaflet/dist/leaflet-geoman/leaflet-geoman.css'
-			load_promises.push( common.prototype.load_style(geo_editor_lib_css_file) )
+				const color_picker_lib_js_file = DEDALO_ROOT_WEB + '/lib/iro/dist/iro.min.js'
+				common.prototype.load_script(color_picker_lib_js_file, license)
+			})
 
-			const geo_messure_lib_js_file = DEDALO_ROOT_WEB + '/lib/leaflet/dist/turf/turf.min.js'
-			load_promises.push( common.prototype.load_script(geo_messure_lib_js_file, license) )
-
-			const color_picker_lib_js_file = DEDALO_ROOT_WEB + '/lib/iro/dist/iro.min.js'
-			load_promises.push( common.prototype.load_script(color_picker_lib_js_file, license) )
-
-                        const lib_special_tools = tool_leaflet_special_tools.prototype.get_lib();
-                        
                         /* SPECIAL TOOLS */
+                        const lib_special_tools = tool_leaflet_special_tools.prototype.get_lib();
                         
                         /*
                          * En este punto se añaden las librerías dependientes
@@ -192,6 +187,13 @@ component_geolocation.prototype.init = async function(options) {
                             
                         }
                         /* SPECIAL TOOLS */
+
+		// another loads in parallel
+			const lib_css_file = DEDALO_ROOT_WEB + '/lib/leaflet/dist/leaflet.css'
+			load_promises.push( common.prototype.load_style(lib_css_file) )
+
+			const geo_editor_lib_css_file = DEDALO_ROOT_WEB + '/lib/leaflet/dist/leaflet-geoman/leaflet-geoman.css'
+			load_promises.push( common.prototype.load_style(geo_editor_lib_css_file) )
 
 
 		// load and set JSON langs file
@@ -212,10 +214,8 @@ component_geolocation.prototype.init = async function(options) {
 
 		await Promise.all(load_promises)
 		.then(async function(){
-                    
 			// console.log('All component_geolocation items are loaded:', response);
-		});
-                
+		})
 
 	// event subscriptions
 		// (!) Note that component properties could set observe events like (numisdata264, hierarchy31):
@@ -243,12 +243,11 @@ component_geolocation.prototype.init = async function(options) {
 * @return bool
 */
 component_geolocation.prototype.get_map = async function(map_container, key) {
-    
 
-	const self = this;
+	const self = this
 
 	// defaults
-	const value = self.data.value || self.default_value
+		const value = self.data.value || self.default_value
 
 	// get data
 		// const key			= JSON.parse(map_container.dataset.key)
@@ -286,10 +285,8 @@ component_geolocation.prototype.get_map = async function(map_container, key) {
 		let osm			= null
 		let dare		= null
 		let base_maps	= {}
-
-	// Add layer to map
                 
-                /* SPECIAL TOOLS */
+                /* SPECIALTOOLS */
                 
                 /*
                  * Se realizan modificaciones en el siguiente switch para permitir
@@ -298,7 +295,7 @@ component_geolocation.prototype.get_map = async function(map_container, key) {
                  * la carpeta basemaps del tool_leaflet_special_tools
                  */
                 
-                /* SPECIAL TOOLS */
+                /* SPECIALTOOLS */
 
 		switch(self.context.features.geo_provider) {
 
@@ -493,6 +490,7 @@ component_geolocation.prototype.get_map = async function(map_container, key) {
 						layer_id	: self.active_layer_id
 					})
 				}
+                                
                                 
                                 /* SPECIAL TOOLS */
 
@@ -1534,6 +1532,7 @@ component_geolocation.prototype.create_point = function(point) {
         /* SPECIAL TOOLS */
         self.map.fire('pm:create', {layer: new_point});
         /* SPECIAL TOOLS */
+
 	// update the layer data with the new point
 	self.update_draw_data(self.active_layer_id)
 
@@ -1668,5 +1667,7 @@ const readable_area = function (area, metric=true) {
 
 	return area_string
 }//end readable_area
+
+
 
 // @license-end
