@@ -449,7 +449,8 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
   
                             for (let index in OBJECTS_GEOJSON) {
 
-                                let max_fit = 1;
+                                let count_objects = 1;
+                                let areas = [];
 
                                 for (let obj in OBJECTS_GEOJSON[index]) {
 
@@ -459,28 +460,50 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
 
                                     }, 100);
 
-                                    if (max_fit === 1) {
+                                    if (self.is_point(OBJECTS_GEOJSON[index][obj])) {
 
-                                        if (self.is_point(OBJECTS_GEOJSON[index][obj])) {
+                                        self.map.panTo(OBJECTS_GEOJSON[index][obj].getLatLng());
+                                       
+                                        break;
 
-                                           self.map.panTo(OBJECTS_GEOJSON[index][obj].getLatLng()); 
+                                    } else if (self.is_linestring(OBJECTS_GEOJSON[index][obj])) {
 
-                                        } else if (
+                                        self.map.fitBounds(OBJECTS_GEOJSON[index][obj].getBounds());
+                                        
+                                        break;
 
-                                            self.is_linestring(OBJECTS_GEOJSON[index][obj])
-                                            || self.is_polygon(OBJECTS_GEOJSON[index][obj])
+                                    } else if (self.is_polygon(OBJECTS_GEOJSON[index][obj])) {
+        
+                                        areas.push({
+                                            area: turf.area(OBJECTS_GEOJSON[index][obj].toGeoJSON()),
+                                            object: OBJECTS_GEOJSON[index][obj]
+                                        });
 
-                                            ) {
+                                        if (count_objects === OBJECTS_GEOJSON[index].length) {
 
-                                            //self.map.fitBounds(OBJECTS_GEOJSON[index][obj].getBounds());
-                                            const _COLLECTION = L.geoJSON(GEOJSON);
-                                            self.map.fitBounds(_COLLECTION.getBounds());
+                                            let max_value = 0;
+                                            for (let y in areas) {
+
+                                               max_value = Math.max(max_value, areas[y].area); 
+
+                                            }                                                    
+
+                                            for (let r in areas) {
+
+                                                if (areas[r].area === max_value) {
+
+                                                    self.map.fitBounds(areas[r].object.getBounds());
+
+                                                }
+
+                                            }
 
                                         }
                                         
-                                        max_fit = 0;
-                                        
                                     }
+
+                                    count_objects++;
+                                        
                                 }
                             }
 
@@ -528,7 +551,8 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
 
                         for (let index in OBJECTS_GEOJSON) {
 
-                            let max_fit = 1;
+                            let count_objects = 1;
+                            let areas = [];
 
                             for (let obj in OBJECTS_GEOJSON[index]) {
 
@@ -538,26 +562,51 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
 
                                 }, 100);
 
-                                if (max_fit === 1) {
+                                if (self.is_point(OBJECTS_GEOJSON[index][obj])) {
 
-                                    if (self.is_point(OBJECTS_GEOJSON[index][obj])) {
+                                    self.map.panTo(OBJECTS_GEOJSON[index][obj].getLatLng());
+                                   
+                                    break;
 
-                                       self.map.panTo(OBJECTS_GEOJSON[index][obj].getLatLng()); 
+                                } else if (self.is_linestring(OBJECTS_GEOJSON[index][obj])) {
 
-                                    } else if (
-                                        self.is_linestring(OBJECTS_GEOJSON[index][obj])
-                                        || self.is_polygon(OBJECTS_GEOJSON[index][obj])
-                                        ) {
+                                    self.map.fitBounds(OBJECTS_GEOJSON[index][obj].getBounds());
+                                    
+                                    break;
 
-                                        //self.map.fitBounds(OBJECTS_GEOJSON[index][obj].getBounds());
-                                        const _COLLECTION = L.geoJSON(GEOJSON);
-                                        self.map.fitBounds(_COLLECTION.getBounds());
+                                } else if (self.is_polygon(OBJECTS_GEOJSON[index][obj])) {
+
+                                    areas.push({
+                                        area: turf.area(OBJECTS_GEOJSON[index][obj].toGeoJSON()),
+                                        object: OBJECTS_GEOJSON[index][obj]
+                                    });
+
+                                    if (count_objects === OBJECTS_GEOJSON[index].length) {
+
+                                        let max_value = 0;
+                                        
+                                        for (let y in areas) {
+
+                                           max_value = Math.max(max_value, areas[y].area); 
+
+                                        }                                                    
+
+                                        for (let r in areas) {
+
+                                            if (areas[r].area === max_value) {
+
+                                                self.map.fitBounds(areas[r].object.getBounds());
+
+                                            }
+
+                                        }
 
                                     }
 
-                                    max_fit = 0;
-
                                 }
+
+                                count_objects++;
+
                             }
                         }
 
@@ -600,36 +649,61 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
 
                         for (let index in OBJECTS_GEOJSON) {
 
-                            let max_fit = 1;
+                            let count_objects = 1;
+                            let areas = [];
 
                             for (let obj in OBJECTS_GEOJSON[index]) {
 
-                                    window.setTimeout(function(){
+                                window.setTimeout(function(){
 
-                                        self.map.fire("pm:create", {layer: OBJECTS_GEOJSON[index][obj]});
+                                    self.map.fire("pm:create", {layer: OBJECTS_GEOJSON[index][obj]});
 
-                                    }, 100);
+                                }, 100);
 
-                                if (max_fit === 1) {
+                                if (self.is_point(OBJECTS_GEOJSON[index][obj])) {
 
-                                    if (self.is_point(OBJECTS_GEOJSON[index][obj])) {
+                                    self.map.panTo(OBJECTS_GEOJSON[index][obj].getLatLng());
+                                   
+                                    break;
 
-                                       self.map.panTo(OBJECTS_GEOJSON[index][obj].getLatLng()); 
+                                } else if (self.is_linestring(OBJECTS_GEOJSON[index][obj])) {
 
-                                    } else if (
-                                        self.is_linestring(OBJECTS_GEOJSON[index][obj])
-                                        || self.is_polygon(OBJECTS_GEOJSON[index][obj])
-                                        ) {
+                                    self.map.fitBounds(OBJECTS_GEOJSON[index][obj].getBounds());
+                                    
+                                    break;
 
-                                        //self.map.fitBounds(OBJECTS_GEOJSON[index][obj].getBounds());
-                                        const _COLLECTION = L.geoJSON(GEOJSON);
-                                        self.map.fitBounds(_COLLECTION.getBounds());
+                                } else if (self.is_polygon(OBJECTS_GEOJSON[index][obj])) {
+
+                                    areas.push({
+                                        area: turf.area(OBJECTS_GEOJSON[index][obj].toGeoJSON()),
+                                        object: OBJECTS_GEOJSON[index][obj]
+                                    });
+
+                                    if (count_objects === OBJECTS_GEOJSON[index].length) {
+
+                                        let max_value = 0;
+                                        for (let y in areas) {
+
+                                           max_value = Math.max(max_value, areas[y].area); 
+
+                                        }                                                    
+
+                                        for (let r in areas) {
+
+                                            if (areas[r].area === max_value) {
+
+                                                self.map.fitBounds(areas[r].object.getBounds());
+
+                                            }
+
+                                        }
 
                                     }
-                                    
-                                    max_fit = 0;
-                                    
+
                                 }
+
+                                count_objects++;
+
                             }
                         }
 

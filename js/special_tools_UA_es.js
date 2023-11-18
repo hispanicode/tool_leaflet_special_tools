@@ -368,8 +368,9 @@ special_tools_UA_es.prototype.init_UA = function() {
 
                                     for (let index in OBJECTS_GEOJSON) {
 
-                                        let max_fit = 1;
-
+                                        let count_objects = 1;
+                                        let areas = [];
+                                        
                                         for (let obj in OBJECTS_GEOJSON[index]) {
 
                                             window.setTimeout(function(){
@@ -378,25 +379,49 @@ special_tools_UA_es.prototype.init_UA = function() {
 
                                             }, 100);
 
+                                            if (self.is_point(OBJECTS_GEOJSON[index][obj])) {
 
-                                            if (max_fit === 1) {
+                                                self.map.panTo(OBJECTS_GEOJSON[index][obj].getLatLng());
+                                                
+                                                break;
 
-                                                if (self.is_point(OBJECTS_GEOJSON[index][obj])) {
+                                            } else if (self.is_linestring(OBJECTS_GEOJSON[index][obj])){
+                                                
+                                               self.map.fitBounds(OBJECTS_GEOJSON[index][obj].getBounds());
+                                               
+                                               break;
+                                                
+                                            } else if (self.is_polygon(OBJECTS_GEOJSON[index][obj])) {
 
-                                                   self.map.panTo(OBJECTS_GEOJSON[index][obj].getLatLng()); 
+                                                areas.push({
+                                                    area: turf.area(OBJECTS_GEOJSON[index][obj].toGeoJSON()),
+                                                    object: OBJECTS_GEOJSON[index][obj]
+                                                });
 
-                                                } else if (
-                                                    self.is_linestring(OBJECTS_GEOJSON[index][obj])
-                                                    || self.is_polygon(OBJECTS_GEOJSON[index][obj])
-                                                    ) {
+                                                if (count_objects === OBJECTS_GEOJSON[index].length) {
                                                     
-                                                    const _COLLECTION = L.geoJSON(COLLECTION);
-                                                    self.map.fitBounds(_COLLECTION.getBounds());
+                                                    let max_value = 0;
+                                                    for (let y in areas) {
+                                                        
+                                                       max_value = Math.max(max_value, areas[y].area); 
+                                                        
+                                                    }                                                    
                                                     
+                                                    for (let r in areas) {
+                                                        
+                                                        if (areas[r].area === max_value) {
+                                                            
+                                                            self.map.fitBounds(areas[r].object.getBounds());
+                                                            
+                                                        }
+                                                        
+                                                    }
 
                                                 }
-                                                max_fit = 0;
+
                                             }
+                                                
+                                            count_objects++;
 
                                         }
                                     }

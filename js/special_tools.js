@@ -572,6 +572,30 @@ special_tools.prototype.remove_by_multi_id = function(multi_id) {
     });
 };
 
+special_tools.prototype.get_layers_by_multi_id = function(multi_id) {
+    
+    const self = this;
+    
+    let array = [];
+    
+    self.map.eachLayer(function(layer) {
+        
+        if (self.is_multi(layer)) {
+            
+            if (self.get_multi_id(layer) === multi_id) {
+                
+                array.push(layer);
+                
+            }
+            
+        }
+        
+    });
+    
+    return array;
+    
+};
+
 special_tools.prototype.is_incertidumbre = function(layer) {
     
     if (layer.hasOwnProperty('feature')) {

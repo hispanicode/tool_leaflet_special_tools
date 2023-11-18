@@ -651,6 +651,9 @@ special_tools_objects.prototype.load_modal = function() {
                 } 
 
                 if (typeof self.collection === 'object') {
+                    
+                    let count_objects = 1;
+                    let areas = [];
 
                     for (let obj in self.collection._layers) {
 
@@ -683,18 +686,41 @@ special_tools_objects.prototype.load_modal = function() {
                                 if (layer.hasOwnProperty('_icon')) {
 
                                     self.map.setView(layer._latlng, 16);
+                                    
+                                    break;
 
-                                } else {
+                                } else if (self.is_linestring(layer)) {
 
                                     self.map.fitBounds(layer.getBounds());
+                                    
+                                    break;
 
+                                } else if (self.is_polygon(layer)) {
+                                    
+                                    const multi_polygon = self.get_layers_by_multi_id(multi_id);
+                                    let feature_collection = new Array();
+                                    
+                                    for (let x in multi_polygon) {
+                                        
+                                        feature_collection.push(multi_polygon[x].toGeoJSON());
+                                        
+                                    }
+                                    
+                                    const geojson_multi_polygon = turf.featureCollection(feature_collection);
+                                    
+                                    const to_geojson = L.geoJSON(geojson_multi_polygon);
+                                    
+                                    self.map.fitBounds(to_geojson.getBounds());
+                                    
+                                    break;
+                                    
                                 }
-
-                                break;
 
                             }
 
                         }
+                        
+                        count_objects++;
 
                     }
                 }
