@@ -320,7 +320,7 @@ special_tools_map_image_download.prototype.load_modal = function() {
                         
                         _this.control_corners_display('block');
                         
-                        self.modal_message("Archivo descargando correctamente");
+                        self.modal_message("Archivo descargado correctamente");
 
                     } else {
 

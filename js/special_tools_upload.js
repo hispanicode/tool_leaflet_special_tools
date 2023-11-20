@@ -461,16 +461,20 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
                                     }, 100);
 
                                     if (self.is_point(OBJECTS_GEOJSON[index][obj])) {
+                                        
+                                       if (count_objects === OBJECTS_GEOJSON[index].length) { 
 
-                                        self.map.panTo(OBJECTS_GEOJSON[index][obj].getLatLng());
-                                       
-                                        break;
+                                            self.map.panTo(OBJECTS_GEOJSON[index][obj].getLatLng());
+                                        
+                                       }
 
                                     } else if (self.is_linestring(OBJECTS_GEOJSON[index][obj])) {
 
-                                        self.map.fitBounds(OBJECTS_GEOJSON[index][obj].getBounds());
+                                        if (count_objects === OBJECTS_GEOJSON[index].length) {
                                         
-                                        break;
+                                            self.map.fitBounds(OBJECTS_GEOJSON[index][obj].getBounds());
+                                        
+                                        }
 
                                     } else if (self.is_polygon(OBJECTS_GEOJSON[index][obj])) {
         
@@ -563,16 +567,21 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
                                 }, 100);
 
                                 if (self.is_point(OBJECTS_GEOJSON[index][obj])) {
+                                    
+                                    if (count_objects === OBJECTS_GEOJSON[index].length) {
 
-                                    self.map.panTo(OBJECTS_GEOJSON[index][obj].getLatLng());
-                                   
-                                    break;
+                                        self.map.panTo(OBJECTS_GEOJSON[index][obj].getLatLng());
+                                    
+                                    }
+
 
                                 } else if (self.is_linestring(OBJECTS_GEOJSON[index][obj])) {
-
-                                    self.map.fitBounds(OBJECTS_GEOJSON[index][obj].getBounds());
                                     
-                                    break;
+                                    if (count_objects === OBJECTS_GEOJSON[index].length) {
+
+                                        self.map.fitBounds(OBJECTS_GEOJSON[index][obj].getBounds());
+                                    
+                                    }
 
                                 } else if (self.is_polygon(OBJECTS_GEOJSON[index][obj])) {
 
@@ -661,16 +670,20 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
                                 }, 100);
 
                                 if (self.is_point(OBJECTS_GEOJSON[index][obj])) {
+                                    
+                                    if (count_objects === OBJECTS_GEOJSON[index].length) {
 
-                                    self.map.panTo(OBJECTS_GEOJSON[index][obj].getLatLng());
-                                   
-                                    break;
+                                        self.map.panTo(OBJECTS_GEOJSON[index][obj].getLatLng());
+                                    
+                                    }
 
                                 } else if (self.is_linestring(OBJECTS_GEOJSON[index][obj])) {
 
-                                    self.map.fitBounds(OBJECTS_GEOJSON[index][obj].getBounds());
+                                    if (count_objects === OBJECTS_GEOJSON[index].length) {
                                     
-                                    break;
+                                        self.map.fitBounds(OBJECTS_GEOJSON[index][obj].getBounds());
+                                    
+                                    }
 
                                 } else if (self.is_polygon(OBJECTS_GEOJSON[index][obj])) {
 

@@ -381,15 +381,19 @@ special_tools_UA_es.prototype.init_UA = function() {
 
                                             if (self.is_point(OBJECTS_GEOJSON[index][obj])) {
 
-                                                self.map.panTo(OBJECTS_GEOJSON[index][obj].getLatLng());
+                                                if (count_objects === OBJECTS_GEOJSON[index].length) {
                                                 
-                                                break;
+                                                    self.map.panTo(OBJECTS_GEOJSON[index][obj].getLatLng());
+                                                
+                                                }
 
                                             } else if (self.is_linestring(OBJECTS_GEOJSON[index][obj])){
                                                 
-                                               self.map.fitBounds(OBJECTS_GEOJSON[index][obj].getBounds());
+                                               if (count_objects === OBJECTS_GEOJSON[index].length) {
+                                                
+                                                    self.map.fitBounds(OBJECTS_GEOJSON[index][obj].getBounds());
                                                
-                                               break;
+                                                }
                                                 
                                             } else if (self.is_polygon(OBJECTS_GEOJSON[index][obj])) {
 
@@ -401,6 +405,7 @@ special_tools_UA_es.prototype.init_UA = function() {
                                                 if (count_objects === OBJECTS_GEOJSON[index].length) {
                                                     
                                                     let max_value = 0;
+                                                    
                                                     for (let y in areas) {
                                                         
                                                        max_value = Math.max(max_value, areas[y].area); 
