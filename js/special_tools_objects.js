@@ -89,6 +89,8 @@ special_tools_objects.prototype.create_containers = function() {
     var leaflet_id;
 
     var multi_id;
+    
+    var layer_name;
 
     if (typeof self.collection === 'object') {
 
@@ -98,6 +100,18 @@ special_tools_objects.prototype.create_containers = function() {
 
             layer = self.collection._layers[obj];
             leaflet_id = layer._leaflet_id;
+                
+            if (!layer.feature.properties.hasOwnProperty('name')) {
+
+                layer.feature.properties.name = 'Nameless';
+
+                layer_name = 'Nameless';
+
+            } else {
+
+                layer_name = layer.feature.properties.name;
+
+            }
 
             let checked = true;
 
@@ -143,7 +157,7 @@ special_tools_objects.prototype.create_containers = function() {
                     /**************************************************/
 
                     let span = L.DomUtil.create('span');
-                    span.innerText = " multi_id: " + multi_id + " ";
+                    span.innerHTML = " <strong>name:</strong> " + self.max_length_str(layer_name, 35) + "&nbsp;&nbsp;<strong>multi_id:</strong> " + multi_id + " ";
 
                     special_tools_p.appendChild(span);
 
@@ -194,7 +208,7 @@ special_tools_objects.prototype.create_containers = function() {
                 /**************************************************/
 
                 let span = L.DomUtil.create('span');
-                span.innerText = " id: " + leaflet_id + " ";
+                span.innerHTML = " <strong>name:</strong> " + self.max_length_str(layer_name, 35) + "&nbsp;&nbsp;<strong>id:</strong> " + leaflet_id + " ";
 
                 special_tools_p.appendChild(span);
 
@@ -240,6 +254,17 @@ special_tools_objects.prototype.create_containers = function() {
         layer = self.collection._layers[obj];
         leaflet_id = layer._leaflet_id;
 
+        if (!layer.feature.properties.hasOwnProperty('name')) {
+
+            layer.feature.properties.name = 'Nameless';
+
+            layer_name = 'Nameless';
+
+        } else {
+
+            layer_name = layer.feature.properties.name;
+
+        }
 
         if (layer.feature.special_tools.hasOwnProperty('is_clipPolygon')) {
 
@@ -276,7 +301,7 @@ special_tools_objects.prototype.create_containers = function() {
             /**************************************************/
 
             let span = L.DomUtil.create('span');
-            span.innerText = " id: " + leaflet_id + " ";
+            span.innerHTML = " <strong>name:</strong> " + self.max_length_str(layer_name, 35) + "&nbsp;&nbsp;<strong>id:</strong> " + leaflet_id + " ";
 
             special_tools_p.appendChild(span);
 

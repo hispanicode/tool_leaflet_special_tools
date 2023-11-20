@@ -6442,5 +6442,17 @@ special_tools.prototype.epsg3857_to_Epsg4326 = function(coordinates) {
     y = (Math.atan(Math.pow(Math.E, y * (Math.PI / 180))) * 360) / Math.PI - 90;
 
     return [x, y];
-}
+};
+
+special_tools.prototype.max_length_str = function(str, max_length) {
+    
+    if (str.length > max_length) {
+        
+        str = str.substr(0, max_length-3) + '...';
+        
+    }
+    
+    return str;
+    
+};
 
