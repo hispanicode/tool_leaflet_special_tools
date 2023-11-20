@@ -174,6 +174,14 @@ component_geolocation.prototype.init = async function(options) {
 				common.prototype.load_script(color_picker_lib_js_file, license)
 			})
 
+		// another loads in parallel
+			const lib_css_file = DEDALO_ROOT_WEB + '/lib/leaflet/dist/leaflet.css'
+			load_promises.push( common.prototype.load_style(lib_css_file) )
+
+			const geo_editor_lib_css_file = DEDALO_ROOT_WEB + '/lib/leaflet/dist/leaflet-geoman/leaflet-geoman.css'
+			load_promises.push( common.prototype.load_style(geo_editor_lib_css_file) )
+
+
                         /* SPECIAL TOOLS */
                         const lib_special_tools = tool_leaflet_special_tools.prototype.get_lib();
                         
@@ -187,14 +195,6 @@ component_geolocation.prototype.init = async function(options) {
                             
                         }
                         /* SPECIAL TOOLS */
-
-		// another loads in parallel
-			const lib_css_file = DEDALO_ROOT_WEB + '/lib/leaflet/dist/leaflet.css'
-			load_promises.push( common.prototype.load_style(lib_css_file) )
-
-			const geo_editor_lib_css_file = DEDALO_ROOT_WEB + '/lib/leaflet/dist/leaflet-geoman/leaflet-geoman.css'
-			load_promises.push( common.prototype.load_style(geo_editor_lib_css_file) )
-
 
 		// load and set JSON langs file
 			load_promises.push(
