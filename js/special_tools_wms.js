@@ -159,7 +159,7 @@ special_tools_wms.prototype.load_modal = function() {
     self.wms_url_btn = L.DomUtil.create('button');
     self.wms_url_btn.type = 'button';
     self.wms_url_btn.id = 'wms_url_btn';
-    self.wms_url_btn.setAttribute('class', 'special-tools-btn-primary');
+    self.wms_url_btn.setAttribute('class', 'special-tools-btn-success');
 
     self.tool.google_translate({
 
