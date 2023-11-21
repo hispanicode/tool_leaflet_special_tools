@@ -4212,7 +4212,10 @@ special_tools.prototype.create_pdf = function(layer) {
 
     const type = layer.feature.geometry.type;
 
-    const coordinates = JSON.stringify(layer.feature.geometry.coordinates);
+    const coordinates_4326 = JSON.stringify(layer.feature.geometry.coordinates);
+    
+    const object_to_3857 = turf.toMercator(layer.toGeoJSON());
+    const coordinates_3857 = JSON.stringify(object_to_3857.geometry.coordinates);
 
     const tipo = self.component_geolocation.tipo;
     const section_tipo = self.component_geolocation.section_tipo;
@@ -4316,7 +4319,14 @@ special_tools.prototype.create_pdf = function(layer) {
     /*****************************************************/
 
     const geometry_coordinates = document.createElement('p');
-    geometry_coordinates.innerHTML = "<strong>Coordinates: </strong>" + coordinates;
+    
+    let coordinates_content = '<p><i>EPSG:4326</i></p>';
+    coordinates_content = coordinates_content + coordinates_4326;
+    
+    coordinates_content = coordinates_content + '<p><i>EPSG:3857</i></p>';
+    coordinates_content = coordinates_content + coordinates_3857;
+    
+    geometry_coordinates.innerHTML = "<strong>Coordinates: </strong>" + coordinates_content;
     div.appendChild(geometry_coordinates);
 
     /*****************************************************/
