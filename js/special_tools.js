@@ -5103,6 +5103,13 @@ special_tools.prototype.create_div_centroid = function(layer) {
                 _this.feature.special_tools.centroid_tools_id = new_tools_id;
 
                 self.map.fire('pm:create', {layer: marker});
+                
+                marker.pm.setOptions({
+                    
+                    preventMarkerRemoval: true,
+                    allowRemoval: false
+                    
+                });
 
                 self.modal_message("Centroide creado con éxito");
 
@@ -5116,7 +5123,14 @@ special_tools.prototype.create_div_centroid = function(layer) {
 
                     _this.feature.special_tools.has_centroid = false;
                     _this.feature.special_tools.centroid_tools_id = null;
+                    
+                    centroid.pm.setOptions({
 
+                        preventMarkerRemoval: false,
+                        allowRemoval: true
+
+                    });
+                    
                     centroid.pm.remove();
 
                     self.modal_message("Centroide eliminado con éxito");
@@ -5945,6 +5959,14 @@ special_tools.prototype.pm_remove_event = function() {
 
             const centroid_id = e.layer.feature.special_tools.centroid_tools_id;
             const centroid = self.get_layer_by_tools_id(centroid_id);
+            
+            centroid.pm.setOptions({
+
+                preventMarkerRemoval: false,
+                allowRemoval: true
+
+            });
+            
             centroid.pm.remove();
 
         }
