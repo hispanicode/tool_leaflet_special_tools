@@ -739,8 +739,6 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
 
             });
         });
-
-        L.DomEvent.off(this);
         
         L.DomEvent.preventDefault(e);
 
@@ -846,9 +844,15 @@ special_tools_upload.prototype.open_raster_modal_event = function() {
         /**********************************************************************/
 
         L.DomEvent.on(btn_cancel_image, 'click', function() {
+            
+            window.setTimeout(function() {
 
-            modal_image.style.display = 'none';
-            document.querySelector('.map_inputs').style.zIndex = 1;
+                modal_image.remove();
+                
+                document.querySelector('.map_inputs').style.zIndex = 1;
+
+            }, 100);
+            
 
         });
 
