@@ -203,10 +203,10 @@ special_tools.prototype.set_info_console = function(layer) {
                 self.create_div_radius(this);
 
                 self.create_div_circle_area(this);
+                
+                self.create_div_geoman_edition_mode(this);
 
                 self.create_div_centroid(this);
-
-                self.create_div_geoman_edition_mode(this);
 
                 self.create_div_hierarchy(this);
 
@@ -280,11 +280,11 @@ special_tools.prototype.set_info_console = function(layer) {
 
                     self.create_div_elevation(this);
 
+                    self.create_div_geoman_edition_mode(this);
+
                     self.create_div_centroid(this);
 
                     self.create_div_incertidumbre(this);
-
-                    self.create_div_geoman_edition_mode(this);
 
                     self.create_div_hierarchy(this);
 
@@ -3924,11 +3924,7 @@ special_tools.prototype.info_console_load_properties = function(layer, overlay) 
 
     }
 
-    var br = L.DomUtil.create('br');
-    
-    self.special_tools_info_console.appendChild(br);
-
-    /******************************************************/
+    /**************************************************************************/
 
     const properties_title = L.DomUtil.create('div');
     properties_title.setAttribute('class', 'special-tools-h3');
@@ -3944,13 +3940,13 @@ special_tools.prototype.info_console_load_properties = function(layer, overlay) 
 
     self.special_tools_info_console.appendChild(properties_title);
 
-    /******************************************************/
+    /**************************************************************************/
 
     const properties_div = L.DomUtil.create('div');
     properties_div.setAttribute('class', 'special-tools-container');
     self.special_tools_info_console.appendChild(properties_div);
 
-    /*******************************************************/
+    /**************************************************************************/
 
     const properties_btn = L.DomUtil.create('button');
     properties_btn.type = 'button';
@@ -3968,7 +3964,7 @@ special_tools.prototype.info_console_load_properties = function(layer, overlay) 
 
     properties_div.appendChild(properties_btn);
 
-    /******************************************************/
+    /**************************************************************************/
 
     const image_btn = L.DomUtil.create('button');
     image_btn.type = 'button';
@@ -3986,7 +3982,7 @@ special_tools.prototype.info_console_load_properties = function(layer, overlay) 
 
     properties_div.appendChild(image_btn);
 
-    /*****************************************************/
+    /**************************************************************************/
 
    const images_gallery_btn = L.DomUtil.create('button');
     images_gallery_btn.type = 'button';
@@ -4004,10 +4000,29 @@ special_tools.prototype.info_console_load_properties = function(layer, overlay) 
 
     properties_div.appendChild(images_gallery_btn);
 
-    /******************************************************/
+    /**************************************************************************/
 
+    let br = L.DomUtil.create('br');
+    properties_div.appendChild(br);
     properties_div.appendChild(br.cloneNode(true));
-    properties_div.appendChild(br.cloneNode(true));
+    
+    /**************************************************************************/
+
+    let span_prop = L.DomUtil.create('span');
+    span_prop.style.fontStyle = 'italic';
+    span_prop.style.fontWeight = 'bold';
+    
+    self.tool.google_translate({
+
+        element_html: span_prop,
+        str: "Propiedades:", 
+        lang: self.lang
+
+    });
+
+    properties_div.appendChild(span_prop);
+
+    /**************************************************************************/
 
     const properties = layer.feature.properties;
     var images_urls = new Array();
@@ -4478,6 +4493,7 @@ special_tools.prototype.create_div_geometry_type = function(layer, options) {
 
         const geometry_type = layer.feature.geometry.type;
         const div_geometry_type = L.DomUtil.create('div');
+        div_geometry_type.style.fontWeight = 'bold';
 
         div_geometry_type.innerText = geometry_type;
         div_geometry_type.setAttribute('class', 'special-tools-container');
@@ -4488,6 +4504,7 @@ special_tools.prototype.create_div_geometry_type = function(layer, options) {
 
         const div_geometry_type = L.DomUtil.create('div');
         div_geometry_type.setAttribute('class', 'special-tools-container');
+        div_geometry_type.style.fontWeight = 'bold';
 
         self.tool.google_translate({
 
@@ -4516,6 +4533,8 @@ special_tools.prototype.create_div_geometry_type = function(layer, options) {
         }
 
         const div_geometry_type = L.DomUtil.create('div');
+        div_geometry_type.style.fontWeight = 'bold';
+        div_geometry_type.setAttribute('class', 'special-tools-container');
 
         if (!is_multipolygon) {
 
@@ -4533,7 +4552,6 @@ special_tools.prototype.create_div_geometry_type = function(layer, options) {
 
         }
 
-        div_geometry_type.setAttribute('class', 'special-tools-container');
         self.special_tools_info_console.appendChild(div_geometry_type);
 
     }
@@ -4568,6 +4586,7 @@ special_tools.prototype.create_div_elevation = function(layer) {
     /**********************************************************/
 
     const elevation_span_1 = L.DomUtil.create('span');
+    elevation_span_1.style.fontWeight = 'bold';
 
     self.tool.google_translate({
 
@@ -4614,6 +4633,7 @@ special_tools.prototype.create_div_oneXone = function(layer) {
 
         let point_reference_div = L.DomUtil.create('div');
         point_reference_div.setAttribute('class', 'special-tools-container');
+        point_reference_div.style.fontWeight = 'bold';
 
         self.tool.google_translate({
 
@@ -4660,6 +4680,7 @@ special_tools.prototype.create_div_latlng = function(layer, options) {
     self.special_tools_info_console.appendChild(lat_lng_div);
 
     const lat_lng_span_1 = L.DomUtil.create('span');
+    lat_lng_span_1.style.fontWeight = 'bold';
 
     lat_lng_div.appendChild(lat_lng_span_1);
 
@@ -4770,14 +4791,19 @@ special_tools.prototype.create_div_options_buttons = function(layer, options) {
 
     }
 
+    /**************************************************************************/
+
     const options_div = L.DomUtil.create('div');
     options_div.setAttribute('class', 'special-tools-container');
+    options_div.style.marginTop = '12px';
 
     self.special_tools_info_console.appendChild(options_div);
+    
+    /**************************************************************************/
 
     const style_options_btn = L.DomUtil.create('button');
     style_options_btn.type = 'button';
-    style_options_btn.setAttribute('class', 'special-tools-btn-default');
+    style_options_btn.setAttribute('class', 'special-tools-btn-success');
     style_options_btn.style.fontSize = '9px';
 
     self.tool.google_translate({
@@ -4789,10 +4815,12 @@ special_tools.prototype.create_div_options_buttons = function(layer, options) {
     });
 
     options_div.appendChild(style_options_btn);
+    
+    /**************************************************************************/
 
     const vector_download_options_btn = L.DomUtil.create('button');
     vector_download_options_btn.type = 'button';
-    vector_download_options_btn.setAttribute('class', 'special-tools-btn-default');
+    vector_download_options_btn.setAttribute('class', 'special-tools-btn-success');
     vector_download_options_btn.style.fontSize = '9px';
 
     self.tool.google_translate({
@@ -4804,6 +4832,8 @@ special_tools.prototype.create_div_options_buttons = function(layer, options) {
     });
 
     options_div.appendChild(vector_download_options_btn);
+    
+    /**************************************************************************/
 
     self.show_modal_vector_download(vector_download_options_btn, layer);
 
@@ -4878,7 +4908,7 @@ special_tools.prototype.create_div_hierarchy = function(layer) {
 
     const hierarchy_div = L.DomUtil.create('div');
     hierarchy_div.setAttribute('class', 'special-tools-container');
-    self.special_tools_info_console.appendChild(hierarchy_div);
+    hierarchy_div.style.fontWeight = 'bold';
 
     self.tool.google_translate({
 
@@ -4887,10 +4917,16 @@ special_tools.prototype.create_div_hierarchy = function(layer) {
         lang: self.lang
 
     });
+    
+    self.special_tools_info_console.appendChild(hierarchy_div);
+    
+    /**************************************************************************/
 
-    const bringtofront_div = L.DomUtil.create('div');
-    bringtofront_div.setAttribute('class', 'special-tools-container');
-    self.special_tools_info_console.appendChild(bringtofront_div);
+    const checkbox_div = L.DomUtil.create('div');
+    checkbox_div.setAttribute('class', 'special-tools-container');
+    self.special_tools_info_console.appendChild(checkbox_div);
+    
+    /**************************************************************************/
 
     const bringtofront_input = L.DomUtil.create('input');
     bringtofront_input.type = 'checkbox';
@@ -4898,12 +4934,12 @@ special_tools.prototype.create_div_hierarchy = function(layer) {
     bringtofront_input.setAttribute('tools-id', tools_id);
     bringtofront_input.checked = checked_bringtofront;
 
-    bringtofront_div.appendChild(bringtofront_input);
+    checkbox_div.appendChild(bringtofront_input);
+    
+    /**************************************************************************/
 
     const bringtofront_span = L.DomUtil.create('span');
-
-    bringtofront_div.appendChild(bringtofront_span);
-
+    
     self.tool.google_translate({
 
         element_html: bringtofront_span,
@@ -4911,10 +4947,16 @@ special_tools.prototype.create_div_hierarchy = function(layer) {
         lang: self.lang
 
     });
-
-    const bringtoback_div = L.DomUtil.create('div');
-    bringtoback_div.setAttribute('class', 'special-tools-container');
-    self.special_tools_info_console.appendChild(bringtoback_div);
+    
+    checkbox_div.appendChild(bringtofront_span);
+    
+    /**************************************************************************/
+    
+    const separate_span = L.DomUtil.create('span');
+    separate_span.innerHTML = "&nbsp;&nbsp;";
+    checkbox_div.appendChild(separate_span);
+    
+    /**************************************************************************/
 
     const bringtoback_input = L.DomUtil.create('input');
     bringtoback_input.type = 'checkbox';
@@ -4922,11 +4964,11 @@ special_tools.prototype.create_div_hierarchy = function(layer) {
     bringtoback_input.setAttribute('tools-id', tools_id);
     bringtoback_input.checked = checked_bringtoback;
 
-    bringtoback_div.appendChild(bringtoback_input);
+    checkbox_div.appendChild(bringtoback_input);
+    
+    /**************************************************************************/
 
     const bringtoback_span = L.DomUtil.create('span');
-
-    bringtoback_div.appendChild(bringtoback_span);
 
     self.tool.google_translate({
 
@@ -4935,6 +4977,10 @@ special_tools.prototype.create_div_hierarchy = function(layer) {
         lang: self.lang
 
     });
+    
+    checkbox_div.appendChild(bringtoback_span);
+    
+    /**************************************************************************/
 
     const _this = layer;
 
@@ -4985,25 +5031,42 @@ special_tools.prototype.create_div_hierarchy = function(layer) {
 special_tools.prototype.create_div_radius = function(layer) {
     
     const self = this;
-
-    const radius_div = L.DomUtil.create('div');
-    radius_div.setAttribute('class', 'special-tools-container');
-
+    
     const radius = layer.getRadius().toFixed(2);
 
     layer.feature.properties.radius = radius + ' m.';
 
     self.save_object();
 
+    /**************************************************************************/
+
+    const radius_div = L.DomUtil.create('div');
+    radius_div.setAttribute('class', 'special-tools-container');
+    self.special_tools_info_console.appendChild(radius_div);
+    
+    /**************************************************************************/
+    
+    const span_1 = L.DomUtil.create('span');
+    span_1.style.fontWeight = 'bold';
+
     self.tool.google_translate({
 
-        element_html: radius_div,
-        str: "Radio: " + radius + " m.", 
+        element_html: span_1,
+        str: "Radio: ", 
         lang: self.lang
 
     });
-
-    self.special_tools_info_console.appendChild(radius_div);
+    
+    radius_div.appendChild(span_1);
+    
+    /**************************************************************************/
+    
+    const span_2 = L.DomUtil.create('span');
+    span_2.innerText = ' ' + radius + " m.";
+    
+    radius_div.appendChild(span_2);
+    
+    /**************************************************************************/
 
 },
 
@@ -5012,25 +5075,43 @@ special_tools.prototype.create_div_circle_area = function(layer) {
     const self = this;
 
     const radius = layer.getRadius().toFixed(2);
-
-    const area_div = L.DomUtil.create('div');
-    area_div.setAttribute('class', 'special-tools-container');
-
-    self.special_tools_info_console.appendChild(area_div);
-
+    
     const area = (2 * Math.PI * radius).toFixed(2);
 
     layer.feature.properties.area = area + ' m.';
 
     self.save_object();
+    
+    /**************************************************************************/
+
+    const area_div = L.DomUtil.create('div');
+    area_div.setAttribute('class', 'special-tools-container');
+
+    self.special_tools_info_console.appendChild(area_div);
+    
+    /**************************************************************************/
+
+    const span_1 = L.DomUtil.create('span');
+    span_1.style.fontWeight = 'bold';
 
     self.tool.google_translate({
 
-        element_html: area_div,
-        str: "Área: " + area + " m.", 
+        element_html: span_1,
+        str: "Área: ", 
         lang: self.lang
 
     });
+    
+    area_div.appendChild(span_1);
+    
+    /**************************************************************************/
+    
+    const span_2 = L.DomUtil.create('span');
+    span_2.innerText = ' ' + area + " m.";
+    
+    area_div.appendChild(span_2);
+    
+    /**************************************************************************/
 
 };
 
@@ -5043,35 +5124,67 @@ special_tools.prototype.create_div_polygon_area = function(layer) {
         const onexone_div = L.DomUtil.create('div');
         onexone_div.setAttribute('class', 'special-tools-container');
         self.special_tools_info_console.appendChild(onexone_div);
+        
+        /**********************************************************************/
+        
+        const span_1 = L.DomUtil.create('span');
+        span_1.style.fontWeight = 'bold';
 
         self.tool.google_translate({
 
-            element_html: onexone_div,
-            str: "Área: 1 m²", 
+            element_html: span_1,
+            str: "Área: ", 
             lang: self.lang
 
         });
+        
+        onexone_div.appendChild(span_1);
+        
+        /**********************************************************************/
+        
+        const span_2 = L.DomUtil.create('span');
+        span_2.innerText = ' 1 m²';
+        
+        onexone_div.appendChild(span_2);
+        
+        /**********************************************************************/
 
     } else {
-
-        const area_div = L.DomUtil.create('div');
-        area_div.setAttribute('class', 'special-tools-container');
-
+        
         const area_meters = turf.area(layer.toGeoJSON());
         const area = self.get_area_square_meters(area_meters);
+        layer.feature.properties.area = area;
+        self.save_object();
+        
+        /**********************************************************************/
+        
+        const area_div = L.DomUtil.create('div');
+        area_div.setAttribute('class', 'special-tools-container');
         self.special_tools_info_console.appendChild(area_div);
 
-        layer.feature.properties.area = area;
+        /**********************************************************************/
 
-        self.save_object();
+        const span_1 = L.DomUtil.create('span');
+        span_1.style.fontWeight = 'bold';
 
         self.tool.google_translate({
 
-            element_html: area_div,
-            str: "Área: " + area, 
+            element_html: span_1,
+            str: "Área: ", 
             lang: self.lang
 
         });
+        
+        area_div.appendChild(span_1);
+        
+        /**********************************************************************/
+        
+        const span_2 = L.DomUtil.create('span');
+        span_2.innerText = ' ' + area;
+        
+        area_div.appendChild(span_2);
+        
+        /**********************************************************************/
 
     }
 
@@ -5093,10 +5206,14 @@ special_tools.prototype.create_div_centroid = function(layer) {
 
         }
 
+        /**********************************************************************/
+
         const centroide_div = L.DomUtil.create('div');
         centroide_div.setAttribute('class', 'special-tools-container');
 
         self.special_tools_info_console.appendChild(centroide_div);
+        
+        /**********************************************************************/
 
         const centroide_input = L.DomUtil.create('input');
         centroide_input.type = 'checkbox';
@@ -5105,10 +5222,10 @@ special_tools.prototype.create_div_centroid = function(layer) {
         centroide_input.checked = checked_centroid;
 
         centroide_div.appendChild(centroide_input);
+        
+        /**********************************************************************/
 
         const centroide_span = L.DomUtil.create('span');
-
-        centroide_div.appendChild(centroide_span);
 
         self.tool.google_translate({
 
@@ -5117,6 +5234,10 @@ special_tools.prototype.create_div_centroid = function(layer) {
             lang: self.lang
 
         });
+        
+        centroide_div.appendChild(centroide_span);
+        
+        /**********************************************************************/
 
         const _this = layer;
 
@@ -5290,25 +5411,44 @@ special_tools.prototype.create_div_incertidumbre = function(layer) {
 special_tools.prototype.create_div_distance = function(layer) {
     
     const self = this;
-
-    const distance_div = L.DomUtil.create('div');
-    distance_div.setAttribute('class', 'special-tools-container');
-
+    
     const length = turf.length(layer.toGeoJSON());
 
     layer.feature.properties.distance = length.toFixed(2) + " km";
 
     self.save_object();
 
+    /**************************************************************************/
+
+    const distance_div = L.DomUtil.create('div');
+    distance_div.setAttribute('class', 'special-tools-container');
+    
+    self.special_tools_info_console.appendChild(distance_div);
+    
+    /**************************************************************************/
+
+    const span_1 = L.DomUtil.create('span');
+    span_1.style.fontWeight = 'bold';
+
     self.tool.google_translate({
 
-        element_html: distance_div,
-        str: "Distancia: " + length.toFixed(2) + " km", 
+        element_html: span_1,
+        str: "Distancia: ", 
         lang: self.lang
 
     });
+    
+    distance_div.appendChild(span_1);
+    
+    /**************************************************************************/
+    
+    const span_2 = L.DomUtil.create('span');
+    span_2.innerText = ' ' + length.toFixed(2) + " km";
+    
+    distance_div.appendChild(span_2);
+    
+    /**************************************************************************/
 
-    self.special_tools_info_console.appendChild(distance_div);
 
 };
 

@@ -21,8 +21,8 @@
     width: 250px;
     height: 340px;
     float: left;
-    background-color: #000;
-    color: #fff;
+    background-color: #fff;
+    color: #000;
     opacity: 0.9;
     z-index: 1001;
     overflow: scroll;
