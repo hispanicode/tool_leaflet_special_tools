@@ -301,7 +301,44 @@ special_tools.prototype.set_info_console = function(layer) {
 
 special_tools.prototype.get_incertidumbre = function(area) {
 
-    return (1 / area).toFixed(20) + ' m²';
+    const self = this;
+
+    let scale_img;
+
+    if (area <= 1000) {
+        
+        scale_img = self.tool.tool_url() + '/img/escala-1.png';
+        
+    } else if (area > 1000 && area <= 10000) {
+        
+        scale_img = self.tool.tool_url() + '/img/escala-2.png';
+        
+    } else if (area > 10000 && area <= 100000) {
+        
+        scale_img = self.tool.tool_url() + '/img/escala-3.png';
+        
+    } else if (area > 100000 && area <= 1000000) {
+        
+        scale_img = self.tool.tool_url() + '/img/escala-4.png';
+        
+    } else if (area > 1000000 && area <= 10000000) {
+        
+        scale_img = self.tool.tool_url() + '/img/escala-5.png';
+        
+    } else {
+        
+        scale_img = self.tool.tool_url() + '/img/escala-6.png';
+        
+    }
+    
+    const object = {
+        
+        scale_img: scale_img,
+        area: (1 / area).toFixed(20) + ' m²'
+        
+    };
+
+    return object;
 
 };
 
@@ -5147,88 +5184,106 @@ special_tools.prototype.create_div_incertidumbre = function(layer) {
     
     const self = this;
 
-    if (!self.is_oneXone(layer)) { 
+    const tools_id = self.get_tools_id_by_layer(layer);
 
-        const tools_id = self.get_tools_id_by_layer(layer);
+    let incertidumbre = '';
+    let checked_incertidumbre = false;
 
-        let incertidumbre = '';
-        let checked_incertidumbre = false;
+    if (self.is_incertidumbre(layer) && self.on_incertidumbre(layer)) {
 
-        if (self.is_incertidumbre(layer) && self.on_incertidumbre(layer)) {
+        const area = turf.area(layer.toGeoJSON());
+        incertidumbre = self.get_incertidumbre(area);
+        checked_incertidumbre = true;   
 
-            const area = turf.area(layer.toGeoJSON());
-            incertidumbre = self.get_incertidumbre(area);
-            checked_incertidumbre = true;   
+    }
+
+    /**********************************************************************/
+
+    const incertidumbre_div = L.DomUtil.create('div');
+    incertidumbre_div.setAttribute('class', 'special-tools-container');
+
+    self.special_tools_info_console.appendChild(incertidumbre_div);
+
+    /**********************************************************************/
+
+    const incertidumbre_input = L.DomUtil.create('input');
+    incertidumbre_input.type = 'checkbox';
+    incertidumbre_input.id = 'incertidumbre_input';
+    incertidumbre_input.setAttribute('tools-id', tools_id);
+    incertidumbre_input.checked = checked_incertidumbre;
+
+    incertidumbre_div.appendChild(incertidumbre_input);
+
+    /**********************************************************************/
+
+    const incertidumbre_span = L.DomUtil.create('span');
+
+    self.tool.google_translate({
+
+        element_html: incertidumbre_span,
+        str: " Incertidumbre", 
+        lang: self.lang
+
+    });
+
+    incertidumbre_div.appendChild(incertidumbre_span);
+
+    /**********************************************************************/
+
+    const incertidumbre_color = L.DomUtil.create('img');
+    incertidumbre_color.src = incertidumbre.scale_img;
+    incertidumbre_color.id = 'incertidumbre_color';
+    incertidumbre_color.title = incertidumbre.area;
+    incertidumbre_color.style.width = '60%';
+    
+    if (!checked_incertidumbre) {
+    
+        incertidumbre_color.style.display = 'none';
+    
+    } else {
+        
+        incertidumbre_color.style.display = 'block';
+        
+    }
+
+    incertidumbre_div.appendChild(incertidumbre_color);
+
+    /**********************************************************************/
+
+    const _this = layer;
+
+    L.DomEvent.on(incertidumbre_input, "click", function() {
+
+        if (this.checked) {
+
+            _this.feature.special_tools.is_incertidumbre = true;
+            _this.feature.special_tools.on_incertidumbre = true;
+
+            const area = turf.area(_this.toGeoJSON());
+
+            const incertidumbre = self.get_incertidumbre(area);
+
+            incertidumbre_color.style.display = 'block';
+            incertidumbre_color.src = incertidumbre.scale_img;
+            incertidumbre_color.title = incertidumbre.area;
+
+            layer.feature.properties.uncertainty = incertidumbre;
+
+
+        } else {
+
+            _this.feature.special_tools.is_incertidumbre = false;
+            _this.feature.special_tools.on_incertidumbre = false;
+
+            incertidumbre_color.style.display = 'none';
+
+            delete layer.feature.properties.uncertainty;
 
         }
 
-        const incertidumbre_div = L.DomUtil.create('div');
-        incertidumbre_div.setAttribute('class', 'special-tools-container');
+        self.save_object();
 
-        self.special_tools_info_console.appendChild(incertidumbre_div);
-
-        const incertidumbre_input = L.DomUtil.create('input');
-        incertidumbre_input.type = 'checkbox';
-        incertidumbre_input.id = 'incertidumbre_input';
-        incertidumbre_input.setAttribute('tools-id', tools_id);
-        incertidumbre_input.checked = checked_incertidumbre;
-
-        incertidumbre_div.appendChild(incertidumbre_input);
-
-        const incertidumbre_span = L.DomUtil.create('span');
-
-        incertidumbre_div.appendChild(incertidumbre_span);
-
-        self.tool.google_translate({
-
-            element_html: incertidumbre_span,
-            str: " Incertidumbre", 
-            lang: self.lang
-
-        });
-
-        const incertidumbre_color = L.DomUtil.create('div');
-        incertidumbre_color.id = 'incertidumbre_color';
-        incertidumbre_color.style.color = 'yellow';
-        incertidumbre_color.setAttribute('class', 'special-tools-container');
-        incertidumbre_color.innerText = incertidumbre;
-
-        incertidumbre_div.appendChild(incertidumbre_color);
-
-        const _this = layer;
-
-        L.DomEvent.on(incertidumbre_input, "click", function() {
-
-            if (this.checked) {
-
-                _this.feature.special_tools.is_incertidumbre = true;
-                _this.feature.special_tools.on_incertidumbre = true;
-
-                const area = turf.area(_this.toGeoJSON());
-
-                const incertidumbre = self.get_incertidumbre(area);
-
-                incertidumbre_color.innerHTML = incertidumbre;
-
-                layer.feature.properties.uncertainty = incertidumbre;
-
-
-            } else {
-
-                _this.feature.special_tools.is_incertidumbre = false;
-                _this.feature.special_tools.on_incertidumbre = false;
-
-                incertidumbre_color.innerHTML = '';
-
-                delete layer.feature.properties.uncertainty;
-
-            }
-
-            self.save_object();
-
-        });
-
-    }
+    });
 
 };
 
