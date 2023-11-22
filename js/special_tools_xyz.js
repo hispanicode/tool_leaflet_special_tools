@@ -304,7 +304,7 @@ special_tools_xyz.prototype.load_modal = function() {
     self.basemap_btn = L.DomUtil.create('button');
     self.basemap_btn.type = 'button';
     self.basemap_btn.id = 'basemap_btn';
-    self.basemap_btn.setAttribute('class', 'special-tools-btn-default');
+    self.basemap_btn.setAttribute('class', 'special-tools-btn-success');
     
     self.tool.google_translate({
 
