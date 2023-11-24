@@ -156,6 +156,7 @@
     font-size: 12px;
     border-radius: 2px;
     border: 1px solid #ff7800;
+    width: 100%;
     height: 250px;
     
 }
@@ -163,6 +164,12 @@
 .modal input[type='text'] {
     
     border: 1px solid #ff7800;
+    
+}
+
+.modal button:hover, .special-tools button:hover, .special-tools-modal-container button:hover {
+    
+    cursor: pointer;
     
 }
 
