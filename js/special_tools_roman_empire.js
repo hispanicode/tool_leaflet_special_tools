@@ -64,7 +64,7 @@ special_tools_roman_empire.prototype.load_modal = function() {
     
     const self = this.special_tools;
     
-    self.modal = self.new_modal("Objetos");
+    self.modal = self.new_modal("Servicios relacionados con el Imperio Romano");
 
     self.modal_body = self.modal._container.querySelector('.modal-body');
 
