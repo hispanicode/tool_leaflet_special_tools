@@ -700,7 +700,13 @@ class tool_leaflet_special_tools extends tool_common  {
                         }
 
                         if (str_contains(strtolower(utf8_decode($val)), strtolower($response->query)) || str_contains(strtolower($val), strtolower($response->query))) {
-
+                       
+                            if (preg_match('/Ã/', $val)) {
+                                
+                                $val = htmlspecialchars(utf8_decode($val));
+                                
+                            }
+                            
                             $object = [
 
                                 "geometry_type" => $geojson->geometry->type,
@@ -793,7 +799,7 @@ class tool_leaflet_special_tools extends tool_common  {
 
                 array_push($objects, [
 
-                    "value" => $geojson->properties->name, 
+                    "value" => utf8_decode($geojson->properties->name), 
                     "geometry_type" => $geojson->geometry->type,
                     "geojson" => json_encode($geojson)
 

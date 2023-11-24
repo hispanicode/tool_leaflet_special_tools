@@ -213,13 +213,9 @@ special_tools_roman_empire.prototype.load_pleiades = function() {
 
     }
 
-    L.DomEvent.on(search_pleiades, 'keyup', function(e) {
-
-        if (e.key === 'Enter' || e.keyCode === 13) {
+    L.DomEvent.on(search_pleiades, 'keyup', function() {
 
             btn_pleiades.click();
-
-        }
 
     });
 
@@ -1086,11 +1082,7 @@ special_tools_roman_empire.prototype.load_pelagios = function() {
 
     L.DomEvent.on(search_pelagios, 'keyup', function(e) {
 
-        if (e.key === 'Enter' || e.keyCode === 13) {
-
             btn_pelagios.click();
-
-        }
 
     });
 
@@ -1666,13 +1658,9 @@ special_tools_roman_empire.prototype.load_imperium = function() {
 
     /************************************************************/
 
-    L.DomEvent.on(search_imperium, 'keyup', function (e) {
-
-        if (e.key === 'Enter' || e.keyCode === 13) {
+    L.DomEvent.on(search_imperium, 'keyup', function () {
 
             btn_imperium.click();
-
-        }
 
     });
 
