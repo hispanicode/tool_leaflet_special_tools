@@ -125,7 +125,7 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
 
         const modal_vector = L.DomUtil.create('div');
         modal_vector.id = 'modal_vector';
-        modal_vector.setAttribute('class', 'special-tools-modal-upload-vector');
+        modal_vector.setAttribute('class', 'special-tools-modal-upload');
 
         self.map._container.append(modal_vector);
 
@@ -146,6 +146,13 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
 
         /**********************************************************************/
 
+        const container = L.DomUtil.create('div');
+        container.setAttribute('class', 'special-tools-modal-container');
+        
+        modal_vector.appendChild(container);
+        
+        /**********************************************************************/
+
         const title_vector = L.DomUtil.create('div');
         title_vector.setAttribute('class', 'special-tools-h2');
 
@@ -157,18 +164,18 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
 
         });
 
-        modal_vector.appendChild(title_vector);
+        container.appendChild(title_vector);
 
         /**********************************************************************/
 
         const container_vector = L.DomUtil.create('div');
-        modal_vector.appendChild(container_vector);
+        container.appendChild(container_vector);
 
         /**********************************************************************/
 
         var br = L.DomUtil.create('br');
-        modal_vector.appendChild(br);
-        modal_vector.appendChild(br.cloneNode(true));
+        container.appendChild(br);
+        container.appendChild(br.cloneNode(true));
 
         /**********************************************************************/
 
@@ -183,7 +190,7 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
 
         });
 
-        modal_vector.appendChild(msg_extension_vector);
+        container.appendChild(msg_extension_vector);
 
         /**********************************************************************/
 
@@ -201,7 +208,9 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
 
         });
 
-        modal_vector.appendChild(btn_list_projections);
+        container.appendChild(btn_list_projections);
+        
+        /**********************************************************************/
 
         const info_div = L.DomUtil.create('div');
         info_div.setAttribute('class', 'special-tools-container');
@@ -214,17 +223,23 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
 
         });
 
-        modal_vector.appendChild(info_div);
+        container.appendChild(info_div);
+        
+        /**********************************************************************/
 
         const project_div = L.DomUtil.create('div');
         project_div.setAttribute('class', 'special-tools-container');
 
-        modal_vector.appendChild(project_div);
+        container.appendChild(project_div);
+        
+        /**********************************************************************/
 
         const project_EPSG_span = L.DomUtil.create('span');
         project_EPSG_span.innerText = "EPSG: ";
 
         project_div.appendChild(project_EPSG_span);
+        
+        /**********************************************************************/
 
         const project_crs = L.DomUtil.create('input');
         project_crs.type = 'text';
@@ -234,12 +249,14 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
 
         project_div.appendChild(project_crs);
 
-        /*****************************************************/
+        /**********************************************************************/
 
         const project_zone_span = L.DomUtil.create('span');
         project_zone_span.innerText = "zone: ";
 
         project_div.appendChild(project_zone_span);
+        
+        /**********************************************************************/
 
         const project_zone = L.DomUtil.create('input');
         project_zone.type = 'text';
@@ -249,12 +266,14 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
 
         project_div.appendChild(project_zone);
 
-        /***************************************************/
+        /**********************************************************************/
 
         const project_band_span = L.DomUtil.create('span');
         project_band_span.innerText = "band: ";
 
         project_div.appendChild(project_band_span);
+        
+        /**********************************************************************/
 
         const project_band = L.DomUtil.create('input');
         project_band.type = 'text';
@@ -263,6 +282,8 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
         project_band.setAttribute('placeholder', 'N');
 
         project_div.appendChild(project_band);
+        
+        /**********************************************************************/
 
         const link_epsg_io = L.DomUtil.create('a');
         link_epsg_io.id = 'link_epsg_io';
@@ -271,11 +292,15 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
         link_epsg_io.href = 'https://epsg.io/';
 
         project_div.appendChild(link_epsg_io);
+        
+        /**********************************************************************/
 
         const list_projections_div = L.DomUtil.create('div');
         list_projections_div.setAttribute('class', 'special-tools-container');
 
-        modal_vector.appendChild(list_projections_div);
+        container.appendChild(list_projections_div);
+        
+        /**********************************************************************/
 
         const list_projections = L.DomUtil.create('div');
         list_projections.id = 'list_projections';
@@ -293,13 +318,13 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
 
         /**********************************************************************/
 
-        modal_vector.appendChild(br.cloneNode(true));
-        modal_vector.appendChild(br.cloneNode(true));
+        container.appendChild(br.cloneNode(true));
+        container.appendChild(br.cloneNode(true));
 
         /**********************************************************************/
 
         const btn_cancel_vector = L.DomUtil.create('button');
-        btn_cancel_vector.setAttribute('class', 'special-tools-btn-danger');
+        btn_cancel_vector.setAttribute('class', 'special-tools-btn-default');
 
         self.tool.google_translate({
 
@@ -309,7 +334,7 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
 
         });
 
-        modal_vector.appendChild(btn_cancel_vector);
+        container.appendChild(btn_cancel_vector);
 
         /**********************************************************************/
 
@@ -758,11 +783,15 @@ special_tools_upload.prototype.open_raster_modal_event = function() {
 
         } catch (Exception) {}
 
+        /**********************************************************************/
+
         const modal_image = L.DomUtil.create('div');
         modal_image.id = 'modal_image';
-        modal_image.setAttribute('class', 'special-tools-modal-upload-image');
+        modal_image.setAttribute('class', 'special-tools-modal-upload');
 
         self.map._container.append(modal_image);
+        
+        /**********************************************************************/
 
         L.DomEvent.on(modal_image, 'mouseover', function() {
 
@@ -781,6 +810,13 @@ special_tools_upload.prototype.open_raster_modal_event = function() {
 
         /**********************************************************************/
 
+        const container = L.DomUtil.create('div');
+        container.setAttribute('class', 'special-tools-modal-container');
+        
+        modal_image.appendChild(container);
+        
+        /**********************************************************************/
+
         const title_image = L.DomUtil.create('div');
         title_image.setAttribute('class', 'special-tools-h2');
 
@@ -792,19 +828,19 @@ special_tools_upload.prototype.open_raster_modal_event = function() {
 
         });
 
-        modal_image.appendChild(title_image);
+        container.appendChild(title_image);
 
         /**********************************************************************/
 
         const container_image = L.DomUtil.create('div');
-        modal_image.appendChild(container_image);
+        container.appendChild(container_image);
 
         /**********************************************************************/
 
         var br = L.DomUtil.create('br');
 
-        modal_image.appendChild(br);
-        modal_image.appendChild(br.cloneNode(true));
+        container.appendChild(br);
+        container.appendChild(br.cloneNode(true));
 
         /**********************************************************************/
 
@@ -819,17 +855,17 @@ special_tools_upload.prototype.open_raster_modal_event = function() {
 
         });
 
-        modal_image.appendChild(msg_extension_images);
+        container.appendChild(msg_extension_images);
 
         /**********************************************************************/
 
-        modal_image.appendChild(br.cloneNode(true));
-        modal_image.appendChild(br.cloneNode(true));
+        container.appendChild(br.cloneNode(true));
+        container.appendChild(br.cloneNode(true));
 
         /**********************************************************************/
 
         const btn_cancel_image = L.DomUtil.create('button');
-        btn_cancel_image.setAttribute('class', 'special-tools-btn-danger');
+        btn_cancel_image.setAttribute('class', 'special-tools-btn-default');
 
         self.tool.google_translate({
 
@@ -839,7 +875,7 @@ special_tools_upload.prototype.open_raster_modal_event = function() {
 
         });
 
-        modal_image.appendChild(btn_cancel_image);
+        container.appendChild(btn_cancel_image);
 
         /**********************************************************************/
 

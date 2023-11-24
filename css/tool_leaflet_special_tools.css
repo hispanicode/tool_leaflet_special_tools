@@ -109,11 +109,10 @@
     
 }
 
-.special-tools-modal-upload-vector {
+.special-tools-modal-upload {
     
     width: 100%;
     height: 100%;
-    padding: 20px;
     z-index: 1000000001;
     background-color: #ebf5f7;
     border-radius: 2px;
@@ -122,16 +121,16 @@
     
 }
 
-.special-tools-modal-upload-image {
+
+.special-tools-modal-container {
     
-    width: 100%;
-    height: 100%;
-    padding: 20px;
-    z-index: 1000000001;
-    background-color: #ebf5f7;
-    border-radius: 2px;
-    position: absolute;
-    border: 1px solid antiquewhite;
+    padding: 30px;
+    
+}
+
+.special-tools-modal-container input[type='text'] {
+    
+    border: 1px solid #ff7800;
     
 }
 
@@ -143,7 +142,7 @@
     margin-right: 5px;
     font-size: 12px !important;
     padding: 5px;
-    border: 0;
+    border: 1px solid #ff7800;
     background-color: #fff;
     height: auto !important;
     width: 150px;
@@ -156,6 +155,14 @@
     caret-color: blueviolet;
     font-size: 12px;
     border-radius: 2px;
+    border: 1px solid #ff7800;
+    height: 250px;
+    
+}
+
+.modal input[type='text'] {
+    
+    border: 1px solid #ff7800;
     
 }
 

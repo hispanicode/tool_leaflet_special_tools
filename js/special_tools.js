@@ -966,6 +966,10 @@ special_tools.prototype.show_modal_vector_download = function(btn_show_modal_vec
 
         const vector_export_button_img = L.DomUtil.create('img');
         vector_export_button_img.src = self.tool.tool_url() + '/img/direct-download.png';
+                
+        const _compute = compute('#ffffff');
+
+        vector_export_button_img.style.filter = _compute.result.filterRaw;
 
         vector_export_button.appendChild(vector_export_button_img);
 
@@ -1227,6 +1231,10 @@ special_tools.prototype.show_modal_raster_download = function(btn_show_modal_ras
 
         const raster_export_button_img = L.DomUtil.create('img');
         raster_export_button_img.src = self.tool.tool_url() + '/img/direct-download.png';
+        
+        const _compute = compute('#ffffff');
+
+        raster_export_button_img.style.filter = _compute.result.filterRaw;
 
         raster_export_button.appendChild(raster_export_button_img);
 
@@ -3124,7 +3132,7 @@ special_tools.prototype.modal_properties_form_create = function(layer, overlay) 
 
     }
 
-    /**********************************************************************/
+    /**************************************************************************/
 
     const modal_properties_form = L.DomUtil.create('div');
     modal_properties_form.setAttribute('class', 'special-tools-modal-properties-form');
@@ -3145,10 +3153,17 @@ special_tools.prototype.modal_properties_form_create = function(layer, overlay) 
         self.map.doubleClickZoom.enable();
     });
 
-    /**********************************************************************/
+    /**************************************************************************/
+
+    const container = L.DomUtil.create('div');
+    container.setAttribute('class', 'special-tools-modal-container');
+
+    modal_properties_form.appendChild(container);
+        
+    /**************************************************************************/
 
     const title = L.DomUtil.create('div');
-    title.setAttribute('class', 'special-tools-h2');
+    title.setAttribute('class', 'special-tools-h1');
 
     self.tool.google_translate({
 
@@ -3158,17 +3173,18 @@ special_tools.prototype.modal_properties_form_create = function(layer, overlay) 
 
     });
 
-    modal_properties_form.appendChild(title);
+    container.appendChild(title);
 
-    /**********************************************************/
+    /**************************************************************************/
 
     const br = L.DomUtil.create('br');
-    modal_properties_form.appendChild(br);
+    container.appendChild(br);
 
-    /**********************************************************/
+    /**************************************************************************/
 
 
     const text_property_name_span = L.DomUtil.create('span');
+    text_property_name_span.style.fontSize = '12px';
 
         self.tool.google_translate({
 
@@ -3178,24 +3194,25 @@ special_tools.prototype.modal_properties_form_create = function(layer, overlay) 
 
         });
 
-    modal_properties_form.appendChild(text_property_name_span);
+    container.appendChild(text_property_name_span);
 
-    /*******************************************************/
+    /**************************************************************************/
 
     const text_property_name_input = L.DomUtil.create('input');
     text_property_name_input.type = 'text';
     text_property_name_input.setAttribute('class', 'special-tools-input-200');
 
-    modal_properties_form.appendChild(text_property_name_input);
+    container.appendChild(text_property_name_input);
 
-    /********************************************************/
+    /**************************************************************************/
 
-    modal_properties_form.appendChild(br.cloneNode(true));
-    modal_properties_form.appendChild(br.cloneNode(true));
+    container.appendChild(br.cloneNode(true));
+    container.appendChild(br.cloneNode(true));
 
-    /*******************************************************/
+    /**************************************************************************/
 
     const text_property_value_span = L.DomUtil.create('span');
+    text_property_value_span.style.fontSize = '12px';
 
         self.tool.google_translate({
 
@@ -3205,28 +3222,26 @@ special_tools.prototype.modal_properties_form_create = function(layer, overlay) 
 
         });
 
-    modal_properties_form.appendChild(text_property_value_span);
+    container.appendChild(text_property_value_span);
 
-    /********************************************************/
+    /**************************************************************************/
 
-    modal_properties_form.appendChild(br.cloneNode(true));
-    modal_properties_form.appendChild(br.cloneNode(true));
+    container.appendChild(br.cloneNode(true));
+    container.appendChild(br.cloneNode(true));
 
-    /********************************************************/
+    /**************************************************************************/
 
     const text_property_value_input = L.DomUtil.create('textarea');
-    text_property_value_input.style.width = '100%';
-    text_property_value_input.style.height = '100px';
     text_property_value_input.setAttribute('class', 'special-tools-textarea');
 
-    modal_properties_form.appendChild(text_property_value_input);
+    container.appendChild(text_property_value_input);
 
-    /*********************************************************/
+    /**************************************************************************/
 
-    modal_properties_form.appendChild(br.cloneNode(true));
-    modal_properties_form.appendChild(br.cloneNode(true));
+    container.appendChild(br.cloneNode(true));
+    container.appendChild(br.cloneNode(true));
 
-    /*********************************************************/
+    /**************************************************************************/
 
     const create_button = L.DomUtil.create('button');
     create_button.type = 'button';
@@ -3240,13 +3255,13 @@ special_tools.prototype.modal_properties_form_create = function(layer, overlay) 
 
     });
 
-    modal_properties_form.appendChild(create_button);
+    container.appendChild(create_button);
 
-    /*********************************************************/
+    /**************************************************************************/
 
     const close_button = L.DomUtil.create('button');
     close_button.type = 'button';
-    close_button.setAttribute('class', 'special-tools-btn-danger');
+    close_button.setAttribute('class', 'special-tools-btn-default');
 
     self.tool.google_translate({
 
@@ -3256,9 +3271,9 @@ special_tools.prototype.modal_properties_form_create = function(layer, overlay) 
 
     });
 
-    modal_properties_form.appendChild(close_button);
+    container.appendChild(close_button);
 
-    /**********************************************************/
+    /**************************************************************************/
 
     L.DomEvent.on(close_button, 'click', function() {
 
@@ -3376,14 +3391,25 @@ special_tools.prototype.modal_properties_form_update = function(property, layer,
         self.map._container.querySelector('.special-tools-modal-properties-form').remove();
 
     }
+    
+    /**************************************************************************/
 
     const modal_properties_form = L.DomUtil.create('div');
     modal_properties_form.setAttribute('class', 'special-tools-modal-properties-form');
 
     self.map._container.append(modal_properties_form);
+    
+    /**************************************************************************/
+    
+    const container = L.DomUtil.create('div');
+    container.setAttribute('class', 'special-tools-modal-container');
+
+    modal_properties_form.appendChild(container);
+        
+    /**************************************************************************/
 
     const title = L.DomUtil.create('div');
-    title.setAttribute('class', 'special-tools-h2');
+    title.setAttribute('class', 'special-tools-h1');
 
     self.tool.google_translate({
 
@@ -3393,17 +3419,18 @@ special_tools.prototype.modal_properties_form_update = function(property, layer,
 
     });
 
-    modal_properties_form.appendChild(title);
+    container.appendChild(title);
 
-    /**********************************************************/
+    /**************************************************************************/
 
     const br = L.DomUtil.create('br');
-    modal_properties_form.appendChild(br);
+    container.appendChild(br);
 
-    /**********************************************************/
+    /**************************************************************************/
 
 
     const text_property_name_span = L.DomUtil.create('span');
+    text_property_name_span.style.fontSize = '12px';
 
         self.tool.google_translate({
 
@@ -3413,24 +3440,25 @@ special_tools.prototype.modal_properties_form_update = function(property, layer,
 
         });
 
-    modal_properties_form.appendChild(text_property_name_span);
+    container.appendChild(text_property_name_span);
 
-    /*******************************************************/
+    /**************************************************************************/
 
     const text_property_name_title = L.DomUtil.create('span');
-    text_property_name_title.setAttribute('class', 'special-tools-h3');
+    text_property_name_title.setAttribute('class', 'special-tools-h2');
     text_property_name_title.innerText = " " + property.name;
 
-    modal_properties_form.appendChild(text_property_name_title);
+    container.appendChild(text_property_name_title);
 
-    /********************************************************/
+    /**************************************************************************/
 
-    modal_properties_form.appendChild(br.cloneNode(true));
-    modal_properties_form.appendChild(br.cloneNode(true));
+    container.appendChild(br.cloneNode(true));
+    container.appendChild(br.cloneNode(true));
 
-    /*******************************************************/
+    /**************************************************************************/
 
     const text_property_value_span = L.DomUtil.create('span');
+    text_property_value_span.style.fontSize = '12px';
 
         self.tool.google_translate({
 
@@ -3440,29 +3468,27 @@ special_tools.prototype.modal_properties_form_update = function(property, layer,
 
         });
 
-    modal_properties_form.appendChild(text_property_value_span);
+    container.appendChild(text_property_value_span);
 
-    /********************************************************/
+    /**************************************************************************/
 
-    modal_properties_form.appendChild(br.cloneNode(true));
-    modal_properties_form.appendChild(br.cloneNode(true));
+    container.appendChild(br.cloneNode(true));
+    container.appendChild(br.cloneNode(true));
 
-    /********************************************************/
+    /**************************************************************************/
 
     const text_property_value_input = L.DomUtil.create('textarea');
-    text_property_value_input.style.width = '100%';
-    text_property_value_input.style.height = '100px';
     text_property_value_input.setAttribute('class', 'special-tools-textarea');
     text_property_value_input.value = property.value;
 
-    modal_properties_form.appendChild(text_property_value_input);
+    container.appendChild(text_property_value_input);
 
-    /*********************************************************/
+    /**************************************************************************/
 
-    modal_properties_form.appendChild(br.cloneNode(true));
-    modal_properties_form.appendChild(br.cloneNode(true));
+    container.appendChild(br.cloneNode(true));
+    container.appendChild(br.cloneNode(true));
 
-    /*********************************************************/
+    /**************************************************************************/
 
     const edit_button = L.DomUtil.create('button');
     edit_button.type = 'button';
@@ -3476,25 +3502,25 @@ special_tools.prototype.modal_properties_form_update = function(property, layer,
 
     });
 
-    modal_properties_form.appendChild(edit_button);
+    container.appendChild(edit_button);
 
-    /*********************************************************/
+    /**************************************************************************/
 
     const close_button = L.DomUtil.create('button');
     close_button.type = 'button';
-    close_button.setAttribute('class', 'special-tools-btn-danger');
+    close_button.setAttribute('class', 'special-tools-btn-default');
 
     self.tool.google_translate({
 
         element_html: close_button,
-        str: "Cerrar", 
+        str: "Cancelar", 
         lang: self.lang
 
     });
 
-    modal_properties_form.appendChild(close_button);
+    container.appendChild(close_button);
 
-    /**********************************************************/
+    /**************************************************************************/
 
     document.querySelector('.map_inputs').style.zIndex = 0;
 
@@ -3593,14 +3619,25 @@ special_tools.prototype.modal_properties_form_delete = function(property, layer,
         self.map._container.querySelector('.special-tools-modal-properties-form').remove();
 
     }
+    
+    /**************************************************************************/
 
     const modal_properties_form = L.DomUtil.create('div');
     modal_properties_form.setAttribute('class', 'special-tools-modal-properties-form');
 
     self.map._container.append(modal_properties_form);
+    
+    /**************************************************************************/
+    
+    const container = L.DomUtil.create('div');
+    container.setAttribute('class', 'special-tools-modal-container');
+
+    modal_properties_form.appendChild(container);
+        
+    /**************************************************************************/
 
     const title = L.DomUtil.create('div');
-    title.setAttribute('class', 'special-tools-h2');
+    title.setAttribute('class', 'special-tools-h1');
 
     self.tool.google_translate({
 
@@ -3610,17 +3647,18 @@ special_tools.prototype.modal_properties_form_delete = function(property, layer,
 
     });
 
-    modal_properties_form.appendChild(title);
+    container.appendChild(title);
 
-    /**********************************************************/
+    /**************************************************************************/
 
     const br = L.DomUtil.create('br');
-    modal_properties_form.appendChild(br);
+    container.appendChild(br);
 
-    /**********************************************************/
+    /**************************************************************************/
 
 
     const text_property_name_span = L.DomUtil.create('span');
+    text_property_name_span.style.fontSize = '12px';
 
         self.tool.google_translate({
 
@@ -3630,27 +3668,27 @@ special_tools.prototype.modal_properties_form_delete = function(property, layer,
 
         });
 
-    modal_properties_form.appendChild(text_property_name_span);
+    container.appendChild(text_property_name_span);
 
-    /*******************************************************/
+    /**************************************************************************/
 
     const text_property_name_title = L.DomUtil.create('span');
-    text_property_name_title.setAttribute('class', 'special-tools-h3');
+    text_property_name_title.setAttribute('class', 'special-tools-h2');
     text_property_name_title.innerText = " " + property.name;
 
-    modal_properties_form.appendChild(text_property_name_title);
+    container.appendChild(text_property_name_title);
 
-    /********************************************************/
+    /**************************************************************************/
 
-    modal_properties_form.appendChild(br.cloneNode(true));
-    modal_properties_form.appendChild(br.cloneNode(true));
+    container.appendChild(br.cloneNode(true));
+    container.appendChild(br.cloneNode(true));
 
-    /*******************************************************/
+    /**************************************************************************/
 
-    modal_properties_form.appendChild(br.cloneNode(true));
-    modal_properties_form.appendChild(br.cloneNode(true));
+    container.appendChild(br.cloneNode(true));
+    container.appendChild(br.cloneNode(true));
 
-    /*********************************************************/
+    /**************************************************************************/
 
     const delete_button = L.DomUtil.create('button');
     delete_button.type = 'button';
@@ -3664,9 +3702,9 @@ special_tools.prototype.modal_properties_form_delete = function(property, layer,
 
     });
 
-    modal_properties_form.appendChild(delete_button);
+    container.appendChild(delete_button);
 
-    /*********************************************************/
+    /**************************************************************************/
 
     const close_button = L.DomUtil.create('button');
     close_button.type = 'button';
@@ -3680,11 +3718,11 @@ special_tools.prototype.modal_properties_form_delete = function(property, layer,
 
     });
 
-    modal_properties_form.appendChild(close_button);
+    container.appendChild(close_button);
 
     document.querySelector('.map_inputs').style.zIndex = 0;
 
-    /**********************************************************/
+    /**************************************************************************/
 
     L.DomEvent.on(close_button, 'click', function() {
 
@@ -4168,26 +4206,6 @@ special_tools.prototype.modal_associate_image = function(layer, overlay) {
 
     /********************************************************/
 
-    let br = L.DomUtil.create('br');
-    modal_body.appendChild(br);
-    modal_body.appendChild(br.cloneNode(true));
-
-    /********************************************************/
-
-    const msg_extension_images = L.DomUtil.create('div');
-    msg_extension_images.setAttribute('class', 'special-tools-container special-tools-text-info');
-
-    self.tool.google_translate({
-
-       element_html: msg_extension_images,
-       str: "Extensiones permitidas: .jpg, .jpeg, .png y .webp", 
-       lang: self.lang
-
-    });
-
-    modal_body.appendChild(msg_extension_images);
-
-    /**********************************************************************/
 
     self.tool.image_service_upload(container, ['jpg','jpeg','png','webp'])
     .then(function() {
