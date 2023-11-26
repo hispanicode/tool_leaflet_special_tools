@@ -190,23 +190,23 @@ special_tools_roman_empire.prototype.load_pleiades = function() {
 
     const pleiades_items_founds = L.DomUtil.create('div');
     pleiades_items_founds.id = 'pleiades_items_founds';
-
+    pleiades_items_founds.setAttribute('class', 'special-tools-items-founds');
+    
+    pleiades_items_founds.style.top = search_pleiades.style.bottom;
+    
     pleiades_div.appendChild(pleiades_items_founds);
-
+    
+    /********************************************************/
 
     for (let n=1; n<=10; n++) {
 
         const p_get_pleiades = L.DomUtil.create('p');
-        p_get_pleiades.setAttribute('class', 'p-get-pleiades');
-        p_get_pleiades.style.display = 'none';
+        p_get_pleiades.setAttribute('class', 'p-get-pleiades special-tools-item-found-p');
 
         pleiades_items_founds.appendChild(p_get_pleiades);
 
-        const get_pleiades = L.DomUtil.create('button');
-        get_pleiades.type = 'button';
-        get_pleiades.style.marginTop = '4px';
-        get_pleiades.style.marginBottom = '4px';
-        get_pleiades.setAttribute('class', 'get-pleiades special-tools-btn-success');
+        const get_pleiades = L.DomUtil.create('span');
+        get_pleiades.setAttribute('class', 'get-pleiades special-tools-item-found-span');
         get_pleiades.setAttribute('pleiades-id', '');
 
         p_get_pleiades.appendChild(get_pleiades);
@@ -221,22 +221,25 @@ special_tools_roman_empire.prototype.load_pleiades = function() {
 
     L.DomEvent.on(btn_pleiades, 'click', function() {
 
+
         const radio_option_checked = self.modal._container.querySelector('input[name="radio_pleiades"]:checked').value;
         const input_value = self.simple_sanitize_string(search_pleiades.value);
         const pleiades_array = self.modal._container.querySelectorAll('.get-pleiades');
         const p_pleiades_array = self.modal._container.querySelectorAll('.p-get-pleiades');
+        const pleiades_items_founds = self.modal._container.querySelector('#pleiades_items_founds');
+        
+        pleiades_items_founds.style.display = 'none';
+        
+        for (let index = 0; index < pleiades_array.length; index++) {
+
+            pleiades_array[index].setAttribute('pleiades-id', '');
+            pleiades_array[index].innerText = '';
+            p_pleiades_array[index].style.display = 'none';
+
+        }
+
 
         if (input_value === '') {
-
-            for (let index = 0; index < pleiades_array.length; index++) {
-
-                pleiades_array[index].setAttribute('pleiades-id', '');
-
-                pleiades_array[index].innerText = '';
-
-                p_pleiades_array[index].style.display = 'none';
-
-            }
 
             return;
 
@@ -269,421 +272,418 @@ special_tools_roman_empire.prototype.load_pleiades = function() {
 
             }
 
-            let get_pleiades = '';
-            let p_pleiades;
-
-            let json_content = JSON.parse(json.content);
+            const json_content = JSON.parse(json.content);
 
             for (let index in json_content) {
 
-                get_pleiades = self.modal._container.querySelectorAll('.get-pleiades')[index];
-                p_pleiades = self.modal._container.querySelectorAll('.p-get-pleiades')[index];
+                const get_pleiades = self.modal._container.querySelectorAll('.get-pleiades')[index];
+                const p_pleiades = self.modal._container.querySelectorAll('.p-get-pleiades')[index];
 
                 try {
+        
+                    pleiades_items_founds.style.display = 'block';
+                    get_pleiades.setAttribute('pleiades-id', json_content[index].id);
+                    get_pleiades.innerText = json_content[index].name + ' - ' + json_content[index].id;
+                    p_pleiades.style.display = 'block';
+                
+                } catch (Exception) {};
 
-                    L.DomEvent.off(get_pleiades);
+            }                 
+        });
 
-                } catch(Exception) {
+    });
+    
+    const pleiades_array = self.modal._container.querySelectorAll('.get-pleiades');
+    
+    for (let index = 0; index < pleiades_array.length; index++) {
+        
+        L.DomEvent.on(pleiades_array[index], 'click', function() {
 
-                    if (typeof get_pleiades === 'undefined') {
+            const id = this.getAttribute('pleiades-id');
 
-                        return;
+            let options = {};
 
-                    }
+            options.id = id;
 
-                }
+            let promise = self.tool.get_pleiades_service(options);
 
-                get_pleiades.setAttribute('pleiades-id', json_content[index].id);
+            promise.then(function(data) {
 
-                get_pleiades.innerText = json_content[index].name + ' - ' + json_content[index].id;
+                if (data.success) {
 
-                p_pleiades.style.display = 'block';
+                    const content = JSON.parse(data.content);
 
-                L.DomEvent.on(get_pleiades, 'click', function(){
+                    if (content.hasOwnProperty('features')) {
 
-                    const id = this.getAttribute('pleiades-id');
+                        const first_feature_type = content.features[0].geometry.type;
 
-                    let options = {};
+                        if (first_feature_type === 'Point') {
 
-                    options.id = id;
+                            const coordinates = content.features[0].geometry.coordinates;
 
-                    let promise = self.tool.get_pleiades_service(options);
+                            const lng = coordinates[0];
+                            const lat = coordinates[1];    
 
-                    promise.then(function(data) {
+                            const marker = L.marker([lat, lng]);
 
-                        if (data.success) {
+                            marker.feature = marker.toGeoJSON();
+                            marker.feature.special_tools = {};
+                            marker.feature.special_tools.is_pleiades = true;
+                            marker.feature.special_tools.geoman_edition = false;
+                            marker.feature.properties = {};
 
-                            const content = JSON.parse(data.content);
+                            if (content.hasOwnProperty('id')) {
 
-                            if (content.hasOwnProperty('features')) {
+                                marker.feature.properties.id = "https://pleiades.stoa.org/places/"+data.id;
 
-                                const first_feature_type = content.features[0].geometry.type;
+                            }
+                            if (content.hasOwnProperty('title')) {
 
-                                if (first_feature_type === 'Point') {
+                                marker.feature.properties.title = content.title;
 
-                                    const coordinates = content.features[0].geometry.coordinates;
+                            }
+                            if (content.hasOwnProperty('description')) {
 
-                                    const lng = coordinates[0];
-                                    const lat = coordinates[1];    
+                                marker.feature.properties.description = content.description;
 
-                                    const marker = L.marker([lat, lng]);
+                            }
+                            if (content.hasOwnProperty('names')) {
 
-                                    marker.feature = marker.toGeoJSON();
-                                    marker.feature.special_tools = {};
-                                    marker.feature.special_tools.is_pleiades = true;
-                                    marker.feature.special_tools.geoman_edition = false;
-                                    marker.feature.properties = {};
+                                marker.feature.properties.names = content.names.toString();
+
+                            }
+
+                            if (content.features.length === 1) {
+
+                                if (content.features[0].properties.hasOwnProperty('description')) {
+
+                                    marker.feature.properties.info = content.features[0].properties.description;
+
+                                }
+                            }
+
+                            else if (content.features.length > 1) {
+
+                                if (content.features[1].properties.hasOwnProperty('description')) {
+
+                                    marker.feature.properties.info = content.features[1].properties.description;
+
+                                }
+                            }
+
+                            self.map.fire("pm:create", {layer: marker});
+
+                            self.map.setView([lat, lng], 14);
+
+                            self.modal_message("Objeto creado con éxito");
+
+                        }
+
+
+                        if (content.features.length === 1) return;
+
+                        for (let index = 1; index < content.features.length; index++) {
+
+                            const feature = content.features[index];
+                            const feature_type = feature.geometry.type;
+
+                            if (feature_type === 'LineString') {
+
+                                const coordinates = feature.geometry.coordinates;
+
+                                let linestring = turf.lineString(coordinates);
+
+                                const linestring_coord = L.GeoJSON.coordsToLatLngs(coordinates);
+
+                                linestring = L.polyline(linestring_coord);
+
+                                linestring.feature = linestring.toGeoJSON();
+                                linestring.feature.special_tools = {};
+                                linestring.feature.special_tools.is_pleiades = true;
+                                linestring.feature.special_tools.geoman_edition = false;
+                                linestring.feature.properties = {};
+
+                                if (content.hasOwnProperty('id')) {
+
+                                    linestring.feature.properties.id = "https://pleiades.stoa.org/places/"+content.id;
+
+                                }
+
+                                if (content.hasOwnProperty('title')) {
+
+                                    linestring.feature.properties.title = content.title;
+
+                                }
+
+                                if (content.hasOwnProperty('description')) {
+                                    linestring.feature.properties.description = content.description;
+                                }
+
+                                if (content.hasOwnProperty('names')) {
+
+                                    linestring.feature.properties.names = content.names.toString();
+
+                                }
+
+                                if (feature.properties.hasOwnProperty('description')) {
+
+                                    linestring.feature.properties.info = feature.properties.description;
+
+                                }
+
+                                self.map.fire("pm:create", {layer: linestring});
+
+                                self.modal_message("Objeto creado con éxito");
+
+                            } else if (feature_type === 'MultiLineString') {
+
+
+                                const coordinates = feature.geometry.coordinates;
+
+                                const multi_id = self.make_id(20);
+
+                                for (let index in coordinates) {
+
+                                    const multilinestring_coord = L.GeoJSON.coordsToLatLngs(coordinates[index]);
+
+                                    const multilinestring = L.polyline(multilinestring_coord);
+
+                                    multilinestring.feature = multilinestring.toGeoJSON();
+                                    multilinestring.feature.special_tools = {};
+
+                                    const tools_id = self.make_id(20);
+
+                                    multilinestring.feature.special_tools.tools_id = tools_id;
+                                    multilinestring.feature.special_tools.is_pleiades = true;
+                                    multilinestring.feature.special_tools.geoman_edition = false;
+                                    multilinestring.feature.special_tools.multi_id = multi_id;
+                                    multilinestring.feature.properties = {};
 
                                     if (content.hasOwnProperty('id')) {
 
-                                        marker.feature.properties.id = "https://pleiades.stoa.org/places/"+data.id;
+                                        multilinestring.feature.properties.id = "https://pleiades.stoa.org/places/"+content.id;
 
                                     }
+
                                     if (content.hasOwnProperty('title')) {
 
-                                        marker.feature.properties.title = content.title;
+                                        multilinestring.feature.properties.title = content.title;
 
                                     }
+
                                     if (content.hasOwnProperty('description')) {
 
-                                        marker.feature.properties.description = content.description;
+                                        multilinestring.feature.properties.description = content.description;
 
                                     }
+
                                     if (content.hasOwnProperty('names')) {
 
-                                        marker.feature.properties.names = content.names.toString();
+                                        multilinestring.feature.properties.names = content.names.toString();
 
                                     }
 
-                                    if (content.features.length === 1) {
+                                    if (feature.properties.hasOwnProperty('description')) {
 
-                                        if (content.features[0].properties.hasOwnProperty('description')) {
+                                        multilinestring.feature.properties.info = feature.properties.description;
 
-                                            marker.feature.properties.info = content.features[0].properties.description;
-
-                                        }
                                     }
 
-                                    else if (content.features.length > 1) {
-
-                                        if (content.features[1].properties.hasOwnProperty('description')) {
-
-                                            marker.feature.properties.info = content.features[1].properties.description;
-
-                                        }
-                                    }
-
-                                    self.map.fire("pm:create", {layer: marker});
-
-                                    self.map.setView([lat, lng], 14);
+                                    self.map.fire('pm:create', {layer: multilinestring});
 
                                     self.modal_message("Objeto creado con éxito");
 
                                 }
 
+                            } else if (feature_type === 'MultiPoint') {
 
-                                if (content.features.length === 1) return;
+                                const coordinates = feature.geometry.coordinates;
 
-                                for (let index = 1; index < content.features.length; index++) {
+                                const multi_id = self.make_id(20);
 
-                                    const feature = content.features[index];
-                                    const feature_type = feature.geometry.type;
+                                for (let index in coordinates) {
 
-                                    if (feature_type === 'LineString') {
+                                    const multipoint_coord = L.GeoJSON.coordsToLatLngs(coordinates[index]);
 
-                                        const coordinates = feature.geometry.coordinates;
+                                    const multipoint = L.marker(multipoint_coord);
 
-                                        let linestring = turf.lineString(coordinates);
+                                    multipoint.feature = multipoint.toGeoJSON();
+                                    multipoint.feature.special_tools = {};
 
-                                        const linestring_coord = L.GeoJSON.coordsToLatLngs(coordinates);
+                                    const tools_id = self.make_id(20);
 
-                                        linestring = L.polyline(linestring_coord);
+                                    multipoint.feature.special_tools.tools_id = tools_id;
+                                    multipoint.feature.special_tools.is_pleiades = true;
+                                    multipoint.feature.special_tools.geoman_edition = false;
+                                    multipoint.feature.special_tools.multi_id = multi_id;
+                                    multipoint.feature.properties = {};
 
-                                        linestring.feature = linestring.toGeoJSON();
-                                        linestring.feature.special_tools = {};
-                                        linestring.feature.special_tools.is_pleiades = true;
-                                        linestring.feature.special_tools.geoman_edition = false;
-                                        linestring.feature.properties = {};
+                                    if (content.hasOwnProperty('id')) {
 
-                                        if (content.hasOwnProperty('id')) {
+                                        multipoint.feature.properties.id = "https://pleiades.stoa.org/places/"+content.id;
 
-                                            linestring.feature.properties.id = "https://pleiades.stoa.org/places/"+content.id;
-
-                                        }
-
-                                        if (content.hasOwnProperty('title')) {
-
-                                            linestring.feature.properties.title = content.title;
-
-                                        }
-
-                                        if (content.hasOwnProperty('description')) {
-                                            linestring.feature.properties.description = content.description;
-                                        }
-
-                                        if (content.hasOwnProperty('names')) {
-
-                                            linestring.feature.properties.names = content.names.toString();
-
-                                        }
-
-                                        if (feature.properties.hasOwnProperty('description')) {
-
-                                            linestring.feature.properties.info = feature.properties.description;
-
-                                        }
-
-                                        self.map.fire("pm:create", {layer: linestring});
-
-                                        self.modal_message("Objeto creado con éxito");
-
-                                    } else if (feature_type === 'MultiLineString') {
-
-
-                                        const coordinates = feature.geometry.coordinates;
-
-                                        const multi_id = self.make_id(20);
-
-                                        for (let index in coordinates) {
-
-                                            const multilinestring_coord = L.GeoJSON.coordsToLatLngs(coordinates[index]);
-
-                                            const multilinestring = L.polyline(multilinestring_coord);
-
-                                            multilinestring.feature = multilinestring.toGeoJSON();
-                                            multilinestring.feature.special_tools = {};
-
-                                            const tools_id = self.make_id(20);
-
-                                            multilinestring.feature.special_tools.tools_id = tools_id;
-                                            multilinestring.feature.special_tools.is_pleiades = true;
-                                            multilinestring.feature.special_tools.geoman_edition = false;
-                                            multilinestring.feature.special_tools.multi_id = multi_id;
-                                            multilinestring.feature.properties = {};
-
-                                            if (content.hasOwnProperty('id')) {
-
-                                                multilinestring.feature.properties.id = "https://pleiades.stoa.org/places/"+content.id;
-
-                                            }
-
-                                            if (content.hasOwnProperty('title')) {
-
-                                                multilinestring.feature.properties.title = content.title;
-
-                                            }
-
-                                            if (content.hasOwnProperty('description')) {
-
-                                                multilinestring.feature.properties.description = content.description;
-
-                                            }
-
-                                            if (content.hasOwnProperty('names')) {
-
-                                                multilinestring.feature.properties.names = content.names.toString();
-
-                                            }
-
-                                            if (feature.properties.hasOwnProperty('description')) {
-
-                                                multilinestring.feature.properties.info = feature.properties.description;
-
-                                            }
-
-                                            self.map.fire('pm:create', {layer: multilinestring});
-
-                                            self.modal_message("Objeto creado con éxito");
-
-                                        }
-
-                                    } else if (feature_type === 'MultiPoint') {
-
-                                        const coordinates = feature.geometry.coordinates;
-
-                                        const multi_id = self.make_id(20);
-
-                                        for (let index in coordinates) {
-
-                                            const multipoint_coord = L.GeoJSON.coordsToLatLngs(coordinates[index]);
-
-                                            const multipoint = L.marker(multipoint_coord);
-
-                                            multipoint.feature = multipoint.toGeoJSON();
-                                            multipoint.feature.special_tools = {};
-
-                                            const tools_id = self.make_id(20);
-
-                                            multipoint.feature.special_tools.tools_id = tools_id;
-                                            multipoint.feature.special_tools.is_pleiades = true;
-                                            multipoint.feature.special_tools.geoman_edition = false;
-                                            multipoint.feature.special_tools.multi_id = multi_id;
-                                            multipoint.feature.properties = {};
-
-                                            if (content.hasOwnProperty('id')) {
-
-                                                multipoint.feature.properties.id = "https://pleiades.stoa.org/places/"+content.id;
-
-                                            }
-
-                                            if (content.hasOwnProperty('title')) {
-
-                                                multipoint.feature.properties.title = content.title;
-
-                                            }
-
-                                            if (content.hasOwnProperty('description')) {
-
-                                                multipoint.feature.properties.description = content.description;
-
-                                            }
-
-                                            if (content.hasOwnProperty('names')) {
-
-                                                multipoint.feature.properties.names = content.names.toString();
-
-                                            }
-
-                                            if (feature.properties.hasOwnProperty('description')) {
-
-                                                multipoint.feature.properties.info = feature.properties.description;
-
-                                            }
-
-                                            self.map.fire('pm:create', {layer: multipoint});
-
-                                            self.modal_message("Objeto creado con éxito");
-
-                                        }
-
-                                    } else if (feature_type === 'Polygon') {
-
-                                        const coordinates = feature.geometry.coordinates;
-
-                                        const polygon_coord = L.GeoJSON.coordsToLatLngs(coordinates[0]);
-
-                                        const polygon = L.polygon(polygon_coord);
-
-                                        polygon.feature = polygon.toGeoJSON();
-                                        polygon.feature.special_tools = {};
-                                        polygon.feature.special_tools.is_pleiades = true;
-                                        polygon.feature.special_tools.geoman_edition = false;
-                                        polygon.feature.properties = {};
-
-                                        if (content.hasOwnProperty('id')) {
-
-                                            polygon.feature.properties.id = "https://pleiades.stoa.org/places/"+content.id;
-
-                                        }
-
-                                        if (content.hasOwnProperty('title')) {
-
-                                            polygon.feature.properties.title = content.title;
-
-                                        }
-
-                                        if (content.hasOwnProperty('description')) {
-
-                                            polygon.feature.properties.description = content.description;
-
-                                        }
-
-                                        if (content.hasOwnProperty('names')) {
-
-                                            polygon.feature.properties.names = content.names.toString();
-
-                                        }
-
-                                        if (feature.properties.hasOwnProperty('description')) {
-
-                                            polygon.feature.properties.info = feature.properties.description;
-
-                                        }
-
-                                        self.map.fire("pm:create", {layer: polygon});
-
-                                        self.map.fitBounds(polygon.getBounds());
-
-                                        self.modal_message("Objeto creado con éxito");
-
-                                    } else if (feature_type === 'MultiPolygon') {
-
-                                        const coordinates = feature.geometry.coordinates;
-
-                                        const multi_id = self.make_id(20);
-
-                                        for (let index_1 in coordinates) {
-
-                                            for (let index_2 in coordinates[index_1]) {
-
-                                                const multipolygon_coord = L.GeoJSON.coordsToLatLngs(coordinates[index_1][index_2]);
-
-                                                const multipolygon = L.polygon(multipolygon_coord);
-
-                                                multipolygon.feature = multipolygon.toGeoJSON();
-                                                multipolygon.feature.special_tools = {};
-
-                                                const tools_id = self.make_id(20);
-
-                                                multipolygon.feature.special_tools.tools_id = tools_id;
-
-                                                multipolygon.feature.special_tools.is_pleiades = true;
-
-                                                multipolygon.feature.special_tools.geoman_edition = false;
-
-                                                multipolygon.feature.special_tools.multi_id = multi_id;
-
-                                                multipolygon.feature.properties = {};
-
-                                                if (content.hasOwnProperty('id')) {
-
-                                                    multipolygon.feature.properties.id = "https://pleiades.stoa.org/places/"+content.id;
-
-                                                }
-
-                                                if (content.hasOwnProperty('title')) {
-
-                                                    multipolygon.feature.properties.title = content.title;
-
-                                                }
-
-                                                if (content.hasOwnProperty('description')) {
-
-                                                    multipolygon.feature.properties.description = content.description;
-
-                                                }
-
-                                                if (content.hasOwnProperty('names')) {
-
-                                                    multipolygon.feature.properties.names = content.names.toString();
-
-                                                }
-
-                                                if (feature.properties.hasOwnProperty('description')) {
-
-                                                    multipolygon.feature.properties.info = feature.properties.description;
-
-                                                }
-
-                                                self.map.fire('pm:create', {layer: multipolygon});
-
-                                                self.map.fitBounds(multipolygon.getBounds());
-
-                                                self.modal_message("Objeto creado con éxito");
-
-                                            }
-
-                                        }
                                     }
+
+                                    if (content.hasOwnProperty('title')) {
+
+                                        multipoint.feature.properties.title = content.title;
+
+                                    }
+
+                                    if (content.hasOwnProperty('description')) {
+
+                                        multipoint.feature.properties.description = content.description;
+
+                                    }
+
+                                    if (content.hasOwnProperty('names')) {
+
+                                        multipoint.feature.properties.names = content.names.toString();
+
+                                    }
+
+                                    if (feature.properties.hasOwnProperty('description')) {
+
+                                        multipoint.feature.properties.info = feature.properties.description;
+
+                                    }
+
+                                    self.map.fire('pm:create', {layer: multipoint});
+
+                                    self.modal_message("Objeto creado con éxito");
+
                                 }
+
+                            } else if (feature_type === 'Polygon') {
+
+                                const coordinates = feature.geometry.coordinates;
+
+                                const polygon_coord = L.GeoJSON.coordsToLatLngs(coordinates[0]);
+
+                                const polygon = L.polygon(polygon_coord);
+
+                                polygon.feature = polygon.toGeoJSON();
+                                polygon.feature.special_tools = {};
+                                polygon.feature.special_tools.is_pleiades = true;
+                                polygon.feature.special_tools.geoman_edition = false;
+                                polygon.feature.properties = {};
+
+                                if (content.hasOwnProperty('id')) {
+
+                                    polygon.feature.properties.id = "https://pleiades.stoa.org/places/"+content.id;
+
+                                }
+
+                                if (content.hasOwnProperty('title')) {
+
+                                    polygon.feature.properties.title = content.title;
+
+                                }
+
+                                if (content.hasOwnProperty('description')) {
+
+                                    polygon.feature.properties.description = content.description;
+
+                                }
+
+                                if (content.hasOwnProperty('names')) {
+
+                                    polygon.feature.properties.names = content.names.toString();
+
+                                }
+
+                                if (feature.properties.hasOwnProperty('description')) {
+
+                                    polygon.feature.properties.info = feature.properties.description;
+
+                                }
+
+                                self.map.fire("pm:create", {layer: polygon});
+
+                                self.map.fitBounds(polygon.getBounds());
+
+                                self.modal_message("Objeto creado con éxito");
+
+                            } else if (feature_type === 'MultiPolygon') {
+
+                                const coordinates = feature.geometry.coordinates;
+
+                                const multi_id = self.make_id(20);
+
+                                for (let index_1 in coordinates) {
+
+                                    for (let index_2 in coordinates[index_1]) {
+
+                                        const multipolygon_coord = L.GeoJSON.coordsToLatLngs(coordinates[index_1][index_2]);
+
+                                        const multipolygon = L.polygon(multipolygon_coord);
+
+                                        multipolygon.feature = multipolygon.toGeoJSON();
+                                        multipolygon.feature.special_tools = {};
+
+                                        const tools_id = self.make_id(20);
+
+                                        multipolygon.feature.special_tools.tools_id = tools_id;
+
+                                        multipolygon.feature.special_tools.is_pleiades = true;
+
+                                        multipolygon.feature.special_tools.geoman_edition = false;
+
+                                        multipolygon.feature.special_tools.multi_id = multi_id;
+
+                                        multipolygon.feature.properties = {};
+
+                                        if (content.hasOwnProperty('id')) {
+
+                                            multipolygon.feature.properties.id = "https://pleiades.stoa.org/places/"+content.id;
+
+                                        }
+
+                                        if (content.hasOwnProperty('title')) {
+
+                                            multipolygon.feature.properties.title = content.title;
+
+                                        }
+
+                                        if (content.hasOwnProperty('description')) {
+
+                                            multipolygon.feature.properties.description = content.description;
+
+                                        }
+
+                                        if (content.hasOwnProperty('names')) {
+
+                                            multipolygon.feature.properties.names = content.names.toString();
+
+                                        }
+
+                                        if (feature.properties.hasOwnProperty('description')) {
+
+                                            multipolygon.feature.properties.info = feature.properties.description;
+
+                                        }
+
+                                        self.map.fire('pm:create', {layer: multipolygon});
+
+                                        self.modal_message("Objeto creado con éxito");
+
+                                    }
+
+                                }
+                                
+                                const bounds = turf.bbox(feature);
+                                const corner1 = L.latLng(bounds[1], bounds[0]);
+                                const corner2 = L.latLng(bounds[3], bounds[2]);
+                                self.map.fitBounds(L.latLngBounds(corner1, corner2));
+                            
                             }
                         }
-                    });
-                });
-            }                 
+                    }
+                }
+            });
         });
-
-    });
+        
+    }
     
 };
 
@@ -774,6 +774,33 @@ special_tools_roman_empire.prototype.load_pelagios = function() {
     pelagios_div.appendChild(clear_div);
 
     /************************************************************/
+    
+    const pelagios_items_founds = L.DomUtil.create('div');
+    pelagios_items_founds.id = 'pelagios_items_founds';
+    pelagios_items_founds.setAttribute('class', 'special-tools-items-founds');
+    
+    pelagios_items_founds.style.top = search_pelagios.style.bottom;
+
+    pelagios_div.appendChild(pelagios_items_founds);
+
+    /************************************************************/
+
+    for (let n = 1; n <= 10; n++) {
+
+        const p_get_pelagios = L.DomUtil.create('p');
+        p_get_pelagios.setAttribute('class', 'p-get-pelagios special-tools-item-found-p');
+
+        pelagios_items_founds.appendChild(p_get_pelagios);
+
+        const get_pelagios = L.DomUtil.create('span');
+        get_pelagios.setAttribute('class', 'get-pelagios special-tools-item-found-span');
+        get_pelagios.setAttribute('pelagios-geojson', '');
+
+        p_get_pelagios.appendChild(get_pelagios);
+
+    }
+    
+    /***********************************************************/
 
     const pelagios_filter_div = L.DomUtil.create('div');
     pelagios_filter_div.setAttribute('class', 'special-tools-container');
@@ -804,15 +831,15 @@ special_tools_roman_empire.prototype.load_pelagios = function() {
 
     const container_option_1 = L.DomUtil.create('div');
     container_option_1.setAttribute('class', 'w-col-3');
-    pelagios_div.appendChild(container_option_1);
-
+    pelagios_div.appendChild(container_option_1);  
+    
     const pelagios_option_1 = L.DomUtil.create('input');
     pelagios_option_1.type = 'checkbox';
     pelagios_option_1.name = '10m_lakes';
     pelagios_option_1.checked = true;
 
     container_option_1.appendChild(pelagios_option_1);
-
+    
     const pelagios_option_1_span = L.DomUtil.create('span');
     pelagios_option_1_span.innerText = ' 10m_lakes';
 
@@ -919,7 +946,7 @@ special_tools_roman_empire.prototype.load_pelagios = function() {
     pelagios_option_7.name = 'places_medium';
     pelagios_option_7.checked = true;
 
-    container_option_7.appendChild(pelagios_option_1);
+    container_option_7.appendChild(pelagios_option_7);
 
     const pelagios_option_7_span = L.DomUtil.create('span');
     pelagios_option_7_span.innerText = ' places_medium';
@@ -1018,32 +1045,6 @@ special_tools_roman_empire.prototype.load_pelagios = function() {
 
     /*********************************************************/
 
-    const pelagios_items_founds = L.DomUtil.create('div');
-    pelagios_items_founds.id = 'pelagios_items_founds';
-    pelagios_items_founds.setAttribute('class', 'special-tools-container');
-
-    pelagios_div.appendChild(pelagios_items_founds);
-
-
-    for (let n = 1; n <= 10; n++) {
-
-        const p_get_pelagios = L.DomUtil.create('p');
-        p_get_pelagios.setAttribute('class', 'p-get-pelagios');
-        p_get_pelagios.style.display = 'none';
-
-        pelagios_items_founds.appendChild(p_get_pelagios);
-
-        const get_pelagios = L.DomUtil.create('button');
-        get_pelagios.type = 'button';
-        get_pelagios.style.marginTop = '4px';
-        get_pelagios.style.marginBottom = '4px';
-        get_pelagios.setAttribute('class', 'get-pelagios special-tools-btn-success');
-        get_pelagios.setAttribute('pelagios-geojson', '');
-
-        p_get_pelagios.appendChild(get_pelagios);
-
-    }
-
     L.DomEvent.on(check_uncheck_all, 'click', function() {
 
         if (this.checked) {
@@ -1080,13 +1081,29 @@ special_tools_roman_empire.prototype.load_pelagios = function() {
 
     });
 
-    L.DomEvent.on(search_pelagios, 'keyup', function(e) {
+    L.DomEvent.on(search_pelagios, 'keyup', function() {
 
             btn_pelagios.click();
 
     });
 
     L.DomEvent.on(btn_pelagios, 'click', function() {
+        
+        const query = self.simple_sanitize_string(search_pelagios.value);
+        const pelagios_array = self.modal._container.querySelectorAll('.get-pelagios');   
+        const p_pelagios_array = self.modal._container.querySelectorAll('.p-get-pelagios');
+        
+        const pelagios_items_founds = self.modal._container.querySelector('#pelagios_items_founds');
+        
+        pelagios_items_founds.style.display = 'none';
+        
+        for (let index = 0; index < pelagios_array.length; index++) {
+
+            pelagios_array[index].setAttribute('pelagios-geojson', '');
+            pelagios_array[index].innerHTML = '';
+            p_pelagios_array[index].style.display = 'none';
+
+        }
 
         let filter = new Array();
 
@@ -1162,19 +1179,7 @@ special_tools_roman_empire.prototype.load_pelagios = function() {
 
         }
 
-        const query = self.simple_sanitize_string(search_pelagios.value);
-        const pelagios_array = self.modal._container.querySelectorAll('.get-pelagios');   
-        const p_pelagios_array = self.modal._container.querySelectorAll('.p-get-pelagios');
-
-        if (query === '') {
-
-            for (let index = 0; index < pelagios_array.length; index++) {
-
-                pelagios_array[index].setAttribute('pelagios-geojson', '');
-                pelagios_array[index].innerHTML = '';
-                p_pelagios_array[index].style.display = 'none';
-
-            }
+        if (query === '' || query.length < 2) {
 
             return;
 
@@ -1196,188 +1201,186 @@ special_tools_roman_empire.prototype.load_pelagios = function() {
 
             }
 
-            let get_pelagios = '';
-            let p_pelagios;
-
             const content = data.content;
 
             for (let index in data.content) {
 
-                get_pelagios = self.modal._container.querySelectorAll('.get-pelagios')[index];
-                p_pelagios = self.modal._container.querySelectorAll('.p-get-pelagios')[index];
-
+                const get_pelagios = self.modal._container.querySelectorAll('.get-pelagios')[index];
+                const p_pelagios = self.modal._container.querySelectorAll('.p-get-pelagios')[index];
+                
                 try {
-
-                    L.DomEvent.off(get_pelagios);
-
-                } catch(Exception) {
-
-                    if (typeof get_pelagios === 'undefined') {
-
-                        return;
-
-                    }
-
-                }
-
-                get_pelagios.setAttribute('pelagios-geojson', content[index].geojson);
-                get_pelagios.innerHTML = content[index].value + ' - ' + content[index].geometry_type + " &nbsp;<small> " + content[index].file + "</small>";
-                p_pelagios.style.display = 'block';
-
-                L.DomEvent.addListener(get_pelagios, 'click', function(){
-
-                    const geojson = JSON.parse(this.getAttribute('pelagios-geojson'));
-
-                    if (geojson.geometry.type === 'Point') {
-
-                        const tools_id = self.make_id(20);
-
-                        const coordinates = geojson.geometry.coordinates;
-
-                        const lng = coordinates[0];
-                        const lat = coordinates[1];
-
-                        const marker = L.marker([lat, lng]);
-
-                        marker.feature = marker.toGeoJSON();
-                        marker.feature.special_tools = {};
-                        marker.feature.special_tools.tools_id = tools_id;
-                        marker.feature.special_tools.is_pelagios = true;
-                        marker.feature.special_tools.geoman_edition = false;
-                        marker.feature.properties = geojson.properties;
-
-                        self.map.fire('pm:create', {layer: marker});
-
-                        self.map.setView([lat, lng], 14);
-
-                        self.modal_message("Objeto creado con éxito");
-
-                    }
-
-                    else if (geojson.geometry.type === 'Polygon') {
-
-                        const tools_id = self.make_id(20);
-
-                        const coordinates = geojson.geometry.coordinates;
-
-                        const polygon_coord = L.GeoJSON.coordsToLatLngs(coordinates[0]);
-
-                        const polygon = L.polygon(polygon_coord);
-
-                        polygon.feature = polygon.toGeoJSON();
-                        polygon.feature.special_tools = {};
-                        polygon.feature.special_tools.tools_id = tools_id;
-                        polygon.feature.special_tools.is_pelagios = true;
-                        polygon.feature.special_tools.geoman_edition = false;
-                        polygon.feature.properties = geojson.properties;
-
-                        self.map.fire('pm:create', {layer: polygon});
-
-                        self.map.fitBounds(polygon.getBounds());
-
-                        self.modal_message("Objeto creado con éxito");
-
-                    }
-
-                    else if (geojson.geometry.type === 'MultiPolygon') {
-
-                        const coordinates = geojson.geometry.coordinates;
-
-                        const multi_id = self.make_id(20);
-
-                        for (let index_1 in coordinates) {
-
-                            for(let index_2 in coordinates[index_1]) {
-
-                                const multipolygon_coord = L.GeoJSON.coordsToLatLngs(coordinates[index_1][index_2]);
-
-                                const multipolygon = L.polygon(multipolygon_coord);
-
-                                multipolygon.feature = multipolygon.toGeoJSON();
-                                multipolygon.feature.special_tools = {};
-                                const tools_id = self.make_id(20);
-                                multipolygon.feature.special_tools.tools_id = tools_id;
-                                multipolygon.feature.special_tools.is_pelagios = true;
-                                multipolygon.feature.special_tools.geoman_edition = false;
-                                multipolygon.feature.special_tools.multi_id = multi_id;
-                                multipolygon.feature.properties = geojson.properties;
-
-                                self.map.fire('pm:create', {layer: multipolygon});
-
-                                self.map.fitBounds(multipolygon.getBounds());
-
-                                self.modal_message("Objeto creado con éxito");
-
-                            }
-
-                        }
-
-                    }
-
-                    else if (geojson.geometry.type === 'LineString') {
-
-                        const tools_id = self.make_id(20);
-
-                        const coordinates = geojson.geometry.coordinates;
-
-                        const linestring_coord = L.GeoJSON.coordsToLatLngs(coordinates);
-
-                        const linestring = L.polyline(linestring_coord);
-
-                        linestring.feature = linestring.toGeoJSON();
-                        linestring.feature.special_tools = {};
-                        linestring.feature.special_tools.tools_id = tools_id;
-                        linestring.feature.special_tools.is_pelagios = true;
-                        linestring.feature.special_tools.geoman_edition = false;
-                        linestring.feature.properties = geojson.properties;
-
-                        self.map.fire('pm:create', {layer: linestring});
-
-                        self.map.fitBounds(linestring.getBounds());
-
-                        self.modal_message("Objeto creado con éxito");
-
-                    }
-
-                    else if (geojson.geometry.type === 'MultiLineString') {
-
-                        const coordinates = geojson.geometry.coordinates;
-
-                        const multi_id = self.make_id(20);
-
-                        for (let index in coordinates) {
-
-                            const multilinestring_coord = L.GeoJSON.coordsToLatLngs(coordinates[index]);
-
-                            const multilinestring = L.polyline(multilinestring_coord);
-
-                            multilinestring.feature = multilinestring.toGeoJSON();
-                            multilinestring.feature.special_tools = {};
-
-                            const tools_id = self.make_id(20);
-
-                            multilinestring.feature.special_tools.tools_id = tools_id;
-                            multilinestring.feature.special_tools.is_pelagios = true;
-                            multilinestring.feature.special_tools.geoman_edition = false;
-                            multilinestring.feature.special_tools.multi_id = multi_id;
-                            multilinestring.feature.properties = geojson.properties;
-
-                            self.map.fire('pm:create', {layer: multilinestring});
-
-                            self.map.fitBounds(multilinestring.getBounds());
-
-                            self.modal_message("Objeto creado con éxito");
-
-                        }
-
-                    }
-
-                });
+                    
+                    pelagios_items_founds.style.display = 'block';
+                    get_pelagios.setAttribute('pelagios-geojson', content[index].geojson);
+                    get_pelagios.innerHTML = content[index].value + ' - ' + content[index].geometry_type + " &nbsp;<small> " + content[index].file + "</small>";
+                    p_pelagios.style.display = 'block';
+                
+                } catch (Exception) {};
+                
             }
 
         });
 
-    });  
+    });
+    
+    const pelagios_array = self.modal._container.querySelectorAll('.get-pelagios');
+    
+    for (let index = 0; index < pelagios_array.length; index++) {
+        
+        L.DomEvent.addListener(pelagios_array[index], 'click', function() {
+
+            const geojson = JSON.parse(this.getAttribute('pelagios-geojson'));
+
+            if (geojson.geometry.type === 'Point') {
+
+                const tools_id = self.make_id(20);
+
+                const coordinates = geojson.geometry.coordinates;
+
+                const lng = coordinates[0];
+                const lat = coordinates[1];
+
+                const marker = L.marker([lat, lng]);
+
+                marker.feature = marker.toGeoJSON();
+                marker.feature.special_tools = {};
+                marker.feature.special_tools.tools_id = tools_id;
+                marker.feature.special_tools.is_pelagios = true;
+                marker.feature.special_tools.geoman_edition = false;
+                marker.feature.properties = geojson.properties;
+
+                self.map.fire('pm:create', {layer: marker});
+
+                self.map.setView([lat, lng], 14);
+
+                self.modal_message("Objeto creado con éxito");
+
+            }
+
+            else if (geojson.geometry.type === 'Polygon') {
+
+                const tools_id = self.make_id(20);
+
+                const coordinates = geojson.geometry.coordinates;
+
+                const polygon_coord = L.GeoJSON.coordsToLatLngs(coordinates[0]);
+
+                const polygon = L.polygon(polygon_coord);
+
+                polygon.feature = polygon.toGeoJSON();
+                polygon.feature.special_tools = {};
+                polygon.feature.special_tools.tools_id = tools_id;
+                polygon.feature.special_tools.is_pelagios = true;
+                polygon.feature.special_tools.geoman_edition = false;
+                polygon.feature.properties = geojson.properties;
+
+                self.map.fire('pm:create', {layer: polygon});
+
+                self.map.fitBounds(polygon.getBounds());
+
+                self.modal_message("Objeto creado con éxito");
+
+            }
+
+            else if (geojson.geometry.type === 'MultiPolygon') {
+
+                const coordinates = geojson.geometry.coordinates;
+
+                const multi_id = self.make_id(20);
+
+                for (let index_1 in coordinates) {
+
+                    for(let index_2 in coordinates[index_1]) {
+
+                        const multipolygon_coord = L.GeoJSON.coordsToLatLngs(coordinates[index_1][index_2]);
+
+                        const multipolygon = L.polygon(multipolygon_coord);
+
+                        multipolygon.feature = multipolygon.toGeoJSON();
+                        multipolygon.feature.special_tools = {};
+                        const tools_id = self.make_id(20);
+                        multipolygon.feature.special_tools.tools_id = tools_id;
+                        multipolygon.feature.special_tools.is_pelagios = true;
+                        multipolygon.feature.special_tools.geoman_edition = false;
+                        multipolygon.feature.special_tools.multi_id = multi_id;
+                        multipolygon.feature.properties = geojson.properties;
+
+                        self.map.fire('pm:create', {layer: multipolygon});
+
+                        self.modal_message("Objeto creado con éxito");
+
+                    }
+
+                }
+                
+                const bounds = turf.bbox(geojson);
+                const corner1 = L.latLng(bounds[1], bounds[0]);
+                const corner2 = L.latLng(bounds[3], bounds[2]);
+                self.map.fitBounds(L.latLngBounds(corner1, corner2));
+
+            }
+
+            else if (geojson.geometry.type === 'LineString') {
+
+                const tools_id = self.make_id(20);
+
+                const coordinates = geojson.geometry.coordinates;
+
+                const linestring_coord = L.GeoJSON.coordsToLatLngs(coordinates);
+
+                const linestring = L.polyline(linestring_coord);
+
+                linestring.feature = linestring.toGeoJSON();
+                linestring.feature.special_tools = {};
+                linestring.feature.special_tools.tools_id = tools_id;
+                linestring.feature.special_tools.is_pelagios = true;
+                linestring.feature.special_tools.geoman_edition = false;
+                linestring.feature.properties = geojson.properties;
+
+                self.map.fire('pm:create', {layer: linestring});
+
+                self.map.fitBounds(linestring.getBounds());
+
+                self.modal_message("Objeto creado con éxito");
+
+            }
+
+            else if (geojson.geometry.type === 'MultiLineString') {
+
+                const coordinates = geojson.geometry.coordinates;
+
+                const multi_id = self.make_id(20);
+
+                for (let index in coordinates) {
+
+                    const multilinestring_coord = L.GeoJSON.coordsToLatLngs(coordinates[index]);
+
+                    const multilinestring = L.polyline(multilinestring_coord);
+
+                    multilinestring.feature = multilinestring.toGeoJSON();
+                    multilinestring.feature.special_tools = {};
+
+                    const tools_id = self.make_id(20);
+
+                    multilinestring.feature.special_tools.tools_id = tools_id;
+                    multilinestring.feature.special_tools.is_pelagios = true;
+                    multilinestring.feature.special_tools.geoman_edition = false;
+                    multilinestring.feature.special_tools.multi_id = multi_id;
+                    multilinestring.feature.properties = geojson.properties;
+
+                    self.map.fire('pm:create', {layer: multilinestring});
+
+                    self.map.fitBounds(multilinestring.getBounds());
+
+                    self.modal_message("Objeto creado con éxito");
+
+                }
+
+            }
+
+        });
+        
+    }
     
 };
 
@@ -1428,6 +1431,33 @@ special_tools_roman_empire.prototype.load_imperium = function() {
     const btn_imperium_img = L.DomUtil.create('img');
     btn_imperium_img.src = self.tool.tool_url() + '/img/search.png';
     btn_imperium.appendChild(btn_imperium_img);
+
+    /************************************************************/
+    
+    const imperium_items_founds = L.DomUtil.create('div');
+    imperium_items_founds.id = 'imperium_items_founds';
+    imperium_items_founds.setAttribute('class', 'special-tools-items-founds');
+    
+    imperium_items_founds.style.top = search_imperium.style.bottom;
+    
+    imperium_div.appendChild(imperium_items_founds);
+
+    /************************************************************/
+
+    for (let n = 1; n <= 10; n++) {
+
+        const p_get_imperium = L.DomUtil.create('p');
+        p_get_imperium.setAttribute('class', 'p-get-imperium special-tools-item-found-p');
+
+        imperium_items_founds.appendChild(p_get_imperium);
+
+        const get_imperium = L.DomUtil.create('span');
+        get_imperium.setAttribute('class', 'get-imperium special-tools-item-found-span');
+        get_imperium.setAttribute('imperium-geojson', '');
+
+        p_get_imperium.appendChild(get_imperium);
+
+    }
 
     /************************************************************/
 
@@ -1632,32 +1662,6 @@ special_tools_roman_empire.prototype.load_imperium = function() {
 
     /************************************************************/
 
-    const imperium_items_founds = L.DomUtil.create('div');
-    imperium_items_founds.id = 'imperium_items_founds';
-    imperium_div.appendChild(imperium_items_founds);
-
-    /************************************************************/
-
-    for (let n = 1; n <= 10; n++) {
-
-        const p_get_imperium = L.DomUtil.create('p');
-        p_get_imperium.setAttribute('class', 'p-get-imperium');
-        p_get_imperium.style.display = 'none';
-        imperium_items_founds.appendChild(p_get_imperium);
-
-        const get_imperium = L.DomUtil.create('button');
-        get_imperium.type = 'button';
-        get_imperium.style.marginTop = '4px';
-        get_imperium.style.marginBottom = '4px';
-        get_imperium.setAttribute('class', 'get-imperium special-tools-btn-success');
-        get_imperium.setAttribute('imperium-geojson', '');
-
-        p_get_imperium.appendChild(get_imperium);
-
-    }
-
-    /************************************************************/
-
     L.DomEvent.on(search_imperium, 'keyup', function () {
 
             btn_imperium.click();
@@ -1673,16 +1677,19 @@ special_tools_roman_empire.prototype.load_imperium = function() {
         const imperium_array = self.modal._container.querySelectorAll('.get-imperium');
         const p_imperium_array = self.modal._container.querySelectorAll('.p-get-imperium');
 
+        const imperium_items_founds = self.modal._container.querySelector('#imperium_items_founds');
+        
+        imperium_items_founds.style.display = 'none';
+        
+        for (let index = 0; index < imperium_array.length; index++) {
 
-        if (query === '') {
+            imperium_array[index].setAttribute('imperium-geojson', '');
+            imperium_array[index].innerHTML = '';
+            p_imperium_array[index].style.display = 'none';
 
-            for (let index = 0; index < imperium_array.length; index++) {
+        }
 
-                imperium_array[index].setAttribute('imperium-geojson', '');
-                imperium_array[index].innerHTML = '';
-                p_imperium_array[index].style.display = 'none';
-
-            }
+        if (query === '' || query.length <= 3) {
 
             return;
 
@@ -1697,174 +1704,176 @@ special_tools_roman_empire.prototype.load_imperium = function() {
 
         let promise = self.tool.get_imperium_ahlfeldt(options);
 
-        promise.then(function (data) {
+        promise.then(function(data) {
 
-            let get_imperium = '';
-            let p_imperium;
-
-            let content = data.content;
+            const content = data.content;
 
             for (let index in content) {
 
-                get_imperium = self.modal._container.querySelectorAll('.get-imperium')[index];
-                p_imperium = self.modal._container.querySelectorAll('.p-get-imperium')[index];
+                const get_imperium = self.modal._container.querySelectorAll('.get-imperium')[index];
+                const p_imperium = self.modal._container.querySelectorAll('.p-get-imperium')[index];
 
                 try {
 
-                    L.DomEvent.off(get_imperium);
+                    imperium_items_founds.style.display = 'block';
+                    get_imperium.setAttribute('imperium-geojson', content[index].geojson);
+                    get_imperium.innerHTML = content[index].value + ' - ' + content[index].geometry_type;
 
-                } catch (Exception) {
-
-                    if (typeof get_imperium === 'undefined')
-                        return;
-
-                }
-
-                get_imperium.setAttribute('imperium-geojson', content[index].geojson);
-                get_imperium.innerHTML = content[index].value + ' - ' + content[index].geometry_type;
+                } catch (Exception) {return;}
 
                 p_imperium.style.display = 'block';
 
-                L.DomEvent.addListener(get_imperium, 'click', function () {
-
-                    const geojson = JSON.parse(this.getAttribute('imperium-geojson'));
-
-                    if (geojson.geometry.type === 'Point') {
-
-                        const tools_id = self.make_id(20);
-
-                        const coordinates = geojson.geometry.coordinates;
-
-                        const lng = coordinates[0];
-                        const lat = coordinates[1];
-
-                        const marker = L.marker([lat, lng]);
-
-                        marker.feature = marker.toGeoJSON();
-                        marker.feature.special_tools = {};
-                        marker.feature.special_tools.tools_id = tools_id;
-                        marker.feature.special_tools.is_imperium = true;
-                        marker.feature.special_tools.geoman_edition = false;
-                        marker.feature.properties = geojson.properties;
-
-                        self.map.fire('pm:create', {layer: marker});
-
-                        self.map.setView([lat, lng], 14);
-
-                        self.modal_message("Objeto creado con éxito");
-
-                    } else if (geojson.geometry.type === 'Polygon') {
-
-                        const tools_id = self.make_id(20);
-
-                        const coordinates = geojson.geometry.coordinates;
-
-                        const polygon_coord = L.GeoJSON.coordsToLatLngs(coordinates[0]);
-
-                        const polygon = L.polygon(polygon_coord);
-
-                        polygon.feature = polygon.toGeoJSON();
-                        polygon.feature.special_tools = {};
-                        polygon.feature.special_tools.tools_id = tools_id;
-                        polygon.feature.special_tools.is_imperium = true;
-                        polygon.feature.special_tools.geoman_edition = false;
-                        polygon.feature.properties = geojson.properties;
-
-                        self.map.fire('pm:create', {layer: polygon});
-
-                        self.map.fitBounds(polygon.getBounds());
-
-                        self.modal_message("Objeto creado con éxito");
-
-                    } else if (geojson.geometry.type === 'MultiPolygon') {
-
-                        const coordinates = geojson.geometry.coordinates;
-
-                        const multi_id = self.make_id(20);
-
-                        for (let index_1 in coordinates) {
-
-                            for (let index_2 in coordinates[index_1]) {
-
-                                const multipolygon_coord = L.GeoJSON.coordsToLatLngs(coordinates[index_1][index_2]);
-
-                                const multipolygon = L.polygon(multipolygon_coord);
-
-                                multipolygon.feature = multipolygon.toGeoJSON();
-                                multipolygon.feature.special_tools = {};
-                                const tools_id = self.make_id(20);
-                                multipolygon.feature.special_tools.tools_id = tools_id;
-                                multipolygon.feature.special_tools.is_imperium = true;
-                                multipolygon.feature.special_tools.geoman_edition = false;
-                                multipolygon.feature.special_tools.multi_id = multi_id;
-                                multipolygon.feature.properties = geojson.properties;
-
-                                self.map.fire('pm:create', {layer: multipolygon});
-
-                                self.map.fitBounds(multipolygon.getBounds());
-
-                                self.modal_message("Objeto creado con éxito");
-
-                            }
-
-                        }
-
-                    } else if (geojson.geometry.type === 'LineString') {
-
-                        const tools_id = self.make_id(20);
-
-                        const coordinates = geojson.geometry.coordinates;
-
-                        const linestring_coord = L.GeoJSON.coordsToLatLngs(coordinates);
-
-                        const linestring = L.polyline(linestring_coord);
-
-                        linestring.feature = linestring.toGeoJSON();
-                        linestring.feature.special_tools = {};
-                        linestring.feature.special_tools.tools_id = tools_id;
-                        linestring.feature.special_tools.is_imperium = true;
-                        linestring.feature.special_tools.geoman_edition = false;
-                        linestring.feature.properties = geojson.properties;
-
-                        self.map.fire('pm:create', {layer: linestring});
-
-                        self.map.fitBounds(linestring.getBounds());
-
-                        self.modal_message("Objeto creado con éxito");
-
-                    } else if (geojson.geometry.type === 'MultiLineString') {
-
-                        const coordinates = geojson.geometry.coordinates;
-
-                        const multi_id = self.make_id(20);
-
-                        for (let index in coordinates) {
-
-                            const multilinestring_coord = L.GeoJSON.coordsToLatLngs(coordinates[index]);
-
-                            const multilinestring = L.polyline(multilinestring_coord);
-
-                            multilinestring.feature = multilinestring.toGeoJSON();
-                            multilinestring.feature.special_tools = {};
-                            const tools_id = self.make_id(20);
-                            multilinestring.feature.special_tools.tools_id = tools_id;
-                            multilinestring.feature.special_tools.is_imperium = true;
-                            multilinestring.feature.special_tools.geoman_edition = false;
-                            multilinestring.feature.special_tools.multi_id = multi_id;
-                            multilinestring.feature.properties = geojson.properties;
-
-                            self.map.fire('pm:create', {layer: multilinestring});
-
-                            self.map.fitBounds(multilinestring.getBounds());
-
-                            self.modal_message("Objeto creado con éxito");
-
-                        }
-                    }
-                });
             }
         });
+        
     });
+    
+    const imperium_array = self.modal._container.querySelectorAll('.get-imperium');
+    
+    for (let index = 0; index < imperium_array.length; index++) {
+        
+        L.DomEvent.addListener(imperium_array[index], 'click', function () {
+
+            const geojson = JSON.parse(this.getAttribute('imperium-geojson'));
+
+            if (geojson.geometry.type === 'Point') {
+
+                const tools_id = self.make_id(20);
+
+                const coordinates = geojson.geometry.coordinates;
+
+                const lng = coordinates[0];
+                const lat = coordinates[1];
+
+                const marker = L.marker([lat, lng]);
+
+                marker.feature = marker.toGeoJSON();
+                marker.feature.special_tools = {};
+                marker.feature.special_tools.tools_id = tools_id;
+                marker.feature.special_tools.is_imperium = true;
+                marker.feature.special_tools.geoman_edition = false;
+                marker.feature.properties = geojson.properties;
+
+                self.map.fire('pm:create', {layer: marker});
+
+                self.map.setView([lat, lng], 14);
+
+                self.modal_message("Objeto creado con éxito");
+
+            } else if (geojson.geometry.type === 'Polygon') {
+
+                const tools_id = self.make_id(20);
+
+                const coordinates = geojson.geometry.coordinates;
+
+                const polygon_coord = L.GeoJSON.coordsToLatLngs(coordinates[0]);
+
+                const polygon = L.polygon(polygon_coord);
+
+                polygon.feature = polygon.toGeoJSON();
+                polygon.feature.special_tools = {};
+                polygon.feature.special_tools.tools_id = tools_id;
+                polygon.feature.special_tools.is_imperium = true;
+                polygon.feature.special_tools.geoman_edition = false;
+                polygon.feature.properties = geojson.properties;
+
+                self.map.fire('pm:create', {layer: polygon});
+
+                self.map.fitBounds(polygon.getBounds());
+
+                self.modal_message("Objeto creado con éxito");
+
+            } else if (geojson.geometry.type === 'MultiPolygon') {
+
+                const coordinates = geojson.geometry.coordinates;
+
+                const multi_id = self.make_id(20);
+
+                for (let index_1 in coordinates) {
+
+                    for (let index_2 in coordinates[index_1]) {
+
+                        const multipolygon_coord = L.GeoJSON.coordsToLatLngs(coordinates[index_1][index_2]);
+
+                        const multipolygon = L.polygon(multipolygon_coord);
+
+                        multipolygon.feature = multipolygon.toGeoJSON();
+                        multipolygon.feature.special_tools = {};
+                        const tools_id = self.make_id(20);
+                        multipolygon.feature.special_tools.tools_id = tools_id;
+                        multipolygon.feature.special_tools.is_imperium = true;
+                        multipolygon.feature.special_tools.geoman_edition = false;
+                        multipolygon.feature.special_tools.multi_id = multi_id;
+                        multipolygon.feature.properties = geojson.properties;
+
+                        self.map.fire('pm:create', {layer: multipolygon});
+
+                        self.modal_message("Objeto creado con éxito");
+
+                    }
+
+                }
+                
+                const bounds = turf.bbox(geojson);
+                const corner1 = L.latLng(bounds[1], bounds[0]);
+                const corner2 = L.latLng(bounds[3], bounds[2]);
+                self.map.fitBounds(L.latLngBounds(corner1, corner2));
+
+            } else if (geojson.geometry.type === 'LineString') {
+
+                const tools_id = self.make_id(20);
+
+                const coordinates = geojson.geometry.coordinates;
+
+                const linestring_coord = L.GeoJSON.coordsToLatLngs(coordinates);
+
+                const linestring = L.polyline(linestring_coord);
+
+                linestring.feature = linestring.toGeoJSON();
+                linestring.feature.special_tools = {};
+                linestring.feature.special_tools.tools_id = tools_id;
+                linestring.feature.special_tools.is_imperium = true;
+                linestring.feature.special_tools.geoman_edition = false;
+                linestring.feature.properties = geojson.properties;
+
+                self.map.fire('pm:create', {layer: linestring});
+
+                self.map.fitBounds(linestring.getBounds());
+
+                self.modal_message("Objeto creado con éxito");
+
+            } else if (geojson.geometry.type === 'MultiLineString') {
+
+                const coordinates = geojson.geometry.coordinates;
+
+                const multi_id = self.make_id(20);
+
+                for (let index in coordinates) {
+
+                    const multilinestring_coord = L.GeoJSON.coordsToLatLngs(coordinates[index]);
+
+                    const multilinestring = L.polyline(multilinestring_coord);
+
+                    multilinestring.feature = multilinestring.toGeoJSON();
+                    multilinestring.feature.special_tools = {};
+                    const tools_id = self.make_id(20);
+                    multilinestring.feature.special_tools.tools_id = tools_id;
+                    multilinestring.feature.special_tools.is_imperium = true;
+                    multilinestring.feature.special_tools.geoman_edition = false;
+                    multilinestring.feature.special_tools.multi_id = multi_id;
+                    multilinestring.feature.properties = geojson.properties;
+
+                    self.map.fire('pm:create', {layer: multilinestring});
+
+                    self.map.fitBounds(multilinestring.getBounds());
+
+                    self.modal_message("Objeto creado con éxito");
+
+                }
+            }
+        });
+        
+    }
     
 };
 

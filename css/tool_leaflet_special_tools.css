@@ -173,7 +173,6 @@
     
 }
 
-
 .special-tools-enable {
     
     background-color: #14fbcd !important;
@@ -221,6 +220,43 @@
 .special-tools-display-none {
     
     display: none;
+    
+}
+
+.special-tools-items-founds {
+    
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid orange;
+    border-radius: 4px;
+    padding: 10px;
+    max-height: 200px;
+    overflow: scroll;
+    z-index: 999;
+    width: 250px;
+    display: none;
+    
+}
+
+.special-tools-item-found-p {
+    
+    display: none;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid orange;
+    
+}
+
+.special-tools-item-found-span {
+    
+        font-size: 12px;
+        color: #4967be;
+        cursor: pointer;
+}
+
+.special-tools-item-found-span:hover {
+    
+    font-weight: bold;
     
 }
 

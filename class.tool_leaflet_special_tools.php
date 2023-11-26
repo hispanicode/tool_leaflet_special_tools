@@ -676,59 +676,126 @@ class tool_leaflet_special_tools extends tool_common  {
 
             foreach ($contents->features as $geojson) {
 
-                foreach ($geojson->properties as $key => $val) {
+                if (strlen($response->query) >= 2 && $limit <= 10) {
+                    
+                    if (isset($geojson->properties->name)) {
+                        
+                        $val = $geojson->properties->name;
+                        
+                    } else if (isset($geojson->properties->Name)) {
+                        
+                        $val = $geojson->properties->Name;
+                        
+                    } else if (isset($geojson->properties->modern) && isset($geojson->properties->latin)) {
+                        
+                        $val = $geojson->properties->modern;
+                        
+                        $alternative_val = $geojson->properties->latin;
+                        
+                    } else if (isset($geojson->properties->modern)) {
+                        
+                        $val = $geojson->properties->modern;
+                    }
 
-                    if (strlen($response->query) >= 3 && $limit <= 10) {
+                    if (str_contains(strtolower(utf8_decode($val)), strtolower($response->query)) || str_contains(strtolower($val), strtolower($response->query))) {
+                       
+                        if (preg_match('/Ã/', $val)) {
 
-                        $string_1 = str_split(utf8_decode($response->query));
-                        $string_2 = str_split(utf8_decode($val));
-
-                        $matches_founds = 0;
-
-                        for ($x = 0; $x < count($string_1); $x++) {
-
-                            if (isset($string_2[$x])) {
-
-                                if (str_contains(strtolower($string_1[$x]), strtolower($string_2[$x]))) {
-
-                                    $matches_founds++;
-
-                                }
-
-                            }
+                            $val = htmlspecialchars(utf8_decode($val));
 
                         }
 
-                        if (str_contains(strtolower(utf8_decode($val)), strtolower($response->query)) || str_contains(strtolower($val), strtolower($response->query))) {
-                       
-                            if (preg_match('/Ã/', $val)) {
+                        $object = [
+
+                            "geometry_type" => $geojson->geometry->type,
+
+                            "file" => $file . '.geojson',
+
+                            "value" => $val,
+
+                            "geojson" => json_encode($geojson)
+
+                        ];
+                        
+                        $exists = false;
+                        
+                        foreach ($objects as $obj) {
+                            
+                            if ($obj->file === $file . '.geojson') {
                                 
-                                $val = htmlspecialchars(utf8_decode($val));
+                                $exists = true;
                                 
                             }
                             
-                            $object = [
-
-                                "geometry_type" => $geojson->geometry->type,
-
-                                "file" => $file . '.geojson',
-
-                                "value" => $val,
-
-                                "geojson" => json_encode($geojson)
-
-                            ];
-
+                        }
+                        
+                        if (!$exists) {
+                        
                             array_push($objects, $object);
+                            
+                            if ($limit === 10) {
+
+                                break;
+
+                            }
 
                             $limit++;
+                        
+                        }
+                        
 
-                            continue;
+                    } else if (str_contains(strtolower(utf8_decode($alternative_val)), strtolower($response->query)) || str_contains(strtolower($alternative_val), strtolower($response->query))) {
+                        
+                        if (preg_match('/Ã/', $alternative_val)) {
+
+                            $val = htmlspecialchars(utf8_decode($alternative_val));
 
                         }
 
+                        $object = [
+
+                            "geometry_type" => $geojson->geometry->type,
+
+                            "file" => $file . '.geojson',
+
+                            "value" => $alternative_val,
+
+                            "geojson" => json_encode($geojson)
+
+                        ];
+
+                        $exists = false;
+                        
+                        foreach ($objects as $obj) {
+                            
+                            if ($obj->file === $file . '.geojson') {
+                                
+                                $exists = true;
+                                
+                            }
+                            
+                        }
+
+                        
+                        if (!$exists) {
+                            
+                            array_push($objects, $object);
+
+
+                            if ($limit === 10) {
+
+                                break;
+
+                            }
+
+                            $limit++;
+                            
+                        }
+                        
                     }
+
                 }
+                
             }
             
         }
@@ -752,7 +819,7 @@ class tool_leaflet_special_tools extends tool_common  {
         //Default $response
         $response->success = false;
         $response->msg = 'Ha ocurrido un error inesperado.';
-        
+
         $response->query = $options->query;
 
         $response->type_site = $options->type_site;
@@ -781,44 +848,49 @@ class tool_leaflet_special_tools extends tool_common  {
 
         if (strlen($response->query) >= 3) {
 
-            $contents = file_get_contents('http://imperium.ahlfeldt.se/api/geojson.php?' . $params);
-
-            if (!$contents) {
-
+            try {
+            
+                $contents = file_get_contents('http://imperium.ahlfeldt.se/api/geojson.php?' . $params);
+                $contents = json_decode($contents);
+                
+            } catch (Exception $e) {
+                
                 $response->success = false;
                 
                 return $response;
-
+                
             }
-
-            $contents = json_decode($contents);
 
             $count = 0;
 
-            foreach ($contents->features as $geojson) {
+            if (isset($contents->features)) {
+            
+                foreach ($contents->features as $geojson) {
 
-                array_push($objects, [
+                    array_push($objects, [
 
-                    "value" => utf8_decode($geojson->properties->name), 
-                    "geometry_type" => $geojson->geometry->type,
-                    "geojson" => json_encode($geojson)
+                        "value" => utf8_decode($geojson->properties->name), 
+                        "geometry_type" => $geojson->geometry->type,
+                        "geojson" => json_encode($geojson)
 
-                ]);
+                    ]);
+                    
+                    $response->success = true;
+                    $response->msg = 'ok';
+                    $response->content = $objects;
 
-                if ($count === 10) {
+                    if ($count === 10) {
 
-                    break;
+                        break;
 
+                    }
+                    
+                    $count++;
+                    
                 }
+
             }
-        }
         
-        if (count($objects) > 0) {
-            
-            $response->success = true;
-            $response->msg = 'ok';
-            $response->content = $objects;
-            
         }
         
         return $response;

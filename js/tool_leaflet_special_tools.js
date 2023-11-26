@@ -679,8 +679,7 @@ tool_leaflet_special_tools.prototype.get_imperium_ahlfeldt = async function(opti
 
             body : rqo
 
-        })
-        .then(function(response){
+        }).then(function(response) {
 
             if (SHOW_DEVELOPER) {
 
