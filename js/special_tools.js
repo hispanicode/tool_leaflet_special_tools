@@ -3344,9 +3344,9 @@ special_tools.prototype.modal_properties_form_create = function(layer, overlay) 
 
             return;
 
-        } else if (value.length > 250) {
+        } else if (value.length > 300) {
 
-            self.modal_message("El campo valor de la propiedad no puede superar los 250 caracteres");
+            self.modal_message("El campo valor de la propiedad no puede superar los 300 caracteres");
 
             return;
 
@@ -3571,9 +3571,9 @@ special_tools.prototype.modal_properties_form_update = function(property, layer,
 
             return;
 
-        } else if (value.length > 250) {
+        } else if (value.length > 300) {
 
-            self.modal_message("El campo valor de la propiedad no puede superar los 250 caracteres");
+            self.modal_message("El campo valor de la propiedad no puede superar los 300 caracteres");
 
             return;
 
@@ -4124,9 +4124,9 @@ special_tools.prototype.info_console_load_properties = function(layer, overlay) 
                 properties_content_div.setAttribute('class', 'special-tools-container');
                 properties_content_div.style.borderTop = '1px solid #ee9113';
 
-                if (properties[prop].length > 80) {
+                if (properties[prop].length > 300) {
 
-                    properties[prop] = properties[prop].substring(0, 80) + '...';
+                    properties[prop] = properties[prop].substring(0, 300) + '...';
 
                 }
 

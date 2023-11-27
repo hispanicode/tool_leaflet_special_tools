@@ -1597,10 +1597,10 @@ class tool_leaflet_special_tools extends tool_common  {
             $response->msg = "El campo valor de la propiedad no puede estar vacío";
 
 
-        } else if (strlen($response->value) > 250) {
+        } else if (strlen($response->value) > 300) {
 
             $response->success = false;
-            $response->msg = "El campo valor de la propiedad no puede superar los 250 caracteres";
+            $response->msg = "El campo valor de la propiedad no puede superar los 300 caracteres";
 
         } else {
             
