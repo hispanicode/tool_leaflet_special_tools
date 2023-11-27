@@ -156,6 +156,8 @@ special_tools.prototype.set_info_console = function(layer) {
             self.check_geoman_edition_mode(layer);
 
             layer.on('click pm:edit', function(){
+                
+                if (self.global_remove()) return;
 
                 self.init_console();
 
@@ -187,6 +189,8 @@ special_tools.prototype.set_info_console = function(layer) {
             self.check_hierarchy(layer);
 
             layer.on('click pm:edit', function() {
+                
+                if (self.global_remove()) return;
 
                 self.init_console();
 
@@ -226,6 +230,8 @@ special_tools.prototype.set_info_console = function(layer) {
             self.check_hierarchy(layer);
 
             layer.on('click pm:edit', function(){
+                
+                if (self.global_remove()) return;
 
                 self.init_console();
 
@@ -267,6 +273,8 @@ special_tools.prototype.set_info_console = function(layer) {
                 self.load_circle_polygon_style(layer);
 
                 layer.on('click pm:edit', function() {
+                    
+                    if (self.global_remove()) return;
 
                     self.init_console();
 
@@ -725,6 +733,20 @@ special_tools.prototype.geoman_edition_mode = function() {
     }
     
     return true;
+};
+
+special_tools.prototype.global_remove = function() {
+    
+    const map = this.map;
+    
+    if (!map.pm.globalRemovalModeEnabled()) {
+        
+        return false;
+        
+    }
+    
+    return true;
+    
 };
 
 special_tools.prototype.is_geoman_edition_mode = function(layer) {
@@ -5791,6 +5813,8 @@ special_tools.prototype.load_overlay = function(layer) {
     });
 
     overlay.on('click', function () {
+        
+        if (self.global_remove()) return;
 
         self.init_console();
         self.create_div_geometry_type(this, {is_overlay: true});
