@@ -339,6 +339,9 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
         /**********************************************************************/
 
         L.DomEvent.on(btn_cancel_vector, 'click', function() {
+            
+            self.map.dragging.enable();
+            self.map.doubleClickZoom.enable();
 
             window.setTimeout(function() {
 
@@ -880,6 +883,9 @@ special_tools_upload.prototype.open_raster_modal_event = function() {
         /**********************************************************************/
 
         L.DomEvent.on(btn_cancel_image, 'click', function() {
+            
+            self.map.dragging.enable();
+            self.map.doubleClickZoom.enable();
             
             window.setTimeout(function() {
 

@@ -3173,6 +3173,7 @@ special_tools.prototype.modal_properties_form_create = function(layer, overlay) 
 
         self.map.dragging.enable();
         self.map.doubleClickZoom.enable();
+        
     });
 
     /**************************************************************************/
@@ -3298,6 +3299,9 @@ special_tools.prototype.modal_properties_form_create = function(layer, overlay) 
     /**************************************************************************/
 
     L.DomEvent.on(close_button, 'click', function() {
+        
+        self.map.dragging.enable();
+        self.map.doubleClickZoom.enable();
 
         this.disabled = true;
 
@@ -3547,6 +3551,9 @@ special_tools.prototype.modal_properties_form_update = function(property, layer,
     document.querySelector('.map_inputs').style.zIndex = 0;
 
     L.DomEvent.on(close_button, 'click', function() {
+        
+        self.map.dragging.enable();
+        self.map.doubleClickZoom.enable();
 
         this.disabled = true;
 
@@ -3747,6 +3754,9 @@ special_tools.prototype.modal_properties_form_delete = function(property, layer,
     /**************************************************************************/
 
     L.DomEvent.on(close_button, 'click', function() {
+        
+        self.map.dragging.enable();
+        self.map.doubleClickZoom.enable();
 
         this.disabled = true;
 
@@ -4299,6 +4309,8 @@ special_tools.prototype.modal_associate_image = function(layer, overlay) {
 special_tools.prototype.create_pdf = function(layer) {
     
     const self = this;
+    
+    window.setTimeout(function() {
 
     const properties = layer.feature.properties;
 
@@ -4449,10 +4461,22 @@ special_tools.prototype.create_pdf = function(layer) {
 
             if (images[i].hasOwnProperty('url')) {
 
-                const img_gallery = document.createElement('img');
-                img_gallery.src = images[i].url;
-                img_gallery.style.width = '100%';
-                div.appendChild(img_gallery);
+                const options = {
+                    
+                    model: 'tool_leaflet_special_tools',
+                    method: 'image_to_blob',
+                    args: {url: images[i].url}
+                    
+                };
+                
+                self.tool.create_source(options).then(function(data) {
+
+                    const img_gallery = document.createElement('img');
+                    img_gallery.src = data.blob;
+                    img_gallery.style.width = '100%';
+                    div.appendChild(img_gallery);
+                    
+                });
 
             }
 
@@ -4473,14 +4497,18 @@ special_tools.prototype.create_pdf = function(layer) {
 
         iframe.contentWindow.document.body.querySelector('#container').innerHTML = div.innerHTML;
 
-    }, 1000);
-
+    }, 3000);
+    
     window.setTimeout(function() {
 
         iframe.remove();
         div.remove();
 
-    }, 8000);
+    }, 12000);
+    
+    }, 3000);
+
+    self.modal_message("Creando el archivo pdf, por favor espere, ...", 12000);
 
 };
 
@@ -4585,7 +4613,7 @@ special_tools.prototype.create_div_geometry_type = function(layer, options) {
             self.tool.google_translate({
 
                 element_html: div_geometry_type,
-                str: "Es parte de un Multipolígono", 
+                str: "Polígono", 
                 lang: self.lang
 
             });
@@ -4684,6 +4712,46 @@ special_tools.prototype.create_div_oneXone = function(layer) {
         });
 
         self.special_tools_info_console.appendChild(point_reference_div);
+        
+        /***************************************************************/
+        
+        const incert_div = L.DomUtil.create('div');
+        incert_div.setAttribute('class', 'special-tools-container');
+        
+        self.special_tools_info_console.appendChild(incert_div);
+        
+        /***************************************************************/
+        
+        const incert_span = L.DomUtil.create('span');
+        incert_span.style.fontWeight = 'bold';
+        
+        self.tool.google_translate({
+
+            element_html: incert_span,
+            str: "Incertidumbre: ", 
+            lang: self.lang
+
+        });
+        
+        incert_div.appendChild(incert_span);
+        
+        /***************************************************************/
+        
+        let br = L.DomUtil.create('br');
+        
+        incert_div.appendChild(br);
+        
+        /***************************************************************/
+        
+        const incert_color = L.DomUtil.create('img');
+        incert_color.src = self.tool.tool_url() + '/img/escala-1.png';
+        incert_color.id = 'incertidumbre_color';
+        incert_color.title = '1';
+        incert_color.style.width = '60%';
+        
+        incert_div.appendChild(incert_color);
+        
+        /**************************************************************/
 
     }
 };

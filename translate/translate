@@ -1,0 +1,295 @@
+es      en      Haga clic sobre algún objeto del mapa.      Click on an object on the map.      
+es      en      Servicios WMS      WMS services      
+es      en      Mostrar-Ocultar      Show hide      
+es      en      Objetos      Objects      
+es      en      Crear polígono de 1x1      Create 1x1 polygon      
+es      en      Mapas base XYZ      XYZ basemaps      
+es      en      Leyenda      Legend      
+es      en      Geolocalización      Geolocation      
+es      en      Subir archivo al mapa      Upload file to map      
+es      en      Descargar mapa como imagen      Download map as image      
+es      en      Objectos Vectoriales      Vector Objects      
+es      en      Objectos Rasterizados      Rasterized Objects      
+es      en      Mapas base disponibles      Basemaps available      
+es      en      Atribución (no obligatorio)      Attribution (not required)      
+es      en      Nombre del Mapa Base (obligatorio)      Basemap Name (required)      
+es      en      Añadir mapa base      Add basemap      
+es      en      URL del Mapa Base (obligatorio)      Basemap URL (required)      
+es      en      MinZoom (obligatorio) Por defecto 0      MinZoom (required) Default 0      
+es      en      MaxZoom (obligatorio) Por defecto 18      MaxZoom (required) Default 18      
+es      en      Limpiar búsqueda      Clear search      
+es      en      Opacidad:       Opacity:      
+es      en      Url del servidor WMS:       WMS server url:      
+es      en      Buscar capas      Find layers      
+es      en      Capas disponibles      Available layers      
+es      en      gif      gif      
+es      en      Exportar como:       Export as:      
+es      en      archivo      archive      
+es      en      Descargar imagen      Download image      
+es      en      webp      webp      
+es      en      png      png      
+es      en      jpg      jpg      
+es      en      Nombre:       Name:      
+es      en      Raster GeoTiff      Raster GeoTiff      
+es      en      Descargar mapa      Download map      
+es      en      Subir archivo vectorial      Upload vector file      
+es      en      Subir imagen      Upload image      
+es      en      Incluir proyección para UTM (Universal Transverse Mercator) en el caso de que no se encuentre entre las proyecciones por defecto (Asegúrese de que el archivo que va a subir viene proyectado. Por ejemplo: urn:ogc:def:crs:EPSG::32619      Include projection for UTM (Universal Transverse Mercator) in case it is not among the default projections (Make sure that the file you are going to upload is projected. For example: urn:ogc:def:crs:EPSG::32619      
+es      en      Cancelar      Cancel      
+es      en      Proyecciones por defecto      Default projections      
+es      en      Extensiones permitidas: .zip (shape), .geojson y .kml      Allowed extensions: .zip (shape), .geojson and .kml      
+es      en      A continuación se listan las proyecciones por defecto: EPSG:4230 EPSG:4326 EPSG:4258 EPSG:3857 EPSG:32628 EPSG:32629 EPSG:32630 EPSG:32631 EPSG:25828 EPSG:25829 EPSG:25830 EPSG:25831 EPSG:23028 EPSG:23029 EPSG:23030 EPSG:23031 EPSG:4082 EPSG:4083      The default projections are listed below: EPSG:4230 EPSG:4326 EPSG:4258 EPSG:3857 EPSG:32628 EPSG:32629 EPSG:32630 EPSG:32631 EPSG:25828 EPSG:25829 EPSG:25830 EPSG:25831 EPSG:23028 EPSG: 23029 EPSG:23030 EPSG:23031 EPSG:4082 EPSG:4083      
+es      en      Extensiones permitidas: .tif (georreferenciada), .jpg, .jpeg, .png, y .webp      Allowed extensions: .tif (georeferenced), .jpg, .jpeg, .png, and .webp      
+es      en      Leyenda:       Legend:      
+es      en      Guardar leyenda      Save legend      
+es      en      Mostrar leyenda:       Show legend:      
+es      en      Nueva columna      New column      
+es      en      Leyenda guardada con éxito      Legend saved successfully      
+es      en      Eliminar columna      Delete column      
+es      en      Añadir elemento      Add item      
+es      en      Columna:       Column:      
+es      en      Columna creada con éxito      Column created successfully      
+es      en      Elemento:       Element:      
+es      en      Elemento creado con éxito.      Item created successfully.      
+es      en      Elemento guardado con éxito.      Item saved successfully.      
+es      en       Incertidumbre      Uncertainty      
+es      en      Área:       Area:      
+es      en       Centroide      Centroid      
+es      en      Jerarquía del objeto:       Object hierarchy:      
+es      en       Detrás      Behind      
+es      en       Delante      In front of      
+es      en        Edición Geoman activa      Geoman Edition active      
+es      en      Elevación del centro:       Center Elevation:      
+es      en      Asociar imagen      Associate image      
+es      en      Propiedades      Properties      
+es      en      Propiedades del objeto:      Object properties:      
+es      en      Propiedades:      Properties:      
+es      en      Descargar Vectorial      Download Vector      
+es      en      Galería      Gallery      
+es      en      Editar estilos      Edit styles      
+es      en      Centroide creado con éxito      Centroid successfully created      
+es      en      Centroide eliminado con éxito      Centroid successfully removed      
+es      en      Ancho del borde:       Border Width:      
+es      en      Opacidad de relleno:       Fill Opacity:      
+es      en      Opacidad del borde:       Border Opacity:      
+es      en      Borde discontinuo:       Broken border:      
+es      en      Copiar:       Copy:      
+es      en      Descargar archivo      Download file      
+es      en      Descargar objeto vectorial      Download vector object      
+es      en      Exportar como PDF      Export as PDF      
+es      en      Nueva propiedad      New property      
+es      en      Propiedades del objeto      Object properties      
+es      en      Crear propiedad      Create property      
+es      en      Valor de la propiedad:       Property value:      
+es      en      Nombre de la propiedad:       Property name:      
+es      en      Editar propiedad      Edit property      
+es      en      Guardar propiedad      Save property      
+es      en      Eliminar propiedad      Delete property            
+es      en      No existen imágenes asociadas al objeto      There are no images associated with the object      
+es      en      Asociar imagen al objeto      Associate image to object      
+es      en      Distancia:       Distance:      
+es      en      Coordenadas:       Coordinates:      
+es      en      Elevación:       Elevation:      
+es      en      Imagen asociada con éxito al objeto      Image successfully associated with the object      
+es      es      Haga clic sobre algún objeto del mapa.      Haga clic sobre algún objeto del mapa.      
+es      es      Mostrar-Ocultar      Mostrar-Ocultar      
+es      es      Objetos      Objetos      
+es      es      Mapas base XYZ      Mapas base XYZ      
+es      es      Servicios WMS      Servicios WMS      
+es      es      Crear polígono de 1x1      Crear polígono de 1x1      
+es      es      Catastro      Catastro      
+es      es      Unidades Administrativas de España      Unidades Administrativas de España      
+es      es      Municipio      Municipio      
+es      es      Municipio      Municipio      
+es      es      Provincia      Provincia      
+es      es      Provincia      Provincia      
+es      es      Comunidad Autónoma      Comunidad Autónoma      
+es      es      Imperio Romano      Imperio Romano      
+es      es      Comunidad Autónoma      Comunidad Autónoma      
+es      es      Descargar mapa como imagen      Descargar mapa como imagen      
+es      es      Subir archivo al mapa      Subir archivo al mapa      
+es      es      Leyenda      Leyenda      
+es      es      Geolocalización      Geolocalización      
+es      es      Objectos Vectoriales      Objectos Vectoriales      
+es      es      Objectos Rasterizados      Objectos Rasterizados      
+es      es      Nombre del Mapa Base (obligatorio)      Nombre del Mapa Base (obligatorio)      
+es      es      URL del Mapa Base (obligatorio)      URL del Mapa Base (obligatorio)      
+es      es      Atribución (no obligatorio)      Atribución (no obligatorio)      
+es      es      MinZoom (obligatorio) Por defecto 0      MinZoom (obligatorio) Por defecto 0      
+es      es      MaxZoom (obligatorio) Por defecto 18      MaxZoom (obligatorio) Por defecto 18      
+es      es      Añadir mapa base      Añadir mapa base      
+es      es      Mapas base disponibles      Mapas base disponibles      
+es      es      Url del servidor WMS:       Url del servidor WMS:       
+es      es      Buscar capas      Buscar capas      
+es      es      Limpiar búsqueda      Limpiar búsqueda      
+es      es      Capas disponibles      Capas disponibles      
+es      es      Opacidad:       Opacidad:       
+es      es      Espere hasta que finalice el proceso, obteniendo parcela ...      Espere hasta que finalice el proceso, obteniendo parcela ...      
+es      es      Creando la parcela ...      Creando la parcela ...      
+es      es      Espere un momento a que termine el proceso, cargando ...      Espere un momento a que termine el proceso, cargando ...      
+es      es      Eliminando objetos, por favor espere a que finalice el proceso.      Eliminando objetos, por favor espere a que finalice el proceso.      
+es      es      Nombre:       Nombre:       
+es      es      Filtrar por:       Filtrar por:       
+es      es       Marcar/Desmarcar todo       Marcar/Desmarcar todo      
+es      es      Filtrar por:       Filtrar por:       
+es      es      Nombre de lugar moderno      Nombre de lugar moderno      
+es      es      Nombre de lugar antiguo      Nombre de lugar antiguo      
+en      es      All countries      Todos los países      
+en      es      Algeria      Argelia      
+en      es      Albania      Albania      
+en      es      Turkey      Pavo      
+en      es      Azerbaijan      Azerbaiyán      
+en      es      Armenia      Armenia      
+en      es      Austria      Austria      
+en      es      Yemen      Yemen      
+en      es      United Arab Emirates      Emiratos Árabes Unidos      
+en      es      Bahrain      Bahréin      
+en      es      Syria      Siria      
+en      es      Tunisia      Túnez      
+en      es      Switzerland      Suiza      
+en      es      Bulgaria      Bulgaria      
+en      es      Sudan      Sudán      
+en      es      Sweden      Suecia      
+en      es      Bosnia and Herzegovina      Bosnia y Herzegovina      
+en      es      Belgium      Bélgica      
+en      es      Czech Republic      República Checa      
+en      es      Croatia      Croacia      
+en      es      Somalia      Somalia      
+en      es      Spain      España      
+en      es      Denmark      Dinamarca      
+en      es      Slovenia      Eslovenia      
+en      es      Slovakia      Eslovaquia      
+en      es      Djibouti      Yibuti      
+en      es      Egypt      Egipto      
+en      es      Saudi Arabia      Arabia Saudita      
+en      es      Serbia      Serbia      
+en      es      Eritrea      Eritrea      
+en      es      Qatar      Katar      
+en      es      Georgia      Georgia      
+en      es      Romania      Rumania      
+en      es      Ethiopia      Etiopía      
+en      es      Portugal      Portugal      
+en      es      France      Francia      
+en      es      Great Britain      Gran Bretaña      
+en      es      Germany      Alemania      
+en      es      Poland      Polonia      
+en      es      Greece      Grecia      
+en      es      Hungary      Hungría      
+en      es      Iran      Irán      
+en      es      Oman      Omán      
+en      es      Netherlands      Países Bajos      
+en      es      Palestine      Palestina      
+en      es      Montenegro      Montenegro      
+en      es      Iraq      Irak      
+en      es      Ireland      Irlanda      
+en      es      Macedonia      macedonia      
+en      es      Israel      Israel      
+en      es      Jordania      Jordania      
+en      es      Morocco      Marruecos      
+en      es      Italy      Italia      
+en      es      Libya      Libia      
+en      es      Luxembourg      Luxemburgo      
+en      es      Kosovo      Kosovo      
+en      es      Lebanon      Líbano      
+es      es      Servicios relacionados con el Imperio Romano      Servicios relacionados con el Imperio Romano      
+en      es      Kuwait      Kuwait      
+es      es      png      png      
+es      es      jpg      jpg      
+es      es      Exportar como:       Exportar como:       
+es      es      Raster GeoTiff      Raster GeoTiff      
+es      es      gif      gif      
+es      es      webp      webp      
+es      es      archivo      archivo      
+es      es      Descargar imagen      Descargar imagen      
+es      es      Descargar mapa      Descargar mapa      
+es      es      Subir imagen      Subir imagen      
+es      es      Subir archivo vectorial      Subir archivo vectorial      
+es      es      Extensiones permitidas: .zip (shape), .geojson y .kml      Extensiones permitidas: .zip (shape), .geojson y .kml      
+es      es      Proyecciones por defecto      Proyecciones por defecto      
+es      es      Incluir proyección para UTM (Universal Transverse Mercator) en el caso de que no se encuentre entre las proyecciones por defecto (Asegúrese de que el archivo que va a subir viene proyectado. Por ejemplo: urn:ogc:def:crs:EPSG::32619      Incluir proyección para UTM (Universal Transverse Mercator) en el caso de que no se encuentre entre las proyecciones por defecto (Asegúrese de que el archivo que va a subir viene proyectado. Por ejemplo: urn:ogc:def:crs:EPSG::32619      
+es      es      Cancelar      Cancelar      
+es      es      A continuación se listan las proyecciones por defecto: EPSG:4230 EPSG:4326 EPSG:4258 EPSG:3857 EPSG:32628 EPSG:32629 EPSG:32630 EPSG:32631 EPSG:25828 EPSG:25829 EPSG:25830 EPSG:25831 EPSG:23028 EPSG:23029 EPSG:23030 EPSG:23031 EPSG:4082 EPSG:4083      A continuación se listan las proyecciones por defecto: EPSG:4230 EPSG:4326 EPSG:4258 EPSG:3857 EPSG:32628 EPSG:32629 EPSG:32630 EPSG:32631 EPSG:25828 EPSG:25829 EPSG:25830 EPSG:25831 EPSG:23028 EPSG:23029 EPSG:23030 EPSG:23031 EPSG:4082 EPSG:4083      
+es      es      Extensiones permitidas: .tif (georreferenciada), .jpg, .jpeg, .png, y .webp      Extensiones permitidas: .tif (georreferenciada), .jpg, .jpeg, .png, y .webp      
+es      es      Leyenda:       Leyenda:       
+es      es      Nueva columna      Nueva columna      
+es      es      Guardar leyenda      Guardar leyenda      
+es      es      Mostrar leyenda:       Mostrar leyenda:       
+es      es      Columna:       Columna:       
+es      es      Añadir elemento      Añadir elemento      
+es      es      Eliminar columna      Eliminar columna      
+es      es      Elemento:       Elemento:       
+es      es      Elemento:       Elemento:       
+es      es      Elevación del centro:       Elevación del centro:       
+es      es      Área:       Área:       
+es      es       Centroide       Centroide      
+es      es       Incertidumbre       Incertidumbre      
+es      es       Delante       Delante      
+es      es        Edición Geoman activa        Edición Geoman activa      
+es      es      Jerarquía del objeto:       Jerarquía del objeto:       
+es      es       Detrás       Detrás      
+es      es      Editar estilos      Editar estilos      
+es      es      Propiedades:      Propiedades:      
+es      es      Descargar Vectorial      Descargar Vectorial      
+es      es      Galería      Galería      
+es      es      Propiedades del objeto:      Propiedades del objeto:      
+es      es      Asociar imagen      Asociar imagen      
+es      es      Propiedades      Propiedades      
+es      es      Ancho del borde:       Ancho del borde:       
+es      es      Copiar:       Copiar:       
+es      es      Opacidad del borde:       Opacidad del borde:       
+es      es      Borde discontinuo:       Borde discontinuo:       
+es      es      Opacidad de relleno:       Opacidad de relleno:       
+es      es      Descargar archivo      Descargar archivo      
+es      es      Descargar objeto vectorial      Descargar objeto vectorial      
+es      es      Nueva propiedad      Nueva propiedad      
+es      es      Exportar como PDF      Exportar como PDF      
+es      es      Propiedades del objeto      Propiedades del objeto      
+es      es      Nombre de la propiedad:       Nombre de la propiedad:       
+es      es      Valor de la propiedad:       Valor de la propiedad:       
+es      es      Crear propiedad      Crear propiedad      
+es      es      Imágenes asociadas      Imágenes asociadas      
+es      es      Creando el archivo pdf, por favor espere, ...      Creando el archivo pdf, por favor espere, ...      
+es      es      Eliminar propiedad      Eliminar propiedad      
+es      es      Eliminar propiedad      Eliminar propiedad      
+es      es      Distancia:       Distancia:       
+es      es      No existen imágenes asociadas al objeto      No existen imágenes asociadas al objeto      
+es      es      Asociar imagen al objeto      Asociar imagen al objeto      
+es      es      Imagen asociada con éxito al objeto      Imagen asociada con éxito al objeto      
+es      es      Cargando la imagen ...      Cargando la imagen ...      
+es      es      Imagen subida correctamente.      Imagen subida correctamente.      
+es      es      Ver imagen      Ver imagen      
+es      es      Imagen      Imagen      
+es      es       Activar edición       Activar edición      
+es      es       Opacidad:        Opacidad:       
+es      es      Descargar Imagen      Descargar Imagen      
+es      es      imagen      imagen      
+es      es      Editar propiedad      Editar propiedad      
+es      es      Guardar propiedad      Guardar propiedad      
+es      es      Por favor, introduzca una url correcta.      Por favor, introduzca una url correcta.      
+es      es      Capa cargada con éxito en el mapa      Capa cargada con éxito en el mapa      
+es      es      Capa quitada con éxito del mapa      Capa quitada con éxito del mapa      
+es      es      Objeto creado con éxito      Objeto creado con éxito      
+es      es      Objeto creado con éxito      Objeto creado con éxito      
+es      es      Elevación:       Elevación:       
+es      es      Coordenadas:       Coordenadas:       
+es      es      Más información      Más información      
+es      es      Centroide creado con éxito      Centroide creado con éxito      
+es      es      Centroide eliminado con éxito      Centroide eliminado con éxito      
+es      es      Propiedad editada con éxito      Propiedad editada con éxito      
+es      es      Elemento creado con éxito      Elemento creado con éxito      
+es      es      Leyenda guardada con éxito      Leyenda guardada con éxito      
+es      es      Coordenadas del centro:       Coordenadas del centro:       
+es      es      Radio:       Radio:       
+es      es      Es parte de un Multipolígono      Es parte de un Multipolígono      
+es      es      Descargando ...      Descargando ...      
+es      es      Archivo descargado correctamente      Archivo descargado correctamente      
+es      es      El campo valor de la propiedad no puede superar los 300 caracteres      El campo valor de la propiedad no puede superar los 300 caracteres      
+es      es      Propiedad creada con éxito      Propiedad creada con éxito      
+es      es      El campo nombre de la propiedad solo acepta valores alfanúmericos y guiones bajos      El campo nombre de la propiedad solo acepta valores alfanúmericos y guiones bajos      
+es      en      Punto de referencia de polígono de 1 m²      1 m² polygon reference point      
+es      en      Creando el archivo pdf, por favor espere, ...      Creating the pdf file, please wait,...      
+es      en      Imágenes asociadas      Associated images      
+es      es      Punto de referencia de polígono de 1 m²      Punto de referencia de polígono de 1 m²      
+es      es      Incertidumbre:       Incertidumbre:       
+es      es      Polígono      Polígono      
+es      es      El mapa base es requerido      El mapa base es requerido      

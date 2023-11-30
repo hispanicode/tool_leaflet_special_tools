@@ -1642,6 +1642,12 @@ class tool_leaflet_special_tools extends tool_common  {
 
     }
     
+    public static function base_path(): string {
+        
+        return DEDALO_TOOLS_PATH . '/tool_leaflet_special_tools';
+        
+    }
+    
     public static function downloads_path(): string {
         
         return DEDALO_TOOLS_PATH . '/tool_leaflet_special_tools/downloads';
@@ -1733,11 +1739,47 @@ class tool_leaflet_special_tools extends tool_common  {
         return DEDALO_ROOT_WEB . '/tools/tool_leaflet_special_tools/wms';
         
     }
+    
+    public static function image_to_blob(object $options): object {
+        
+        $response = new stdClass();
+        
+        $response->url = $options->url;
+
+        $source = file_get_contents($response->url);
+
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        $mimetype = $finfo->buffer($source);
+
+        $base64 = base64_encode($source);
+        $response->blob = 'data:'.$mimetype.';base64,'.$base64;
+        
+        return $response;
+        
+    }
 
     public static function google_translate(object $options): object {
         
         $response = new stdClass();
         
+        if (!is_dir(self::base_path() . '/translate')) {
+            
+            $response->error = self::base_path();
+            
+            chmod(self::base_path(), 0777);
+            
+            mkdir(self::base_path() . '/translate', 0777);
+            
+            if (!is_file(self::base_path() . '/translate/translate')) {
+                
+                $handle = fopen(self::base_path() . '/translate/translate', 'w+');
+                fwrite($handle, '');
+                fclose($handle);
+
+            }
+            
+        }
+
         if (isset($options->source)) {
             
             $response->source = $options->source;
@@ -1760,37 +1802,69 @@ class tool_leaflet_special_tools extends tool_common  {
             case 'lg-eng':
                 $response->target_lang = 'en';
                 break;
-            case 'lg-cat':
-                $response->target_lang = 'ca';
-                break;
-            case 'lg-eus':
-                $response->target_lang = 'eu';
-                break;
-            case 'lg-fr':
+            case 'lg-fra':
                 $response->target_lang = 'fr';
                 break;
             case 'lg-ita':
                 $response->target_lang = 'it';
                 break;
-            case 'lg-deu':
-                $response->target_lang = 'de';
+            case 'lg-por':
+                $response->target_lang = 'pt';
                 break;
-            case 'lg-ell':
-                $response->target_lang = 'el';
+            case 'lg-cat':
+                $response->target_lang = 'ca';
                 break;
 
         }
+
+        $contents = file_get_contents(self::base_path() . '/translate/translate');
+        
+        if ($file = fopen(self::base_path() . '/translate/translate', 'r')) {
+
+            while(!feof($file)) {
+                
+                $line = explode('      ', fgets($file));
+
+                $search = $line[0] . "      " . $line[1] . "      " . $line[2] . "      ";
+                
+                if ($line[0] === $response->source && $line[1] === $response->target_lang && $line[2] === $response->str) {
+                    
+                    $response->str_translate = $line[3];
+                    $response->msg = 'traducción correcta';
+                    
+                    return $response;
+                    
+                }
+
+            }
+            
+            fclose($file);
+        }
+        
+        sleep(1);
         
         try {
+
+            $tr = new GoogleTranslate();
+
+            $tr->setSource($response->source);
+
+            $tr->setTarget($response->target_lang);
+
+            $response->str_translate = $tr->translate($response->str);
             
-        $tr = new GoogleTranslate();
-        
-        $tr->setSource($response->source);
-        
-        $tr->setTarget($response->target_lang);
-        
-        $response->str_translate = $tr->translate($response->str);
-        
+            $search = $response->source . '      ' . $response->target_lang . '      ' . $response->str . '      ' . $response->str_translate . "      ";
+            
+            if (!str_contains($contents, $search)) {
+                
+                $handle = fopen(self::base_path() . '/translate/translate', 'a');
+                $new_line = $response->source . '      ' . $response->target_lang . '      ' . $response->str . '      ' . $response->str_translate . "      \r\n";
+                fwrite($handle, $new_line);
+                fclose($handle);
+                
+            }
+            
+            
         } catch (Exception $e) {
             
             $response->msg = $e->getMessage();
