@@ -3299,17 +3299,17 @@ special_tools.prototype.modal_properties_form_create = function(layer, overlay) 
     /**************************************************************************/
 
     L.DomEvent.on(close_button, 'click', function() {
-        
-        self.map.dragging.enable();
-        self.map.doubleClickZoom.enable();
 
         this.disabled = true;
-
-        document.querySelector('.map_inputs').style.zIndex = 1;
 
         window.setTimeout(function() {
 
             modal_properties_form.remove();
+            
+            self.map.dragging.enable();
+            self.map.doubleClickZoom.enable();
+
+            document.querySelector('.map_inputs').style.zIndex = 1;
 
         }, 100);
 
@@ -3382,9 +3382,13 @@ special_tools.prototype.modal_properties_form_create = function(layer, overlay) 
                     layer.fireEvent('click');
 
                 }
+                
+                modal_properties_form.remove();
+                
+                self.map.dragging.enable();
+                self.map.doubleClickZoom.enable();
 
                 document.querySelector('.map_inputs').style.zIndex = 1;
-                modal_properties_form.remove();
 
                 self.special_tools_info_console.querySelector('#properties_btn').click();
 
@@ -3551,15 +3555,15 @@ special_tools.prototype.modal_properties_form_update = function(property, layer,
     document.querySelector('.map_inputs').style.zIndex = 0;
 
     L.DomEvent.on(close_button, 'click', function() {
-        
-        self.map.dragging.enable();
-        self.map.doubleClickZoom.enable();
 
         this.disabled = true;
 
         window.setTimeout(function() {
 
             modal_properties_form.remove();
+            
+            self.map.dragging.enable();
+            self.map.doubleClickZoom.enable();
 
             document.querySelector('.map_inputs').style.zIndex = 1;
 
@@ -3753,16 +3757,17 @@ special_tools.prototype.modal_properties_form_delete = function(property, layer,
 
     /**************************************************************************/
 
-    L.DomEvent.on(close_button, 'click', function() {
-        
-        self.map.dragging.enable();
-        self.map.doubleClickZoom.enable();
+    L.DomEvent.on(close_button, 'click', function() {  
 
         this.disabled = true;
 
         window.setTimeout(function() {
 
             modal_properties_form.remove();
+            
+            self.map.dragging.enable();
+            self.map.doubleClickZoom.enable();
+            
             document.querySelector('.map_inputs').style.zIndex = 1;
 
         }, 100);
@@ -3802,6 +3807,10 @@ special_tools.prototype.modal_properties_form_delete = function(property, layer,
         window.setTimeout(function() {
 
             modal_properties_form.remove();
+            
+            self.map.dragging.enable();
+            self.map.doubleClickZoom.enable();
+            
             document.querySelector('.map_inputs').style.zIndex = 1;
 
         }, 100);

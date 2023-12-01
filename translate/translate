@@ -293,3 +293,14 @@ es      es      Punto de referencia de polígono de 1 m²      Punto de referenc
 es      es      Incertidumbre:       Incertidumbre:       
 es      es      Polígono      Polígono      
 es      es      El mapa base es requerido      El mapa base es requerido      
+es      en      El campo nombre de la propiedad solo acepta valores alfanúmericos y guiones bajos      The property name field only accepts alphanumeric values ​​and underscores      
+es      en      Propiedad creada con éxito      Property created successfully      
+es      en      Cargando la imagen ...      Loading image...      
+es      en      Imagen subida correctamente.      Image uploaded successfully.      
+es      en       Opacidad:       Opacity:      
+es      en      Ver imagen      View image      
+es      en       Activar edición      Activate editing      
+es      en      Imagen      Image      
+es      en      Descargar Imagen      Download image      
+es      en      El archivo shape no es válido      Shapefile is invalid      
+es      en      Archivo subido correctamente.      File uploaded successfully.      

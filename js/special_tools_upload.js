@@ -542,6 +542,11 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
                             window.setTimeout(function() {
 
                                 self.map._container.querySelector('#modal_vector').remove();
+                                
+                                self.map.dragging.enable();
+                                self.map.doubleClickZoom.enable();
+
+                                document.querySelector('.map_inputs').style.zIndex = 1;
 
                             }, 100);
 
@@ -1019,6 +1024,11 @@ special_tools_upload.prototype.open_raster_modal_event = function() {
                         window.setTimeout(function() {
 
                             self.map._container.querySelector('#modal_image').remove();
+                            
+                            self.map.dragging.enable();
+                            self.map.doubleClickZoom.enable();
+
+                            document.querySelector('.map_inputs').style.zIndex = 1;
 
                         }, 100);
 
