@@ -3208,7 +3208,6 @@ special_tools.prototype.modal_properties_form_create = function(layer, overlay) 
 
 
     const text_property_name_span = L.DomUtil.create('span');
-    text_property_name_span.style.fontSize = '12px';
 
         self.tool.google_translate({
 
@@ -3236,7 +3235,6 @@ special_tools.prototype.modal_properties_form_create = function(layer, overlay) 
     /**************************************************************************/
 
     const text_property_value_span = L.DomUtil.create('span');
-    text_property_value_span.style.fontSize = '12px';
 
         self.tool.google_translate({
 
@@ -3465,8 +3463,6 @@ special_tools.prototype.modal_properties_form_update = function(property, layer,
 
 
     const text_property_name_span = L.DomUtil.create('span');
-    text_property_name_span.style.fontSize = '12px';
-
         self.tool.google_translate({
 
             element_html: text_property_name_span,
@@ -3493,7 +3489,6 @@ special_tools.prototype.modal_properties_form_update = function(property, layer,
     /**************************************************************************/
 
     const text_property_value_span = L.DomUtil.create('span');
-    text_property_value_span.style.fontSize = '12px';
 
         self.tool.google_translate({
 
@@ -3696,7 +3691,6 @@ special_tools.prototype.modal_properties_form_delete = function(property, layer,
 
 
     const text_property_name_span = L.DomUtil.create('span');
-    text_property_name_span.style.fontSize = '12px';
 
         self.tool.google_translate({
 
@@ -3903,7 +3897,6 @@ special_tools.prototype.modal_properties = function(layer, overlay) {
             properties_content_div.setAttribute('class', 'special-tools-container');
             properties_content_div.style.borderBottom = '1px solid #ee9113';
             properties_content_div.style.paddingBottom = '4px';
-            properties_content_div.style.fontSize = '12px';
 
             properties_content_div.innerHTML = "<strong>" + prop + "</strong>" + ": <br>" + properties[prop] + "<br>";
 
@@ -4036,7 +4029,6 @@ special_tools.prototype.info_console_load_properties = function(layer, overlay) 
     properties_btn.type = 'button';
     properties_btn.id = 'properties_btn';
     properties_btn.setAttribute('class', 'special-tools-btn-default');
-    properties_btn.style.fontSize = '9px';
 
     self.tool.google_translate({
 
@@ -4054,7 +4046,6 @@ special_tools.prototype.info_console_load_properties = function(layer, overlay) 
     image_btn.type = 'button';
     image_btn.id = 'image_btn';
     image_btn.setAttribute('class', 'special-tools-btn-default');
-    image_btn.style.fontSize = '9px';
 
     self.tool.google_translate({
 
@@ -4072,7 +4063,6 @@ special_tools.prototype.info_console_load_properties = function(layer, overlay) 
     images_gallery_btn.type = 'button';
     images_gallery_btn.id = 'images_gallery';
     images_gallery_btn.setAttribute('class', 'special-tools-btn-default');
-    images_gallery_btn.style.fontSize = '9px';
 
     self.tool.google_translate({
 
@@ -4924,7 +4914,6 @@ special_tools.prototype.create_div_options_buttons = function(layer, options) {
     const style_options_btn = L.DomUtil.create('button');
     style_options_btn.type = 'button';
     style_options_btn.setAttribute('class', 'special-tools-btn-success');
-    style_options_btn.style.fontSize = '9px';
 
     self.tool.google_translate({
 
@@ -4941,7 +4930,6 @@ special_tools.prototype.create_div_options_buttons = function(layer, options) {
     const vector_download_options_btn = L.DomUtil.create('button');
     vector_download_options_btn.type = 'button';
     vector_download_options_btn.setAttribute('class', 'special-tools-btn-success');
-    vector_download_options_btn.style.fontSize = '9px';
 
     self.tool.google_translate({
 
@@ -6007,7 +5995,6 @@ special_tools.prototype.load_overlay = function(layer) {
         const raster_download_options_btn = L.DomUtil.create('button');
         raster_download_options_btn.type = 'button';
         raster_download_options_btn.setAttribute('class', 'special-tools-btn-default');
-        raster_download_options_btn.style.fontSize = '9px';
         raster_download_options_btn.style.marginTop = '7px';
 
         self.tool.google_translate({

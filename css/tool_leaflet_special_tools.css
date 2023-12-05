@@ -1,7 +1,20 @@
 .special-tools {
     
     border: 0 !important;
+    font-size: 11px;
   
+}
+
+.modal {
+    
+    font-size: 11px;
+    
+}
+
+.special-tools button {
+    
+    font-size: 11px;
+    
 }
 
 .leaflet-container {
@@ -18,7 +31,7 @@
 
 .special-tools-console {
     
-    width: 250px;
+    width: 265px;
     height: 340px;
     float: left;
     background-color: #fff;
@@ -62,16 +75,8 @@
 
 .special-tools-container {
     
-    margin-top: 6px;
-    margin-bottom: 6px;
-    
-}
-
-.special-tools-console .special-tools-container {
-    
-    margin-top: 3px !important;
-    margin-bottom: 3px !important;
-    font-size: 10px !important;
+    margin-top: 6px !important;
+    margin-bottom: 6px !important;
     
 }
 
@@ -86,6 +91,7 @@
     position: absolute;
     text-align: center;
     border: 1px solid antiquewhite;
+    font-size: 12px;
     
 }
 
@@ -98,6 +104,7 @@
 
 .special-tools-modal-properties-form {
     
+    font-size: 12px;
     width: 100%;
     height: 100%;
     padding: 20px;
@@ -111,6 +118,7 @@
 
 .special-tools-modal-upload {
     
+    font-size: 12px;
     width: 100%;
     height: 100%;
     z-index: 1000000001;
@@ -124,6 +132,7 @@
 
 .special-tools-modal-container {
     
+    font-size: 12px;
     padding: 30px;
     
 }
@@ -153,7 +162,7 @@
     
     padding: 5px;
     caret-color: blueviolet;
-    font-size: 12px;
+    font-size: 14px;
     border-radius: 2px;
     border: 1px solid #ff7800;
     width: 100%;
@@ -194,20 +203,6 @@
 .special-tools-visibility-visible {
     
     visibility: visible;
-    
-}
-
-.special-tools-msg-error {
-    
-    color: #f30c36;
-    font-size: 1.4em;
-    
-}
-
-.special-tools-msg-ok {
-    
-    color: #003992;
-    font-size: 1.4em;
     
 }
 
@@ -262,6 +257,7 @@
 
 .special-tools-btn-default {
     
+    font-size: 12px;
     background-color: #3c3c56; 
     border-radius: 2px; 
     color: #fff;
@@ -278,6 +274,7 @@
 
 .special-tools-btn-primary {
     
+    font-size: 12px;
     background-color: #702aa7; 
     border-radius: 2px; 
     color: #fff;
@@ -294,6 +291,7 @@
 
 .special-tools-btn-success {
     
+    font-size: 12px;
     background-color: #ff5500; 
     border-radius: 2px; 
     color: #fff;
@@ -310,6 +308,7 @@
 
 .special-tools-btn-info {
     
+    font-size: 12px;
     background-color: #147dfb; 
     border-radius: 2px; 
     color: #fff;
@@ -326,6 +325,7 @@
 
 .special-tools-btn-white {
     
+    font-size: 12px;
     background-color: #FFFFFF; 
     border-radius: 2px; 
     color: #222328;
@@ -342,6 +342,7 @@
 
 .special-tools-btn-transparent {
     
+    font-size: 12px;
     background-color: rgba(0,0,0,0); 
     border-radius: 2px; 
     color: #334290;
@@ -364,6 +365,7 @@
 
 .special-tools-btn-danger {
     
+    font-size: 12px;
     background-color: #E71B1B; 
     border-radius: 2px; 
     color: #fff;
