@@ -11,7 +11,8 @@
     
 }
 
-.special-tools button {
+.special-tools button, 
+.modal button {
     
     font-size: 11px;
     
