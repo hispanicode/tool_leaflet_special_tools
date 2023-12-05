@@ -263,7 +263,7 @@ special_tools.prototype.set_info_console = function(layer) {
             self.check_hierarchy(layer);
 
             if (self.is_clipPolygon(layer)) {
-
+                
                 self.load_overlay(layer);
 
             } 
@@ -3165,6 +3165,7 @@ special_tools.prototype.modal_properties_form_create = function(layer, overlay) 
 
         self.map.dragging.disable();
         self.map.doubleClickZoom.disable();
+        
         document.querySelector('.map_inputs').style.zIndex = 0;
 
     });
@@ -3382,13 +3383,17 @@ special_tools.prototype.modal_properties_form_create = function(layer, overlay) 
                     layer.fireEvent('click');
 
                 }
-                
-                modal_properties_form.remove();
-                
-                self.map.dragging.enable();
-                self.map.doubleClickZoom.enable();
 
-                document.querySelector('.map_inputs').style.zIndex = 1;
+                window.setTimeout(function() {
+
+                    modal_properties_form.remove();
+
+                    self.map.dragging.enable();
+                    self.map.doubleClickZoom.enable();
+                    
+                    document.querySelector('.map_inputs').style.zIndex = 1;
+                
+                }, 100);
 
                 self.special_tools_info_console.querySelector('#properties_btn').click();
 
@@ -3543,7 +3548,7 @@ special_tools.prototype.modal_properties_form_update = function(property, layer,
     self.tool.google_translate({
 
         element_html: close_button,
-        str: "Cancelar", 
+        str: "Cerrar", 
         lang: self.lang
 
     });
@@ -4472,13 +4477,11 @@ special_tools.prototype.create_pdf = function(layer) {
 
                 const options = {
                     
-                    model: 'tool_leaflet_special_tools',
-                    method: 'image_to_blob',
-                    args: {url: images[i].url}
+                    url: images[i].url
                     
                 };
                 
-                self.tool.create_source(options).then(function(data) {
+                self.tool.image_to_blob(options).then(function(data) {
 
                     const img_gallery = document.createElement('img');
                     img_gallery.src = data.blob;
@@ -4694,7 +4697,7 @@ special_tools.prototype.create_div_elevation = function(layer) {
 
         }
 
-    });
+    }).catch(function(e) {console.log(e);});
 
     elevation_div.appendChild(elevation_span_2);
 
@@ -5271,6 +5274,7 @@ special_tools.prototype.create_div_polygon_area = function(layer) {
         const area_meters = turf.area(layer.toGeoJSON());
         const area = self.get_area_square_meters(area_meters);
         layer.feature.properties.area = area;
+        
         self.save_object();
         
         /**********************************************************************/

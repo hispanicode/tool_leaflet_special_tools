@@ -16,7 +16,7 @@
 	import {render_list_component_geolocation} from '../../component_geolocation/js/render_list_component_geolocation.js'
 	import {render_search_component_geolocation} from '../../component_geolocation/js/render_search_component_geolocation.js'
 
-        /* SPECIALTOOLS (se incluye el tool) */
+        /* SPECIALTOOLS */
         import {render_tool_leaflet_special_tools} from '../../../tools/tool_leaflet_special_tools/js/render_tool_leaflet_special_tools.js';
         import {tool_leaflet_special_tools} from '../../../tools/tool_leaflet_special_tools/js/tool_leaflet_special_tools.js';
         /* SPECIALTOOLS */
@@ -181,19 +181,16 @@ component_geolocation.prototype.init = async function(options) {
 			const geo_editor_lib_css_file = DEDALO_ROOT_WEB + '/lib/leaflet/dist/leaflet-geoman/leaflet-geoman.css'
 			load_promises.push( common.prototype.load_style(geo_editor_lib_css_file) )
 
-
                         /* SPECIALTOOLS */
+
                         const lib_special_tools = tool_leaflet_special_tools.prototype.get_lib();
-                        
-                        /*
-                         * En este punto se añaden las librerías dependientes
-                         * de tool_leaflet_special_tools
-                         */
+
                         for (let index = 0; index < lib_special_tools.length; index++) {
                             
                             load_promises.push(lib_special_tools[index]);
                             
                         }
+
                         /* SPECIALTOOLS */
 
 		// load and set JSON langs file
@@ -285,7 +282,7 @@ component_geolocation.prototype.get_map = async function(map_container, key) {
 		let osm			= null
 		let dare		= null
 		let base_maps	= {}
-                
+
                 /* SPECIALTOOLS */
                 
                 /*
@@ -465,7 +462,7 @@ component_geolocation.prototype.get_map = async function(map_container, key) {
 		})
 
 	// map ready event
-		self.map.whenReady(function(){
+		self.map.whenReady(function() {
 			// init map editor
 				self.init_draw_editor()
 
@@ -490,8 +487,7 @@ component_geolocation.prototype.get_map = async function(map_container, key) {
 						layer_id	: self.active_layer_id
 					})
 				}
-                                
-                                
+
                                 /* SPECIALTOOLS */
 
                                 render_tool_leaflet_special_tools.prototype.load_special_tools(L);
@@ -580,6 +576,7 @@ component_geolocation.prototype.get_map = async function(map_container, key) {
                                             OneXOne: true,
                                             Catastro: true,
                                             UA: true,
+                                            RomanEmpire: true,
                                             MapImageDownload: true,
                                             Upload: true,
                                             Legend: true,
@@ -616,7 +613,8 @@ component_geolocation.prototype.get_map = async function(map_container, key) {
                                 tool_leaflet_special_tools.prototype.control(self, special_tools_options);
                                 
                                 /* SPECIALTOOLS */
-                                
+
+
 		});
 
 	return true
@@ -1528,7 +1526,7 @@ component_geolocation.prototype.create_point = function(point) {
 
 	// add new point to the active layer
 	//self.FeatureGroup[self.active_layer_id].addLayer(new_point)
-        
+
         /* SPECIALTOOLS */
         self.map.fire('pm:create', {layer: new_point});
         /* SPECIALTOOLS */
@@ -1671,3 +1669,4 @@ const readable_area = function (area, metric=true) {
 
 
 // @license-end
+

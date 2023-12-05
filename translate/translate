@@ -100,8 +100,6 @@ es      es      Crear polígono de 1x1      Crear polígono de 1x1
 es      es      Catastro      Catastro      
 es      es      Unidades Administrativas de España      Unidades Administrativas de España      
 es      es      Municipio      Municipio      
-es      es      Municipio      Municipio      
-es      es      Provincia      Provincia      
 es      es      Provincia      Provincia      
 es      es      Comunidad Autónoma      Comunidad Autónoma      
 es      es      Imperio Romano      Imperio Romano      
@@ -218,7 +216,6 @@ es      es      Columna:       Columna:
 es      es      Añadir elemento      Añadir elemento      
 es      es      Eliminar columna      Eliminar columna      
 es      es      Elemento:       Elemento:       
-es      es      Elemento:       Elemento:       
 es      es      Elevación del centro:       Elevación del centro:       
 es      es      Área:       Área:       
 es      es       Centroide       Centroide      
@@ -242,14 +239,12 @@ es      es      Opacidad de relleno:       Opacidad de relleno:
 es      es      Descargar archivo      Descargar archivo      
 es      es      Descargar objeto vectorial      Descargar objeto vectorial      
 es      es      Nueva propiedad      Nueva propiedad      
-es      es      Exportar como PDF      Exportar como PDF      
 es      es      Propiedades del objeto      Propiedades del objeto      
 es      es      Nombre de la propiedad:       Nombre de la propiedad:       
 es      es      Valor de la propiedad:       Valor de la propiedad:       
 es      es      Crear propiedad      Crear propiedad      
 es      es      Imágenes asociadas      Imágenes asociadas      
 es      es      Creando el archivo pdf, por favor espere, ...      Creando el archivo pdf, por favor espere, ...      
-es      es      Eliminar propiedad      Eliminar propiedad      
 es      es      Eliminar propiedad      Eliminar propiedad      
 es      es      Distancia:       Distancia:       
 es      es      No existen imágenes asociadas al objeto      No existen imágenes asociadas al objeto      
@@ -304,3 +299,11 @@ es      en      Imagen      Image
 es      en      Descargar Imagen      Download image      
 es      en      El archivo shape no es válido      Shapefile is invalid      
 es      en      Archivo subido correctamente.      File uploaded successfully.      
+es      en      Propiedad editada con éxito      Property edited successfully      
+es      en      Propiedad eliminada con éxito      Successfully deleted property      
+es      es      Archivo subido correctamente.      Archivo subido correctamente.      
+es      es      No ha sido posible establecer una conexión con el servidor.      No ha sido posible establecer una conexión con el servidor.      
+es      es      Capa guardada con éxito      Capa guardada con éxito      
+es      es      Capa eliminada con éxito      Capa eliminada con éxito      
+es      es      El archivo shape no es válido      El archivo shape no es válido      
+es      es      Exportar como PDF      Exportar como PDF      

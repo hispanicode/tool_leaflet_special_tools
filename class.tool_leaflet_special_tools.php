@@ -1739,24 +1739,6 @@ class tool_leaflet_special_tools extends tool_common  {
         return DEDALO_ROOT_WEB . '/tools/tool_leaflet_special_tools/wms';
         
     }
-    
-    public static function image_to_blob(object $options): object {
-        
-        $response = new stdClass();
-        
-        $response->url = $options->url;
-
-        $source = file_get_contents($response->url);
-
-        $finfo = new finfo(FILEINFO_MIME_TYPE);
-        $mimetype = $finfo->buffer($source);
-
-        $base64 = base64_encode($source);
-        $response->blob = 'data:'.$mimetype.';base64,'.$base64;
-        
-        return $response;
-        
-    }
 
     public static function google_translate(object $options): object {
         
@@ -2225,5 +2207,24 @@ class tool_leaflet_special_tools extends tool_common  {
         return $response;
         
     }
+    
+    public static function image_to_blob(object $options): object {
+        
+        $response = new stdClass();
+        
+        $response->url = $options->url;
+
+        $source = file_get_contents($response->url);
+
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        $mimetype = $finfo->buffer($source);
+
+        $base64 = base64_encode($source);
+        $response->blob = 'data:'.$mimetype.';base64,'.$base64;
+        
+        return $response;
+        
+    }
 
 }
+
