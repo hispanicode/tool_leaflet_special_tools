@@ -1644,12 +1644,14 @@ class tool_leaflet_special_tools extends tool_common  {
     
     public static function base_path(): string {
         
-        return DEDALO_TOOLS_PATH . '/tool_leaflet_special_tools';
+        chmod(DEDALO_TOOLS_PATH . '/tool_leaflet_special_tools', 0777);
         
+        return DEDALO_TOOLS_PATH . '/tool_leaflet_special_tools';
+
     }
     
     public static function downloads_path(): string {
-        
+
         return DEDALO_TOOLS_PATH . '/tool_leaflet_special_tools/downloads';
         
     }
@@ -1745,8 +1747,6 @@ class tool_leaflet_special_tools extends tool_common  {
         $response = new stdClass();
         
         if (!is_dir(self::base_path() . '/translate')) {
-            
-            $response->error = self::base_path();
             
             chmod(self::base_path(), 0777);
             
@@ -1989,8 +1989,9 @@ class tool_leaflet_special_tools extends tool_common  {
     public static function process_uploaded_vector(object $options) : object {
 
         if (!is_dir(self::vector_layers_uploads_path())) {
-            
+
             mkdir(self::vector_layers_uploads_path(), 0777);
+            
         }
         
         if (!is_dir(self::shape_uploads_path())) {

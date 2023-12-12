@@ -154,22 +154,17 @@ tool_leaflet_special_tools.prototype.control = function(component_geolocation, o
     options.tool = this;
 
     try {
-    
+
         const geocoder = L.Control.geocoder({position: 'topleft', defaultMarkGeocode: false});
-        
+
         geocoder.on('markgeocode', function(e) {
 
             const bbox = e.geocode.bbox;
             component_geolocation.map.fitBounds(bbox);
 
         }).addTo(component_geolocation.map);
-    
-    } catch (e) {
-        
-        //NOT INTERNET CONNECTION
-        console.log(e);
-        
-    }
+
+    } catch(e){/*NOT INTERNET CONNECTION*/};
 
     this.set_component_geolocation(component_geolocation);
     
@@ -182,8 +177,10 @@ tool_leaflet_special_tools.prototype.control = function(component_geolocation, o
     options.special_tools = specialTools;
     
     const controls = options.controls;
-
-    L.control.graphicScale({fill: 'hollow', doubleLine: true, position: 'bottomright'}).addTo(component_geolocation.map);
+    
+    window.setTimeout(function() {
+        L.control.graphicScale({fill: 'hollow', doubleLine: true, position: 'bottomright'}).addTo(component_geolocation.map);
+    }, 1000);
     
     for (let control in controls) {
         
@@ -205,7 +202,7 @@ tool_leaflet_special_tools.prototype.control = function(component_geolocation, o
         switch (control) {
             
             case "XYZ":
-                    
+                
                 L.control.specialToolsXYZ(options).addTo(component_geolocation.map);
   
                 break;

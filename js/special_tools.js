@@ -4158,7 +4158,9 @@ special_tools.prototype.info_console_load_properties = function(layer, overlay) 
     if (properties.hasOwnProperty('images')) {
 
         for (let x = 0; x < properties.images.length; x++) {
-
+            
+            if (properties.images[x] === null) continue;
+            
             if (properties.images[x].hasOwnProperty('url')) {
 
                 //Check if image exist
@@ -4173,6 +4175,11 @@ special_tools.prototype.info_console_load_properties = function(layer, overlay) 
 
                         images_dedalo.push(dedalo_image_url);
 
+                    } else {
+                        
+                        
+                       layer.feature.properties.images = properties.images.filter(item => item !== properties.images[x]);
+                        
                     }
 
                 });
@@ -4462,6 +4469,8 @@ special_tools.prototype.create_pdf = function(layer) {
         const images = layer.feature.properties.images;
 
         for (let i in images) {
+            
+            if (images[i] === null) continue;
 
             if (images[i].hasOwnProperty('url')) {
 
@@ -4472,6 +4481,15 @@ special_tools.prototype.create_pdf = function(layer) {
                 const img_ref = document.createElement('div');
                 img_ref.innerText = "tipo: " + images[i].tipo + ' - ' + "section_tipo: " + images[i].section_tipo + ' - ' + "id: " + images[i].section_id;
                 div.appendChild(img_ref);
+                
+                img_gallery.onerror = function () {
+                    
+                  this.remove();
+                  img_ref.remove();
+                  
+                  layer.feature.properties.images = images.filter(item => item !== images[i]);
+
+                };
 
             }
 
