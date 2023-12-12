@@ -237,7 +237,7 @@ special_tools_objects.prototype.create_containers = function() {
     self.tool.google_translate({
 
        element_html: self.special_tools_title_2,
-       str: "Objectos Rasterizados", 
+       str: "Objetos Rasterizados", 
        lang: self.lang
 
     });
