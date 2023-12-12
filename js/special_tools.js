@@ -1918,7 +1918,7 @@ special_tools.prototype.linestring_style = function(btn_linestring_style, layer)
         self.tool.google_translate({
 
             element_html: stroke_opacity_span,
-            str: 'Opacidad: ', 
+            str: 'Opacidad:', 
             lang: self.lang
 
         });
@@ -1951,7 +1951,7 @@ special_tools.prototype.linestring_style = function(btn_linestring_style, layer)
         self.tool.google_translate({
 
             element_html: stroke_dasharray_span,
-            str: 'Borde discontinuo: ', 
+            str: 'Borde discontinuo:', 
             lang: self.lang
 
         });
@@ -2470,7 +2470,7 @@ special_tools.prototype.polygon_circle_style = function(btn_obj_style, layer) {
         self.tool.google_translate({
 
             element_html: readonly_stroke_span,
-            str: "Copiar: ", 
+            str: "Copiar:", 
             lang: self.lang
 
         });
@@ -2510,7 +2510,7 @@ special_tools.prototype.polygon_circle_style = function(btn_obj_style, layer) {
         self.tool.google_translate({
 
             element_html: special_tools_span_2,
-            str: 'Ancho del borde: ',
+            str: 'Ancho del borde:',
             lang: self.lang
 
         });
@@ -2546,7 +2546,7 @@ special_tools.prototype.polygon_circle_style = function(btn_obj_style, layer) {
         self.tool.google_translate({
 
             element_html: special_tools_span_3,
-            str: 'Opacidad del borde: ',
+            str: 'Opacidad del borde:',
             lang: self.lang
 
         });
@@ -2582,7 +2582,7 @@ special_tools.prototype.polygon_circle_style = function(btn_obj_style, layer) {
         self.tool.google_translate({
 
             element_html: special_tools_span_4,
-            str: 'Borde discontinuo: ',
+            str: 'Borde discontinuo:',
             lang: self.lang
 
         });
@@ -2618,7 +2618,7 @@ special_tools.prototype.polygon_circle_style = function(btn_obj_style, layer) {
         self.tool.google_translate({
 
             element_html: special_tools_span_5,
-            str: 'Opacidad de relleno: ',
+            str: 'Opacidad de relleno:',
             lang: self.lang
 
         });
@@ -3212,7 +3212,7 @@ special_tools.prototype.modal_properties_form_create = function(layer, overlay) 
         self.tool.google_translate({
 
             element_html: text_property_name_span,
-            str: "Nombre de la propiedad: ", 
+            str: "Nombre de la propiedad:", 
             lang: self.lang
 
         });
@@ -3239,7 +3239,7 @@ special_tools.prototype.modal_properties_form_create = function(layer, overlay) 
         self.tool.google_translate({
 
             element_html: text_property_value_span,
-            str: "Valor de la propiedad: ", 
+            str: "Valor de la propiedad:", 
             lang: self.lang
 
         });
@@ -3466,7 +3466,7 @@ special_tools.prototype.modal_properties_form_update = function(property, layer,
         self.tool.google_translate({
 
             element_html: text_property_name_span,
-            str: "Nombre de la propiedad: ", 
+            str: "Nombre de la propiedad:", 
             lang: self.lang
 
         });
@@ -3493,7 +3493,7 @@ special_tools.prototype.modal_properties_form_update = function(property, layer,
         self.tool.google_translate({
 
             element_html: text_property_value_span,
-            str: "Valor de la propiedad: ", 
+            str: "Valor de la propiedad:", 
             lang: self.lang
 
         });
@@ -3695,7 +3695,7 @@ special_tools.prototype.modal_properties_form_delete = function(property, layer,
         self.tool.google_translate({
 
             element_html: text_property_name_span,
-            str: "Nombre de la propiedad: ", 
+            str: "Nombre de la propiedad:", 
             lang: self.lang
 
         });
@@ -4741,7 +4741,7 @@ special_tools.prototype.create_div_oneXone = function(layer) {
         self.tool.google_translate({
 
             element_html: incert_span,
-            str: "Incertidumbre: ", 
+            str: "Incertidumbre:", 
             lang: self.lang
 
         });
@@ -4810,7 +4810,7 @@ special_tools.prototype.create_div_latlng = function(layer, options) {
         self.tool.google_translate({
 
             element_html: lat_lng_span_1,
-            str: "Coordenadas: ", 
+            str: "Coordenadas:", 
             lang: self.lang
 
         });
@@ -4820,7 +4820,7 @@ special_tools.prototype.create_div_latlng = function(layer, options) {
         self.tool.google_translate({
 
             element_html: lat_lng_span_1,
-            str: "Coordenadas del centro: ", 
+            str: "Coordenadas del centro:", 
             lang: self.lang
 
         });
@@ -4873,7 +4873,7 @@ special_tools.prototype.create_div_geoman_edition_mode = function(layer) {
     self.tool.google_translate({
 
         element_html: geoman_edition_span,
-        str: "  Edición Geoman activa", 
+        str: "Edición Geoman activa", 
         lang: self.lang
 
     });
@@ -5032,7 +5032,7 @@ special_tools.prototype.create_div_hierarchy = function(layer) {
     self.tool.google_translate({
 
         element_html: hierarchy_div,
-        str: "Jerarquía del objeto: ", 
+        str: "Jerarquía del objeto:", 
         lang: self.lang
 
     });
@@ -5171,7 +5171,7 @@ special_tools.prototype.create_div_radius = function(layer) {
     self.tool.google_translate({
 
         element_html: span_1,
-        str: "Radio: ", 
+        str: "Radio:", 
         lang: self.lang
 
     });
@@ -5216,7 +5216,7 @@ special_tools.prototype.create_div_circle_area = function(layer) {
     self.tool.google_translate({
 
         element_html: span_1,
-        str: "Área: ", 
+        str: "Área:", 
         lang: self.lang
 
     });
@@ -5252,7 +5252,7 @@ special_tools.prototype.create_div_polygon_area = function(layer) {
         self.tool.google_translate({
 
             element_html: span_1,
-            str: "Área: ", 
+            str: "Área:", 
             lang: self.lang
 
         });
@@ -5290,7 +5290,7 @@ special_tools.prototype.create_div_polygon_area = function(layer) {
         self.tool.google_translate({
 
             element_html: span_1,
-            str: "Área: ", 
+            str: "Área:", 
             lang: self.lang
 
         });
@@ -5350,7 +5350,7 @@ special_tools.prototype.create_div_centroid = function(layer) {
         self.tool.google_translate({
 
             element_html: centroide_span,
-            str: " Centroide", 
+            str: "Centroide", 
             lang: self.lang
 
         });
@@ -5462,7 +5462,7 @@ special_tools.prototype.create_div_incertidumbre = function(layer) {
     self.tool.google_translate({
 
         element_html: incertidumbre_span,
-        str: " Incertidumbre", 
+        str: "Incertidumbre", 
         lang: self.lang
 
     });
@@ -5555,7 +5555,7 @@ special_tools.prototype.create_div_distance = function(layer) {
     self.tool.google_translate({
 
         element_html: span_1,
-        str: "Distancia: ", 
+        str: "Distancia:", 
         lang: self.lang
 
     });
@@ -5948,7 +5948,7 @@ special_tools.prototype.load_overlay = function(layer) {
         self.tool.google_translate({
 
             element_html: image_edition_span,
-            str: " Activar edición", 
+            str: "Activar edición", 
             lang: self.lang
 
         });
@@ -5963,7 +5963,7 @@ special_tools.prototype.load_overlay = function(layer) {
         self.tool.google_translate({
 
             element_html: image_opacity_span,
-            str: " Opacidad: ", 
+            str: " Opacidad:", 
             lang: self.lang
 
         });
