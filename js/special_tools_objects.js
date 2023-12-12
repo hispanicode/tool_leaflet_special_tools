@@ -69,7 +69,7 @@ special_tools_objects.prototype.create_containers = function() {
     self.tool.google_translate({
 
        element_html: self.special_tools_title_1,
-       str: "Objectos Vectoriales", 
+       str: "Objetos Vectoriales", 
        lang: self.lang
 
     });
@@ -385,7 +385,10 @@ special_tools_objects.prototype.load_modal = function() {
 
                                             if (self._multi_id === _layer.feature.special_tools.multi_id) {
 
-                                            _layer._icon.style.display = 'block';
+                                            try {
+                                                _layer._icon.style.display = 'block';
+                                            } catch(e){};
+                                            
                                             _layer.feature.special_tools.icon_display = 'block';
 
                                             if (_layer.hasOwnProperty('_shadow')) {
@@ -443,14 +446,18 @@ special_tools_objects.prototype.load_modal = function() {
 
                                                if (image_id === _layer.special_tools.image_id) {
 
-                                                  _layer._image.style.display = 'block';
+                                                    try {
+                                                        _layer._image.style.display = 'block';
+                                                    } catch(e) {};
 
-                                                  layer.feature.special_tools.display = true;
+                                                    layer.feature.special_tools.display = true;
 
                                                }
                                            } else if (_layer.hasOwnProperty('_icon') && _layer.special_tools.hasOwnProperty('image_id')) {
 
-                                                _layer._icon.style.display = 'block';
+                                                try {                                              
+                                                    _layer._icon.style.display = 'block';
+                                                } catch(e){};
 
                                                 if (_layer.hasOwnProperty('_shadow')) {
 
@@ -476,8 +483,11 @@ special_tools_objects.prototype.load_modal = function() {
                             else if (layer.hasOwnProperty('_icon') && !is_multi_id) {
 
                                 if (leaflet_id === self._leaflet_id) {
-
-                                    layer._icon.style.display = 'block';
+                                    
+                                    try {                               
+                                        layer._icon.style.display = 'block';
+                                    } catch(e){};
+                                    
                                     layer.feature.special_tools.icon_display = 'block';
 
                                     if (layer.hasOwnProperty('_shadow')) {
@@ -526,7 +536,10 @@ special_tools_objects.prototype.load_modal = function() {
 
                                         if (self._multi_id === _layer.feature.special_tools.multi_id) {
 
-                                            _layer._icon.style.display = 'none';
+                                            try {
+                                                _layer._icon.style.display = 'none';
+                                            } catch(e){};
+                                            
                                             _layer.feature.special_tools.icon_display = 'none';
 
                                             if (_layer.hasOwnProperty('_shadow')) {
@@ -586,15 +599,21 @@ special_tools_objects.prototype.load_modal = function() {
 
                                                 if (image_id === _layer.special_tools.image_id) {
 
-                                                  _layer._image.style.display = 'none';
+                                                    try {
+                                                    
+                                                        _layer._image.style.display = 'none';
+                                                    
+                                                    } catch(e){};
 
-                                                  layer.feature.special_tools.display = false;
+                                                    layer.feature.special_tools.display = false;
 
                                                }
 
                                            } else if (_layer.hasOwnProperty('_icon') && _layer.special_tools.hasOwnProperty('image_id')) {
 
-                                                _layer._icon.style.display = 'none';
+                                                try {
+                                                    _layer._icon.style.display = 'none';
+                                                } catch(e){};
 
                                                 if (_layer.hasOwnProperty('_shadow')) {
 
@@ -621,7 +640,11 @@ special_tools_objects.prototype.load_modal = function() {
 
                                 if (leaflet_id === self._leaflet_id) {
 
-                                    layer._icon.style.display = 'none';
+                                    try {
+                                        layer._icon.style.display = 'none';
+                                    } 
+                                    catch(e){};
+                                    
                                     layer.feature.special_tools.icon_display = 'none';
 
                                     if (layer.hasOwnProperty('_shadow')) {
@@ -690,7 +713,7 @@ special_tools_objects.prototype.load_modal = function() {
 
                             if (self._leaflet_id === leaflet_id) {
 
-                                if (layer.hasOwnProperty('_icon')) {
+                                if (layer.hasOwnProperty('_latlng')) {
 
                                     self.map.setView(layer._latlng, 16);
 
@@ -708,7 +731,7 @@ special_tools_objects.prototype.load_modal = function() {
 
                             if (self._multi_id === multi_id) {
 
-                                if (layer.hasOwnProperty('_icon')) {
+                                if (layer.hasOwnProperty('_latlng')) {
 
                                     self.map.setView(layer._latlng, 16);
                                     

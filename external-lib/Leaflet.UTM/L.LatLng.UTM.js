@@ -2,7 +2,7 @@
  * Extends L.LatLng to convert easily to UTM WGS84 coordinates
  * and print with the desired format
  */
-
+try {
 (function(L) {
     if (typeof L === 'undefined') {
         throw new Error('Leaflet must be included first');
@@ -645,3 +645,4 @@
     }
 
 })(L);
+} catch(e){};

@@ -5461,7 +5461,6 @@ special_tools.prototype.create_div_incertidumbre = function(layer) {
     /**********************************************************************/
 
     const incertidumbre_color = L.DomUtil.create('img');
-    incertidumbre_color.src = incertidumbre.scale_img;
     incertidumbre_color.id = 'incertidumbre_color';
     incertidumbre_color.title = incertidumbre.area;
     incertidumbre_color.style.width = '60%';
@@ -5472,6 +5471,7 @@ special_tools.prototype.create_div_incertidumbre = function(layer) {
     
     } else {
         
+        incertidumbre_color.src = incertidumbre.scale_img;
         incertidumbre_color.style.display = 'block';
         
     }
@@ -5494,7 +5494,9 @@ special_tools.prototype.create_div_incertidumbre = function(layer) {
             const incertidumbre = self.get_incertidumbre(area);
 
             incertidumbre_color.style.display = 'block';
-            incertidumbre_color.src = incertidumbre.scale_img;
+            try {
+                incertidumbre_color.src = incertidumbre.scale_img;
+            } catch(e) {};
             incertidumbre_color.title = incertidumbre.area;
 
             layer.feature.properties.uncertainty = incertidumbre;

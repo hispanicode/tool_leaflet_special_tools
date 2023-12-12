@@ -21,7 +21,7 @@
  * ```
  *
  */
-
+try {
 L.ImageOverlay.Rotated = L.ImageOverlay.extend({
 
 	initialize: function (image, topleft, topright, bottomleft, options) {
@@ -187,3 +187,5 @@ L.ImageOverlay.Rotated = L.ImageOverlay.extend({
 L.imageOverlay.rotated = function(imgSrc, topleft, topright, bottomleft, options) {
 	return new L.ImageOverlay.Rotated(imgSrc, topleft, topright, bottomleft, options);
 };
+
+} catch(e){};

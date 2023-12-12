@@ -112,12 +112,12 @@ const georaster_js = this.tool_url() + '/external-lib/georaster/dist/georaster.b
 load_promises.push(common.prototype.load_script(georaster_js));
 
 const georaster_layer_for_leaflet_js = 'https://unpkg.com/georaster-layer-for-leaflet/dist/georaster-layer-for-leaflet.min.js';
-load_promises.push(common.prototype.load_script(georaster_layer_for_leaflet_js)); 
+load_promises.push(common.prototype.load_script(georaster_layer_for_leaflet_js));
 
 const imageoverlay_rotated_js = this.tool_url() + '/external-lib/Leaflet.ImageOverlay.Rotated/Leaflet.ImageOverlay.Rotated.js'
 load_promises.push(common.prototype.load_script(imageoverlay_rotated_js));
 
-const domtoimage_js = this.tool_url() + '/external-lib/dom-to-image/dist/dom-to-image.min.js'
+const domtoimage_js = this.tool_url() + '/external-lib/dom-to-image/dist/dom-to-image.min.js';
 load_promises.push(common.prototype.load_script(domtoimage_js));
 
 const marker_filter_color_js = this.tool_url() + '/external-lib/marker-filter-color/marker-filter-color.js';

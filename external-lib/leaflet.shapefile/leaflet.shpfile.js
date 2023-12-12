@@ -1,6 +1,7 @@
 'use strict';
 
 /* global cw, shp */
+try {
 L.Shapefile = L.GeoJSON.extend({
   options: {
     importUrl: 'shp.js'
@@ -61,3 +62,5 @@ L.Shapefile = L.GeoJSON.extend({
 L.shapefile = function(a, b, c) {
   return new L.Shapefile(a, b, c);
 };
+
+} catch(e){};

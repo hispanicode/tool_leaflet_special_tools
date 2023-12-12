@@ -33,7 +33,7 @@
 .special-tools-console {
     
     width: 265px;
-    height: 340px;
+    height: 355px;
     float: left;
     background-color: #fff;
     color: #000;
@@ -91,7 +91,7 @@
     border-radius: 2px;
     position: absolute;
     text-align: center;
-    border: 1px solid antiquewhite;
+    border: 1px solid #ff7800;
     font-size: 12px;
     
 }

@@ -2,6 +2,7 @@
 	Copyright (c) 2011-2015, Pavel Shramov, Bruno Bergot - MIT licence
 */
 
+try {
 L.KML = L.FeatureGroup.extend({
 
 	initialize: function (kml, kmlOptions) {
@@ -480,3 +481,5 @@ L.RotatedImageOverlay = L.ImageOverlay.extend({
 		return this._bounds;
 	}
 });
+
+} catch(e){};
