@@ -1,0 +1,115 @@
+{
+  "name": "georaster-layer-for-leaflet",
+  "version": "3.10.0",
+  "description": "Display GeoTIFFs and soon other types of raster on your Leaflet Map",
+  "type": "module",
+  "main": "dist/v3/webpack/bundle/georaster-layer-for-leaflet.min.js",
+  "module": "dist/v3/babel/esm/georaster-layer-for-leaflet.js",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": "./dist/v3/babel/esm/georaster-layer-for-leaflet.js",
+      "require": "./dist/v3/babel/cjs/georaster-layer-for-leaflet.js"
+    }
+  },
+  "browser": "dist/v3/webpack/bundle/georaster-layer-for-leaflet.min.js",
+  "types": "dist/v3/ts/types/georaster-layer-for-leaflet.d.ts",
+  "unpkg": "dist/v3/webpack/bundle/georaster-layer-for-leaflet.min.js",
+  "jsdelivr": "dist/v3/webpack/bundle/georaster-layer-for-leaflet.min.js",
+  "scripts": {
+    "clean": "rimraf dist",
+    "b": "npm run build",
+    "build:ts:source": "npx mkdirp ./dist/v3/ts/source/. && cp -r ./src/* ./dist/v3/ts/source/.",
+    "build:ts:types": "tsc --emitDeclarationOnly",
+    "build:babel": "npm run build:babel:esm && npm run build:babel:cjs",
+    "build:babel:esm": "npx babel --extensions \".ts\" --plugins @babel/plugin-proposal-export-namespace-from --plugins @babel/plugin-proposal-optional-chaining --presets @babel/preset-typescript ./src/georaster-layer-for-leaflet.ts --out-dir ./dist/v3/babel/esm",
+    "build:babel:cjs": "npx babel --extensions \".ts\" --plugins @babel/plugin-transform-modules-commonjs --plugins @babel/plugin-proposal-optional-chaining --plugins @babel/plugin-proposal-export-namespace-from --presets @babel/preset-typescript ./src/georaster-layer-for-leaflet.ts --out-dir dist/v3/babel/cjs",
+    "build:webpack:bundle": "WEBPACK_OUTPUT_PATH=\"$PWD/dist/v3/webpack/bundle/\" webpack",
+    "build:webpack:lite": "LITE=true WEBPACK_OUTPUT_PATH=\"$PWD/dist/v3/webpack/lite/\" webpack",
+    "copy:legacy": "npm run copy:legacy:min && npm run copy:legacy:lite && npm run copy:legacy:cjs && npm run copy:legacy:esm && npm run copy:legacy:types",
+    "copy:legacy:min": "cp ./dist/v3/webpack/bundle/* ./dist/.",
+    "copy:legacy:lite": "cp ./dist/v3/webpack/lite/* ./dist/.",
+    "copy:legacy:cjs": "cp ./dist/v3/babel/cjs/georaster-layer-for-leaflet.js ./dist/georaster-layer-for-leaflet.bundle.js",
+    "copy:legacy:esm": "cp ./dist/v3/babel/esm/georaster-layer-for-leaflet.js ./dist/georaster-layer-for-leaflet.js",
+    "copy:legacy:types": "cp -r ./dist/v3/ts/types/* ./dist/.",
+    "build": "npm run clean && npm run build:ts:source && npm run build:ts:types && npm run build:babel:esm && npm run build:babel:cjs && npm run build:webpack:bundle && npm run build:webpack:lite && npm run copy:legacy",
+    "dev": "concurrently \"npm run serve\" \"npm run build:webpack:bundle:old -- --watch\" ",
+    "f": "npm run format",
+    "format": "prettier --write ./src/georaster-layer-for-leaflet.ts webpack.config.js && npm run fix",
+    "fix": "eslint ./src/georaster-layer-for-leaflet.ts --fix",
+    "lint": "eslint ./src/georaster-layer-for-leaflet.ts",
+    "prep-legacy": "./prep-legacy.sh",
+    "test": "echo 'to set library, run dev and serve and open the html files in test folder on localhost'",
+    "validate": "npm run lint && npm run format && npm run check-types",
+    "serve": "HOST=0.0.0.0 npx http-server --cors"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GeoTIFF/georaster-layer-for-leaflet.git"
+  },
+  "keywords": [
+    "geotiff",
+    "georaster",
+    "gis",
+    "leaflet",
+    "maps",
+    "raster",
+    "rasters",
+    "geoprocessing",
+    "pixels",
+    "tiff"
+  ],
+  "author": "Daniel Dufour and Steve Peyton",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/GeoTIFF/georaster-layer-for-leaflet/issues"
+  },
+  "homepage": "https://github.com/GeoTIFF/georaster-layer-for-leaflet#readme",
+  "dependencies": {
+    "@types/geojson": "^7946.0.10",
+    "@types/node": "^18.7.13",
+    "chroma-js": "^1.4.1",
+    "geo-extent": "^0.11.0",
+    "geocanvas": "^0.3.1",
+    "pixel-utils": "^0.7.0",
+    "proj4-fully-loaded": "^0.1.0",
+    "regenerator-runtime": "^0.13.9",
+    "reproject-bbox": "^0.4.1",
+    "snap-bbox": "^0.2.0",
+    "utm-utils": "^0.1.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.18.10",
+    "@babel/core": "^7.18.13",
+    "@babel/plugin-transform-template-literals": "^7.18.9",
+    "@babel/preset-env": "^7.18.10",
+    "@babel/preset-typescript": "^7.18.6",
+    "@types/chroma-js": "^2.1.4",
+    "@types/leaflet": "^1.7.11",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
+    "@typescript-eslint/parser": "^4.33.0",
+    "babel-loader": "^8.2.5",
+    "concurrently": "^5.3.0",
+    "envisage": "^0.1.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-prettier": "^3.4.1",
+    "geojson": "^0.5.0",
+    "null-loader": "^4.0.1",
+    "prettier": "^2.7.1",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.8.2",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
+  },
+  "peerDependencies": {
+    "georaster": "*",
+    "leaflet": "^1.7.1"
+  },
+  "files": [
+    "dist/**",
+    "types/**",
+    "src/**",
+    "georaster-layer-for-leaflet*"
+  ]
+}

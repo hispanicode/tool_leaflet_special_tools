@@ -87,13 +87,13 @@ load_promises.push(common.prototype.load_style(modal_css));
 const graphicscale_css = this.tool_url() + '/external-lib/leaflet-graphicscale/dist/Leaflet.GraphicScale.min.css';
 load_promises.push( common.prototype.load_style(graphicscale_css));
 
-const geocoder_css = 'https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css';
+const geocoder_css = this.tool_url() + '/external-lib/node_modules/leaflet-control-geocoder/dist/Control.Geocoder.css';
 load_promises.push( common.prototype.load_style(geocoder_css));
 
 const simplelightbox_css = this.tool_url() + '/external-lib/simpleLightbox/dist/simpleLightbox.min.css';
 load_promises.push( common.prototype.load_style(simplelightbox_css));
 
-const tool_leaflet_special_tools_css = this.tool_url() + '/css/tool_leaflet_special_tools.css?v=' + this.make_id(30);
+const tool_leaflet_special_tools_css = this.tool_url() + '/css/tool_leaflet_special_tools.css';
 load_promises.push(common.prototype.load_style(tool_leaflet_special_tools_css));
 /* CSS */
 
@@ -111,7 +111,7 @@ load_promises.push(common.prototype.load_script(kml_js));
 const georaster_js = this.tool_url() + '/external-lib/georaster/dist/georaster.browser.bundle.js';
 load_promises.push(common.prototype.load_script(georaster_js));
 
-const georaster_layer_for_leaflet_js = 'https://unpkg.com/georaster-layer-for-leaflet/dist/georaster-layer-for-leaflet.min.js';
+const georaster_layer_for_leaflet_js = this.tool_url() + '/external-lib/node_modules/georaster-layer-for-leaflet/dist/georaster-layer-for-leaflet.min.js';
 load_promises.push(common.prototype.load_script(georaster_layer_for_leaflet_js));
 
 const imageoverlay_rotated_js = this.tool_url() + '/external-lib/Leaflet.ImageOverlay.Rotated/Leaflet.ImageOverlay.Rotated.js'
@@ -135,7 +135,7 @@ load_promises.push(common.prototype.load_script(utm_js));
 const projections_js = this.tool_url() + '/external-lib/projections/projections.js';
 load_promises.push(common.prototype.load_script(projections_js));
 
-const geocoder_js = 'https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js';
+const geocoder_js = this.tool_url() + '/external-lib/node_modules/leaflet-control-geocoder/dist/Control.Geocoder.min.js';
 load_promises.push(common.prototype.load_script(geocoder_js));
 
 const simplelightbox_js = this.tool_url() + '/external-lib/simpleLightbox/dist/simpleLightbox.min.js';
@@ -164,7 +164,7 @@ tool_leaflet_special_tools.prototype.control = function(component_geolocation, o
 
         }).addTo(component_geolocation.map);
 
-    } catch(e){/*NOT INTERNET CONNECTION*/};
+    } catch(e){};
 
     this.set_component_geolocation(component_geolocation);
     
@@ -178,9 +178,9 @@ tool_leaflet_special_tools.prototype.control = function(component_geolocation, o
     
     const controls = options.controls;
     
-    window.setTimeout(function() {
+    try {
         L.control.graphicScale({fill: 'hollow', doubleLine: true, position: 'bottomright'}).addTo(component_geolocation.map);
-    }, 1000);
+    } catch(e){};
     
     for (let control in controls) {
         
