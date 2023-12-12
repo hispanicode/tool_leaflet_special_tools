@@ -4465,20 +4465,13 @@ special_tools.prototype.create_pdf = function(layer) {
 
             if (images[i].hasOwnProperty('url')) {
 
-                const options = {
-                    
-                    url: images[i].url
-                    
-                };
-                
-                self.tool.image_to_blob(options).then(function(data) {
-
-                    const img_gallery = document.createElement('img');
-                    img_gallery.src = data.blob;
-                    img_gallery.style.width = '100%';
-                    div.appendChild(img_gallery);
-                    
-                });
+                const img_gallery = document.createElement('img');
+                img_gallery.src = images[i].url;
+                img_gallery.style.width = '90%';
+                div.appendChild(img_gallery);
+                const img_ref = document.createElement('div');
+                img_ref.innerText = "tipo: " + images[i].tipo + ' - ' + "section_tipo: " + images[i].section_tipo + ' - ' + "id: " + images[i].section_id;
+                div.appendChild(img_ref);
 
             }
 
