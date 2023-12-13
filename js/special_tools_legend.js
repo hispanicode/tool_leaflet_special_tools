@@ -203,7 +203,7 @@ special_tools_legend.prototype.load_modal = function() {
     self.tool.google_translate({
 
         element_html: legend_name_span,
-        str: 'Leyenda: ', 
+        str: 'Leyenda:', 
         lang: self.lang
 
     });
@@ -274,7 +274,7 @@ special_tools_legend.prototype.load_modal = function() {
     self.tool.google_translate({
 
         element_html: legend_show_hide_span,
-        str: 'Mostrar leyenda: ', 
+        str: 'Mostrar leyenda:', 
         lang: self.lang
 
     });
@@ -459,7 +459,7 @@ special_tools_legend.prototype.load_modal = function() {
         self.tool.google_translate({
 
             element_html: input_column_span,
-            str: 'Columna: ', 
+            str: 'Columna:', 
             lang: self.lang
 
         });
@@ -617,7 +617,7 @@ special_tools_legend.prototype.load_modal = function() {
             self.tool.google_translate({
 
                 element_html: element_name_span,
-                str: 'Elemento: ', 
+                str: 'Elemento:', 
                 lang: self.lang
 
             });
@@ -744,7 +744,7 @@ special_tools_legend.prototype.load_modal = function() {
             self.tool.google_translate({
 
                 element_html: element_name_span,
-                str: 'Elemento: ', 
+                str: 'Elemento:', 
                 lang: self.lang
 
             });
@@ -901,7 +901,7 @@ special_tools_legend.prototype.load_modal = function() {
         self.tool.google_translate({
 
             element_html: input_column_span,
-            str: 'Columna: ', 
+            str: 'Columna:', 
             lang: self.lang
 
         });
@@ -1056,7 +1056,7 @@ special_tools_legend.prototype.load_modal = function() {
             self.tool.google_translate({
 
                 element_html: element_name_span,
-                str: 'Elemento: ', 
+                str: 'Elemento:', 
                 lang: self.lang
 
             });

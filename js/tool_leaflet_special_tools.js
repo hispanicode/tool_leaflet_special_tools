@@ -149,6 +149,17 @@ load_promises.push(common.prototype.load_script(simplelightbox_js));
 
 tool_leaflet_special_tools.prototype.control = function(component_geolocation, options) {
 
+    if (typeof L.Map.Modal === 'undefined') {
+        
+        window.setTimeout(function() {
+            
+            this.control(component_geolocation, options);
+            
+        }, 1500);
+        
+        return;
+    }
+
     options.component_geolocation = component_geolocation;
     
     options.tool = this;
@@ -171,7 +182,7 @@ tool_leaflet_special_tools.prototype.control = function(component_geolocation, o
     options.lang = component_geolocation.section_lang;
 
     const specialTools = L.control.specialTools(options);
-    
+
     specialTools.addTo(component_geolocation.map);
     
     options.special_tools = specialTools;

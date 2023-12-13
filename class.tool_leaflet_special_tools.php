@@ -1796,7 +1796,9 @@ class tool_leaflet_special_tools extends tool_common  {
             case 'lg-cat':
                 $response->target_lang = 'ca';
                 break;
-
+            case 'lg-eus':
+                $response->target_lang = 'eu';
+                break;
         }
 
         $contents = file_get_contents(self::base_path() . '/translate/translate');

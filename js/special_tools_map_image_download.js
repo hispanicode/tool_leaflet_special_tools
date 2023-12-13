@@ -83,7 +83,7 @@ special_tools_map_image_download.prototype.load_modal = function() {
     self.tool.google_translate({
 
         element_html: special_tools_span_1,
-        str: 'Exportar como: ',
+        str: 'Exportar como:',
         lang: self.lang
 
     });
@@ -195,7 +195,7 @@ special_tools_map_image_download.prototype.load_modal = function() {
     self.tool.google_translate({
 
         element_html: special_tools_span_2,
-        str: 'Nombre: ',
+        str: 'Nombre:',
         lang: self.lang
 
     });

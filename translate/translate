@@ -327,3 +327,421 @@ es      es      Objetos Rasterizados      Objetos Rasterizados
 es      es      Centroide      Centroide      
 es      es      Incertidumbre      Incertidumbre      
 es      es      Edición Geoman activa      Edición Geoman activa      
+es      es      No ha sido posible obtener la Unidad Administrativa.      No ha sido posible obtener la Unidad Administrativa.      
+es      en      Edición Geoman activa      Geoman Edition active      
+es      fr      Objetos      Objets      
+es      fr      Crear polígono de 1x1      Créer un polygone 1x1      
+es      fr      Haga clic sobre algún objeto del mapa.      Cliquez sur un objet sur la carte.      
+es      fr      Mapas base XYZ      Fonds de carte XYZ      
+es      fr      Servicios WMS      Services WMS      
+es      fr      Mostrar-Ocultar      Afficher masquer      
+es      fr      Leyenda      Légende      
+es      fr      Geolocalización      Géolocalisation      
+es      fr      Descargar mapa como imagen      Télécharger la carte sous forme d'image      
+es      fr      Subir archivo al mapa      Télécharger le fichier sur la carte      
+es      fr       Delante      Devant      
+es      fr      Edición Geoman activa      Édition Geoman active      
+es      fr      Incertidumbre      Incertitude      
+es      fr      Área:      Zone:      
+es      fr      Elevación del centro:       Élévation centrale :      
+es      fr       Detrás      Derrière      
+es      fr      Jerarquía del objeto:      Hiérarchie des objets :      
+es      fr      Centroide      Centre de gravité      
+es      fr      Editar estilos      Modifier les styles      
+es      fr      Descargar Vectorial      Télécharger le vecteur      
+es      fr      Propiedades del objeto:      Propriétés de l'objet :      
+es      fr      Asociar imagen      Associer une image      
+es      fr      Galería      Galerie      
+es      fr      Propiedades      Propriétés      
+es      fr      Propiedades:      Propriétés:      
+es      fr      Copiar:      Copier:      
+es      fr      Opacidad del borde:      Opacité de la bordure :      
+es      fr      Borde discontinuo:      Bordure brisée :      
+es      fr      Opacidad de relleno:      Opacité de remplissage :      
+es      fr      Ancho del borde:      Largeur de la bordure:      
+es      fr      Objetos Vectoriales      Objets vectoriels      
+es      fr      Objetos Rasterizados      Objets rastérisés      
+es      fr      Mapas base disponibles      Fonds de carte disponibles      
+es      fr      Añadir mapa base      Ajouter un fond de carte      
+es      fr      Atribución (no obligatorio)      Attribution (non obligatoire)      
+es      fr      MinZoom (obligatorio) Por defecto 0      MinZoom (obligatoire) Par défaut 0      
+es      fr      Nombre del Mapa Base (obligatorio)      Nom du fond de carte (obligatoire)      
+es      fr      MaxZoom (obligatorio) Por defecto 18      MaxZoom (obligatoire) Par défaut 18      
+es      fr      URL del Mapa Base (obligatorio)      URL du fond de carte (obligatoire)      
+es      fr      Limpiar búsqueda      Effacer la recherche      
+es      fr      Opacidad:       Opacité:      
+es      fr      Buscar capas      Rechercher des calques      
+es      fr      Capas disponibles      Calques disponibles      
+es      fr      Url del servidor WMS:       URL du serveur WMS :      
+es      fr      Por favor, introduzca una url correcta.      Veuillez saisir une URL correcte.      
+es      fr      Capa cargada con éxito en el mapa      Couche chargée avec succès sur la carte      
+es      fr      Capa quitada con éxito del mapa      Couche supprimée avec succès de la carte      
+es      fr      Subir imagen      Télécharger une image      
+es      fr      Subir archivo vectorial      Télécharger un fichier vectoriel      
+es      fr      gif      gif      
+es      fr      jpg      jpg      
+es      fr      png      png      
+es      fr      Exportar como:       Exporter sous :      
+es      fr      Nombre:       Nom:      
+es      fr      Raster GeoTiff      GéoTiff raster      
+es      fr      webp      webp      
+es      fr      archivo      archive      
+es      fr      Descargar imagen      Télécharger l'image      
+es      fr      Descargar mapa      Télécharger la carte      
+es      fr      Polígono      Polygone      
+es      fr      Elevación:       Élévation:      
+es      fr      Coordenadas:      Coordonnées :      
+es      fr      Incertidumbre:      Incertitude:      
+es      fr      Punto de referencia de polígono de 1 m²      Point de référence polygone de 1 m²      
+es      fr      Radio:      Radio:      
+es      fr      Coordenadas del centro:      Coordonnées du centre :      
+es      fr      Descargar archivo      Télécharger un fichier      
+es      fr      Descargar objeto vectorial      Télécharger l'objet vectoriel      
+es      fr      No existen imágenes asociadas al objeto      Il n'y a aucune image associée à l'objet      
+es      fr      Asociar imagen al objeto      Associer une image à un objet      
+es      fr      Nueva propiedad      Nouvelle propriété      
+es      fr      Exportar como PDF      Exporter au format PDF      
+es      fr      Propiedades del objeto      Propriétés de l'objet      
+es      fr      Editar propiedad      Modifier la propriété      
+es      fr      Guardar propiedad      Enregistrer la propriété      
+es      fr      Cerrar      Fermer      
+es      fr      Nombre de la propiedad:      Nom de la propriété:      
+es      fr      Valor de la propiedad:      Valeur de la propriété:      
+es      fr      Eliminar propiedad      Supprimer la propriété      
+es      fr      Cancelar      Annuler      
+es      fr      Eliminar propiedad      Supprimer la propriété      
+es      fr      Crear propiedad      Créer une propriété      
+es      fr      Creando el archivo pdf, por favor espere, ...      Création du fichier pdf, veuillez patienter,...      
+es      fr      Imágenes asociadas      Images associées      
+es      fr      Proyecciones por defecto      Projections par défaut      
+es      fr      A continuación se listan las proyecciones por defecto: EPSG:4230 EPSG:4326 EPSG:4258 EPSG:3857 EPSG:32628 EPSG:32629 EPSG:32630 EPSG:32631 EPSG:25828 EPSG:25829 EPSG:25830 EPSG:25831 EPSG:23028 EPSG:23029 EPSG:23030 EPSG:23031 EPSG:4082 EPSG:4083      Les projections par défaut sont répertoriées ci-dessous : EPSG:4230 EPSG:4326 EPSG:4258 EPSG:3857 EPSG:32628 EPSG:32629 EPSG:32630 EPSG:32631 EPSG:25828 EPSG:25829 EPSG:25830 EPSG:25831 EPSG:23028 EPSG: 23029 EPSG :23030 EPSG:23031 EPSG:4082 EPSG:4083      
+es      fr      Extensiones permitidas: .zip (shape), .geojson y .kml      Extensions autorisées : .zip (forme), .geojson et .kml      
+es      fr      Incluir proyección para UTM (Universal Transverse Mercator) en el caso de que no se encuentre entre las proyecciones por defecto (Asegúrese de que el archivo que va a subir viene proyectado. Por ejemplo: urn:ogc:def:crs:EPSG::32619      Incluez la projection pour UTM (Universal Transverse Mercator) au cas où elle ne ferait pas partie des projections par défaut (Assurez-vous que le fichier que vous allez télécharger est projeté. Par exemple : urn:ogc:def:crs:EPSG::32619      
+es      fr      Extensiones permitidas: .tif (georreferenciada), .jpg, .jpeg, .png, y .webp      Extensions autorisées : .tif (géoréférencé), .jpg, .jpeg, .png et .webp      
+es      fr      Copiar:       Copier:      
+es      ca      Objetos      Objectes      
+es      ca      Mostrar-Ocultar      Mostrar-Ocultar      
+es      ca      Mapas base XYZ      Mapes base XYZ      
+es      ca      Crear polígono de 1x1      Crear polígon de 1x1      
+es      ca      Servicios WMS      Serveis WMS      
+es      ca      Haga clic sobre algún objeto del mapa.      Feu clic sobre algun objecte del mapa.      
+es      ca      Municipio      Municipi      
+es      ca      Catastro      Cadastre      
+es      ca      Municipio      Municipi      
+es      ca      Provincia      Província      
+es      ca      Provincia      Província      
+es      ca      Unidades Administrativas de España      Unitats administratives d'Espanya      
+es      ca      Comunidad Autónoma      Comunitat Autònoma      
+es      ca      Comunidad Autónoma      Comunitat Autònoma      
+es      ca      Imperio Romano      Imperi Romà      
+es      ca      Descargar mapa como imagen      Descarregar mapa com a imatge      
+es      ca      Subir archivo al mapa      Pujar fitxer al mapa      
+es      ca      Leyenda      Llegenda      
+es      ca      Geolocalización      Geolocalització      
+es      ca      Área:      Àrea:      
+es      ca      Edición Geoman activa      Edició Geoman activa      
+es      ca      Coordenadas del centro:      Coordenades del centre:      
+es      ca      Centroide      Centroide      
+es      ca      Radio:      Ràdio:      
+es      ca      Elevación del centro:       Elevació del centre:      
+es      ca      Jerarquía del objeto:      Jerarquia de l'objecte:      
+es      ca       Delante      Davant      
+es      ca      Propiedades:      Propietats:      
+es      ca       Detrás      Darrere      
+es      ca      Propiedades      Propietats      
+es      ca      Galería      Galeria      
+es      ca      Asociar imagen      Associar imatge      
+es      ca      Propiedades del objeto:      Propietats de lobjecte:      
+es      ca      Editar estilos      Editar estils      
+es      ca      Descargar Vectorial      Descarregar Vectorial      
+es      ca      Incertidumbre:      Incertesa:      
+es      ca      Coordenadas:      Coordenades:      
+es      ca      Elevación:       Elevació:      
+es      ca      Punto de referencia de polígono de 1 m²      Punt de referència de polígon de 1 m²      
+es      ca      Objetos Rasterizados      Objectes Rasteritzats      
+es      ca      Objetos Vectoriales      Objectes Vectorials      
+es      ca      Atribución (no obligatorio)      Atribució (no obligatori)      
+es      ca      MaxZoom (obligatorio) Por defecto 18      MaxZoom (obligatori) Per defecte 18      
+es      ca      MinZoom (obligatorio) Por defecto 0      MinZoom (obligatori) Per defecte 0      
+es      ca      Mapas base disponibles      Mapes base disponibles      
+es      ca      Añadir mapa base      Afegir mapa base      
+es      ca      Nombre del Mapa Base (obligatorio)      Nom del Mapa Base (obligatori)      
+es      ca      URL del Mapa Base (obligatorio)      URL del Mapa Base (obligatori)      
+es      ca      Buscar capas      Buscar capes      
+es      ca      Limpiar búsqueda      Netejar cerca      
+es      ca      Capas disponibles      Capes disponibles      
+es      ca      Url del servidor WMS:       Url del servidor WMS:      
+es      ca      Opacidad:       Opacitat:      
+es      ca      Nombre:       Nom:      
+en      ca      Algeria      Algèria      
+en      ca      Albania      Albània      
+es      ca      Filtrar por:       Filtrar per:      
+es      ca      Filtrar por:       Filtrar per:      
+en      ca      All countries      Tots els països      
+es      ca       Marcar/Desmarcar todo      Marcar/Desmarcar-ho tot      
+es      ca      Nombre de lugar moderno      Nom de lloc modern      
+es      ca      Nombre de lugar antiguo      Nom de lloc antic      
+en      ca      Yemen      Iemen      
+en      ca      United Arab Emirates      Emirats Àrabs Units      
+en      ca      Armenia      Armènia      
+en      ca      Bahrain      Bahrain      
+en      ca      Austria      Àustria      
+en      ca      Azerbaijan      Azerbaidjan      
+en      ca      Belgium      Bèlgica      
+en      ca      Turkey      Turquia      
+en      ca      Tunisia      Tunísia      
+en      ca      Switzerland      Suïssa      
+en      ca      Sweden      Suècia      
+en      ca      Bulgaria      Bulgària      
+en      ca      Syria      Síria      
+en      ca      Sudan      Sudan      
+en      ca      Croatia      Croàcia      
+en      ca      Bosnia and Herzegovina      Bòsnia i Hercegovina      
+en      ca      Czech Republic      República Txeca      
+en      ca      Somalia      Somàlia      
+en      ca      Slovenia      Eslovènia      
+en      ca      Spain      Espanya      
+en      ca      Egypt      Egipte      
+en      ca      Slovakia      Eslovàquia      
+en      ca      Ethiopia      Etiòpia      
+en      ca      Djibouti      Djibouti      
+en      ca      Eritrea      Eritrea      
+en      ca      Serbia      Sèrbia      
+en      ca      Denmark      Dinamarca      
+en      ca      France      França      
+en      ca      Saudi Arabia      Aràbia Saudita      
+en      ca      Romania      Romania      
+en      ca      Portugal      Portugal      
+en      ca      Great Britain      Gran Bretanya      
+en      ca      Qatar      Qatar      
+en      ca      Georgia      Geòrgia      
+en      ca      Germany      Alemanya      
+en      ca      Poland      Polònia      
+en      ca      Ireland      Irlanda      
+en      ca      Hungary      Hongria      
+en      ca      Iran      Iran      
+en      ca      Netherlands      Països Baixos      
+en      ca      Palestine      Palestina      
+en      ca      Montenegro      Montenegro      
+en      ca      Greece      Grècia      
+en      ca      Oman      Oman      
+en      ca      Iraq      Iraq      
+en      ca      Macedonia      Macedònia      
+en      ca      Jordania      Jordània      
+en      ca      Luxembourg      Luxemburg      
+en      ca      Lebanon      Líban      
+en      ca      Libya      Líbia      
+en      ca      Morocco      el Marroc      
+en      ca      Israel      Israel      
+en      ca      Italy      Itàlia      
+en      ca      Kosovo      Kosovo      
+en      ca      Kuwait      Kuwait      
+es      ca      Servicios relacionados con el Imperio Romano      Serveis relacionats amb l'Imperi Romà      
+es      ca      Raster GeoTiff      Raster GeoTiff      
+es      ca      Exportar como:       Exportar com:      
+es      ca      archivo      arxiu      
+es      ca      png      png      
+es      ca      jpg      jpg      
+es      ca      gif      gif      
+es      ca      webp      webp      
+es      ca      Descargar imagen      Descarregar imatge      
+es      ca      Descargar mapa      Descarregar mapa      
+es      ca      Copiar:       Copiar:      
+es      ca      Descargar archivo      Descarregar fitxer      
+es      ca      Descargar objeto vectorial      Descarregar objecte vectorial      
+es      ca      Exportar como PDF      Exportar com a PDF      
+es      ca      Nueva propiedad      Nova propietat      
+es      ca      Propiedades del objeto      Propietats de lobjecte      
+es      ca      Crear propiedad      Crear propietat      
+es      ca      Cancelar      Cancel·la      
+es      ca      Nombre de la propiedad:      Nom de la propietat:      
+es      ca      Valor de la propiedad:      Valor de la propietat:      
+es      ca      Cerrar      Tancar      
+es      ca      Editar propiedad      Editar propietat      
+es      ca      Guardar propiedad      Desa propietat      
+es      ca      Creando el archivo pdf, por favor espere, ...      Creant l'arxiu pdf, si us plau espereu, ...      
+es      ca      Imágenes asociadas      Imatges associades      
+es      ca      Eliminar propiedad      Eliminar propietat      
+es      ca      Eliminar propiedad      Eliminar propietat      
+es      ca      Leyenda:       Llegenda:      
+es      ca      Mostrar leyenda:       Mostra llegenda:      
+es      ca      Guardar leyenda      Desa llegenda      
+es      ca      Nueva columna      Nova columna      
+es      ca      Subir archivo vectorial      Pujar fitxer vectorial      
+es      ca      Subir imagen      Pujar imatge      
+es      ca      Extensiones permitidas: .zip (shape), .geojson y .kml      Extensions permeses: .zip (shape), .geojson i .kml      
+es      ca      Incluir proyección para UTM (Universal Transverse Mercator) en el caso de que no se encuentre entre las proyecciones por defecto (Asegúrese de que el archivo que va a subir viene proyectado. Por ejemplo: urn:ogc:def:crs:EPSG::32619      Incloure projecció per a UTM (Universal Transverse Mercator) en cas que no es trobi entre les projeccions per defecte (Assegureu-vos que el fitxer que pengeu ve projectat. Per exemple: urn:ogc:def:crs:EPSG::32619      
+es      ca      Proyecciones por defecto      Projeccions per defecte      
+es      ca      A continuación se listan las proyecciones por defecto: EPSG:4230 EPSG:4326 EPSG:4258 EPSG:3857 EPSG:32628 EPSG:32629 EPSG:32630 EPSG:32631 EPSG:25828 EPSG:25829 EPSG:25830 EPSG:25831 EPSG:23028 EPSG:23029 EPSG:23030 EPSG:23031 EPSG:4082 EPSG:4083      A continuació es llisten les projeccions per defecte: EPSG:4230 EPSG:4326 EPSG:4258 EPSG:3857 EPSG:32628 EPSG:32629 EPSG:32630 EPSG:32631 EPSG:25828 EPSG:282 3028 EPSG: 23029 EPSG:23030 EPSG:23031 EPSG:4082 EPSG:4083      
+es      ca      Extensiones permitidas: .tif (georreferenciada), .jpg, .jpeg, .png, y .webp      Extensions permeses: .tif (georreferenciada), .jpg, .jpeg, .png, i .webp      
+es      ca      Incertidumbre      Incertesa      
+es      ca      Opacidad del borde:      Opacitat de la vora:      
+es      ca      Ancho del borde:      Ample de la vora:      
+es      ca      Borde discontinuo:      Vora discontinu:      
+es      ca      Opacidad de relleno:      Opacitat de farciment:      
+es      ca      No existen imágenes asociadas al objeto      No hi ha imatges associades a aquest objecte      
+es      ca      Asociar imagen al objeto      Associar imatge a fi      
+es      ca      Leyenda guardada con éxito      Llegenda guardada amb èxit      
+es      eu      Objetos      Objektuak      
+es      eu      Mostrar-Ocultar      Erakutsi ezkutatu      
+es      eu      Mapas base XYZ      XYZ oinarrizko mapak      
+es      eu      Servicios WMS      WMS zerbitzuak      
+es      eu      Haga clic sobre algún objeto del mapa.      Egin klik mapako objektu batean.      
+es      eu      Crear polígono de 1x1      Sortu 1x1 poligonoa      
+es      eu      Provincia      Probintzia      
+es      eu      Provincia      Probintzia      
+es      eu      Municipio      Udalerria      
+es      eu      Municipio      Udalerria      
+es      eu      Catastro      Katastroa      
+es      eu      Unidades Administrativas de España      Espainiako Unitate Administratiboak      
+es      eu      Leyenda      Kondaira      
+es      eu      Comunidad Autónoma      Autonomia-erkidegoa      
+es      eu      Comunidad Autónoma      Autonomia-erkidegoa      
+es      eu      Imperio Romano      Erromatar inperioa      
+es      eu      Descargar mapa como imagen      Deskargatu mapa irudi gisa      
+es      eu      Subir archivo al mapa      Kargatu fitxategia mapara      
+es      eu      Geolocalización      Geolokalizazioa      
+es      eu      Objetos Rasterizados      Objektu rasterizatuak      
+es      eu      Objetos Vectoriales      Objektu bektorialak      
+es      eu      MaxZoom (obligatorio) Por defecto 18      MaxZoom (beharrezkoa) Lehenetsia 18      
+es      eu      Añadir mapa base      Gehitu oinarrizko mapa      
+es      eu      Mapas base disponibles      Oinarrizko mapak eskuragarri      
+es      eu      Atribución (no obligatorio)      Esleipena (ez da beharrezkoa)      
+es      eu      MinZoom (obligatorio) Por defecto 0      MinZoom (beharrezkoa) 0 lehenetsia      
+es      eu      URL del Mapa Base (obligatorio)      Oinarrizko maparen URLa (beharrezkoa)      
+es      eu      Nombre del Mapa Base (obligatorio)      Oinarri maparen izena (beharrezkoa)      
+es      eu      Opacidad:       Opakotasuna:      
+es      eu      Limpiar búsqueda      Garbitu bilaketa      
+es      eu      Buscar capas      Aurkitu geruzak      
+es      eu      Capas disponibles      Eskuragarri dauden geruzak      
+es      eu      Url del servidor WMS:       WMS zerbitzariaren URLa:      
+es      eu      Filtrar por:       Iragazi arabera:      
+en      eu      Albania      Albania      
+en      eu      Algeria      Aljeria      
+es      eu      Nombre de lugar moderno      toponimo modernoa      
+es      eu      Nombre de lugar antiguo      Leku izen zaharra      
+en      eu      All countries      Herrialde guztiak      
+es      eu      Nombre:       Izena:      
+es      eu      Filtrar por:       Iragazi arabera:      
+es      eu       Marcar/Desmarcar todo      Egiaztatu/Desmarkatu guztiak      
+en      eu      United Arab Emirates      Arabiar Emirerri Batuak      
+en      eu      Yemen      Yemen      
+en      eu      Armenia      Armenia      
+en      eu      Turkey      Turkia      
+en      eu      Azerbaijan      Azerbaijango      
+en      eu      Austria      Austria      
+en      eu      Bahrain      Bahrain      
+en      eu      Tunisia      Tunisia      
+en      eu      Belgium      Belgika      
+en      eu      Switzerland      Suitza      
+en      eu      Sweden      Suedia      
+en      eu      Bulgaria      Bulgaria      
+en      eu      Bosnia and Herzegovina      Bosnia eta Herzegovina      
+en      eu      Sudan      Sudan      
+en      eu      Syria      Siria      
+en      eu      Croatia      Kroazia      
+en      eu      Czech Republic      Txekiar Errepublika      
+en      eu      Somalia      Somalia      
+en      eu      Spain      Espainia      
+en      eu      Djibouti      Djibutin      
+en      eu      Egypt      Egipto      
+en      eu      Slovenia      Eslovenia      
+en      eu      Slovakia      Eslovakia      
+en      eu      Denmark      Danimarka      
+en      eu      Eritrea      Eritrea      
+en      eu      Serbia      Serbia      
+en      eu      Ethiopia      Etiopia      
+en      eu      France      Frantzia      
+en      eu      Saudi Arabia      Saudi Arabia      
+en      eu      Georgia      Georgia      
+en      eu      Qatar      Qatar      
+en      eu      Romania      Errumania      
+en      eu      Portugal      Portugal      
+en      eu      Germany      Alemania      
+en      eu      Great Britain      Britainia Handia      
+en      eu      Poland      Polonia      
+en      eu      Palestine      Palestina      
+en      eu      Hungary      Hungaria      
+en      eu      Oman      Oman      
+en      eu      Iran      Iran      
+en      eu      Netherlands      Herbehereak      
+en      eu      Greece      Grezia      
+en      eu      Montenegro      Montenegro      
+en      eu      Iraq      Irak      
+en      eu      Morocco      Maroko      
+en      eu      Ireland      Irlanda      
+en      eu      Italy      Italia      
+en      eu      Israel      Israel      
+en      eu      Libya      Libia      
+en      eu      Luxembourg      Luxenburgo      
+en      eu      Macedonia      Mazedonia      
+en      eu      Jordania      Jordania      
+en      eu      Lebanon      Libano      
+en      eu      Kosovo      Kosovo      
+en      eu      Kuwait      Kuwait      
+es      eu      Servicios relacionados con el Imperio Romano      Erromatar Inperioarekin lotutako zerbitzuak      
+es      eu      jpg      jpg      
+es      eu      png      png      
+es      eu      webp      webp      
+es      eu      archivo      artxiboa      
+es      eu      gif      gif      
+es      eu      Raster GeoTiff      Raster GeoTiff      
+es      eu      Exportar como:       Esportatu honela:      
+es      eu      Descargar imagen      Deskargatu irudia      
+es      eu      Descargar mapa      Deskargatu mapa      
+es      eu      Subir imagen      Igo irudia      
+es      eu      Subir archivo vectorial      Kargatu fitxategi bektoriala      
+es      eu      Cancelar      Utzi      
+es      eu      Proyecciones por defecto      Aurreikuspen lehenetsiak      
+es      eu      Extensiones permitidas: .zip (shape), .geojson y .kml      Onartutako luzapenak: .zip (forma), .geojson eta .kml      
+es      eu      A continuación se listan las proyecciones por defecto: EPSG:4230 EPSG:4326 EPSG:4258 EPSG:3857 EPSG:32628 EPSG:32629 EPSG:32630 EPSG:32631 EPSG:25828 EPSG:25829 EPSG:25830 EPSG:25831 EPSG:23028 EPSG:23029 EPSG:23030 EPSG:23031 EPSG:4082 EPSG:4083      Aurreikuspen lehenetsiak behean zerrendatzen dira: EPSG:4230 EPSG:4326 EPSG:4258 EPSG:3857 EPSG:32628 EPSG:32629 EPSG:32630 EPSG:32631 EPSG:25828 EPSG:25829 EPSG:25830 EPSG:25830 EPSG2:02530 EPSG2:25830 EPSG2:2525 :23030 EPSG:23031 EPSG:4082 EPSG:4083      
+es      eu      Incluir proyección para UTM (Universal Transverse Mercator) en el caso de que no se encuentre entre las proyecciones por defecto (Asegúrese de que el archivo que va a subir viene proyectado. Por ejemplo: urn:ogc:def:crs:EPSG::32619      Sartu UTM (Universal Transverse Mercator) proiekzioa, proiekzio lehenetsien artean ez badago (Ziurtatu kargatuko duzun fitxategia proiektatuta dagoela. Adibidez: urn:ogc:def:crs:EPG::32619      
+es      eu      Extensiones permitidas: .tif (georreferenciada), .jpg, .jpeg, .png, y .webp      Onartutako luzapenak: .tif (georeferentziatua), .jpg, .jpeg, .png eta .webp      
+es      eu      Añadir elemento      Gehitu elementua      
+es      eu      Eliminar columna      Ezabatu zutabea      
+es      eu      Elemento:       Elementua:      
+es      eu      Guardar leyenda      Gorde kondaira      
+es      eu      Nueva columna      Zutabe berria      
+es      eu      Leyenda:       Kondaira:      
+es      eu      Mostrar leyenda:       Erakutsi legenda:      
+es      eu      Elemento:       Elementua:      
+es      eu      Columna:       Zutabea:      
+es      eu      Propiedades      Propietateak      
+es      eu      Coordenadas:      Koordenatuak:      
+es      eu      Elevación:       Altuera:      
+es      eu      Descargar Vectorial      Deskargatu Vector      
+es      eu      Propiedades del objeto:      Objektuaren propietateak:      
+es      eu      Asociar imagen      Elkartutako irudia      
+es      eu      Edición Geoman activa      Geoman Edition aktiboa      
+es      eu      Editar estilos      Editatu estiloak      
+es      eu      Galería      Galeria      
+es      eu      Propiedades:      Propietateak:      
+es      eu      Copiar:       Kopiatu:      
+es      eu      Descargar archivo      Deskargatu fitxategia      
+es      eu      Descargar objeto vectorial      Deskargatu objektu bektoriala      
+es      eu      Nueva propiedad      Jabetza berria      
+es      eu      Exportar como PDF      Esportatu PDF gisa      
+es      eu      Propiedades del objeto      Objektuaren propietateak      
+es      eu      Editar propiedad      Editatu propietatea      
+es      eu      Cerrar      Itxi      
+es      eu      Nombre de la propiedad:      Jabetza izena:      
+es      eu      Guardar propiedad      Gorde jabetza      
+es      eu      Valor de la propiedad:      Jabetzaren balioa:      
+es      eu      Eliminar propiedad      Ezabatu jabetza      
+es      eu      Eliminar propiedad      Ezabatu jabetza      
+es      eu      Crear propiedad      Sortu jabetza      
+es      eu      Asociar imagen al objeto      Lotu irudia objektuarekin      
+es      eu      No existen imágenes asociadas al objeto      Ez dago objektuarekin lotutako irudirik      
+es      eu      Incertidumbre      Ziurgabetasuna      
+es      eu       Detrás      Atzean      
+es      eu       Delante      Aurrean      
+es      eu      Elevación del centro:       Erdiko kota:      
+es      eu      Jerarquía del objeto:      Objektuen hierarkia:      
+es      eu      Centroide      Zentroidea      
+es      eu      Área:      Eremua:      
+es      eu      Borde discontinuo:      Hautsitako ertza:      
+es      eu      Ancho del borde:      Ertzaren zabalera:      
+es      eu      Opacidad de relleno:      Bete opakutasuna:      
+es      eu      Opacidad del borde:      Ertzaren opakutasuna:      
+es      eu      Espere un momento a que termine el proceso, cargando ...      Itxaron une bat prozesua amaitu arte, kargatzen...      
+es      eu      Eliminando objetos, por favor espere a que finalice el proceso.      Objektuak ezabatzen, itxaron prozesua amaitzen den arte.      

@@ -377,7 +377,7 @@ special_tools_wms.prototype.wms_search_event = function() {
                                     self.tool.google_translate({
 
                                         element_html: layer_opacity_span,
-                                        str: 'Opacidad: ', 
+                                        str: 'Opacidad:', 
                                         lang: self.lang
 
                                     });
@@ -631,7 +631,7 @@ special_tools_wms.prototype.load_wms = function() {
                 self.tool.google_translate({
 
                     element_html: layer_opacity_span,
-                    str: 'Opacidad: ', 
+                    str: 'Opacidad:', 
                     lang: self.lang
 
                 });
