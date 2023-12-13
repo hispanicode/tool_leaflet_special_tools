@@ -745,3 +745,8 @@ es      eu      Opacidad de relleno:      Bete opakutasuna:
 es      eu      Opacidad del borde:      Ertzaren opakutasuna:      
 es      eu      Espere un momento a que termine el proceso, cargando ...      Itxaron une bat prozesua amaitu arte, kargatzen...      
 es      eu      Eliminando objetos, por favor espere a que finalice el proceso.      Objektuak ezabatzen, itxaron prozesua amaitzen den arte.      
+es      en      NetworkError when attempting to fetch resource.      NetworkError when attempting to fetch resource.      
+es      en      No ha sido posible encontrar la localización      The location could not be found      
+es      en      No ha sido posible encontrar la localización      The location could not be found      
+es      en      Centroide      Centroid      
+es      en      Incertidumbre      Uncertainty      

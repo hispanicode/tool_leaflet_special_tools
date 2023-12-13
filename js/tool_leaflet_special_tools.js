@@ -147,18 +147,9 @@ load_promises.push(common.prototype.load_script(simplelightbox_js));
     
 };
 
-tool_leaflet_special_tools.prototype.control = function(component_geolocation, options) {
+tool_leaflet_special_tools.prototype.control = async function(component_geolocation, options) {
 
-    if (typeof L.Map.Modal === 'undefined') {
-        
-        window.setTimeout(function() {
-            
-            this.control(component_geolocation, options);
-            
-        }, 1500);
-        
-        return;
-    }
+    const self = this;
 
     options.component_geolocation = component_geolocation;
     

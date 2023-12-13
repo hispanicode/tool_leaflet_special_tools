@@ -172,7 +172,20 @@ component_geolocation.prototype.init = async function(options) {
 
 				const color_picker_lib_js_file = DEDALO_ROOT_WEB + '/lib/iro/dist/iro.min.js'
 				common.prototype.load_script(color_picker_lib_js_file, license)
-			})
+			
+                                /* SPECIAL TOOLS */
+
+                                const lib_special_tools = tool_leaflet_special_tools.prototype.get_lib();
+
+                                for (let index = 0; index < lib_special_tools.length; index++) {
+
+                                    lib_special_tools[index];
+
+                                }
+
+                                /* SPECIAL TOOLS */
+                        
+                        })
 
 		// another loads in parallel
 			const lib_css_file = DEDALO_ROOT_WEB + '/lib/leaflet/dist/leaflet.css'
@@ -181,20 +194,6 @@ component_geolocation.prototype.init = async function(options) {
 			const geo_editor_lib_css_file = DEDALO_ROOT_WEB + '/lib/leaflet/dist/leaflet-geoman/leaflet-geoman.css'
 			load_promises.push( common.prototype.load_style(geo_editor_lib_css_file) )
 
-
-                        /* SPECIALTOOLS */
-                        const lib_special_tools = tool_leaflet_special_tools.prototype.get_lib();
-                        
-                        /*
-                         * En este punto se añaden las librerías dependientes
-                         * de tool_leaflet_special_tools
-                         */
-                        for (let index = 0; index < lib_special_tools.length; index++) {
-                            
-                            load_promises.push(lib_special_tools[index]);
-                            
-                        }
-                        /* SPECIALTOOLS */
 
 		// load and set JSON langs file
 			load_promises.push(
