@@ -163,7 +163,7 @@ special_tools_xyz.prototype.load_modal = function() {
     self.tool.google_translate({
 
         element_html: basemap_input_span,
-        str: "URL del Mapa Base (obligatorio)", 
+        str: "URL del Mapa Base (requerido)", 
         lang: self.lang
 
     });
@@ -193,7 +193,7 @@ special_tools_xyz.prototype.load_modal = function() {
     self.tool.google_translate({
 
         element_html: name_input_span,
-        str: "Nombre del Mapa Base (obligatorio)", 
+        str: "Nombre del Mapa Base (requerido)", 
         lang: self.lang
 
     });
@@ -223,7 +223,7 @@ special_tools_xyz.prototype.load_modal = function() {
     self.tool.google_translate({
 
         element_html: attribution_input_span,
-        str: "Atribución (no obligatorio)", 
+        str: "Atribución (no requerido)", 
         lang: self.lang
 
     });
@@ -254,7 +254,7 @@ special_tools_xyz.prototype.load_modal = function() {
     self.tool.google_translate({
 
         element_html: minzoom_input_span,
-        str: "MinZoom (obligatorio) Por defecto 0", 
+        str: "MinZoom (requerido) Por defecto 0", 
         lang: self.lang
 
     });
@@ -285,7 +285,7 @@ special_tools_xyz.prototype.load_modal = function() {
     self.tool.google_translate({
 
         element_html: maxzoom_input_span,
-        str: "MaxZoom (obligatorio) Por defecto 18", 
+        str: "MaxZoom (requerido) Por defecto 18", 
         lang: self.lang
 
     });
