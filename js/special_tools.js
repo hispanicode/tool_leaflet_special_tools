@@ -988,10 +988,6 @@ special_tools.prototype.show_modal_vector_download = function(btn_show_modal_vec
 
         const vector_export_button_img = L.DomUtil.create('img');
         vector_export_button_img.src = self.tool.tool_url() + '/img/direct-download.png';
-                
-        const _compute = compute('#ffffff');
-
-        vector_export_button_img.style.filter = _compute.result.filterRaw;
 
         vector_export_button.appendChild(vector_export_button_img);
 
@@ -1253,10 +1249,6 @@ special_tools.prototype.show_modal_raster_download = function(btn_show_modal_ras
 
         const raster_export_button_img = L.DomUtil.create('img');
         raster_export_button_img.src = self.tool.tool_url() + '/img/direct-download.png';
-        
-        const _compute = compute('#ffffff');
-
-        raster_export_button_img.style.filter = _compute.result.filterRaw;
 
         raster_export_button.appendChild(raster_export_button_img);
 
@@ -3922,8 +3914,6 @@ special_tools.prototype.modal_properties = function(layer, overlay) {
             update_property_image.src = self.tool.tool_url() + '/img/edit.png';
             update_property_image.style.width = '10px';
             update_property_image.style.height = '10px';
-            const _compute = compute('#ffffff'); 
-            update_property_image.style.filter = _compute.result.filterRaw;
 
             update_property.appendChild(update_property_image);
 

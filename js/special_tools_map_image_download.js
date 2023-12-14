@@ -235,10 +235,6 @@ special_tools_map_image_download.prototype.load_modal = function() {
     const btn_map_download_img = L.DomUtil.create('img');
     btn_map_download_img.setAttribute('id', 'btn_map_download_img');
     btn_map_download_img.setAttribute('src', self.tool.tool_url() + '/img/direct-download.png');
-    
-    const _compute = compute('#ffffff');
-
-    btn_map_download_img.style.filter = _compute.result.filterRaw;
 
     self.tool.google_translate({
 
