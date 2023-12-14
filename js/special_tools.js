@@ -1578,7 +1578,7 @@ special_tools.prototype.marker_style = function(btn_marker_style, layer) {
         self.tool.google_translate({
 
             element_html: readonly_color_span,
-            str: "Copiar: ", 
+            str: "Copiar:", 
             lang: self.lang
 
         });
@@ -1590,7 +1590,7 @@ special_tools.prototype.marker_style = function(btn_marker_style, layer) {
         const readonly_color = L.DomUtil.create('input');
         readonly_color.type = 'text';
         readonly_color.id = 'readonly_color';
-        readonly_color.readonly = true;
+        readonly_color.setAttribute('readonly', true);
         readonly_color.value = color;
         readonly_color.setAttribute('class', 'special-tools-input-100');
 
@@ -1848,7 +1848,7 @@ special_tools.prototype.linestring_style = function(btn_linestring_style, layer)
         self.tool.google_translate({
 
             element_html: readonly_stroke_span,
-            str: "Copiar: ", 
+            str: "Copiar:", 
             lang: self.lang
 
         });
@@ -1860,7 +1860,7 @@ special_tools.prototype.linestring_style = function(btn_linestring_style, layer)
         const readonly_stroke_color = L.DomUtil.create('input');
         readonly_stroke_color.type = 'text';
         readonly_stroke_color.id = 'readonly_stroke_color';
-        readonly_stroke_color.readonly = true;
+        readonly_stroke_color.setAttribute('readonly', true);
         readonly_stroke_color.value = _stroke_color;
         readonly_stroke_color.setAttribute('class', 'special-tools-input-100');
 
@@ -2482,7 +2482,7 @@ special_tools.prototype.polygon_circle_style = function(btn_obj_style, layer) {
         const readonly_stroke_color = L.DomUtil.create('input');
         readonly_stroke_color.type = 'text';
         readonly_stroke_color.id = 'readonly_stroke_color';
-        readonly_stroke_color.readonly = true;
+        readonly_stroke_color.setAttribute('readonly', true);
         readonly_stroke_color.value = _stroke_color;
         readonly_stroke_color.setAttribute('class', 'special-tools-input-100');
 
