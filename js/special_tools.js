@@ -6248,19 +6248,22 @@ special_tools.prototype.special_tools_panel_show_hide_events = function() {
 
     L.DomEvent.addListener(self.special_tools_panel_show_hide, 'click', function() {
 
-       if (this.getAttribute('show') === '1') {
+        if (this.getAttribute('show') === '1') {
 
-           this.setAttribute('show', '0');
+            this.setAttribute('show', '0');
 
-           self.special_tools_console.style.display = 'none';
+            self.special_tools_console.style.display = 'none';
 
-       } else if (this.getAttribute('show') === '0') {
+            self.map.dragging.enable();
+            self.map.doubleClickZoom.enable();
 
-           this.setAttribute('show', '1');
+        } else if (this.getAttribute('show') === '0') {
 
-           self.special_tools_console.style.display = 'block';
+            this.setAttribute('show', '1');
 
-       }
+            self.special_tools_console.style.display = 'block';
+
+        }
     });
 
 };
