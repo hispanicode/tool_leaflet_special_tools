@@ -1463,7 +1463,7 @@ special_tools.prototype.marker_style = function(btn_marker_style, layer) {
     
     const self = this;
 
-    L.DomEvent.on(btn_marker_style, 'click', function(){
+    L.DomEvent.on(btn_marker_style, 'click', function() {
 
         var color;
 
@@ -1590,9 +1590,11 @@ special_tools.prototype.marker_style = function(btn_marker_style, layer) {
 
         /**********************************************************/
 
+        const icon_url = layer._icon.src;
+
         const marker_preview = L.DomUtil.create('img');
         marker_preview.id = 'marker_preview';
-        marker_preview.src = self.tool.tool_url() + '/img/pin.svg';
+        marker_preview.src = icon_url;
         marker_preview.style.width = '36px';
         marker_preview.style.height = '36px';
 
@@ -1605,18 +1607,122 @@ special_tools.prototype.marker_style = function(btn_marker_style, layer) {
         modal_body.appendChild(clear_div);
 
         /**********************************************************/
+        
+        const shadow_div = L.DomUtil.create('div');
+        shadow_div.setAttribute('class', 'special-tools-container');
+        
+        modal_body.appendChild(shadow_div);
+        
+        /*********************************************************/
+        
+        const shadow_span = L.DomUtil.create('span');
+        
+        self.tool.google_translate({
+            
+            element_html: shadow_span,
+            str: 'Aplicar sombreado:',
+            lang: self.lang
+            
+        });
+        
+        shadow_div.appendChild(shadow_span);
+        
+        /*********************************************************/
+        
+        self.set_shadow = 'drop-shadow(2px -3px 2px #fff)';
+        
+        if (layer.feature.special_tools.hasOwnProperty('icon')) {
+            
+            if (layer.feature.special_tools.icon.hasOwnProperty('shadow')) {
+
+                if (!layer.feature.special_tools.icon.shadow) {
+
+                    self.set_shadow = '';
+
+                }
+
+            }
+        
+        }
+        
+        const shadow_input = L.DomUtil.create('input');
+        shadow_input.type = 'checkbox';
+        
+        if (self.set_shadow !== '') {
+            
+            shadow_input.checked = true;
+            
+        }
+        
+        shadow_div.appendChild(shadow_input);
+        
+        L.DomEvent.on(shadow_input, 'click', function() {
+            
+            const color = readonly_color.value;
+            
+            const _compute = compute(color);
+            
+            if (this.checked) {
+                
+                self.set_shadow = 'drop-shadow(2px -3px 2px #fff)';
+                
+                marker_preview.style.filter = _compute.result.filterRaw + ' ' + self.set_shadow;
+                layer.feature.special_tools.marker_filter = _compute.result.filterRaw  + ' ' + self.set_shadow;
+                layer._icon.style.filter = _compute.result.filterRaw  + ' ' + self.set_shadow;
+                
+                if (!layer.feature.special_tools.hasOwnProperty('icon')) {
+                    
+                    layer.feature.special_tools.icon = {};
+                    
+                }
+                
+                layer.feature.special_tools.icon.shadow = true;
+                
+            } else {
+                
+                self.set_shadow = '';
+                
+                marker_preview.style.filter = _compute.result.filterRaw;
+                layer.feature.special_tools.marker_filter = _compute.result.filterRaw;
+                layer._icon.style.filter = _compute.result.filterRaw;
+                
+                if (!layer.feature.special_tools.hasOwnProperty('icon')) {
+                    
+                    layer.feature.special_tools.icon = {};
+                    
+                }
+                
+                layer.feature.special_tools.icon.shadow = false;
+                
+            }
+            
+            self.save_object();
+            
+        });
+        
+        /**********************************************************/
+        
+        self.change_icon(layer, modal_body, marker_preview);
+        
+        /**********************************************************/
 
         if (layer.feature.special_tools.hasOwnProperty('marker_filter')) {
 
             marker_preview.style.filter = layer.feature.special_tools.marker_filter;
 
-        } else {
+        } else if (layer.feature.properties.hasOwnProperty('color')) {
+            
+            const _compute = compute(layer.feature.properties.color);
+
+            marker_preview.style.filter = _compute.result.filterRaw + ' ' + self.set_shadow;
+            
+        }  else {
 
             const default_color = '#3d5880';
 
             const _compute = compute(default_color);
 
-            marker_preview.style.filter = _compute.result.filterRaw + ' ' + 'drop-shadow(2px -3px 2px #fff)';
+            marker_preview.style.filter = _compute.result.filterRaw + ' ' + self.set_shadow;
 
 
         }
@@ -1627,16 +1733,16 @@ special_tools.prototype.marker_style = function(btn_marker_style, layer) {
 
                 const _compute = compute(color.hexString);
 
-                layer._icon.style.filter = _compute.result.filterRaw  + ' ' + 'drop-shadow(2px -3px 2px #fff)';
+                layer._icon.style.filter = _compute.result.filterRaw  + ' ' + self.set_shadow;
 
-                layer.feature.special_tools.marker_filter = _compute.result.filterRaw  + ' ' + 'drop-shadow(2px -3px 2px #fff)';
+                layer.feature.special_tools.marker_filter = _compute.result.filterRaw  + ' ' + self.set_shadow;
                 layer.feature.special_tools.marker_color = color.hexString;
 
                 readonly_color.value = color.hexString;
 
                 marker_color.style.backgroundColor = color.hexString;
 
-                marker_preview.style.filter = _compute.result.filterRaw + ' ' + 'drop-shadow(2px -3px 2px #fff)';
+                marker_preview.style.filter = _compute.result.filterRaw + ' ' + self.set_shadow;
 
                 self.save_object();
 
@@ -1676,11 +1782,11 @@ special_tools.prototype.marker_style = function(btn_marker_style, layer) {
 
                 const _compute = compute(color);
 
-                layer._icon.style.filter = _compute.result.filterRaw + ' ' + 'drop-shadow(2px -3px 2px #fff)';
-                layer.feature.special_tools.marker_filter = _compute.result.filterRaw + ' ' + 'drop-shadow(2px -3px 2px #fff)';
+                layer._icon.style.filter = _compute.result.filterRaw + ' ' + self.set_shadow;
+                layer.feature.special_tools.marker_filter = _compute.result.filterRaw + ' ' + self.set_shadow;
                 layer.feature.special_tools.marker_color = color;
 
-                marker_preview.style.filter = _compute.result.filterRaw + ' ' + 'drop-shadow(2px -3px 2px #fff)';
+                marker_preview.style.filter = _compute.result.filterRaw + ' ' + self.set_shadow;
 
                 self.save_object();
 
@@ -5567,19 +5673,25 @@ special_tools.prototype.create_div_distance = function(layer) {
 special_tools.prototype.load_marker_style = function(layer) {
     
     const self = this;
-
-    const icon = L.icon({
-
-        iconUrl: self.tool.tool_url() + '/img/pin.svg',
-        iconSize: [36, 36],
-        iconAnchor: [18, 34],
-        shadowUrl: self.tool.tool_url() + '/img/marker-shadow.png',
-        shadowSize: [41, 41],
-        shadowAnchor: [11, 41]
-
-    });
-
-    layer.setIcon(icon);
+    let options = {};
+    
+    if (layer.feature.special_tools.hasOwnProperty('icon')) {
+        
+        options.shadow = layer.feature.special_tools.icon.shadow;
+        options.url = layer.feature.special_tools.icon.url;
+       
+        self.set_icon(layer, options);
+    
+    } else {
+        
+        layer.feature.special_tools.icon = {};
+        layer.feature.special_tools.icon.shadow = true;
+        layer.feature.special_tools.icon.url = self.tool.tool_url() + '/img/pin.svg';
+        options.shadow = true;
+        options.url = self.tool.tool_url() + '/img/pin.svg';
+        self.set_icon(layer, options);
+        
+    }
 
     var default_color;
 
@@ -5596,12 +5708,19 @@ special_tools.prototype.load_marker_style = function(layer) {
     if (!layer.feature.special_tools.hasOwnProperty('marker_filter')) {
 
         let _compute = compute(default_color);
+        
+        if (options.shadow) {
+        
+            layer._icon.style.filter = _compute.result.filterRaw + ' ' + 'drop-shadow(2px -3px 2px #fff)';
 
-        layer._icon.style.filter = _compute.result.filterRaw + ' ' + 'drop-shadow(2px -3px 2px #fff)';
-
-
+        } else {
+            
+            layer._icon.style.filter = _compute.result.filterRaw;
+            
+        }
+        
     } else {
-
+        
         layer._icon.style.filter = layer.feature.special_tools.marker_filter;
 
     }
@@ -6132,7 +6251,7 @@ special_tools.prototype.new_modal = function(title) {
 
         },
         
-        onHide: function(){
+        onHide: function() {
             
             try {
                 
@@ -6798,4 +6917,280 @@ special_tools.prototype.max_length_str = function(str, max_length) {
     return str;
     
 };
+
+special_tools.prototype.set_icon = function(marker, options) {
+    
+    self = this;
+    
+    const shadow = options.shadow;
+    const url = options.url;
+    
+    let shadowSize;
+    let shadowAnchor;
+    
+    if (shadow) {
+        
+        shadowSize = [41, 41];
+        shadowAnchor = [11, 41];
+        
+    } else {
+      
+        shadowSize = [0, 0];
+        shadowAnchor = [0, 0];
+        
+    }
+    
+    const icon = L.icon({
+
+        iconUrl: url,
+        iconSize: [36, 36],
+        iconAnchor: [18, 34],
+        shadowUrl: self.tool.tool_url() + '/img/marker-shadow.png',
+        shadowSize: shadowSize,
+        shadowAnchor: shadowAnchor
+
+    });
+
+    marker.setIcon(icon); 
+    
+};
+
+special_tools.prototype.change_icon = function(layer, modal_body, marker_preview) {
+    
+    const self = this;
+    
+    const div = L.DomUtil.create('div');
+    div.setAttribute('class', 'special-tools-container');
+    
+    modal_body.appendChild(div);
+    
+    const button = L.DomUtil.create('button');
+    button.setAttribute('class', 'special-tools-btn-default');
+    
+    self.tool.google_translate({
+        
+        element_html: button,
+        str: 'Cambiar icono',
+        lang: self.lang
+        
+    });
+    
+    div.appendChild(button);
+    
+    const span = L.DomUtil.create('p');
+    
+    self.tool.google_translate({
+        
+        element_html: span,
+        str: "Tamaño recomendado 36x36",
+        lang: self.lang
+        
+    });
+    
+    div.appendChild(span);
+    
+    L.DomEvent.on(button, 'click', function() {
+
+        /**********************************************************************/
+
+        const modal_image = L.DomUtil.create('div');
+        modal_image.id = 'modal_image';
+        modal_image.setAttribute('class', 'special-tools-modal-upload');
+
+        self.map._container.append(modal_image);
+        
+        /**********************************************************************/
+        
+        const modal_image_container = L.DomUtil.create('div');
+        modal_image_container.setAttribute('class', 'special-tools-modal-container');
+        modal_image.appendChild(modal_image_container);
+        
+        /**********************************************************************/
+
+        L.DomEvent.on(modal_image, 'mouseover', function() {
+
+            self.map.dragging.disable();
+            self.map.doubleClickZoom.disable();
+            document.querySelector('.map_inputs').style.zIndex = 0;
+
+        });
+        
+        /**********************************************************************/
+
+        L.DomEvent.on(modal_image, 'mouseout', function() {
+
+            self.map.dragging.enable();
+            self.map.doubleClickZoom.enable();
+
+        });
+
+        /**********************************************************************/
+
+        const title_image = L.DomUtil.create('div');
+        title_image.setAttribute('class', 'special-tools-h2');
+
+        self.tool.google_translate({
+
+            element_html: title_image,
+            str: "Cambiar icono", 
+            lang: self.lang
+
+        });
+
+        modal_image_container.appendChild(title_image);
+
+        /**********************************************************************/
+
+        const container_image = L.DomUtil.create('div');
+        modal_image_container.appendChild(container_image);
+
+        /**********************************************************************/
+
+        var br = L.DomUtil.create('br');
+        modal_image_container.appendChild(br);
+
+        /**********************************************************************/
+
+        const btn_cancel_image = L.DomUtil.create('button');
+        btn_cancel_image.setAttribute('class', 'special-tools-btn-default');
+
+        self.tool.google_translate({
+
+           element_html: btn_cancel_image,
+           str: "Cancelar", 
+           lang: self.lang
+
+        });
+
+        modal_image_container.appendChild(btn_cancel_image);
+
+        /**********************************************************************/
+
+        L.DomEvent.on(btn_cancel_image, 'click', function() {
+            
+            self.map.dragging.enable();
+            self.map.doubleClickZoom.enable();
+
+            window.setTimeout(function() {
+                
+                modal_image.remove();
+                
+                document.querySelector('.map_inputs').style.zIndex = 1;
+                
+            }, 100);
+
+        });
+
+        /**********************************************************************/
+
+        self.tool.image_service_upload(container_image, ['jpg', 'jpeg', 'png', 'webp'])
+        .then(function() {
+            self.tool.image_subscribe(
+                function(response) {
+
+                    const options = {
+
+                        file_data: response.file_data,
+                        tipo: self.tool.get_component_image().tipo,
+                        section_tipo: self.tool.get_component_image().section_tipo,
+                        section_id: self.tool.get_component_image().section_id,
+                        default_quality: self.tool.get_component_image().context.features.default_target_quality
+
+                    };
+
+                    self.tool.get_image_data(options).then(function(data) {
+
+                        if (!data.success) {
+
+                            self.modal_message('Ha ocurrido un error al subir el archivo');
+                            return;
+
+                        }
+
+                        if (!layer.feature.special_tools.hasOwnProperty('icon')) {
+
+                            layer.feature.special_tools.icon = {};
+
+                        }
+
+                        layer.feature.special_tools.icon.url = data.image_src;
+
+                        if (layer.feature.special_tools.icon.hasOwnProperty('shadow')) {
+
+                            if (!layer.feature.special_tools.icon.shadow) {
+
+                                layer.feature.special_tools.icon.shadow = false;
+
+                            } else {
+
+                                layer.feature.special_tools.icon.shadow = true;
+
+                            }
+
+                        } else {
+
+                            layer.feature.special_tools.icon.shadow = false;
+
+                        }
+
+                        const options = {};
+                        options.shadow = layer.feature.special_tools.icon.shadow;
+                        options.url = data.image_src;
+
+                        self.set_icon(layer, options);
+
+                        marker_preview.src = data.image_src;
+
+                        let set_shadow = 'drop-shadow(2px -3px 2px #fff)';
+
+                        if (!options.shadow) {
+
+                            set_shadow = '';
+
+                        }
+
+                        if (layer.feature.special_tools.hasOwnProperty('marker_filter')) {
+
+                            marker_preview.style.filter = layer.feature.special_tools.marker_filter;
+
+                        } else if (layer.feature.properties.hasOwnProperty('color')) {
+
+                            const _compute = compute(layer.feature.properties.color);
+
+                            marker_preview.style.filter = _compute.result.filterRaw + ' ' + set_shadow;
+
+                        }  else {
+
+                            const default_color = '#3d5880';
+
+                            const _compute = compute(default_color);
+
+                            marker_preview.style.filter = _compute.result.filterRaw + ' ' + set_shadow;
+
+
+                        }
+
+                       self.modal_message("Icono subido correctamente.");
+
+                        window.setTimeout(function() {
+
+                            self.map.dragging.enable();
+                            self.map.doubleClickZoom.enable();
+
+                            self.map._container.querySelector('#modal_image').remove();
+
+                            document.querySelector('.map_inputs').style.zIndex = 1;
+
+                        }, 100);
+
+                    });
+
+                }
+            );
+        });
+
+    });
+    
+};
+
 

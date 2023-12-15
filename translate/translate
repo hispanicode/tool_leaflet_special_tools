@@ -754,3 +754,11 @@ es      en      Por favor, introduzca una url correcta.      Please enter a corr
 es      en      Activar edición      Activate editing      
 es      en      El campo nombre de la propiedad no puede estar vacío      The property name field cannot be empty      
 es      en      Eliminando objetos, por favor espere a que finalice el proceso.      Deleting objects, please wait for the process to finish.      
+es      en      Cambiar icono      Change icon      
+es      en      Tamaño recomendado 36x36      Recommended size 36x36      
+es      en      Aplicar sombreado:      Apply shading:      
+es      en      Subir icono      Upload icon      
+es      en      Extensiones permitidas: .jpg, .jpeg, .png, .gif, .svg y .webp      Allowed extensions: .jpg, .jpeg, .png, .gif, .svg and .webp      
+es      en      El archivo que intentas subir no es una imagen permitida      The file you are trying to upload is not an allowed image      
+es      en      Icono subido correctamente.      Icon uploaded successfully.      
+es      en      Ha ocurrido un error al subir el archivo      An error occurred while uploading the file      
