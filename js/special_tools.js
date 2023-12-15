@@ -7083,6 +7083,7 @@ special_tools.prototype.change_icon = function(layer, modal_body, marker_preview
 
         /**********************************************************************/
 
+
         self.tool.image_service_upload(container_image, ['jpg', 'jpeg', 'png', 'webp'])
         .then(function() {
             self.tool.image_subscribe(
