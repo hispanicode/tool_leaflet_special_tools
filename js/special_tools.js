@@ -152,8 +152,6 @@ special_tools.prototype.set_info_console = function(layer) {
         if (self.is_point(layer) && !self.is_circle(layer)) {
 
             if (layer instanceof L.Marker) {
-                
-                console.log(layer);
 
                 self.load_marker_style(layer);
 
@@ -164,6 +162,22 @@ special_tools.prototype.set_info_console = function(layer) {
             layer.on('click pm:edit', function(){
                 
                 if (self.global_remove()) return;
+                
+                if (this.feature.special_tools.hasOwnProperty('oneXone_type')) {
+                    
+                    const objects = self.get_layers_by_multi_id(this.feature.special_tools.multi_id);
+                    
+                    for (let x in objects) {
+                        
+                        if (objects[x].feature.special_tools.oneXone_type === 'Rectangle') {
+                            
+                            Object.assign(objects[x].feature.properties, this.feature.properties);
+                            
+                        }
+                        
+                    }
+                    
+                }
 
                 self.init_console();
                 
@@ -269,7 +283,7 @@ special_tools.prototype.set_info_console = function(layer) {
         }
 
         else if (self.is_polygon(layer)) {
-            
+
             self.check_if_external_images(layer);
 
             self.check_geoman_edition_mode(layer);
@@ -4293,7 +4307,6 @@ special_tools.prototype.info_console_load_properties = function(layer, overlay) 
 
     }
     
-    window.setTimeout(function() {
     /**************************************************************************/
 
     const properties_title = L.DomUtil.create('div');
@@ -4532,9 +4545,6 @@ special_tools.prototype.info_console_load_properties = function(layer, overlay) 
         }
 
     });
-    
-    }, 1000);
-
 
 };
 
@@ -6738,6 +6748,12 @@ special_tools.prototype.pm_create_event = function() {
             }
 
         }
+        
+        e.layer.on('pm:edit', function(_e) {
+
+            e.layer.feature = _e.layer.toGeoJSON();
+
+        });
 
     });
     

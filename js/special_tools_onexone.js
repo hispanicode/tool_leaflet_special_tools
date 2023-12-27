@@ -112,19 +112,14 @@ special_tools_onexone.prototype.oneXone_event = function() {
                         const rectangle = L.rectangle(bounds);
 
                         rectangle.feature = rectangle.toGeoJSON();
-                        rectangle.feature.special_tools = this.feature.special_tools;
+                        rectangle.feature.special_tools = {};
+                        rectangle.feature.special_tools.is_oneXone = true;
                         rectangle.feature.special_tools.oneXone_type = 'Rectangle';
                         rectangle.feature.special_tools.tools_id = self.make_id(20);
                         rectangle.feature.special_tools.multi_id = multi_id;
                         rectangle.feature.special_tools.is_incertidumbre = true;
                         rectangle.feature.special_tools.on_incertidumbre = true;
-                        
-                        if (this.feature.hasOwnProperty('properties')) {
-                            
-                            rectangle.feature.properties = this.feature.properties;
-                            
-                        }
-
+                         
                         self.map.fire('pm:create', {layer: rectangle});
 
                         rectangle.fireEvent('click');
