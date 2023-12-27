@@ -1870,10 +1870,10 @@ class tool_leaflet_special_tools extends tool_common  {
         $response->tipo =  $options->tipo;
         $response->section_tipo = $options->section_tipo;
         $response->section_id = $options->section_id;
-        $response->model = 'component_image';
+        $model = 'component_image';
         $response->default_quality = $options->default_quality;
 
-        $model = RecordObj_dd::get_modelo_name_by_tipo($response->tipo, true);
+        $response->model = RecordObj_dd::get_modelo_name_by_tipo($response->tipo, true);
         
         $component_image = component_common::get_instance(
                 
@@ -2228,6 +2228,46 @@ class tool_leaflet_special_tools extends tool_common  {
         return $response;
         
     }
+    
+    public static function external_image_to_tmp_dir(object $options) : object {
+        
+        $response = new stdClass();
+        
+        $response->blob = $options->blob;
+        
+        $im = file_get_contents($response->blob);
+
+        $response->tmp_dir = 'DEDALO_UPLOAD_TMP_DIR';
+
+        $response->key_dir = 'image_rsc29_rsc170';
+
+        $file_info = new finfo(FILEINFO_MIME_TYPE);
+
+        $response->type = $file_info->buffer($im);
+
+        $response->extension = explode('/', $response->type);
+
+        $response->name = bin2hex(openssl_random_pseudo_bytes(10)) . '.' . $response->extension[1];
+        $response->tmp_name = $response->name;
+        
+        $blob_file = DEDALO_UPLOAD_TMP_DIR . '/' .  get_user_id() . '/' . $response->key_dir . '/' .  $response->name;
+
+        $handle = fopen($blob_file, "w+");
+        fwrite($handle, $im);
+        fclose($handle);
+        
+        $response->size = filesize($blob_file);
+        $response->error = 0;
+        $response->chunked = false;
+        $response->extension = $response->extension[1];
+        $response->thumbnail_url = DEDALO_UPLOAD_TMP_URL . '/' . get_user_id() . '/' . $response->key_dir . '/' .  $response->name;
+        $response->success = true;
+        
+        return $response;
+
+    }
 
 }
+
+
 

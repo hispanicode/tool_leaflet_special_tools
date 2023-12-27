@@ -172,7 +172,7 @@ component_geolocation.prototype.init = async function(options) {
 
 				const color_picker_lib_js_file = DEDALO_ROOT_WEB + '/lib/iro/dist/iro.min.js'
 				common.prototype.load_script(color_picker_lib_js_file, license)
-			
+                                
                                 /* SPECIAL TOOLS */
 
                                 const lib_special_tools = tool_leaflet_special_tools.prototype.get_lib();
@@ -184,8 +184,8 @@ component_geolocation.prototype.init = async function(options) {
                                 }
 
                                 /* SPECIAL TOOLS */
-                        
-                        })
+                                
+			})
 
 		// another loads in parallel
 			const lib_css_file = DEDALO_ROOT_WEB + '/lib/leaflet/dist/leaflet.css'
@@ -464,7 +464,7 @@ component_geolocation.prototype.get_map = async function(map_container, key) {
 		})
 
 	// map ready event
-		self.map.whenReady(function(){
+		self.map.whenReady(function() {
 			// init map editor
 				self.init_draw_editor()
 
@@ -491,7 +491,7 @@ component_geolocation.prototype.get_map = async function(map_container, key) {
 				}
                                 
                                 
-                                /* SPECIALTOOLS */
+                                /* SPECIAL TOOLS */
 
                                 render_tool_leaflet_special_tools.prototype.load_special_tools(L);
                                 render_tool_leaflet_special_tools.prototype.load_special_tools_catastro(L);
@@ -611,10 +611,10 @@ component_geolocation.prototype.get_map = async function(map_container, key) {
                                     controls: special_tools_controls
                                             
                                 };
-
-                                tool_leaflet_special_tools.prototype.control(self, special_tools_options);
-                                
-                                /* SPECIALTOOLS */
+                                window.setTimeout(function() {
+                                    tool_leaflet_special_tools.prototype.control(self, special_tools_options);
+                                }, 3000);
+                                /* SPECIAL TOOLS */
                                 
 		});
 
@@ -1528,9 +1528,9 @@ component_geolocation.prototype.create_point = function(point) {
 	// add new point to the active layer
 	//self.FeatureGroup[self.active_layer_id].addLayer(new_point)
         
-        /* SPECIALTOOLS */
+        /* SPECIAL TOOLS */
         self.map.fire('pm:create', {layer: new_point});
-        /* SPECIALTOOLS */
+        /* SPECIAL TOOLS */
 
 	// update the layer data with the new point
 	self.update_draw_data(self.active_layer_id)

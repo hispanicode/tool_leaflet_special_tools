@@ -100,6 +100,8 @@ special_tools.prototype.load = function(L) {
             special_tools.prototype.pm_remove_event();
 
             special_tools.prototype.pm_create_event();
+            
+            special_tools.prototype.drawend_event();
 
             special_tools.prototype.centroid_event();
 
@@ -123,10 +125,10 @@ special_tools.prototype.set_info_console = function(layer) {
 
     if (!(layer instanceof L.TileLayer)) {
 
-        if (!self.is_special_tools(layer)) {
+        if (!self.is_special_tools(layer) && !layer.hasOwnProperty('_layers')) {
 
             if (layer.hasOwnProperty('feature')) {
-
+                
                 layer.feature.special_tools = {};
                 layer.feature.special_tools.tools_id = self.make_id(20);
                 layer.feature.special_tools.geoman_edition = false;
@@ -144,10 +146,14 @@ special_tools.prototype.set_info_console = function(layer) {
 
             }
         }
+        
+        
 
         if (self.is_point(layer) && !self.is_circle(layer)) {
 
             if (layer instanceof L.Marker) {
+                
+                console.log(layer);
 
                 self.load_marker_style(layer);
 
@@ -160,6 +166,8 @@ special_tools.prototype.set_info_console = function(layer) {
                 if (self.global_remove()) return;
 
                 self.init_console();
+                
+                self.check_if_external_images(this);
 
                 self.check_geoman_edition_mode(this);
 
@@ -193,6 +201,8 @@ special_tools.prototype.set_info_console = function(layer) {
                 if (self.global_remove()) return;
 
                 self.init_console();
+                
+                self.check_if_external_images(this);
 
                 self.check_geoman_edition_mode(this);
 
@@ -234,6 +244,8 @@ special_tools.prototype.set_info_console = function(layer) {
                 if (self.global_remove()) return;
 
                 self.init_console();
+                
+                self.check_if_external_images(this);
 
                 self.check_geoman_edition_mode(this);
 
@@ -257,6 +269,8 @@ special_tools.prototype.set_info_console = function(layer) {
         }
 
         else if (self.is_polygon(layer)) {
+            
+            self.check_if_external_images(layer);
 
             self.check_geoman_edition_mode(layer);
 
@@ -1085,16 +1099,24 @@ special_tools.prototype.show_modal_vector_download = function(btn_show_modal_vec
                 if (data.success) {
 
                     window.open(data.zip, '_blank');
+                    
+                    if (!self.is_clipPolygon(layer)) {
 
-                    self.set_info_console(layer);
+                        self.set_info_console(layer);
+                    
+                    }
 
                     self.modal_message("Archivo descargado correctamente");
 
                 } else {
 
                     self.map.fireEvent('pm:create');
+                    
+                    if (!self.is_clipPolygon(layer)) {
 
-                    self.set_info_console(layer);
+                        self.set_info_console(layer);
+                    
+                    }
 
                     self.modal_message(data.msg);
 
@@ -1173,21 +1195,137 @@ special_tools.prototype.show_modal_raster_download = function(btn_show_modal_ras
         raster_export.appendChild(option_jpg);
 
         /**********************************************************/
+        
+        let br = L.DomUtil.create('br');
+        raster_export_div.appendChild(br);
+        
+        /**********************************************************/
+        
+        const quality_span = L.DomUtil.create('span');
 
-        const option_gif = L.DomUtil.create('option');
-        option_gif.value = 'gif';
-        option_gif.innerText = 'gif';
+        self.tool.google_translate({
 
-        raster_export.appendChild(option_gif);
+            element_html: quality_span,
+            str: "Calidad: ", 
+            lang: self.lang
+
+        });
+
+        raster_export_div.appendChild(quality_span);
 
         /**********************************************************/
-
-        const option_webp = L.DomUtil.create('option');
-        option_webp.value = 'webp';
-        option_webp.innerText = 'webp';
-
-        raster_export.appendChild(option_webp);
-
+        
+        const quality_select = L.DomUtil.create('select');
+        quality_select.setAttribute('class', 'special-tools-select');
+        
+        raster_export_div.appendChild(quality_select);
+        
+        /**********************************************************/
+        
+        const option_very_low = L.DomUtil.create('option');
+        option_very_low.value = 0.4;
+        
+        self.tool.google_translate({
+            
+            element_html: option_very_low,
+            str: 'Calidad muy baja',
+            lang: self.lang
+            
+        });
+        
+        quality_select.appendChild(option_very_low);
+        
+        /**********************************************************/
+        
+        const option_low = L.DomUtil.create('option');
+        option_low.value = 0.6;
+        
+        self.tool.google_translate({
+            
+            element_html: option_low,
+            str: 'Calidad baja',
+            lang: self.lang
+            
+        });
+        
+        quality_select.appendChild(option_low);
+        
+        /**********************************************************/
+        
+        const option_medium = L.DomUtil.create('option');
+        option_medium.value = 0.8;
+        option_medium.selected = true;
+        
+        self.tool.google_translate({
+            
+            element_html: option_medium,
+            str: 'Calidad media',
+            lang: self.lang
+            
+        });
+        
+        quality_select.appendChild(option_medium);
+        
+        /**********************************************************/
+        
+        const option_medium_hight = L.DomUtil.create('option');
+        option_medium_hight.value = 0.9;
+        
+        self.tool.google_translate({
+            
+            element_html: option_medium_hight,
+            str: 'Calidad media-alta',
+            lang: self.lang
+            
+        });
+        
+        quality_select.appendChild(option_medium_hight);
+        
+        /**********************************************************/
+        
+        const option_hight = L.DomUtil.create('option');
+        option_hight.value = 1;
+        
+        self.tool.google_translate({
+            
+            element_html: option_hight,
+            str: 'Calidad alta',
+            lang: self.lang
+            
+        });
+        
+        quality_select.appendChild(option_hight);
+        
+        /**********************************************************/
+        
+        const option_very_hight = L.DomUtil.create('option');
+        option_very_hight.value = 1.5;
+        
+        self.tool.google_translate({
+            
+            element_html: option_very_hight,
+            str: 'Calidad muy alta',
+            lang: self.lang
+            
+        });
+        
+        quality_select.appendChild(option_very_hight);
+        
+        /**********************************************************/
+        
+        const option_excellent = L.DomUtil.create('option');
+        option_excellent.value = 2;
+        
+        self.tool.google_translate({
+            
+            element_html: option_excellent,
+            str: 'Excelente',
+            lang: self.lang
+            
+        });
+        
+        quality_select.appendChild(option_excellent);
+        
         /**********************************************************/
 
         const raster_export_name_div = L.DomUtil.create('div');
@@ -1272,32 +1410,19 @@ special_tools.prototype.show_modal_raster_download = function(btn_show_modal_ras
 
             self.modal_message("Descargando ...", 20000);
 
+            self.map.fitBounds(layer.getBounds());
+
             const image_type = raster_export.options[raster_export.selectedIndex].value;
+            
+            const scale = parseFloat(quality_select.options[quality_select.selectedIndex].value);
+
+            window.setTimeout(function() {
 
             if (image_type === 'geotiff') {
 
                 const volatil_image = document.createElement('img');
                 volatil_image.src = overlay._rawImage.src;
                 volatil_image.setAttribute('style', overlay._rawImage.getAttribute('style'));
-
-                const current_width = overlay._rawImage.getBoundingClientRect().width;
-                const current_height = overlay._rawImage.getBoundingClientRect().height;
-                const current_quality = current_width * current_height;
-                const quality_image_full_hd = 1920 * 1080;
-                var scale = 1;
-                const max_scale = 100;
-
-                for (let sca = 1; sca < max_scale; sca++) {
-
-                    if (((current_width * sca) * (current_height * sca)) >= quality_image_full_hd) {
-
-                        scale = sca;
-
-                        break;
-
-                    }
-
-                }
 
                 volatil_image.style.width = overlay._rawImage.getBoundingClientRect().width*scale + 'px';
                 volatil_image.style.height = overlay._rawImage.getBoundingClientRect().height*scale + 'px';
@@ -1374,32 +1499,12 @@ special_tools.prototype.show_modal_raster_download = function(btn_show_modal_ras
                 volatil_image.src = overlay._rawImage.src;
                 volatil_image.setAttribute('style', overlay._rawImage.getAttribute('style'));
 
-                const current_width = overlay._rawImage.getBoundingClientRect().width;
-                const current_height = overlay._rawImage.getBoundingClientRect().height;
-                const current_quality = current_width * current_height;
-                const quality_image_full_hd = 1920 * 1080;
-                var scale = 1;
-                const max_scale = 100;
-
-                for (let sca = 1; sca < max_scale; sca++) {
-
-                    if (((current_width * sca) * (current_height * sca)) >= quality_image_full_hd) {
-
-                        scale = sca;
-
-                        break;
-
-                    }
-
-                }
-
                 volatil_image.style.width = overlay._rawImage.getBoundingClientRect().width*scale + 'px';
                 volatil_image.style.height = overlay._rawImage.getBoundingClientRect().height*scale + 'px';
 
                 volatil_image.width = overlay._rawImage.getBoundingClientRect().width*scale;
                 volatil_image.height = overlay._rawImage.getBoundingClientRect().height*scale;
 
-                //Imagen canvas para exportar a geotiff
                 const canvas = L.DomUtil.create('canvas');
                 const ctx = canvas.getContext("2d");
                 ctx.globalAlpha = layer.feature.special_tools.imageOpacity;
@@ -1452,6 +1557,8 @@ special_tools.prototype.show_modal_raster_download = function(btn_show_modal_ras
                 });
 
             }
+            
+        }, 500);
 
         });
 
@@ -1590,10 +1697,27 @@ special_tools.prototype.marker_style = function(btn_marker_style, layer) {
 
         /**********************************************************/
 
-        const icon_url = layer._icon.src;
+        let icon_url;
+        
+        if (typeof layer._icon !== 'undefined' && layer._icon !== null) {
+            
+            icon_url = layer._icon.src;
+            
+        } else if (typeof layer.feature.special_tools.icon.url !== 'undefined') {
+            
+            icon_url = layer.feature.special_tools.icon.url;
+            
+        } else {
+
+            modal.remove();
+            self.modal_message("Ha ocurrido un error, haga clic nuevamente en el objeto");
+            return;
+            
+        }
 
         const marker_preview = L.DomUtil.create('img');
-        marker_preview.id = 'marker_preview';
+        marker_preview.id 
+                = 'marker_preview';
         marker_preview.src = icon_url;
         marker_preview.style.width = '36px';
         marker_preview.style.height = '36px';
@@ -1664,11 +1788,21 @@ special_tools.prototype.marker_style = function(btn_marker_style, layer) {
             
             if (this.checked) {
                 
+                layer._shadow.style.width = '41px';
+                layer._shadow.style.height = '41px';
+                
                 self.set_shadow = 'drop-shadow(2px -3px 2px #fff)';
                 
-                marker_preview.style.filter = _compute.result.filterRaw + ' ' + self.set_shadow;
+                if (!self.is_original_marker(layer)) {
+
+                    marker_preview.style.filter = _compute.result.filterRaw + ' ' + self.set_shadow;
+                    layer._icon.style.filter = _compute.result.filterRaw  + ' ' + self.set_shadow;
+                    
+                }
+                
+                
                 layer.feature.special_tools.marker_filter = _compute.result.filterRaw  + ' ' + self.set_shadow;
-                layer._icon.style.filter = _compute.result.filterRaw  + ' ' + self.set_shadow;
+                
                 
                 if (!layer.feature.special_tools.hasOwnProperty('icon')) {
                     
@@ -1680,12 +1814,20 @@ special_tools.prototype.marker_style = function(btn_marker_style, layer) {
                 
             } else {
                 
+                layer._shadow.style.width = '0px';
+                layer._shadow.style.height = '0px';
+                
                 self.set_shadow = '';
-                
-                marker_preview.style.filter = _compute.result.filterRaw;
+
+                if (!self.is_original_marker(layer)) {
+                    
+                    marker_preview.style.filter = _compute.result.filterRaw;
+                    layer._icon.style.filter = _compute.result.filterRaw;
+                    
+                }
+
                 layer.feature.special_tools.marker_filter = _compute.result.filterRaw;
-                layer._icon.style.filter = _compute.result.filterRaw;
-                
+
                 if (!layer.feature.special_tools.hasOwnProperty('icon')) {
                     
                     layer.feature.special_tools.icon = {};
@@ -1704,13 +1846,15 @@ special_tools.prototype.marker_style = function(btn_marker_style, layer) {
         
         self.change_icon(layer, modal_body, marker_preview);
         
+        self.original_icon(layer, modal_body, marker_preview);
+        
         /**********************************************************/
 
-        if (layer.feature.special_tools.hasOwnProperty('marker_filter')) {
+        if (layer.feature.special_tools.hasOwnProperty('marker_filter') && !self.is_original_marker(layer)) {
 
             marker_preview.style.filter = layer.feature.special_tools.marker_filter;
 
-        } else if (layer.feature.properties.hasOwnProperty('color')) {
+        } else if (layer.feature.properties.hasOwnProperty('color') && !self.is_original_marker(layer)) {
             
             const _compute = compute(layer.feature.properties.color);
 
@@ -1721,9 +1865,12 @@ special_tools.prototype.marker_style = function(btn_marker_style, layer) {
             const default_color = '#3d5880';
 
             const _compute = compute(default_color);
+            
+            if (!self.is_original_marker(layer)) {
+            
+                marker_preview.style.filter = _compute.result.filterRaw + ' ' + self.set_shadow;
 
-            marker_preview.style.filter = _compute.result.filterRaw + ' ' + self.set_shadow;
-
+            }
 
         }
 
@@ -1733,8 +1880,6 @@ special_tools.prototype.marker_style = function(btn_marker_style, layer) {
 
                 const _compute = compute(color.hexString);
 
-                layer._icon.style.filter = _compute.result.filterRaw  + ' ' + self.set_shadow;
-
                 layer.feature.special_tools.marker_filter = _compute.result.filterRaw  + ' ' + self.set_shadow;
                 layer.feature.special_tools.marker_color = color.hexString;
 
@@ -1742,8 +1887,13 @@ special_tools.prototype.marker_style = function(btn_marker_style, layer) {
 
                 marker_color.style.backgroundColor = color.hexString;
 
-                marker_preview.style.filter = _compute.result.filterRaw + ' ' + self.set_shadow;
-
+                if (!self.is_original_marker(layer)) {
+                    
+                    layer._icon.style.filter = _compute.result.filterRaw  + ' ' + self.set_shadow;
+                    marker_preview.style.filter = _compute.result.filterRaw + ' ' + self.set_shadow;
+                
+                }
+                
                 self.save_object();
 
             }
@@ -1782,12 +1932,16 @@ special_tools.prototype.marker_style = function(btn_marker_style, layer) {
 
                 const _compute = compute(color);
 
-                layer._icon.style.filter = _compute.result.filterRaw + ' ' + self.set_shadow;
-                layer.feature.special_tools.marker_filter = _compute.result.filterRaw + ' ' + self.set_shadow;
+                layer.feature.special_tools.marker_filter = _compute.result.filterRaw + ' ' +  self.set_shadow;
                 layer.feature.special_tools.marker_color = color;
 
-                marker_preview.style.filter = _compute.result.filterRaw + ' ' + self.set_shadow;
-
+                if (!self.is_original_marker(layer)) {
+                    
+                    marker_preview.style.filter = _compute.result.filterRaw + ' ' + self.set_shadow;
+                    layer._icon.style.filter = _compute.result.filterRaw + ' ' + self.set_shadow;
+                    
+                }
+                
                 self.save_object();
 
             } else {
@@ -3466,9 +3620,25 @@ special_tools.prototype.modal_properties_form_create = function(layer, overlay) 
 
                 const new_property = JSON.parse('{"'+data.name+'": "'+data.value+'"}');
 
-                Object.assign(layer.feature.properties, new_property);
+                if (layer.feature.special_tools.hasOwnProperty('is_oneXone')) {
+                    
+                    const layers = self.get_layers_by_multi_id(layer.feature.special_tools.multi_id);
+                    
+                    for (let x in layers) {
+                        
+                        Object.assign(layers[x].feature.properties, new_property);
+                        
+                    }
+                    
+                } else {
+
+                    Object.assign(layer.feature.properties, new_property);
+                
+                }
 
                 self.save_object();
+                
+                self.special_tools_info_console.querySelector('#properties_btn').click();
 
                 if (overlay !== false) {
 
@@ -3490,8 +3660,6 @@ special_tools.prototype.modal_properties_form_create = function(layer, overlay) 
                     document.querySelector('.map_inputs').style.zIndex = 1;
                 
                 }, 100);
-
-                self.special_tools_info_console.querySelector('#properties_btn').click();
 
                 self.modal_message("Propiedad creada con éxito");
 
@@ -3699,9 +3867,25 @@ special_tools.prototype.modal_properties_form_update = function(property, layer,
 
             if (data.success && layer.feature.properties.hasOwnProperty(data.name)) {
 
-                layer.feature.properties[data.name] = data.value;
+                if (layer.feature.special_tools.hasOwnProperty('is_oneXone')) {
+                    
+                    const layers = self.get_layers_by_multi_id(layer.feature.special_tools.multi_id);
+                    
+                    for (let x in layers) {
+                        
+                        layers[x].feature.properties[data.name] = data.value;
+                        
+                    }
+                    
+                } else {
+
+                    layer.feature.properties[data.name] = data.value;
+                
+                }
 
                 self.save_object();
+                
+                self.special_tools_info_console.querySelector('#properties_btn').click();
 
                 if (overlay !== false) {
 
@@ -3712,8 +3896,6 @@ special_tools.prototype.modal_properties_form_update = function(property, layer,
                     layer.fireEvent('click');
 
                 }
-
-                self.special_tools_info_console.querySelector('#properties_btn').click();
 
                 self.modal_message("Propiedad editada con éxito");
 
@@ -3879,7 +4061,21 @@ special_tools.prototype.modal_properties_form_delete = function(property, layer,
 
         if (layer.feature.properties.hasOwnProperty(name)) {
 
-            delete layer.feature.properties[name];
+            if (layer.feature.special_tools.hasOwnProperty('is_oneXone')) {
+
+                const layers = self.get_layers_by_multi_id(layer.feature.special_tools.multi_id);
+
+                for (let x in layers) {
+
+                    delete layers[x].feature.properties[name];
+
+                }
+
+            } else {
+
+                delete layer.feature.properties[name];
+
+            }
 
             self.save_object();
 
@@ -3890,6 +4086,8 @@ special_tools.prototype.modal_properties_form_delete = function(property, layer,
             self.modal_message('Ha ocurrido un error, la propiedad no existe');
 
         }
+
+        self.special_tools_info_console.querySelector('#properties_btn').click();
 
         if (overlay !== false) {
 
@@ -3911,8 +4109,6 @@ special_tools.prototype.modal_properties_form_delete = function(property, layer,
             document.querySelector('.map_inputs').style.zIndex = 1;
 
         }, 100);
-
-        self.special_tools_info_console.querySelector('#properties_btn').click();
 
     });
 
@@ -4096,7 +4292,8 @@ special_tools.prototype.info_console_load_properties = function(layer, overlay) 
         overlay = false;
 
     }
-
+    
+    window.setTimeout(function() {
     /**************************************************************************/
 
     const properties_title = L.DomUtil.create('div');
@@ -4196,7 +4393,7 @@ special_tools.prototype.info_console_load_properties = function(layer, overlay) 
 
     const properties = layer.feature.properties;
     var images_urls = new Array();
-    var images_dedalo = new Array();
+    var images_captions = new Array();
 
     for (let prop in properties) {
 
@@ -4266,10 +4463,21 @@ special_tools.prototype.info_console_load_properties = function(layer, overlay) 
                     if (res.ok) {
 
                         images_urls.push(properties.images[x].url);
+                        
+                        let caption;
+                        
+                        if (typeof properties.images[x].section_tipo !== 'undefined') {
+                        
+                            caption = "<a href='?t=" + properties.images[x].section_tipo + "&section_id=" + properties.images[x].section_id  + "&component_tipo=" + properties.images[x].tipo + "' target='_blank'><img src='"+self.tool.tool_url()+"/img/link.png"+"'></a>";
 
-                        const dedalo_image_url = "<a href='?t=" + properties.images[x].section_tipo + "&section_id=" + properties.images[x].section_id  + "&component_tipo=" + properties.images[x].tipo + "' target='_blank'><img src='"+self.tool.tool_url()+"/img/link.png"+"'></a>";
-
-                        images_dedalo.push(dedalo_image_url);
+                        
+                        } else {
+                            
+                            caption = "<a href='"+ properties.images[x].url + "' target='_blank'><img src='"+self.tool.tool_url()+"/img/link.png"+"'></a>";
+                            
+                        }
+                        
+                        images_captions.push(caption);
 
                     } else {
                         
@@ -4303,11 +4511,17 @@ special_tools.prototype.info_console_load_properties = function(layer, overlay) 
     L.DomEvent.on(images_gallery_btn, 'click', function() {
 
         if (images_urls.length > 0) {
+            
+            if (self.lightbox instanceof SimpleLightbox) {
 
-            const lightbox = SimpleLightbox.open({
+                self.lightbox.destroy();
+
+            }
+
+            self.lightbox = SimpleLightbox.open({
 
                 items: images_urls,
-                captions: images_dedalo
+                captions: images_captions
 
             });
 
@@ -4318,6 +4532,8 @@ special_tools.prototype.info_console_load_properties = function(layer, overlay) 
         }
 
     });
+    
+    }, 1000);
 
 
 };
@@ -4346,7 +4562,7 @@ special_tools.prototype.modal_associate_image = function(layer, overlay) {
     /********************************************************/
 
 
-    self.tool.image_service_upload(container, ['jpg','jpeg','png','webp'])
+    self.tool.image_service_upload(container, ['jpg','jpeg','png'])
     .then(function() {
 
         self.tool.image_subscribe(
@@ -4373,7 +4589,7 @@ special_tools.prototype.modal_associate_image = function(layer, overlay) {
 
                     const image_object = {
 
-                        url: data.image_src,
+                        url: self.tool.base_url() + data.image_src,
                         tipo: self.tool.component_image.tipo,
                         section_tipo: self.tool.component_image.section_tipo,
                         section_id: self.tool.component_image.section_id
@@ -5685,6 +5901,7 @@ special_tools.prototype.load_marker_style = function(layer) {
     } else {
         
         layer.feature.special_tools.icon = {};
+        layer.feature.special_tools.original_marker = false;
         layer.feature.special_tools.icon.shadow = true;
         layer.feature.special_tools.icon.url = self.tool.tool_url() + '/img/pin.svg';
         options.shadow = true;
@@ -5692,6 +5909,8 @@ special_tools.prototype.load_marker_style = function(layer) {
         self.set_icon(layer, options);
         
     }
+    
+    if (self.is_original_marker(layer)) return;
 
     var default_color;
 
@@ -5831,6 +6050,12 @@ special_tools.prototype.load_linestring_style = function(layer) {
 special_tools.prototype.load_overlay = function(layer) {
     
     const self = this;
+    
+    try {
+    
+        layer._path.style.display = 'none';
+    
+    } catch(e) {};
     
     const image_id = layer.feature.special_tools.image_id;
     var image_opacity = layer.feature.special_tools.imageOpacity;
@@ -6114,6 +6339,8 @@ special_tools.prototype.load_overlay = function(layer) {
 
         self.special_tools_info_console.appendChild(options_div);
 
+        /**********************************************************************/
+
         const raster_download_options_btn = L.DomUtil.create('button');
         raster_download_options_btn.type = 'button';
         raster_download_options_btn.setAttribute('class', 'special-tools-btn-default');
@@ -6129,7 +6356,24 @@ special_tools.prototype.load_overlay = function(layer) {
 
         options_div.appendChild(raster_download_options_btn);
 
-        /****************************************************/
+        /**********************************************************************/
+        
+        const vector_download_options_btn = L.DomUtil.create('button');
+        vector_download_options_btn.type = 'button';
+        vector_download_options_btn.setAttribute('class', 'special-tools-btn-default');
+        vector_download_options_btn.style.marginTop = '7px';
+
+        self.tool.google_translate({
+
+            element_html: vector_download_options_btn,
+            str: "Descargar Vectorial", 
+            lang: self.lang
+
+        });
+
+        options_div.appendChild(vector_download_options_btn);
+
+        /**********************************************************************/
 
         self.info_console_load_properties(layer, this);
 
@@ -6198,6 +6442,7 @@ special_tools.prototype.load_overlay = function(layer) {
         });
 
         self.show_modal_raster_download(raster_download_options_btn, layer, overlay);
+        self.show_modal_vector_download(vector_download_options_btn, layer);
 
     });
     
@@ -6494,6 +6739,18 @@ special_tools.prototype.pm_create_event = function() {
 
         }
 
+    });
+    
+};
+
+special_tools.prototype.drawend_event = function() {
+    
+    const self = this;
+    
+    self.map.on('pm:drawend', function() {
+        
+        self.save_object();
+        
     });
     
 };
@@ -6926,17 +7183,14 @@ special_tools.prototype.set_icon = function(marker, options) {
     const url = options.url;
     
     let shadowSize;
-    let shadowAnchor;
     
     if (shadow) {
         
         shadowSize = [41, 41];
-        shadowAnchor = [11, 41];
         
     } else {
       
         shadowSize = [0, 0];
-        shadowAnchor = [0, 0];
         
     }
     
@@ -6947,7 +7201,7 @@ special_tools.prototype.set_icon = function(marker, options) {
         iconAnchor: [18, 34],
         shadowUrl: self.tool.tool_url() + '/img/marker-shadow.png',
         shadowSize: shadowSize,
-        shadowAnchor: shadowAnchor
+        shadowAnchor: [11, 41]
 
     });
 
@@ -7067,13 +7321,13 @@ special_tools.prototype.change_icon = function(layer, modal_body, marker_preview
         /**********************************************************************/
 
         L.DomEvent.on(btn_cancel_image, 'click', function() {
-            
-            self.map.dragging.enable();
-            self.map.doubleClickZoom.enable();
 
             window.setTimeout(function() {
                 
                 modal_image.remove();
+                
+                self.map.dragging.enable();
+                self.map.doubleClickZoom.enable();
                 
                 document.querySelector('.map_inputs').style.zIndex = 1;
                 
@@ -7084,7 +7338,7 @@ special_tools.prototype.change_icon = function(layer, modal_body, marker_preview
         /**********************************************************************/
 
 
-        self.tool.image_service_upload(container_image, ['jpg', 'jpeg', 'png', 'webp'])
+        self.tool.image_service_upload(container_image, ['jpg', 'jpeg', 'png'])
         .then(function() {
             self.tool.image_subscribe(
                 function(response) {
@@ -7114,7 +7368,7 @@ special_tools.prototype.change_icon = function(layer, modal_body, marker_preview
 
                         }
 
-                        layer.feature.special_tools.icon.url = data.image_src;
+                        layer.feature.special_tools.icon.url = self.tool.base_url() + data.image_src;
 
                         if (layer.feature.special_tools.icon.hasOwnProperty('shadow')) {
 
@@ -7136,7 +7390,7 @@ special_tools.prototype.change_icon = function(layer, modal_body, marker_preview
 
                         const options = {};
                         options.shadow = layer.feature.special_tools.icon.shadow;
-                        options.url = data.image_src;
+                        options.url = self.tool.base_url() + data.image_src;
 
                         self.set_icon(layer, options);
 
@@ -7150,11 +7404,11 @@ special_tools.prototype.change_icon = function(layer, modal_body, marker_preview
 
                         }
 
-                        if (layer.feature.special_tools.hasOwnProperty('marker_filter')) {
+                        if (layer.feature.special_tools.hasOwnProperty('marker_filter') && !self.is_original_marker(layer)) {
 
                             marker_preview.style.filter = layer.feature.special_tools.marker_filter;
 
-                        } else if (layer.feature.properties.hasOwnProperty('color')) {
+                        } else if (layer.feature.properties.hasOwnProperty('color') && !self.is_original_marker(layer)) {
 
                             const _compute = compute(layer.feature.properties.color);
 
@@ -7166,10 +7420,15 @@ special_tools.prototype.change_icon = function(layer, modal_body, marker_preview
 
                             const _compute = compute(default_color);
 
-                            marker_preview.style.filter = _compute.result.filterRaw + ' ' + set_shadow;
+                            if (!self.is_original_marker(layer)) {
 
+                                marker_preview.style.filter = _compute.result.filterRaw + ' ' + set_shadow;
+
+                            }
 
                         }
+                        
+                        self.save_object();
 
                        self.modal_message("Icono subido correctamente.");
 
@@ -7191,6 +7450,164 @@ special_tools.prototype.change_icon = function(layer, modal_body, marker_preview
         });
 
     });
+    
+};
+
+special_tools.prototype.original_icon = function(layer, modal_body, marker_preview) {
+    
+    const self = this;
+    
+    const div = L.DomUtil.create('div');
+    div.setAttribute('class', 'special-tools-container');
+    
+    modal_body.appendChild(div);
+    
+    /**************************************************************************/
+    
+    const span = L.DomUtil.create('span');
+    
+    self.tool.google_translate({
+        
+        element_html: span,
+        str: 'Icono original:',
+        lang: self.lang
+        
+    });
+    
+    div.appendChild(span);
+    
+    /**************************************************************************/
+    
+    const checkbox = L.DomUtil.create('input');
+    checkbox.type = 'checkbox';
+    
+    if (self.is_original_marker(layer)) {
+        
+        checkbox.checked = true;
+        
+    } else {
+        
+        checkbox.checked = false;
+        
+    }
+    
+    div.appendChild(checkbox);
+    
+    /**************************************************************************/
+    
+    L.DomEvent.on(checkbox, 'click', function() {
+        
+        if (this.checked) {
+            
+            marker_preview.style.filter = 'none';
+            layer._icon.style.filter = 'none';
+            layer.feature.special_tools.original_marker = true;
+            
+        } else {
+            
+            let shadow = '';
+            
+            if (layer.feature.special_tools.marker_shadow) {
+                
+                shadow = 'drop-shadow(2px -3px 2px #fff)';
+                
+            }
+            
+            if (layer.feature.special_tools.hasOwnProperty('marker_filter')) {
+
+                marker_preview.style.filter = layer.feature.special_tools.marker_filter;
+                layer._icon.style.filter = layer.feature.special_tools.marker_filter;
+
+            } else if (layer.feature.properties.hasOwnProperty('color')) {
+
+                const _compute = compute(layer.feature.properties.color);
+
+                marker_preview.style.filter = _compute.result.filterRaw + ' ' + self.set_shadow;
+                layer._icon.style.filter = _compute.result.filterRaw + ' ' + self.set_shadow;
+
+            }  else {
+
+                const default_color = '#3d5880';
+
+                const _compute = compute(default_color);
+
+                marker_preview.style.filter = _compute.result.filterRaw + ' ' + self.set_shadow;
+                layer._icon.style.filter = _compute.result.filterRaw + ' ' + self.set_shadow;
+
+            }
+            
+            layer.feature.special_tools.original_marker = false;
+            
+            
+        }
+        
+        self.save_object();
+        
+    });
+    
+};
+
+special_tools.prototype.check_if_external_images = function(layer) {
+    
+    const self = this;
+    
+    if (layer.feature.properties.hasOwnProperty('images')) {
+        
+        for (let x in layer.feature.properties.images) {
+     
+            if (typeof layer.feature.properties.images[x].section_tipo === 'undefined') {
+
+                let options = {};
+                options.blob = layer.feature.properties.images[x].url;
+
+                self.tool.external_image_to_tmp_dir(options).then(function(data) {
+                    
+                    if (data.success) {
+
+                        self.tool.external_image_to_component_image(data).then(function(data) {
+                            
+                            console.log(data);
+                            
+                            layer.feature.properties.images[x].tipo = data.tipo;
+                            layer.feature.properties.images[x].section_tipo = data.section_tipo;
+                            layer.feature.properties.images[x].section_id = data.section_id;
+                            layer.feature.properties.images[x].url = self.tool.base_url() + data.image_src;
+
+                            self.save_object();
+
+                        });
+                    
+                    }
+
+                });
+
+            }
+        
+        }
+    
+    }
+    
+};
+
+special_tools.prototype.is_original_marker = function(layer) {
+    
+    const self = this;
+    
+    if (self.is_special_tools(layer)) {
+        
+        if (layer.feature.special_tools.hasOwnProperty('original_marker')) {
+            
+            if (layer.feature.special_tools.original_marker) {
+                
+                return true;
+                
+            }
+            
+        }
+        
+    }
+    
+    return false;
     
 };
 

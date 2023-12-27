@@ -101,15 +101,18 @@ special_tools_objects.prototype.create_containers = function() {
             layer = self.collection._layers[obj];
             leaflet_id = layer._leaflet_id;
                 
-            if (!layer.feature.properties.hasOwnProperty('name')) {
+            if (layer.feature.properties.hasOwnProperty('name')) {
 
-                layer.feature.properties.name = 'Nameless';
+                layer_name = layer.feature.properties.name;
 
-                layer_name = 'Nameless';
+            } else if (layer.feature.properties.hasOwnProperty('title')) {
+
+                layer_name = layer.feature.properties.title;
 
             } else {
 
-                layer_name = layer.feature.properties.name;
+                layer_name = special_tools_objects.prototype.translate_nameless();
+                layer.feature.properties.name = layer_name;
 
             }
 
@@ -157,7 +160,7 @@ special_tools_objects.prototype.create_containers = function() {
                     /**************************************************/
 
                     let span = L.DomUtil.create('span');
-                    span.innerHTML = " <strong>name:</strong> " + self.max_length_str(layer_name, 35) + "&nbsp;&nbsp;<strong>multi_id:</strong> " + multi_id + " ";
+                    span.innerHTML = " " + self.max_length_str(layer_name, 35) + " ";
 
                     special_tools_p.appendChild(span);
 
@@ -208,7 +211,7 @@ special_tools_objects.prototype.create_containers = function() {
                 /**************************************************/
 
                 let span = L.DomUtil.create('span');
-                span.innerHTML = " <strong>name:</strong> " + self.max_length_str(layer_name, 35) + "&nbsp;&nbsp;<strong>id:</strong> " + leaflet_id + " ";
+                span.innerHTML = " " + self.max_length_str(layer_name, 35) + " ";
 
                 special_tools_p.appendChild(span);
 
@@ -254,16 +257,19 @@ special_tools_objects.prototype.create_containers = function() {
         layer = self.collection._layers[obj];
         leaflet_id = layer._leaflet_id;
 
-        if (!layer.feature.properties.hasOwnProperty('name')) {
-
-            layer.feature.properties.name = 'Nameless';
-
-            layer_name = 'Nameless';
-
-        } else {
-
+        if (layer.feature.properties.hasOwnProperty('name')) {
+            
             layer_name = layer.feature.properties.name;
-
+            
+        } else if (layer.feature.properties.hasOwnProperty('title')) {
+            
+            layer_name = layer.feature.properties.title;
+            
+        } else {
+            
+            layer_name = special_tools_objects.prototype.translate_nameless();
+            layer.feature.properties.name = layer_name;
+            
         }
 
         if (layer.feature.special_tools.hasOwnProperty('is_clipPolygon')) {
@@ -301,7 +307,7 @@ special_tools_objects.prototype.create_containers = function() {
             /**************************************************/
 
             let span = L.DomUtil.create('span');
-            span.innerHTML = " <strong>name:</strong> " + self.max_length_str(layer_name, 35) + "&nbsp;&nbsp;<strong>id:</strong> " + leaflet_id + " ";
+            span.innerHTML = " " + self.max_length_str(layer_name, 35) + " ";
 
             special_tools_p.appendChild(span);
 
@@ -777,5 +783,39 @@ special_tools_objects.prototype.load_modal = function() {
         }
 
     } catch (e) {}
+    
+};
+
+special_tools_objects.prototype.translate_nameless = function() {
+    
+    const self = this.special_tools;
+    
+    let nameless;
+    
+    switch(self.lang) {
+
+        case 'lg-spa': 
+            nameless = 'Sin nombre';
+            break;
+        case 'lg-eng':
+            nameless = 'Nameless';
+            break;
+        case 'lg-fra':
+            nameless = 'Sans nom';
+            break;
+        case 'lg-ita':
+            nameless = 'Senza nome';
+            break;
+        case 'lg-por':
+            nameless = 'Sem nome';
+            break;
+        case 'lg-cat':
+            nameless = 'Sense nom';
+            break;
+
+    }
+    
+    return nameless;
+    
     
 };

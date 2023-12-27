@@ -653,6 +653,11 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
                         }
 
                         window.setTimeout(function() {
+                            
+                            self.map.dragging.enable();
+                            self.map.doubleClickZoom.enable();
+
+                            document.querySelector('.map_inputs').style.zIndex = 1;
 
                             self.map._container.querySelector('#modal_vector').remove();
 
@@ -754,6 +759,11 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
                         }
 
                         window.setTimeout(function() {
+                            
+                            self.map.dragging.enable();
+                            self.map.doubleClickZoom.enable();
+
+                            document.querySelector('.map_inputs').style.zIndex = 1;
 
                             self.map._container.querySelector('#modal_vector').remove();
 
@@ -858,7 +868,7 @@ special_tools_upload.prototype.open_raster_modal_event = function() {
         self.tool.google_translate({
 
            element_html: msg_extension_images,
-           str: "Extensiones permitidas: .tif (georreferenciada), .jpg, .jpeg, .png, y .webp", 
+           str: "Extensiones permitidas: .tif (georreferenciada), .jpg, .jpeg y .png", 
            lang: self.lang
 
         });
@@ -903,7 +913,7 @@ special_tools_upload.prototype.open_raster_modal_event = function() {
 
         });
 
-        self.tool.image_service_upload(container_image, ['tif', 'jpg', 'jpeg', 'png', 'webp'])
+        self.tool.image_service_upload(container_image, ['tif', 'jpg', 'jpeg', 'png'])
         .then(function() {
 
             self.tool.image_subscribe(
@@ -924,14 +934,14 @@ special_tools_upload.prototype.open_raster_modal_event = function() {
 
                         const image_object = {
 
-                            url: data.image_src,
+                            url: self.tool.base_url() + data.image_src,
                             tipo: data.tipo,
                             section_tipo: data.section_tipo,
                             section_id: data.section_id
 
                         };
 
-                        var url = data.image_src;
+                        var url = self.tool.base_url() + data.image_src;
 
                         let point1;
                         let point2;

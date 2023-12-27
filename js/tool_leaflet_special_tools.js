@@ -1575,3 +1575,113 @@ tool_leaflet_special_tools.prototype.make_id = function(length) {
         return result;
         
 };
+
+tool_leaflet_special_tools.prototype.external_image_to_component_image = async function(file_data) {
+    
+    const self = this;
+    
+    const image_section_tipo    =  'rsc170'; //DD_TIPOS.DEDALO_SECTION_RESOURCES_IMAGE_TIPO // 'rsc170'
+    const component_image_tipo  = 'rsc29'; // DD_TIPOS.DEDALO_COMPONENT_RESOURCES_IMAGE_TIPO //'rsc29'
+
+    // create API call as rqo (request query object), with the action to create new section
+    const rqo = {
+        action  : 'create',
+        source  : {
+
+            section_tipo : image_section_tipo
+
+        }
+    };
+    // call to API
+    const api_response = await data_manager.request({
+
+        body : rqo
+
+    });
+
+    // if the API result is ok go ahead
+    if (api_response.result) {
+        // section_id of the new record
+        const section_id = api_response.result;
+
+        // To create the new image instance with the result data of uploaded process and build it. 
+        const component_image = await instances.get_instance({
+
+            model           : 'component_image',
+            mode            : 'edit',
+            tipo            : component_image_tipo,
+            section_tipo    : image_section_tipo,
+            section_id      : section_id
+
+        });
+
+        await component_image.build(true);
+        
+        self.set_component_image(component_image);
+        
+        let options = {};
+
+        options.model = 'component_image';
+        options.mode = 'edit';
+        options.tipo = component_image_tipo;
+        options.section_tipo = image_section_tipo;
+        options.section_id = section_id;
+        options.default_quality = component_image.context.features.default_target_quality;
+        options.file_data = file_data;
+
+        return self.get_image_data(options);
+    
+    }
+    
+};
+
+tool_leaflet_special_tools.prototype.external_image_to_tmp_dir = function(options) {
+    
+    const self = this;
+
+    this.model = 'tool_leaflet_special_tools';
+
+    const method = 'external_image_to_tmp_dir';
+    
+    const source = create_source(this, method);
+    
+    const rqo = {
+
+        dd_api: 'dd_tools_api',
+        action: 'tool_request',
+        source: source,
+        prevent_lock: true,
+        options: options
+    };
+    
+    return new Promise(function(resolve){
+
+        data_manager.request({
+
+            body : rqo
+
+        })
+        .then(function(response){
+
+            if (SHOW_DEVELOPER) {
+
+                dd_console("-> API " + self.model + "::" + method  + " response:",'DEBUG', response);
+
+            }
+
+            resolve(response);
+
+        });
+
+    });
+    
+};
+
+tool_leaflet_special_tools.prototype.base_url = function() {
+    
+        const getUrl = window.location;
+        const baseUrl = getUrl .protocol + "//" + getUrl.host;
+        
+        return baseUrl;
+    
+};
