@@ -11,7 +11,7 @@ special_tools_legend.prototype.load = async function(L, special_tools) {
     L.Control.SpecialToolsLegend = L.Control.extend({
 
         onAdd: function() {
-
+            
             const self = special_tools_legend.prototype.special_tools;
             
             const controlDiv = L.DomUtil.create('div', 'special-tools-legend special-tools-controls special-tools-disable');
@@ -33,23 +33,24 @@ special_tools_legend.prototype.load = async function(L, special_tools) {
 
             self.legend_div = L.DomUtil.create('div', 'special-tools-legend-div');
 
-            self.legend_div.style.left = ((self.map.getSize().x / 2) + 100) + "px";
+            self.legend_div.style.left = ((self.map.getSize().x / 2)) + "px";
 
             self.map.on('resize', function(e) {
 
-                self.legend_div.style.left = ((e.newSize.x / 2) + 100) + "px";
+                self.legend_div.style.left = ((e.newSize.x / 2)) + "px";
 
             });
 
             self.map._controlCorners.topleft.appendChild(self.legend_div);
 
-            if (!L.Browser.mobile) {
+            if (self.map.getSize().x >= 800) {
 
                 self.special_tools_btns.appendChild(controlDiv);
 
             } else {
 
                 self.legend_div.style.display = 'none';
+                controlDiv.style.display = 'none';
 
             }
 
@@ -58,8 +59,12 @@ special_tools_legend.prototype.load = async function(L, special_tools) {
             let promise = self.tool.legends(options);
             
             promise.then(function(data) { 
+                
+                if (self.map.getSize().x >= 800) {
 
-                special_tools_legend.prototype.init_legend(data);
+                    special_tools_legend.prototype.init_legend(data);
+                    
+                }
 
             });
             
@@ -115,19 +120,61 @@ special_tools_legend.prototype.init_legend = function(data) {
 
     const legend_title = L.DomUtil.create('div');
     legend_title.setAttribute('class', 'special-tools-legend-name');
-    legend_title.innerText = self.legend_json.legend;
+    
+    self.tool.google_translate({
+        
+        element_html: legend_title,
+        str: self.legend_json.legend,
+        lang: self.lang
+        
+    });
 
     self.legend_div.appendChild(legend_title);
+    
+    const count_columns = self.legend_json.columns.length;
+    
+    if (count_columns === 0 || count_columns === 1) {
+        
+        self.legend_div.style.width = '200px';
+        
+    } else if (count_columns === 2) {
+        
+        self.legend_div.style.width = '400px';
+        
+    } else if (count_columns === 3) {
+        
+        self.legend_div.style.width = '600px';
+        
+    }
 
     for (let col in self.legend_json.columns) {
 
         const column_div = L.DomUtil.create('div');
 
-        column_div.setAttribute('class', 'special-tools-column-div');
+        if (count_columns === 1) {
+            
+            column_div.setAttribute('class', 'special-tools-div-100');
+            
+        } else if (count_columns === 2) {
+            
+            column_div.setAttribute('class', 'special-tools-div-50');
+            
+        } else if (count_columns === 3) {
+            
+            column_div.setAttribute('class', 'special-tools-div-33');
+            
+        }
 
         const column_name = L.DomUtil.create('div');
         column_name.setAttribute('class', 'special-tools-container special-tools-column-name');
-        column_name.innerText = self.legend_json.columns[col].name;
+        
+        self.tool.google_translate({
+            
+            element_html: column_name,
+            str: self.legend_json.columns[col].name,
+            lang: self.lang
+            
+        });
 
         column_div.appendChild(column_name);
 
@@ -137,24 +184,34 @@ special_tools_legend.prototype.init_legend = function(data) {
 
             const element_div = L.DomUtil.create('div');
 
-            const element_color = L.DomUtil.create('div');
-            element_color.style.backgroundColor = self.legend_json.columns[col].elements[elem].color;
-            element_color.style.width = '8px';
-            element_color.style.height = '8px';
-            element_color.style.marginTop = '3px';
-            element_color.style.marginRight = '4px';
-            element_color.style.float = 'left';
+            const element_image = L.DomUtil.create('img');
+            element_image.width = 18;
+            element_image.height = 18;
+            element_image.src = self.legend_json.columns[col].elements[elem].icon;
+            element_image.style.float = 'left';
+
 
             const element_name = L.DomUtil.create('div');
-            element_name.innerText = self.legend_json.columns[col].elements[elem].name;
-            element_name.style.float = 'left';
+            element_name.setAttribute('class', 'special-tools-legend-element-name');
+            
+            self.tool.google_translate({
+                
+                element_html: element_name,
+                str: self.legend_json.columns[col].elements[elem].name,
+                lang: self.lang
+                
+            });
 
             const element_clear = L.DomUtil.create('div');
             element_clear.style.clear = 'left';
+            
+            const space = L.DomUtil.create('div');
+            space.style.marginTop = '2px';
 
-            element_div.appendChild(element_color);
+            element_div.appendChild(element_image);
             element_div.appendChild(element_name);
             element_div.appendChild(element_clear);
+            element_div.appendChild(space);
 
             column_div.appendChild(element_div);
         }
@@ -166,6 +223,7 @@ special_tools_legend.prototype.init_legend = function(data) {
 special_tools_legend.prototype.load_modal = function() {
     
     const self = this.special_tools;
+    const _this = this;
     
     var chk_checked = false;
 
@@ -325,29 +383,29 @@ special_tools_legend.prototype.load_modal = function() {
     
     /**************************************************************************/
 
-    const _legend_name_input = modal._container.querySelector('#legend_name_input');
+    self.legend_name_input = modal._container.querySelector('#legend_name_input');
 
-    const _legend_btn_save_legend = modal._container.querySelector('#legend_btn_save_legend');
+    self.legend_btn_save_legend = modal._container.querySelector('#legend_btn_save_legend');
 
-    const _legend_btn_add_column = modal._container.querySelector('#legend_btn_add_column');
+    self.legend_btn_add_column = modal._container.querySelector('#legend_btn_add_column');
 
-    const _columns_div = modal._container.querySelector('#columns_div');
+    self.columns_div = modal._container.querySelector('#columns_div');
 
-    const _chk_show_legend = modal._container.querySelector('#chk_show_legend');
+    self.chk_show_legend = modal._container.querySelector('#chk_show_legend');
 
-    L.DomEvent.on(_legend_name_input, 'keyup', function(){
+    L.DomEvent.on(self.legend_name_input, 'keyup', function(){
 
         self.legend_json.legend = self.strip_tags(this.value);
 
     });
 
-    L.DomEvent.on(_legend_name_input, 'focusout', function(){
+    L.DomEvent.on(self.legend_name_input, 'focusout', function(){
 
-        _legend_btn_save_legend.click();
+        self.legend_btn_save_legend.click();
 
     });
 
-    L.DomEvent.on(_chk_show_legend, 'click', function() {
+    L.DomEvent.on(self.chk_show_legend, 'click', function() {
 
         if (this.checked) {
 
@@ -362,14 +420,14 @@ special_tools_legend.prototype.load_modal = function() {
 
         }
 
-        _legend_btn_save_legend.click();
+        self.legend_btn_save_legend.click();
 
     });
 
-    L.DomEvent.on(_legend_btn_save_legend, 'click', function(){
+    L.DomEvent.on(self.legend_btn_save_legend, 'click', function() {
 
-        self.legend_json.legend = self.strip_tags(_legend_name_input.value);
-        self.legend_json.columns = columns;
+        self.legend_json.legend = self.strip_tags(self.legend_name_input.value);
+        self.legend_json.columns = self.columns;
 
         let options = {content: JSON.stringify(self.legend_json)};
 
@@ -389,21 +447,63 @@ special_tools_legend.prototype.load_modal = function() {
 
         const legend_title = L.DomUtil.create('div');
         legend_title.setAttribute('class', 'special-tools-legend-name');
-        legend_title.innerText = self.strip_tags(legend_title_value);
+        
+        self.tool.google_translate({
+            
+            element_html: legend_title,
+            str: self.strip_tags(legend_title_value),
+            lang: self.lang
+            
+        });
 
         self.legend_div.appendChild(legend_title);
         
         /**********************************************************************/
+        
+        const count_columns = self.columns.length;
+        
+        if (count_columns === 0 || count_columns === 1) {
+            
+            self.legend_div.style.width = '200px';
+            
+        } else if (count_columns === 2) {
+            
+            self.legend_div.style.width = '400px';
+            
+        } else if (count_columns === 3) {
+            
+            self.legend_div.style.width = '600px';
+            
+        }
 
-        for (let col in columns) {
+        for (let col in self.columns) {
 
             const column_div = L.DomUtil.create('div');
-
-            column_div.setAttribute('class', 'special-tools-column-div');
+ 
+            if (count_columns === 1) {
+                
+                column_div.setAttribute('class', 'special-tools-div-100');
+                
+            } else if (count_columns === 2) {
+                
+                column_div.setAttribute('class', 'special-tools-div-50'); 
+                
+            } else if (count_columns === 3) {
+                
+                column_div.setAttribute('class', 'special-tools-div-33');
+                
+            }
 
             const column_name = L.DomUtil.create('div');
             column_name.setAttribute('class', 'special-tools-container special-tools-column-name');
-            column_name.innerText = columns[col].name;;
+            
+            self.tool.google_translate({
+                
+                element_html: column_name,
+                str: self.columns[col].name,
+                lang: self.lang
+                
+            });
 
             column_div.appendChild(column_name);
             
@@ -411,39 +511,47 @@ special_tools_legend.prototype.load_modal = function() {
 
             self.legend_div.appendChild(column_div);
 
-            for (let elem in columns[col].elements) {
+            for (let elem in self.columns[col].elements) {
 
                 const element_div = L.DomUtil.create('div');
 
-                const element_color = L.DomUtil.create('div');
-                element_color.style.backgroundColor = columns[col].elements[elem].color;
-                element_color.style.width = '8px';
-                element_color.style.height = '8px';
-                element_color.style.marginTop = '3px';
-                element_color.style.marginRight = '4px';
-                element_color.style.float = 'left';
+                const element_image = L.DomUtil.create('img');
+                element_image.src = self.columns[col].elements[elem].icon;
+                element_image.width = 18;
+                element_image.height = 18;
+                element_image.style.float = 'left';
+                
 
                 const element_name = L.DomUtil.create('div');
-                element_name.innerText = columns[col].elements[elem].name;
-                element_name.style.float = 'left';
+                element_name.setAttribute('class', 'special-tools-legend-element-name');
+                
+                self.tool.google_translate({
+                    
+                    element_html: element_name,
+                    str: self.columns[col].elements[elem].name,
+                    lang: self.lang
+                    
+                });
 
                 const element_clear = L.DomUtil.create('div');
                 element_clear.style.clear = 'left';
+                
+                const space = L.DomUtil.create('div');
+                space.style.marginTop = '2px';
 
-                element_div.appendChild(element_color);
+                element_div.appendChild(element_image);
                 element_div.appendChild(element_name);
                 element_div.appendChild(element_clear);
+                element_div.appendChild(space);
 
                 column_div.appendChild(element_div);
             }
 
         }
 
-        self.modal_message("Leyenda guardada con éxito");
-
     });
 
-    var columns = self.legend_json.columns;
+    self.columns = self.legend_json.columns;
 
     for (let index in self.legend_json.columns) {
 
@@ -515,7 +623,7 @@ special_tools_legend.prototype.load_modal = function() {
         div.appendChild(div_clear);
         div.appendChild(div_column);
 
-        _columns_div.appendChild(div);
+        self.columns_div.appendChild(div);
 
          L.DomEvent.on(btn_column_delete, 'click', function() {
 
@@ -523,15 +631,15 @@ special_tools_legend.prototype.load_modal = function() {
 
             const index_column = this.getAttribute('index-column');
 
-            delete columns[parseInt(index_column)];
+            delete self.columns[parseInt(index_column)];
 
-            columns = columns.flat();
+            self.columns = self.columns.flat();
 
             self.modal_message("Columna eliminada con éxito.");
 
             window.setTimeout(function() {
 
-                _legend_btn_save_legend.click();
+                self.legend_btn_save_legend.click();
 
             }, 3000);
 
@@ -541,8 +649,7 @@ special_tools_legend.prototype.load_modal = function() {
 
             }, 500);
 
-
-            const columns_list = _columns_div.querySelectorAll('.div-column');
+            const columns_list = self.columns_div.querySelectorAll('.div-column');
 
             for (let x = 0; x < columns_list.length; x++) {
 
@@ -570,13 +677,13 @@ special_tools_legend.prototype.load_modal = function() {
 
             const _index_column = this.getAttribute('index-column');
 
-            columns[parseInt(_index_column)].name = self.strip_tags(this.value);
+            self.columns[parseInt(_index_column)].name = self.strip_tags(this.value);
 
         });
 
         L.DomEvent.on(input_column, 'focusout', function(){
 
-            _legend_btn_save_legend.click();
+            self.legend_btn_save_legend.click();
 
         });
 
@@ -585,12 +692,12 @@ special_tools_legend.prototype.load_modal = function() {
             const index_column = parseInt(this.getAttribute('index-column'));
             let index_element;
 
-            if (columns[index_column].elements.length === 0) {
+            if (self.columns[index_column].elements.length === 0) {
 
-                columns[index_column].elements[0] = {
+                self.columns[index_column].elements[0] = {
 
                     "name": "",
-                    "color": "#000000"
+                    "icon": self.tool.tool_url() + '/img/pin.svg'
 
                 };
 
@@ -598,14 +705,14 @@ special_tools_legend.prototype.load_modal = function() {
 
             } else {
 
-                columns[parseInt(index_column)].elements[columns[parseInt(index_column)].elements.length] = {
+                self.columns[parseInt(index_column)].elements[self.columns[parseInt(index_column)].elements.length] = {
 
                     "name": "",
-                    "color": "#000000"
+                    "icon": self.tool.tool_url() + '/img/pin.svg'
 
                 };
 
-                index_element = columns[index_column].elements.length-1;
+                index_element = self.columns[index_column].elements.length-1;
 
             }
 
@@ -628,21 +735,45 @@ special_tools_legend.prototype.load_modal = function() {
             element_name.setAttribute('index-column', index_column);
             element_name.setAttribute('index-element', index_element);
 
-            const element_color = L.DomUtil.create('input');
-            element_color.type = 'color';
-            element_color.style.margin = '5px';
-            element_color.setAttribute('index-column', index_column);
-            element_color.setAttribute('index-element', index_element);
+            const element_icon_button = L.DomUtil.create('button');
+            element_icon_button.type = 'button';
+            element_icon_button.setAttribute('class', 'special-tools-btn-default');
+            element_icon_button.setAttribute('index-column', index_column);
+            element_icon_button.setAttribute('index-element', index_element);
+            
+            self.tool.google_translate({
+
+                element_html: element_icon_button,
+                str: 'Subir icono',
+                lang: self.lang
+
+            });
+            
+            self.tool.google_translate({
+                
+                element_html: element_icon_button,
+                str: 'Tamaño recomendado 36x36',
+                lang: self.lang,
+                attribute: 'title'
+                
+            });
+
+            const element_image = L.DomUtil.create('img');
+            element_image.src = self.tool.tool_url() + '/img/pin.svg';
+            element_image.width = 18;
+            element_image.height = 18;
 
             const element_delete = L.DomUtil.create('button');
-            element_delete.innerHTML = "<img width='20' height='20' src='" + self.tool.tool_url() + "/img/trash.png'>";
+            element_delete.innerHTML = "<img width='14' height='14' src='" + self.tool.tool_url() + "/img/trash.png'>";
+            element_delete.style.marginLeft = '6px';
             element_delete.setAttribute('class', 'special-tools-btn-danger');
             element_delete.setAttribute('index-column', index_column);
             element_delete.setAttribute('index-element', index_element);
 
             column.appendChild(element_name_span);
             column.appendChild(element_name);
-            column.appendChild(element_color);
+            column.appendChild(element_icon_button);
+            column.appendChild(element_image);
             column.appendChild(element_delete);
 
             div_column.appendChild(column);
@@ -651,7 +782,7 @@ special_tools_legend.prototype.load_modal = function() {
 
             window.setTimeout(function() {
 
-               _legend_btn_save_legend.click(); 
+               self.legend_btn_save_legend.click(); 
 
             }, 3000);
 
@@ -663,34 +794,23 @@ special_tools_legend.prototype.load_modal = function() {
                 const _index_column = parseInt(this.getAttribute('index-column'));
                 const _index_element = parseInt(this.getAttribute('index-element'));
 
-                columns[_index_column].elements[_index_element].name = self.strip_tags(this.value);
+                self.columns[_index_column].elements[_index_element].name = self.strip_tags(this.value);
 
             });
 
             L.DomEvent.on(element_name, 'focusout', function(){
 
-               _legend_btn_save_legend.click();
+               self.legend_btn_save_legend.click();
 
            });
 
-            L.DomEvent.on(element_color, 'input change', function(){
-
-                this.setAttribute('value', this.value);
+            L.DomEvent.on(element_icon_button, 'click', function() {
 
                 const _index_column = parseInt(this.getAttribute('index-column'));
                 const _index_element = parseInt(this.getAttribute('index-element'));
+                
+                _this.change_icon(element_image, _index_column, _index_element);
 
-                if (self.is_hex_color(this.value)) {
-
-                    columns[_index_column].elements[_index_element].color = this.value;
-
-                }
-
-            });
-
-            L.DomEvent.on(element_color, 'change', function() {
-
-                _legend_btn_save_legend.click();
 
             });
 
@@ -702,15 +822,15 @@ special_tools_legend.prototype.load_modal = function() {
 
                 const index_element = parseInt(this.getAttribute('index-element'));
 
-                delete columns[index_column].elements[index_element];
+                delete self.columns[index_column].elements[index_element];
 
-                columns[index_column].elements = columns[index_column].elements.flat();
+                self.columns[index_column].elements = self.columns[index_column].elements.flat();
 
                 self.modal_message("Elemento eliminado con éxito.");
 
                 window.setTimeout(function() {
 
-                    _legend_btn_save_legend.click();
+                    self.legend_btn_save_legend.click();
 
                 }, 3000);
 
@@ -734,7 +854,7 @@ special_tools_legend.prototype.load_modal = function() {
 
         });
 
-        for (let index_elem in columns[index].elements) {
+        for (let index_elem in self.columns[index].elements) {
 
             const column = L.DomUtil.create('div');
             column.setAttribute('class', 'special-tools-container div-elements');
@@ -754,24 +874,47 @@ special_tools_legend.prototype.load_modal = function() {
             element_name.setAttribute('class', 'special-tools-input-150');
             element_name.setAttribute('index-column', index);
             element_name.setAttribute('index-element', index_elem);
-            element_name.value = columns[index].elements[index_elem].name;
+            element_name.value = self.columns[index].elements[index_elem].name;
+            
+            const element_icon_button = L.DomUtil.create('button');
+            element_icon_button.type = 'button';
+            element_icon_button.setAttribute('class', 'special-tools-btn-default');
+            element_icon_button.setAttribute('index-column', index);
+            element_icon_button.setAttribute('index-element', index_elem);
+            
+            self.tool.google_translate({
 
-            const element_color = L.DomUtil.create('input');
-            element_color.type = 'color';
-            element_color.style.margin = '5px';
-            element_color.setAttribute('index-column', index);
-            element_color.setAttribute('index-element',index_elem);
-            element_color.value = columns[index].elements[index_elem].color;
+                element_html: element_icon_button,
+                str: 'Subir icono',
+                lang: self.lang
+
+            });
+            
+            self.tool.google_translate({
+                
+                element_html: element_icon_button,
+                str: 'Tamaño recomendado 36x36',
+                lang: self.lang,
+                attribute: 'title'
+                
+            });
+
+            const element_image = L.DomUtil.create('img');
+            element_image.src = self.columns[index].elements[index_elem].icon;
+            element_image.width = 18;
+            element_image.height = 18;
 
             const element_delete = L.DomUtil.create('button');
-            element_delete.innerHTML = "<img width='20' height='20' src='" + self.tool.tool_url() + "/img/trash.png'>";
+            element_delete.innerHTML = "<img width='14' height='14' src='" + self.tool.tool_url() + "/img/trash.png'>";
+            element_delete.style.marginLeft = '6px';
             element_delete.setAttribute('class', 'special-tools-btn-danger');
             element_delete.setAttribute('index-column',index);
             element_delete.setAttribute('index-element', index_elem);
 
             column.appendChild(element_name_span);
             column.appendChild(element_name);
-            column.appendChild(element_color);
+            column.appendChild(element_icon_button);
+            column.appendChild(element_image);
             column.appendChild(element_delete);
 
             div_column.appendChild(column);
@@ -783,34 +926,22 @@ special_tools_legend.prototype.load_modal = function() {
                 const index_column = parseInt(this.getAttribute('index-column'));
                 const index_element = parseInt(this.getAttribute('index-element'));
 
-                columns[index_column].elements[index_element].name = self.strip_tags(this.value);
+                self.columns[index_column].elements[index_element].name = self.strip_tags(this.value);
 
             });
 
-            L.DomEvent.on(element_name, 'focusout', function(){
+            L.DomEvent.on(element_name, 'focusout', function() {
 
-                _legend_btn_save_legend.click();
+                self.legend_btn_save_legend.click();
 
             });
 
-            L.DomEvent.on(element_color, 'input change', function(){
-
-                this.setAttribute('value', this.value);
+            L.DomEvent.on(element_icon_button, 'click', function() {
 
                 const index_column = parseInt(this.getAttribute('index-column'));
                 const index_element = parseInt(this.getAttribute('index-element'));
-
-                if (self.is_hex_color(this.value)) {
-
-                    columns[index_column].elements[index_element].color = this.value;
-
-                }
-
-            });
-
-            L.DomEvent.on(element_color, 'change', function() {
-
-                _legend_btn_save_legend.click();
+                
+                _this.change_icon(element_image, index_column, index_element);
 
             });
 
@@ -822,15 +953,15 @@ special_tools_legend.prototype.load_modal = function() {
 
                 const index_element = parseInt(this.getAttribute('index-element'));
 
-                delete columns[index_column].elements[index_element];
+                delete self.columns[index_column].elements[index_element];
 
-                columns[index_column].elements = columns[index_column].elements.flat();
+                self.columns[index_column].elements = self.columns[index_column].elements.flat();
 
                 self.modal_message("Elemento eliminado con éxito.");
 
                 window.setTimeout(function() {
 
-                    _legend_btn_save_legend.click();
+                    self.legend_btn_save_legend.click();
 
                 }, 3000);
 
@@ -854,21 +985,21 @@ special_tools_legend.prototype.load_modal = function() {
         }
     }
 
-    L.DomEvent.on(_legend_btn_add_column, 'click', function(){
+    L.DomEvent.on(self.legend_btn_add_column, 'click', function(){
 
         let index_column;
 
-        if (columns.length === 4) {
+        if (self.columns.length === 3) {
 
-            self.modal_message("El número máximo de columnas permitidas son 4");
+            self.modal_message("El número máximo de columnas permitidas son 3");
 
             return;
 
         }
 
-        if (columns.length === 0) {
+        if (self.columns.length === 0) {
 
-        columns[0] = {
+        self.columns[0] = {
 
             "name": "",
             "elements": []
@@ -879,13 +1010,13 @@ special_tools_legend.prototype.load_modal = function() {
 
         } else {
 
-            columns[columns.length] = {
+            self.columns[self.columns.length] = {
 
                 "name": "",
                 "elements": []
             };
 
-            index_column = columns.length-1;
+            index_column = self.columns.length-1;
 
         }
 
@@ -955,7 +1086,7 @@ special_tools_legend.prototype.load_modal = function() {
         div.appendChild(div_clear);
         div.appendChild(div_column);
 
-        _columns_div.appendChild(div);
+        self.columns_div.appendChild(div);
 
         L.DomEvent.on(btn_column_delete, 'click', function(){
 
@@ -963,15 +1094,15 @@ special_tools_legend.prototype.load_modal = function() {
 
             const index_column = this.getAttribute('index-column');
 
-            delete columns[parseInt(index_column)];
+            delete self.columns[parseInt(index_column)];
 
-            columns = columns.flat();
+            self.columns = self.columns.flat();
 
             self.modal_message("Columna eliminada con éxito.");
 
             window.setTimeout(function() {
 
-                _legend_btn_save_legend.click();
+                self.legend_btn_save_legend.click();
 
             }, 3000);
 
@@ -981,7 +1112,7 @@ special_tools_legend.prototype.load_modal = function() {
 
             }, 500);
 
-            const columns_list = _columns_div.querySelectorAll('.div-column');
+            const columns_list = self.columns_div.querySelectorAll('.div-column');
 
             for (let x = 0; x < columns_list.length; x++) {
 
@@ -1009,13 +1140,13 @@ special_tools_legend.prototype.load_modal = function() {
 
             const index_column = this.getAttribute('index-column')
 
-            columns[parseInt(index_column)].name = self.strip_tags(this.value);
+            self.columns[parseInt(index_column)].name = self.strip_tags(this.value);
 
         });
 
         L.DomEvent.on(input_column, 'focusout', function(){
 
-            _legend_btn_save_legend.click();
+            self.legend_btn_save_legend.click();
 
         });
 
@@ -1024,12 +1155,12 @@ special_tools_legend.prototype.load_modal = function() {
             const index_column = parseInt(this.getAttribute('index-column'));
             let index_element;
 
-            if (columns[index_column].elements.length === 0) {
+            if (self.columns[index_column].elements.length === 0) {
 
-                columns[index_column].elements[0] = {
+                self.columns[index_column].elements[0] = {
 
                     "name": "",
-                    "color": "#000000"
+                    "icon": self.tool.tool_url() + '/img/pin.svg'
 
                 };
 
@@ -1037,14 +1168,14 @@ special_tools_legend.prototype.load_modal = function() {
 
             } else {
 
-                columns[parseInt(index_column)].elements[columns[parseInt(index_column)].elements.length] = {
+                self.columns[parseInt(index_column)].elements[self.columns[parseInt(index_column)].elements.length] = {
 
                     "name": "",
-                    "color": "#000000"
+                    "icon": self.tool.tool_url() + '/img/pin.svg'
 
                 };
 
-               index_element = columns[index_column].elements.length-1;
+               index_element = self.columns[index_column].elements.length-1;
 
             }
 
@@ -1067,21 +1198,45 @@ special_tools_legend.prototype.load_modal = function() {
             element_name.setAttribute('index-column', index_column);
             element_name.setAttribute('index-element', index_element);
 
-            const element_color = L.DomUtil.create('input');
-            element_color.type = 'color';
-            element_color.style.margin = '5px';
-            element_color.setAttribute('index-column', index_column);
-            element_color.setAttribute('index-element', index_element);
+            const element_icon_button = L.DomUtil.create('button');
+            element_icon_button.type = 'button';
+            element_icon_button.setAttribute('class', 'special-tools-btn-default');
+            element_icon_button.setAttribute('index-column', index_column);
+            element_icon_button.setAttribute('index-element', index_element);
+            
+            self.tool.google_translate({
+
+                element_html: element_icon_button,
+                str: 'Subir icono',
+                lang: self.lang
+
+            });
+            
+            self.tool.google_translate({
+                
+                element_html: element_icon_button,
+                str: 'Tamaño recomendado 36x36',
+                lang: self.lang,
+                attribute: 'title'
+                
+            });
+
+            const element_image = L.DomUtil.create('img');
+            element_image.src = self.tool.tool_url() + '/img/pin.svg';
+            element_image.width = 18;
+            element_image.height = 18;
 
             const element_delete = L.DomUtil.create('button');
-            element_delete.innerHTML = "<img width='20' height='20' src='" + self.tool.tool_url() + "/img/trash.png'>";
+            element_delete.innerHTML = "<img width='14' height='14' src='" + self.tool.tool_url() + "/img/trash.png'>";
+            element_delete.style.marginLeft = '6px';
             element_delete.setAttribute('class', 'special-tools-btn-danger');
             element_delete.setAttribute('index-column', index_column);
             element_delete.setAttribute('index-element', index_element);
 
             column.appendChild(element_name_span);
             column.appendChild(element_name);
-            column.appendChild(element_color);
+            column.appendChild(element_icon_button);
+            column.appendChild(element_image);
             column.appendChild(element_delete);
 
             div_column.appendChild(column);
@@ -1090,53 +1245,42 @@ special_tools_legend.prototype.load_modal = function() {
 
             window.setTimeout(function() {
 
-                _legend_btn_save_legend.click();
+                self.legend_btn_save_legend.click();
 
             }, 3000);
 
-            L.DomEvent.on(element_name, 'keyup', function(){
+            L.DomEvent.on(element_name, 'keyup', function() {
 
                 this.setAttribute('value', this.value);
 
                 const index_column = parseInt(this.getAttribute('index-column'));
                 const index_element = parseInt(this.getAttribute('index-element'));
 
-                columns[index_column].elements[index_element].name = self.strip_tags(this.value);
+                self.columns[index_column].elements[index_element].name = self.strip_tags(this.value);
 
             });
 
-            L.DomEvent.on(element_name, 'focusout', function(){
+            L.DomEvent.on(element_name, 'focusout', function() {
 
                 self.modal_message("Elemento guardado con éxito.");
 
                 window.setTimeout(function() {
 
-                    _legend_btn_save_legend.click();
+                    self.legend_btn_save_legend.click();
 
                 }, 3000);
 
             });
 
-            L.DomEvent.on(element_color, 'input change', function(){
-
-                this.setAttribute('value', this.value);
+            L.DomEvent.on(element_icon_button, 'click', function() {
 
                 const index_column = parseInt(this.getAttribute('index-column'));
                 const index_element = parseInt(this.getAttribute('index-element'));
 
-                if (self.is_hex_color(this.value)) {
-
-                    columns[index_column].elements[index_element].color = this.value;
-
-                }
+                _this.change_icon(element_image, index_column, index_element);
 
             });
 
-            L.DomEvent.on(element_color, 'change', function() {
-
-                _legend_btn_save_legend.click();
-
-            });
 
             L.DomEvent.on(element_delete, 'click', function(){
 
@@ -1144,15 +1288,15 @@ special_tools_legend.prototype.load_modal = function() {
 
                 const index_element = parseInt(this.getAttribute('index-element'));
 
-                delete columns[index_column].elements[index_element];
+                delete self.columns[index_column].elements[index_element];
 
-                columns[index_column].elements = columns[index_column].elements.flat();
+                self.columns[index_column].elements = self.columns[index_column].elements.flat();
 
                 self.modal_message("Elemento eliminado con éxito.");
 
                 window.setTimeout(function() {
 
-                    _legend_btn_save_legend.click();
+                    self.legend_btn_save_legend.click();
 
                 }, 3000);
 
@@ -1180,12 +1324,161 @@ special_tools_legend.prototype.load_modal = function() {
 
         window.setTimeout(function() {
 
-            _legend_btn_save_legend.click();
+            self.legend_btn_save_legend.click();
 
         }, 3000);
 
     });
 
+    
+};
+
+special_tools_legend.prototype.change_icon = function(element, index_column, index_element) {
+    
+    const self = this.special_tools;
+    const _this = this;
+
+    /**********************************************************************/
+
+    const modal_image = L.DomUtil.create('div');
+    modal_image.id = 'modal_image';
+    modal_image.setAttribute('class', 'special-tools-modal-upload');
+
+    self.map._container.append(modal_image);
+
+    /**********************************************************************/
+
+    const modal_image_container = L.DomUtil.create('div');
+    modal_image_container.setAttribute('class', 'special-tools-modal-container');
+    modal_image.appendChild(modal_image_container);
+
+    /**********************************************************************/
+
+    L.DomEvent.on(modal_image, 'mouseover', function() {
+
+        self.map.dragging.disable();
+        self.map.doubleClickZoom.disable();
+        document.querySelector('.map_inputs').style.zIndex = 0;
+
+    });
+
+    /**********************************************************************/
+
+    L.DomEvent.on(modal_image, 'mouseout', function() {
+
+        self.map.dragging.enable();
+        self.map.doubleClickZoom.enable();
+
+    });
+
+    /**********************************************************************/
+
+    const title_image = L.DomUtil.create('div');
+    title_image.setAttribute('class', 'special-tools-h2');
+
+    self.tool.google_translate({
+
+        element_html: title_image,
+        str: "Subir icono", 
+        lang: self.lang
+
+    });
+
+    modal_image_container.appendChild(title_image);
+
+    /**********************************************************************/
+
+    const container_image = L.DomUtil.create('div');
+    modal_image_container.appendChild(container_image);
+
+    /**********************************************************************/
+
+    var br = L.DomUtil.create('br');
+    modal_image_container.appendChild(br);
+
+    /**********************************************************************/
+
+    const btn_cancel_image = L.DomUtil.create('button');
+    btn_cancel_image.setAttribute('class', 'special-tools-btn-default');
+
+    self.tool.google_translate({
+
+       element_html: btn_cancel_image,
+       str: "Cancelar", 
+       lang: self.lang
+
+    });
+
+    modal_image_container.appendChild(btn_cancel_image);
+
+    /**********************************************************************/
+
+    L.DomEvent.on(btn_cancel_image, 'click', function() {
+
+        window.setTimeout(function() {
+
+            modal_image.remove();
+
+            self.map.dragging.enable();
+            self.map.doubleClickZoom.enable();
+
+            document.querySelector('.map_inputs').style.zIndex = 1;
+
+        }, 100);
+
+    });
+
+    /**********************************************************************/
+
+    self.tool.image_service_upload(container_image, ['jpg', 'jpeg', 'png'])
+    .then(function() {
+        self.tool.image_subscribe(
+            function(response) {
+
+                const options = {
+
+                    file_data: response.file_data,
+                    tipo: self.tool.get_component_image().tipo,
+                    section_tipo: self.tool.get_component_image().section_tipo,
+                    section_id: self.tool.get_component_image().section_id,
+                    default_quality: self.tool.get_component_image().context.features.default_target_quality
+
+                };
+
+                self.tool.get_image_data(options).then(function(data) {
+
+                    if (!data.success) {
+
+                        self.modal_message('Ha ocurrido un error al subir el archivo');
+                        return;
+
+                    }
+
+                    //data.image_src
+
+                    self.columns[index_column].elements[index_element].icon = self.tool.base_url() + data.image_src;
+                    element.src = self.tool.base_url() + data.image_src;
+
+                    self.modal_message("Icono subido correctamente.");
+                    
+                    self.legend_btn_save_legend.click();
+
+                    window.setTimeout(function() {
+
+                        self.map.dragging.enable();
+                        self.map.doubleClickZoom.enable();
+
+                        self.map._container.querySelector('#modal_image').remove();
+
+                        document.querySelector('.map_inputs').style.zIndex = 1;
+
+                    }, 100);
+
+                });
+
+            }
+        );
+    });
     
 };
 

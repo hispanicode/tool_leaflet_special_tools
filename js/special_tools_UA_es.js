@@ -431,7 +431,7 @@ special_tools_UA_es.prototype.init_UA = function() {
                                         }
                                     }
 
-                                    self.modal_message("Espere un momento a que termine el proceso, cargando ...");
+                                    self.modal_message("Espere un momento a que finalice el proceso, cargando ...");
 
                                     break;
 
