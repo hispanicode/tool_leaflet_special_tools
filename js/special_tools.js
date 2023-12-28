@@ -152,6 +152,37 @@ special_tools.prototype.set_info_console = function(layer) {
         if (self.is_point(layer) && !self.is_circle(layer)) {
 
             if (layer instanceof L.Marker) {
+                
+                if (self.is_oneXone(layer)) {
+
+                    const elements = self.get_layers_by_multi_id(layer.feature.special_tools.multi_id);
+
+                    if (elements.length === 1) {
+
+                        if (elements[0].feature.special_tools.oneXone_type === 'Marker') {
+
+                            const radiusMts = 1;
+
+                            const bounds = L.latLng(layer._latlng).toBounds(radiusMts);
+
+                            const rectangle = L.rectangle(bounds);
+
+                            rectangle.feature = rectangle.toGeoJSON();
+                            rectangle.feature.special_tools = {};
+                            rectangle.feature.special_tools.is_oneXone = true;
+                            rectangle.feature.special_tools.oneXone_type = 'Rectangle';
+                            rectangle.feature.special_tools.tools_id = self.make_id(20);
+                            rectangle.feature.special_tools.multi_id = layer.feature.special_tools.multi_id;
+                            rectangle.feature.special_tools.is_incertidumbre = true;
+                            rectangle.feature.special_tools.on_incertidumbre = true;
+
+                            self.map.fire('pm:create', {layer: rectangle});
+
+                        }
+
+                    }
+
+                }
 
                 self.load_marker_style(layer);
 
@@ -297,6 +328,32 @@ special_tools.prototype.set_info_console = function(layer) {
             } 
 
             else {
+                
+                if (self.is_oneXone(layer)) {
+
+                    const elements = self.get_layers_by_multi_id(layer.feature.special_tools.multi_id);
+
+                    if (elements.length === 1) {
+
+                        if (elements[0].feature.special_tools.oneXone_type === 'Rectangle') {
+
+
+                            const marker = L.marker(layer.getBounds().getCenter());
+
+                            marker.feature = marker.toGeoJSON();
+                            marker.feature.special_tools = {};
+                            marker.feature.special_tools.is_oneXone = true;
+                            marker.feature.special_tools.oneXone_type = 'Marker';
+                            marker.feature.special_tools.tools_id = self.make_id(20);
+                            marker.feature.special_tools.multi_id = layer.feature.special_tools.multi_id;
+
+                            self.map.fire('pm:create', {layer: marker});
+
+                        }
+
+                    }
+
+                }
 
                 self.load_circle_polygon_style(layer);
 
@@ -1064,7 +1121,7 @@ special_tools.prototype.show_modal_vector_download = function(btn_show_modal_vec
 
                             if (_layer.feature.special_tools.multi_id === layer.feature.special_tools.multi_id) {
 
-                                if (layer.feature.geometry.type === 'Polygon' || layer.feature.geometry.type === 'LineString') {
+                                if (_layer.feature.geometry.type === 'Polygon' || _layer.feature.geometry.type === 'LineString') {
 
                                     coordinates.push(_layer.getLatLngs());
 
