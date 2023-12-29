@@ -1945,7 +1945,6 @@ special_tools.prototype.marker_style = function(btn_marker_style, layer) {
             ctx.drawImage(marker_preview, 0, 0, canvas.width, canvas.height);
 
             download_icon.href = canvas.toDataURL('image/png');
-            download_icon.click();
             
             self.modal_message('Icono descargado correctamente');
             
