@@ -2229,6 +2229,37 @@ class tool_leaflet_special_tools extends tool_common  {
         
     }
     
+    public static function legend_icon(object $options): object {
+        
+        $response = new stdClass();
+        
+        $response->blob = $options->blob;
+
+        $source = file_get_contents($response->blob);
+
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        
+        $mimetype = $finfo->buffer($source);
+        
+        if ($mimetype !== 'image/png' && $mimetype !== 'image/jpeg' && $mimetype !== 'image/gif' && $mimetype !== 'image/webp' && $mimetype !== 'image/svg+xml') {
+
+            $response->success = false;
+
+            
+        } else if (strlen($source) > 2000000) {
+            
+            $response->success = false;
+  
+        } else {
+            
+            $response->success = true;
+
+        }
+        
+        return $response;
+        
+    }
+    
     public static function external_image_to_tmp_dir(object $options) : object {
         
         $response = new stdClass();

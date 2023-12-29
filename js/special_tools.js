@@ -1653,7 +1653,7 @@ special_tools.prototype.marker_style = function(btn_marker_style, layer) {
 
             } else {
 
-                color = '#3d5880';
+                color = '#000000';
 
             }
 
@@ -1794,8 +1794,8 @@ special_tools.prototype.marker_style = function(btn_marker_style, layer) {
         marker_preview.style.height = '36px';
 
         readonly_color_div.appendChild(marker_preview);
-
-        /**********************************************************/
+        
+        /*********************************************************/
 
         const clear_div = L.DomUtil.create('div');
         clear_div.style.clear = 'left';
@@ -1919,6 +1919,37 @@ special_tools.prototype.marker_style = function(btn_marker_style, layer) {
         
         self.original_icon(layer, modal_body, marker_preview);
         
+        const download_icon = L.DomUtil.create('a');
+        download_icon.setAttribute('download', 'marker.png');
+        download_icon.style.fontWeight = 'bold';
+        download_icon.style.fontSize = '13px';
+        
+        self.tool.google_translate({
+            
+            element_html: download_icon,
+            str: 'Descargar icono',
+            lang: self.lang
+ 
+        });
+        
+        modal_body.appendChild(download_icon);
+        
+        L.DomEvent.on(download_icon, 'click', function() {
+            
+            const canvas = document.createElement('canvas');
+            canvas.width = marker_preview.width;
+            canvas.height = marker_preview.height;
+            const ctx = canvas.getContext('2d');
+            ctx.filter = marker_preview.style.filter;
+            ctx.drawImage(marker_preview, 0, 0, canvas.width, canvas.height);
+
+            download_icon.href = canvas.toDataURL('image/png');
+            download_icon.click();
+            
+        });
+
+        /**********************************************************/
+        
         /**********************************************************/
 
         if (layer.feature.special_tools.hasOwnProperty('marker_filter') && !self.is_original_marker(layer)) {
@@ -1933,7 +1964,7 @@ special_tools.prototype.marker_style = function(btn_marker_style, layer) {
             
         }  else {
 
-            const default_color = '#3d5880';
+            const default_color = '#000000';
 
             const _compute = compute(default_color);
             
@@ -5968,7 +5999,7 @@ special_tools.prototype.load_marker_style = function(layer) {
     } else {
         
         layer.feature.special_tools.icon = {};
-        layer.feature.special_tools.original_marker = false;
+        layer.feature.special_tools.original_marker = true;
         layer.feature.special_tools.icon.shadow = true;
         layer.feature.special_tools.icon.url = self.tool.tool_url() + '/img/pin.svg';
         options.shadow = true;
@@ -5987,7 +6018,7 @@ special_tools.prototype.load_marker_style = function(layer) {
 
     } else {
 
-        default_color = '#3d5880';
+        default_color = '#000000';
 
     }
 
@@ -7600,7 +7631,7 @@ special_tools.prototype.original_icon = function(layer, modal_body, marker_previ
 
             }  else {
 
-                const default_color = '#3d5880';
+                const default_color = '#000000';
 
                 const _compute = compute(default_color);
 

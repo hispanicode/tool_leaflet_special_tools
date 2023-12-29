@@ -1336,149 +1336,57 @@ special_tools_legend.prototype.load_modal = function() {
 special_tools_legend.prototype.change_icon = function(element, index_column, index_element) {
     
     const self = this.special_tools;
-    const _this = this;
+    
+    const file = L.DomUtil.create('input');
+    file.type = 'file';
+    
+    file.click();
+    
+    file.onchange = e => { 
 
-    /**********************************************************************/
+        const _file = e.target.files[0];
+        
+        if (_file.type !== 'image/png' && _file.type !== 'image/jpeg' && _file.type !== 'image/gif' && _file.type !== 'image/webp' && _file.type !== 'image/svg+xml') {
+            
+            self.modal_message('Tipo de archivo no permitido: ' + _file.type);
+            return;
+            
+        } else if (_file.size > 2000000) {
+            
+            self.modal_message('El archivo no debe de superar los 2 MB de tamaño');
+            return;
+        }
+        
+        const reader = new FileReader();
+        
+        reader.readAsDataURL(_file);
 
-    const modal_image = L.DomUtil.create('div');
-    modal_image.id = 'modal_image';
-    modal_image.setAttribute('class', 'special-tools-modal-upload');
+        reader.onload = readerEvent => {
 
-    self.map._container.append(modal_image);
-
-    /**********************************************************************/
-
-    const modal_image_container = L.DomUtil.create('div');
-    modal_image_container.setAttribute('class', 'special-tools-modal-container');
-    modal_image.appendChild(modal_image_container);
-
-    /**********************************************************************/
-
-    L.DomEvent.on(modal_image, 'mouseover', function() {
-
-        self.map.dragging.disable();
-        self.map.doubleClickZoom.disable();
-        document.querySelector('.map_inputs').style.zIndex = 0;
-
-    });
-
-    /**********************************************************************/
-
-    L.DomEvent.on(modal_image, 'mouseout', function() {
-
-        self.map.dragging.enable();
-        self.map.doubleClickZoom.enable();
-
-    });
-
-    /**********************************************************************/
-
-    const title_image = L.DomUtil.create('div');
-    title_image.setAttribute('class', 'special-tools-h2');
-
-    self.tool.google_translate({
-
-        element_html: title_image,
-        str: "Subir icono", 
-        lang: self.lang
-
-    });
-
-    modal_image_container.appendChild(title_image);
-
-    /**********************************************************************/
-
-    const container_image = L.DomUtil.create('div');
-    modal_image_container.appendChild(container_image);
-
-    /**********************************************************************/
-
-    var br = L.DomUtil.create('br');
-    modal_image_container.appendChild(br);
-
-    /**********************************************************************/
-
-    const btn_cancel_image = L.DomUtil.create('button');
-    btn_cancel_image.setAttribute('class', 'special-tools-btn-default');
-
-    self.tool.google_translate({
-
-       element_html: btn_cancel_image,
-       str: "Cancelar", 
-       lang: self.lang
-
-    });
-
-    modal_image_container.appendChild(btn_cancel_image);
-
-    /**********************************************************************/
-
-    L.DomEvent.on(btn_cancel_image, 'click', function() {
-
-        window.setTimeout(function() {
-
-            modal_image.remove();
-
-            self.map.dragging.enable();
-            self.map.doubleClickZoom.enable();
-
-            document.querySelector('.map_inputs').style.zIndex = 1;
-
-        }, 100);
-
-    });
-
-    /**********************************************************************/
-
-    self.tool.image_service_upload(container_image, ['jpg', 'jpeg', 'png'])
-    .then(function() {
-        self.tool.image_subscribe(
-            function(response) {
-
-                const options = {
-
-                    file_data: response.file_data,
-                    tipo: self.tool.get_component_image().tipo,
-                    section_tipo: self.tool.get_component_image().section_tipo,
-                    section_id: self.tool.get_component_image().section_id,
-                    default_quality: self.tool.get_component_image().context.features.default_target_quality
-
-                };
-
-                self.tool.get_image_data(options).then(function(data) {
-
-                    if (!data.success) {
-
-                        self.modal_message('Ha ocurrido un error al subir el archivo');
-                        return;
-
-                    }
-
-                    //data.image_src
-
-                    self.columns[index_column].elements[index_element].icon = self.tool.base_url() + data.image_src;
-                    element.src = self.tool.base_url() + data.image_src;
-
-                    self.modal_message("Icono subido correctamente.");
+            const content = readerEvent.target.result;
+            
+            self.tool.legend_icon({blob: content}).then(function(data) {
+            
+                if (data.success) {
                     
+                    self.columns[index_column].elements[index_element].icon = data.blob;
+                    element.src = data.blob;
+
                     self.legend_btn_save_legend.click();
-
-                    window.setTimeout(function() {
-
-                        self.map.dragging.enable();
-                        self.map.doubleClickZoom.enable();
-
-                        self.map._container.querySelector('#modal_image').remove();
-
-                        document.querySelector('.map_inputs').style.zIndex = 1;
-
-                    }, 100);
-
-                });
-
-            }
-        );
-    });
+                    
+                    self.modal_message('Icono subido correctamente');
+                
+                } else {
+                    
+                    self.modal_message('Ha ocurrido un error inesperado');
+                    
+                }
+            
+            });
+            
+        }
+        
+    };
     
 };
 
