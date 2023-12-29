@@ -1921,6 +1921,7 @@ special_tools.prototype.marker_style = function(btn_marker_style, layer) {
         
         const download_icon = L.DomUtil.create('a');
         download_icon.setAttribute('download', 'marker.png');
+        download_icon.setAttribute('target', '_blank');
         download_icon.style.fontWeight = 'bold';
         download_icon.style.fontSize = '13px';
         
@@ -1945,6 +1946,8 @@ special_tools.prototype.marker_style = function(btn_marker_style, layer) {
 
             download_icon.href = canvas.toDataURL('image/png');
             download_icon.click();
+            
+            self.modal_message('Icono descargado correctamente');
             
         });
 
