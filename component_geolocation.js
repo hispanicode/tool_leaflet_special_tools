@@ -506,111 +506,13 @@ component_geolocation.prototype.get_map = async function(map_container, key) {
                                 render_tool_leaflet_special_tools.prototype.load_special_tools_wms(L);
                                 render_tool_leaflet_special_tools.prototype.load_special_tools_xyz(L);
                                 
-                                /*
-                                 * 
-                                 * Se obtienen los proveedores para determinar que control se carga o no
-                                 * 
-                                 */
-                                
-                                const geo_provider = self.context.features.geo_provider;
-                                
-                                let special_tools_controls;
-
-                                /* Si es numisdata y es lg-spa || lg-cat || lg-eus */
-                                if (geo_provider === 'NUMISDATA') {
-                                    
-                                    if (self.section_lang === 'lg-spa' || 
-                                        self.section_lang === 'lg-cat' || 
-                                        self.section_lang === 'lg-eus') {
-                                    
-                                        special_tools_controls = {
-
-                                            Objects: true,
-                                            XYZ: true,
-                                            WMS: true,
-                                            OneXOne: true,
-                                            Catastro: true,
-                                            UA: true,
-                                            RomanEmpire: true,
-                                            MapImageDownload: true,
-                                            Upload: true,
-                                            Legend: true,
-                                            Geolocation: true
-
-                                        };
-                                    
-                                    } else {
-                                        
-                                        special_tools_controls = {
-
-                                            Objects: true,
-                                            XYZ: true,
-                                            WMS: true,
-                                            OneXOne: true,
-                                            RomanEmpire: true,
-                                            MapImageDownload: true,
-                                            Upload: true,
-                                            Legend: true,
-                                            Geolocation: true
-
-                                        };
-                                        
-                                    }
-                                    
-                                } 
-                                
-                                else if (
-                                    geo_provider === 'VARIOUS' || 
-                                    geo_provider === 'OSM' || 
-                                    geo_provider === 'ARCGIS' || 
-                                    geo_provider === 'GOOGLE'
-                                ) 
-                                {
-                                    
-                                    if (self.section_lang === 'lg-spa' || 
-                                        self.section_lang === 'lg-cat' || 
-                                        self.section_lang === 'lg-eus') {
-                                
-                                        special_tools_controls = { 
-
-                                            Objects: true,
-                                            XYZ: true,
-                                            WMS: true,
-                                            OneXOne: true,
-                                            Catastro: true,
-                                            UA: true,
-                                            MapImageDownload: true,
-                                            Upload: true,
-                                            Legend: true,
-                                            Geolocation: true
-                                            
-                                        };
-                                        
-                                    } else {
-                                        
-                                        special_tools_controls = { 
-
-                                            Objects: true,
-                                            XYZ: true,
-                                            WMS: true,
-                                            OneXOne: true,
-                                            MapImageDownload: true,
-                                            Upload: true,
-                                            Legend: true,
-                                            Geolocation: true
-                                            
-                                        };
-                                        
-                                    }
-                            
-                                }
 
                                 const special_tools_options = {
 
-                                    position: "topleft",
-                                    controls: special_tools_controls
+                                    position: "topleft"
                                             
                                 };
+
                                 window.setTimeout(function() {
                                     tool_leaflet_special_tools.prototype.control(self, special_tools_options);
                                 }, 3000);
@@ -1568,7 +1470,9 @@ const init_feature = function(options) {
 				? feature.properties.color
 				: null
 			if(color){
+
 				data_layer.setStyle({color: color})
+
 			}
 		// PopupContent. get the popup information
 			const content = self.get_popup_content(data_layer, layer_id);
