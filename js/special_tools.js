@@ -1938,8 +1938,8 @@ special_tools.prototype.marker_style = function(btn_marker_style, layer) {
         L.DomEvent.on(download_icon, 'click', function() {
             
             const canvas = document.createElement('canvas');
-            canvas.width = marker_preview.width;
-            canvas.height = marker_preview.height;
+            canvas.width = 64;
+            canvas.height = 64;
             const ctx = canvas.getContext('2d');
             ctx.filter = marker_preview.style.filter;
             ctx.drawImage(marker_preview, 0, 0, canvas.width, canvas.height);

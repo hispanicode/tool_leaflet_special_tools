@@ -514,8 +514,11 @@ component_geolocation.prototype.get_map = async function(map_container, key) {
                                 };
 
                                 window.setTimeout(function() {
+                                    
                                     tool_leaflet_special_tools.prototype.control(self, special_tools_options);
+                                
                                 }, 3000);
+                                
                                 /* SPECIAL TOOLS */
                                 
 		});
