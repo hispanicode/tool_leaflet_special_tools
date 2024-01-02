@@ -1075,10 +1075,8 @@ class tool_leaflet_special_tools extends tool_common  {
         }
         
         $response->section_tipo = $options->section_tipo;
-        
-        $response->geo_provider = $options->geo_provider;
 
-        $legend_name = $response->section_tipo . '-' . $response->geo_provider . '.json';
+        $legend_name = $response->section_tipo  . '.json';
         $legend_file = self::legends_path() . '/' . $legend_name;
 
         if (!file_exists($legend_file)) {
@@ -1137,9 +1135,83 @@ class tool_leaflet_special_tools extends tool_common  {
         $response->success = false;
         $response->msg = 'Ha ocurrido un error inesperado.';
         
-        $response->geo_provider = $options->geo_provider;
+        $response->section_tipo = $options->section_tipo;
         
-        $file_name = self::basemaps_path() . '/' . $response->geo_provider . '.json';
+        $file_name = self::basemaps_path() . '/' . $response->section_tipo . '.json';
+        
+        if (!file_exists($file_name)) {
+            
+            if ($response->section_tipo === 'numisdata') {
+                
+                $basemaps = '{"basemaps":
+                    [
+                        {
+                            "url":"//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                            "name":"OSM",
+                            "attribution":"&copy; <a href=\'http://osm.org/copyright\'>OpenStreetMap</a> contributors",
+                            "minzoom": 0,
+                            "maxzoom": 19
+                        },
+                        {
+                            "url":"https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                            "name":"ARCGIS",
+                            "attribution":"Tiles &copy; Esri — Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
+                            "minzoom": 0,
+                            "maxzoom": 19
+                        },
+                        {
+                            "url":"https://mt1.google.com/vt/lyrs=r&x={x}&y={y}&z={z}",
+                            "name":"Google Maps",
+                            "attribution":"@copy Google Maps",
+                            "minzoom": 0,
+                            "maxzoom": 19
+                        },
+                        {
+                            "url":"https://dh.gu.se/tiles/imperium/{z}/{x}/{y}.png",
+                            "name":"Dare",
+                            "attribution":"",
+                            "minzoom": 0,
+                            "maxzoom": 11
+                        }
+                    ]
+                }';
+                
+            } else {
+                
+                $basemaps = '{"basemaps":
+                    [
+                        {
+                            "url":"//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                            "name":"OSM",
+                            "attribution":"&copy; <a href=\'http://osm.org/copyright\'>OpenStreetMap</a> contributors",
+                            "minzoom": 0,
+                            "maxzoom": 19
+                        },
+                        {
+                            "url":"https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                            "name":"ARCGIS",
+                            "attribution":"Tiles &copy; Esri — Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
+                            "minzoom": 0,
+                            "maxzoom": 19
+                        },
+                        {
+                            "url":"https://mt1.google.com/vt/lyrs=r&x={x}&y={y}&z={z}",
+                            "name":"Google Maps",
+                            "attribution":"@copy Google Maps",
+                            "minzoom": 0,
+                            "maxzoom": 19
+                        }
+                    ]
+                }';
+                
+            }
+            
+            $handle = fopen($file_name, 'w+');
+            fwrite($handle, $basemaps);
+            fclose($handle);
+            
+            
+        }
         
         $json_file = json_decode(file_get_contents($file_name));
 
@@ -1168,9 +1240,9 @@ class tool_leaflet_special_tools extends tool_common  {
         $response->basemap_attribution = $options->basemap_attribution;
         $response->basemap_minzoom = $options->basemap_minzoom;
         $response->basemap_maxzoom = $options->basemap_maxzoom;
-        $response->geo_provider = $options->geo_provider;
+        $response->section_tipo = $options->section_tipo;
         
-        $file_name = self::basemaps_path() . '/' . $response->geo_provider . '.json';
+        $file_name = self::basemaps_path() . '/' . $response->section_tipo . '.json';
 
         if (
                 $response->basemap_url === '' || 
@@ -1248,9 +1320,9 @@ class tool_leaflet_special_tools extends tool_common  {
 
         $response->basemap_index = $options->basemap_index;
     
-        $response->geo_provider = $options->geo_provider;
+        $response->section_tipo = $options->section_tipo;
         
-        $file_name = self::basemaps_path() . '/' . $response->geo_provider . '.json';
+        $file_name = self::basemaps_path() . '/' . $response->section_tipo . '.json';
         
         if ($response->basemap_index >= 0) {
 
@@ -1343,9 +1415,23 @@ class tool_leaflet_special_tools extends tool_common  {
         $response->success = false;
         $response->msg = 'Ha ocurrido un error inesperado.';
         
-        $response->geo_provider = $options->geo_provider;
+        $response->section_tipo = $options->section_tipo;
         
-        $file_name = self::wms_path() . '/' . $response->geo_provider . '.json';
+        $file_name = self::wms_path() . '/' . $response->section_tipo . '.json';
+        
+        if (!file_exists($file_name)) {
+            
+            $wms = '{"wms":
+                        [
+
+                        ]
+                    }';
+            
+            $handle = fopen($file_name, 'w+');
+            fwrite($handle, $wms);
+            fclose($handle);
+
+        }
         
         $json_file = json_decode(file_get_contents($file_name));
 
@@ -1378,9 +1464,9 @@ class tool_leaflet_special_tools extends tool_common  {
         $response->wms_name = $options->wms_name;
         $response->wms_title = $options->wms_title;
         $response->wms_opacity = $options->wms_opacity;
-        $response->geo_provider = $options->geo_provider;
+        $response->section_tipo = $options->section_tipo;
         
-        $file_name = self::wms_path() . '/' . $response->geo_provider . '.json';
+        $file_name = self::wms_path() . '/' . $response->section_tipo . '.json';
 
         if (
                 $response->wms_url === '' || 
@@ -1474,9 +1560,9 @@ class tool_leaflet_special_tools extends tool_common  {
             
         }
 
-        $response->geo_provider = $options->geo_provider;
+        $response->section_tipo = $options->section_tipo;
         
-        $file_name = self::wms_path() . '/' . $response->geo_provider . '.json';
+        $file_name = self::wms_path() . '/' . $response->section_tipo . '.json';
         
         $json_file = json_decode(file_get_contents($file_name));
 
@@ -1527,9 +1613,9 @@ class tool_leaflet_special_tools extends tool_common  {
 
         $response->wms_index = $options->wms_index;
     
-        $response->geo_provider = $options->geo_provider;
+        $response->section_tipo = $options->section_tipo;
         
-        $file_name = self::wms_path() . '/' . $response->geo_provider . '.json';
+        $file_name = self::wms_path() . '/' . $response->section_tipo . '.json';
         
         if ($response->wms_index >= 0) {
 

@@ -178,7 +178,7 @@ tool_leaflet_special_tools.prototype.control = async function(component_geolocat
     
     options.special_tools = specialTools;
     
-    const controls = options.controls;
+    const controls = self.get_controls();
     
     try {
         L.control.graphicScale({fill: 'hollow', doubleLine: true, position: 'bottomright'}).addTo(component_geolocation.map);
@@ -741,9 +741,8 @@ tool_leaflet_special_tools.prototype.legends = async function(options) {
     const self = this;
 
     this.model = 'tool_leaflet_special_tools';
-    
-    options.geo_provider = this.get_component_geolocation().context.features.geo_provider;
-    options.section_tipo = this.get_component_geolocation().section_tipo;
+
+    options.section_tipo = self.get_section_tipo();
 
     const method = 'legends';
     
@@ -829,7 +828,7 @@ tool_leaflet_special_tools.prototype.select_basemaps = async function(options) {
 
     this.model = 'tool_leaflet_special_tools';
     
-    options.geo_provider = this.get_component_geolocation().context.features.geo_provider;
+    options.section_tipo = this.get_section_tipo();
 
     const method = 'select_basemaps';
     
@@ -873,7 +872,7 @@ tool_leaflet_special_tools.prototype.create_basemap = async function(options) {
 
     this.model = 'tool_leaflet_special_tools';
     
-    options.geo_provider = this.get_component_geolocation().context.features.geo_provider;
+    options.section_tipo = this.get_section_tipo();
 
     const method = 'create_basemap';
     
@@ -917,7 +916,7 @@ tool_leaflet_special_tools.prototype.remove_basemap = async function(options) {
 
     this.model = 'tool_leaflet_special_tools';
     
-    options.geo_provider = this.get_component_geolocation().context.features.geo_provider;
+    options.section_tipo = this.get_section_tipo();
 
     const method = 'remove_basemap';
     
@@ -961,7 +960,7 @@ tool_leaflet_special_tools.prototype.select_wms = async function(options) {
 
     this.model = 'tool_leaflet_special_tools';
     
-    options.geo_provider = this.get_component_geolocation().context.features.geo_provider;
+    options.section_tipo = this.get_section_tipo();
 
     const method = 'select_wms';
     
@@ -1005,7 +1004,7 @@ tool_leaflet_special_tools.prototype.update_wms = async function(options) {
 
     this.model = 'tool_leaflet_special_tools';
     
-    options.geo_provider = this.get_component_geolocation().context.features.geo_provider;
+    options.section_tipo = this.get_section_tipo();
 
     const method = 'update_wms';
     
@@ -1049,7 +1048,7 @@ tool_leaflet_special_tools.prototype.create_wms = async function(options) {
 
     this.model = 'tool_leaflet_special_tools';
     
-    options.geo_provider = this.get_component_geolocation().context.features.geo_provider;
+    options.section_tipo = this.get_section_tipo();
 
     const method = 'create_wms';
     
@@ -1725,5 +1724,105 @@ tool_leaflet_special_tools.prototype.base_url = function() {
         const baseUrl = getUrl .protocol + "//" + getUrl.host;
         
         return baseUrl;
+    
+};
+
+tool_leaflet_special_tools.prototype.get_controls = function() {
+    
+    const component_geolocation = this.get_component_geolocation();
+
+    let special_tools_controls;
+
+    if (component_geolocation.section_tipo.match('numisdata')) {
+
+        if (component_geolocation.section_lang === 'lg-spa' || 
+            component_geolocation.section_lang === 'lg-cat' || 
+            component_geolocation.section_lang === 'lg-eus') {
+
+            special_tools_controls = {
+
+                Objects: true,
+                XYZ: true,
+                WMS: true,
+                OneXOne: true,
+                Catastro: true,
+                UA: true,
+                RomanEmpire: true,
+                MapImageDownload: true,
+                Upload: true,
+                Legend: true,
+                Geolocation: true
+
+            };
+
+        } else {
+
+            special_tools_controls = {
+
+                Objects: true,
+                XYZ: true,
+                WMS: true,
+                OneXOne: true,
+                RomanEmpire: true,
+                MapImageDownload: true,
+                Upload: true,
+                Legend: true,
+                Geolocation: true
+
+            };
+
+        }
+
+    } 
+
+    else {
+
+        if (component_geolocation.section_lang === 'lg-spa' || 
+            component_geolocation.section_lang === 'lg-cat' || 
+            component_geolocation.section_lang === 'lg-eus') {
+
+            special_tools_controls = { 
+
+                Objects: true,
+                XYZ: true,
+                WMS: true,
+                OneXOne: true,
+                Catastro: true,
+                UA: true,
+                MapImageDownload: true,
+                Upload: true,
+                Legend: true,
+                Geolocation: true
+
+            };
+
+        } else {
+
+            special_tools_controls = { 
+
+                Objects: true,
+                XYZ: true,
+                WMS: true,
+                OneXOne: true,
+                MapImageDownload: true,
+                Upload: true,
+                Legend: true,
+                Geolocation: true
+
+            };
+
+        }
+
+    }
+    
+    return special_tools_controls;
+    
+};
+
+tool_leaflet_special_tools.prototype.get_section_tipo = function() {
+    
+    const component_geolocation = this.get_component_geolocation();
+
+    return component_geolocation.section_tipo.replace(/\d/gi, '');
     
 };
