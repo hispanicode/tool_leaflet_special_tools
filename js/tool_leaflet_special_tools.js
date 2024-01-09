@@ -1550,7 +1550,11 @@ tool_leaflet_special_tools.prototype.get_component_image = function() {
 
 tool_leaflet_special_tools.prototype.tool_url = function() {
     
-    return DEDALO_ROOT_WEB + '/tools/tool_leaflet_special_tools';
+    const get_url = window.location;
+    
+    const base_url = get_url.protocol + "//" + get_url.host + "/" + get_url.pathname.split('/')[1];
+
+    return base_url + '/tools/tool_leaflet_special_tools';
 
 };
 
