@@ -890,9 +890,17 @@ special_tools.prototype.point_in_polygon = function(coordinate, layer) {
 
 special_tools.prototype.is_url = function(string) {
 
-  try { return Boolean(new URL(string)); }
+    string = String(string);
 
-  catch(e){ return false; }
+    const expression = /http(s)?\:\/\//gi;
+
+    if (string.match(expression)) {
+        
+        return true;
+        
+    }
+    
+    return false;
 
 };
 
