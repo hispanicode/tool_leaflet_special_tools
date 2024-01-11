@@ -285,7 +285,7 @@ special_tools_map_image_download.prototype.load_modal = function() {
 
                 const _SE = bounds.getSouthEast();
 
-                self.modal_message("Descargando ...");
+                self.modal_message("Descargando ...", 10000);
 
                 if (file_type === 'tif') {
 

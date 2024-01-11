@@ -977,8 +977,6 @@ class tool_leaflet_special_tools extends tool_common  {
                 $response->msg = 'No ha sido posible crear el archivo';
                 
                 $create_file = false;
-                
-                return $response;
 
             }
             
