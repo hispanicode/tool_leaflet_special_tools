@@ -108,10 +108,6 @@
 .slbCaption {
   display: inline-block;
   max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  word-wrap: normal;
   font-size: 1.4em;
   position: absolute;
   left: 0;

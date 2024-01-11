@@ -1310,6 +1310,33 @@ class tool_leaflet_special_tools extends tool_common  {
         
     }
     
+    public static function update_basemap(object $options): object {
+        
+        $response = new stdClass();
+        $response->success = false;
+        $response->msg = 'Ha ocurrido un error inesperado';
+        $response->section_tipo = $options->section_tipo;
+        $response->content = $options->content;
+        $file_name = self::basemaps_path() . '/' . $response->section_tipo . '.json';
+        
+        try {
+            
+            $handle = fopen($file_name, "w+");
+            fwrite($handle, $response->content);
+            fclose($handle);
+            $response->msg = 'ok';
+            $response->success = true;
+        
+        } catch (Exception $e) {
+            
+            return $response;
+            
+        }
+        
+        return $response;
+        
+    }
+    
     public static function remove_basemap(object $options): object {
         
         $response = new stdClass();
