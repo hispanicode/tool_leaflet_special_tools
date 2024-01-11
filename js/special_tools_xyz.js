@@ -95,8 +95,8 @@ special_tools_xyz.prototype.init_xyz = function() {
                 const basemap_name = self.basemaps[index].name;
                 const basemap_url = self.basemaps[index].url;
                 const basemap_attribution = self.basemaps[index].attribution;
-                const basemap_minzoom = self.basemaps[index].minzoom;
-                const basemap_maxzoom = self.basemaps[index].maxzoom;
+                const basemap_minzoom = parseInt(self.basemaps[index].minzoom);
+                const basemap_maxzoom = parseInt(self.basemaps[index].maxzoom);
 
                 const tilelayer = L.tileLayer(basemap_url, {
 
@@ -274,7 +274,7 @@ special_tools_xyz.prototype.load_modal = function() {
     self.maxzoom_input.type = 'text';
     self.maxzoom_input.id = 'maxzoom_input';
     self.maxzoom_input.setAttribute('class', 'special-tools-input-50');
-    self.maxzoom_input.value = 18;
+    self.maxzoom_input.value = 22;
 
     maxzoom_input_div.appendChild(self.maxzoom_input);
     
@@ -285,7 +285,7 @@ special_tools_xyz.prototype.load_modal = function() {
     self.tool.google_translate({
 
         element_html: maxzoom_input_span,
-        str: "MaxZoom (requerido) Por defecto 18", 
+        str: "MaxZoom (requerido) Por defecto 22", 
         lang: self.lang
 
     });
@@ -411,8 +411,8 @@ special_tools_xyz.prototype.load_modal = function() {
                         const element = {};
                         element.name = items[x].getAttribute('name');
                         element.url = items[x].getAttribute('url');
-                        element.minzoom = items[x].getAttribute('minzoom');
-                        element.maxzoom = items[x].getAttribute('maxzoom');
+                        element.minzoom = parseInt(items[x].getAttribute('minzoom'));
+                        element.maxzoom = parseInt(items[x].getAttribute('maxzoom'));
                         content.basemaps.push(element);
                         
                         try {
@@ -440,8 +440,8 @@ special_tools_xyz.prototype.load_modal = function() {
                         const basemap_name = self.basemaps[x].name;
                         const basemap_url = self.basemaps[x].url;
                         const basemap_attribution = self.basemaps[x].attribution;
-                        const basemap_minzoom = self.basemaps[x].minzoom;
-                        const basemap_maxzoom = self.basemaps[x].maxzoom;
+                        const basemap_minzoom = parseInt(self.basemaps[x].minzoom);
+                        const basemap_maxzoom = parseInt(self.basemaps[x].maxzoom);
 
                         const tilelayer = L.tileLayer(basemap_url, {
 
@@ -588,23 +588,23 @@ special_tools_xyz.prototype.load_modal = function() {
 
         if (self.minzoom_input.value === '') {
 
-            self.modal_message("El Zoom mínimo debe de ser un número entero entre 0 y 18");
+            self.modal_message("El Zoom mínimo debe de ser un número entero entre 0 y 22");
 
             return;
 
         }
 
-        if (parseInt(self.minzoom_input.value) < 0 || parseInt(self.minzoom_input.value) > 18) {
+        if (parseInt(self.minzoom_input.value) < 0 || parseInt(self.minzoom_input.value) > 22) {
 
-            self.modal_message("El Zoom mínimo no puede ser inferior a 0 ni superior a 18");
+            self.modal_message("El Zoom mínimo no puede ser inferior a 0 ni superior a 22");
 
             return;
 
         }
 
-        if (parseInt(self.maxzoom_input.value) < 0 || parseInt(self.maxzoom_input.value) > 18) {
+        if (parseInt(self.maxzoom_input.value) < 0 || parseInt(self.maxzoom_input.value) > 22) {
 
-            self.modal_message("El Zoom máximo no puede ser inferior a 0 ni superior a 18");
+            self.modal_message("El Zoom máximo no puede ser inferior a 0 ni superior a 22");
 
             return;
 
@@ -612,7 +612,7 @@ special_tools_xyz.prototype.load_modal = function() {
 
         if (self.maxzoom_input.value === '') {
 
-            self.modal_message("El Zoom máximo debe de ser un número entero entre 0 y 18");
+            self.modal_message("El Zoom máximo debe de ser un número entero entre 0 y 22");
 
             return;
 
@@ -653,8 +653,8 @@ special_tools_xyz.prototype.load_modal = function() {
                 basemap_url: self.basemap_input.value,
                 basemap_name: self.strip_tags(self.name_input.value),
                 basemap_attribution: self.attribution_input.value,
-                basemap_minzoom: self.minzoom_input.value,
-                basemap_maxzoom: self.maxzoom_input.value
+                basemap_minzoom: parseInt(self.minzoom_input.value),
+                basemap_maxzoom: parseInt(self.maxzoom_input.value)
 
             };
 
@@ -679,8 +679,8 @@ special_tools_xyz.prototype.load_modal = function() {
                     let basemap_url = self.basemaps[basemap_index].url;
                     let basemap_name = self.basemaps[basemap_index].name;
                     let basemap_attribution = self.basemaps[basemap_index].attribution;
-                    let basemap_minzoom = self.basemaps[basemap_index].minzoom;
-                    let basemap_maxzoom = self.basemaps[basemap_index].maxzoom;
+                    let basemap_minzoom = parseInt(self.basemaps[basemap_index].minzoom);
+                    let basemap_maxzoom = parseInt(self.basemaps[basemap_index].maxzoom);
 
                     const test_basemap = L.tileLayer(basemap_url, {
 
@@ -776,8 +776,8 @@ special_tools_xyz.prototype.load_modal = function() {
                             const basemap_name = self.basemaps[x].name;
                             const basemap_url = self.basemaps[x].url;
                             const basemap_attribution = self.basemaps[x].attribution;
-                            const basemap_minzoom = self.basemaps[x].minzoom;
-                            const basemap_maxzoom = self.basemaps[x].maxzoom;
+                            const basemap_minzoom = parseInt(self.basemaps[x].minzoom);
+                            const basemap_maxzoom = parseInt(self.basemaps[x].maxzoom);
 
                             const tilelayer = L.tileLayer(basemap_url, {
 

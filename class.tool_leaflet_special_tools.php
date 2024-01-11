@@ -1150,7 +1150,7 @@ class tool_leaflet_special_tools extends tool_common  {
                             "name":"OSM",
                             "attribution":"&copy; <a href=\'http://osm.org/copyright\'>OpenStreetMap</a> contributors",
                             "minzoom": 0,
-                            "maxzoom": 19
+                            "maxzoom": 20
                         },
                         {
                             "url":"https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
@@ -1164,7 +1164,7 @@ class tool_leaflet_special_tools extends tool_common  {
                             "name":"Google Maps",
                             "attribution":"@copy Google Maps",
                             "minzoom": 0,
-                            "maxzoom": 19
+                            "maxzoom": 22
                         },
                         {
                             "url":"https://dh.gu.se/tiles/imperium/{z}/{x}/{y}.png",
@@ -1185,7 +1185,7 @@ class tool_leaflet_special_tools extends tool_common  {
                             "name":"OSM",
                             "attribution":"&copy; <a href=\'http://osm.org/copyright\'>OpenStreetMap</a> contributors",
                             "minzoom": 0,
-                            "maxzoom": 19
+                            "maxzoom": 20
                         },
                         {
                             "url":"https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
@@ -1199,7 +1199,7 @@ class tool_leaflet_special_tools extends tool_common  {
                             "name":"Google Maps",
                             "attribution":"@copy Google Maps",
                             "minzoom": 0,
-                            "maxzoom": 19
+                            "maxzoom": 22
                         }
                     ]
                 }';
@@ -1255,15 +1255,15 @@ class tool_leaflet_special_tools extends tool_common  {
             $response->msg = 'Hay campos vacíos, por favor rellénelos.';
 
 
-        } else if (intval($response->basemap_minzoom) < 0 || intval($response->basemap_minzoom) > 18) {
+        } else if (intval($response->basemap_minzoom) < 0 || intval($response->basemap_minzoom) > 22) {
 
             $response->success = false;
-            $response->msg = "El zoom mínimo debe de estar comprendido entre 0 y 18";
+            $response->msg = "El zoom mínimo debe de estar comprendido entre 0 y 22";
 
-        } else if (intval($response->basemap_maxzoom) < 0 || intval($response->basemap_maxzoom) > 18) {
+        } else if (intval($response->basemap_maxzoom) < 0 || intval($response->basemap_maxzoom) > 22) {
 
             $response->success = false;
-            $response->msg = "El zoom máximo debe de estar comprendido entre 0 y 18";
+            $response->msg = "El zoom máximo debe de estar comprendido entre 0 y 22";
 
         } else {
 
