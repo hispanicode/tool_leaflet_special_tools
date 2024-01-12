@@ -82,6 +82,7 @@ special_tools_xyz.prototype.init_xyz = function() {
                     if (layer instanceof L.TileLayer) {
 
                         layer.removeFrom(self.map);
+                        self.component_geolocation.layer_control.removeLayer(layer);
 
                     }
 
@@ -133,8 +134,6 @@ special_tools_xyz.prototype.load_modal = function() {
     const _this = this;
     
     const self = this.special_tools;
-    
-    self.wms_basemaps = new Array();
     
     self.modal = self.new_modal("Mapas base XYZ");
 
@@ -389,7 +388,7 @@ special_tools_xyz.prototype.load_modal = function() {
                 box_container.setAttribute('data-id', index);
                 box_container.setAttribute('url', self.basemaps[index].url);
                 box_container.setAttribute('name', self.basemaps[index].name);
-                box_container.setAttribute('url', self.basemaps[index].url);
+                box_container.setAttribute('attribution', self.basemaps[index].attribution);
                 box_container.setAttribute('minzoom', self.basemaps[index].minzoom);
                 box_container.setAttribute('maxzoom', self.basemaps[index].maxzoom);
                 box_container.addEventListener('dragstart', handleDragStart);
@@ -404,6 +403,14 @@ special_tools_xyz.prototype.load_modal = function() {
                     
                     let content = {basemaps: []};
                     
+                    for (let y in self.array_basemaps) {
+                        
+                        self.component_geolocation.layer_control.removeLayer(self.array_basemaps[y]);
+                        
+                    }
+                    
+                    self.array_basemaps = new Array();
+                    
                     const items = self.map._container.querySelectorAll('.draggable-item');
                     
                     for (let x = 0; x < items.length; x++) {
@@ -411,55 +418,30 @@ special_tools_xyz.prototype.load_modal = function() {
                         const element = {};
                         element.name = items[x].getAttribute('name');
                         element.url = items[x].getAttribute('url');
+                        element.attribution = items[x].getAttribute('attribution');
                         element.minzoom = parseInt(items[x].getAttribute('minzoom'));
                         element.maxzoom = parseInt(items[x].getAttribute('maxzoom'));
                         content.basemaps.push(element);
                         
-                        try {
-                            self.map._container.querySelectorAll('.element-btn-delete')[x].setAttribute('index', x);
-                        } catch(e){};
+                        const tilelayer = L.tileLayer(element.url, {
+
+                            attribution: element.attribution,
+                            minZoom: element.minzoom,
+                            maxZoom: element.maxzoom
+
+                        });
+
+                        self.component_geolocation.layer_control.addBaseLayer(tilelayer, element.name);
+
+                        self.array_basemaps.push(tilelayer);
+                        
                     }
 
                     
                     self.tool.update_basemap({content: JSON.stringify(content)});
-                    
-                    for (let basemap_index in self.array_basemaps) {
-                        
-                        self.component_geolocation.layer_control.removeLayer(self.array_basemaps[basemap_index]);
-                        self.array_basemaps[basemap_index].removeFrom(self.map);
-                    
-                    }
-                    
-                    
-                    self.basemaps = content.basemaps;
-                    self.array_basemaps = [];
 
-                    for (let x in self.basemaps) {
+                    _this.controlDiv.click();
 
-
-                        const basemap_name = self.basemaps[x].name;
-                        const basemap_url = self.basemaps[x].url;
-                        const basemap_attribution = self.basemaps[x].attribution;
-                        const basemap_minzoom = parseInt(self.basemaps[x].minzoom);
-                        const basemap_maxzoom = parseInt(self.basemaps[x].maxzoom);
-
-                        const tilelayer = L.tileLayer(basemap_url, {
-
-                            attribution: basemap_attribution,
-                            minZoom: basemap_minzoom,
-                            maxZoom: basemap_maxzoom
-
-                        });
-
-                        self.component_geolocation.layer_control.addBaseLayer(tilelayer, basemap_name);
-
-                        self.array_basemaps.push(tilelayer);
-                        
-                        try {
-                        document.querySelectorAll('.leaflet-control-layers-selector')[0].click();
-                        } catch(e) {};
-
-                    }
                     
                 });
 
@@ -516,8 +498,8 @@ special_tools_xyz.prototype.load_modal = function() {
                         promise.then(function(data) {
 
                             if (data.success) {
-
-                                L.DomUtil.remove(box_container);
+                                
+                                _this.controlDiv.click();
 
                                 self.modal_message("Mapa base eliminado con éxito");
 
@@ -526,10 +508,7 @@ special_tools_xyz.prototype.load_modal = function() {
                                 self.array_basemaps[basemap_index].removeFrom(self.map);
 
                                 self.array_basemaps = self.array_basemaps.flat();
-                                
-                                try {
-                                document.querySelectorAll('.leaflet-control-layers-selector')[0].click();
-                                } catch(e) {};
+    
 
                             } else {
 
@@ -540,12 +519,6 @@ special_tools_xyz.prototype.load_modal = function() {
                         });
 
                     }, 100);
-
-                    window.setTimeout(function() {
-
-                        _this.restore();
-
-                    }, 500);
 
                     L.DomEvent.preventDefault(e);
 
@@ -692,7 +665,7 @@ special_tools_xyz.prototype.load_modal = function() {
 
                     test_basemap.addTo(self.map);
 
-                    test_basemap.on('tileerror', function(){
+                    test_basemap.on('tileerror', function() {
 
                         self.is_valid_basemap = false;
 
@@ -718,120 +691,6 @@ special_tools_xyz.prototype.load_modal = function() {
 
                     test_basemap.removeFrom(self.map);
 
-                    const box_container = L.DomUtil.create('li');
-                    box_container.setAttribute('class', 'special-tools-container special-tools-element-basemap draggable-item');
-                    box_container.setAttribute('draggable', true);
-                    box_container.setAttribute('data-id', basemap_index);
-                    box_container.setAttribute('url', self.basemaps[basemap_index].url);
-                    box_container.setAttribute('name', self.basemaps[basemap_index].name);
-                    box_container.setAttribute('url', self.basemaps[basemap_index].url);
-                    box_container.setAttribute('minzoom', self.basemaps[basemap_index].minzoom);
-                    box_container.setAttribute('maxzoom', self.basemaps[basemap_index].maxzoom);
-                    box_container.addEventListener('dragstart', handleDragStart);
-                    box_container.addEventListener('dragover', handleDragOver);
-                    box_container.addEventListener('drop', handleDrop);
-                    box_container.style.border = '1px solid #ccc';
-                    box_container.style.margin = '5px';
-                    box_container.style.padding = '10px';
-                    box_container.style.cursor = 'grab';
-                    
-                    self.basemap_list.appendChild(box_container);
-                    
-                    L.DomEvent.on(box_container, 'drop', function() {
-
-                        let content = {basemaps: []};
-
-                        const items = self.map._container.querySelectorAll('.draggable-item');
-
-                        for (let x = 0; x < items.length; x++) {
-
-                            const element = {};
-                            element.name = items[x].getAttribute('name');
-                            element.url = items[x].getAttribute('url');
-                            element.minzoom = items[x].getAttribute('minzoom');
-                            element.maxzoom = items[x].getAttribute('maxzoom');
-                            content.basemaps.push(element);
-                            try {
-                                self.map._container.querySelectorAll('.element-btn-delete')[x].setAttribute('index', x);
-                            } catch(e){};
-                        }
-
-
-                        self.tool.update_basemap({content: JSON.stringify(content)});
-
-                        for (let basemap_index in self.array_basemaps) {
-
-                            self.component_geolocation.layer_control.removeLayer(self.array_basemaps[basemap_index]);
-                            self.array_basemaps[basemap_index].removeFrom(self.map);
-
-                        }
-
-
-                        self.basemaps = content.basemaps;
-                        self.array_basemaps = [];
-
-                        for (let x in self.basemaps) {
-
-
-                            const basemap_name = self.basemaps[x].name;
-                            const basemap_url = self.basemaps[x].url;
-                            const basemap_attribution = self.basemaps[x].attribution;
-                            const basemap_minzoom = parseInt(self.basemaps[x].minzoom);
-                            const basemap_maxzoom = parseInt(self.basemaps[x].maxzoom);
-
-                            const tilelayer = L.tileLayer(basemap_url, {
-
-                                attribution: basemap_attribution,
-                                minZoom: basemap_minzoom,
-                                maxZoom: basemap_maxzoom
-
-                            });
-
-                            self.component_geolocation.layer_control.addBaseLayer(tilelayer, basemap_name);
-
-                            self.array_basemaps.push(tilelayer);
-                            
-                            try {
-                                document.querySelectorAll('.leaflet-control-layers-selector')[0].click();
-                            } catch(e){};
-
-                        }
-
-                    });
-                    
-                    /**********************************************************/
-
-                    const element_input_name = L.DomUtil.create('input');
-                    element_input_name.type = 'text';
-                    element_input_name.setAttribute('class', 'special-tools-input-150');
-                    element_input_name.setAttribute('readonly', true);
-                    element_input_name.value = self.basemaps[basemap_index].name;
-
-                    const element_btn_delete = L.DomUtil.create('button');
-                    element_btn_delete.type = 'button';
-                    element_btn_delete.setAttribute('class', 'special-tools-btn-danger');
-                    element_btn_delete.setAttribute('index', basemap_index);
-                    element_btn_delete.style.position = 'relative';
-                    element_btn_delete.style.top = '4px';
-
-                    const element_btn_delete_img = L.DomUtil.create('img');
-                    element_btn_delete_img.src = self.tool.tool_url() + '/img/trash.png';
-                    element_btn_delete_img.width = 16;
-                    element_btn_delete_img.height = 16;
-
-                    element_btn_delete.appendChild(element_btn_delete_img);
-                    
-                    const element_drag = L.DomUtil.create('img');
-                    element_drag.src = self.tool.tool_url() + '/img/drag.png';
-                    element_drag.width = 24;
-                    element_drag.height = 24;
-                    element_drag.style.position = 'relative';
-                    element_drag.style.top = '7px';
-
-                    box_container.appendChild(element_input_name);
-                    box_container.appendChild(element_btn_delete);
-                    box_container.appendChild(element_drag);
-
                     self.modal_message("Mapa base creado con éxito");
 
                     basemap_name = self.basemaps[basemap_index].name;
@@ -851,60 +710,8 @@ special_tools_xyz.prototype.load_modal = function() {
                     self.component_geolocation.layer_control.addBaseLayer(tilelayer, basemap_name);
 
                     self.array_basemaps.push(tilelayer);
-
-                    L.DomEvent.on(element_btn_delete, 'click', function(e) {
-
-                        this.disabled = true;
-
-                        const basemap_index = parseInt(this.getAttribute('index'));
-
-                        window.setTimeout(function() {
-
-                            let options = {};
-
-                            options.basemap_index = basemap_index;
-
-                            let promise = self.tool.remove_basemap(options);
-
-                            promise.then(function(data) {
-
-                                if (data.success) {
-
-                                    L.DomUtil.remove(box_container);
-
-                                    self.modal_message("Mapa base eliminado con éxito");
-
-                                    self.component_geolocation.layer_control.removeLayer(self.array_basemaps[basemap_index]);
-
-                                    self.array_basemaps[basemap_index].removeFrom(self.map);
-
-                                    self.array_basemaps = self.array_basemaps.flat();
-
-                                    try {
-                                        document.querySelectorAll('.leaflet-control-layers-selector')[0].click();
-                                    } catch(e){};
-                                    
-                                    return;
-
-                                } else {
-
-                                    self.modal_message(data.msg);
-
-                                }
-
-                            });
-
-                        }, 100);
-
-                        window.setTimeout(function() {
-
-                            _this.restore();
-
-                        }, 500);
-
-                        L.DomEvent.preventDefault(e);
-
-                    });
+                    
+                    _this.controlDiv.click();
 
                 }
 
@@ -914,19 +721,4 @@ special_tools_xyz.prototype.load_modal = function() {
 
     });
     
-};
-
-special_tools_xyz.prototype.restore = function() {
-    
-    const self = this.special_tools;
-    
-    const elements = self.basemap_list.querySelectorAll('.special-tools-element-basemap');
-
-    for (let index = 0; index < elements.length; index++) {
-
-        const btn_delete = elements[index].querySelector('.special-tools-btn-danger');
-        btn_delete.setAttribute('index', index);
-
-    }
-         
 };
