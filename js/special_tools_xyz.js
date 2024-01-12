@@ -406,6 +406,7 @@ special_tools_xyz.prototype.load_modal = function() {
                     for (let y in self.array_basemaps) {
                         
                         self.component_geolocation.layer_control.removeLayer(self.array_basemaps[y]);
+                        self.array_basemaps[y].removeFrom(self.map);
                         
                     }
                     
@@ -435,11 +436,13 @@ special_tools_xyz.prototype.load_modal = function() {
 
                         self.array_basemaps.push(tilelayer);
                         
+                        
+                        
                     }
 
                     
                     self.tool.update_basemap({content: JSON.stringify(content)});
-
+                    document.querySelectorAll('.leaflet-control-layers-selector')[index].click();
                     _this.controlDiv.click();
 
                     
