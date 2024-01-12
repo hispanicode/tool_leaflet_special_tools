@@ -484,46 +484,53 @@ special_tools_xyz.prototype.load_modal = function() {
 
                 self.basemap_list.appendChild(box_container);
 
-                L.DomEvent.on(element_btn_delete, 'click', function(e) {
+                L.DomEvent.on(element_btn_delete, 'click', function() {
+                    
+                    self.map._container.querySelectorAll('.draggable-item')[index].remove();
 
-                    this.disabled = true;
+                    let content = {basemaps: []};
+                    
+                    for (let y in self.array_basemaps) {
+                        
+                        self.component_geolocation.layer_control.removeLayer(self.array_basemaps[y]);
+                        self.array_basemaps[y].removeFrom(self.map);
+                        
+                    }
+                    
+                    self.array_basemaps = new Array();
+                    
+                    const items = self.map._container.querySelectorAll('.draggable-item');
+                    
+                    for (let x = 0; x < items.length; x++) {
+                        
+                        const element = {};
+                        element.name = items[x].getAttribute('name');
+                        element.url = items[x].getAttribute('url');
+                        element.attribution = items[x].getAttribute('attribution');
+                        element.minzoom = parseInt(items[x].getAttribute('minzoom'));
+                        element.maxzoom = parseInt(items[x].getAttribute('maxzoom'));
+                        content.basemaps.push(element);
+                        
+                        const tilelayer = L.tileLayer(element.url, {
 
-                    const basemap_index = parseInt(this.getAttribute('index'));
-
-                    window.setTimeout(function() {
-
-                        let options = {};
-
-                        options.basemap_index = basemap_index;
-
-                        let promise = self.tool.remove_basemap(options);
-
-                        promise.then(function(data) {
-
-                            if (data.success) {
-                                
-                                _this.controlDiv.click();
-
-                                self.modal_message("Mapa base eliminado con éxito");
-
-                                self.component_geolocation.layer_control.removeLayer(self.array_basemaps[basemap_index]);
-
-                                self.array_basemaps[basemap_index].removeFrom(self.map);
-
-                                self.array_basemaps = self.array_basemaps.flat();
-    
-
-                            } else {
-
-                                self.modal_message(data.msg);
-
-                            }
+                            attribution: element.attribution,
+                            minZoom: element.minzoom,
+                            maxZoom: element.maxzoom
 
                         });
 
-                    }, 100);
+                        self.component_geolocation.layer_control.addBaseLayer(tilelayer, element.name);
 
-                    L.DomEvent.preventDefault(e);
+                        self.array_basemaps.push(tilelayer);
+                        
+                        
+                        
+                    }
+
+                    
+                    self.tool.update_basemap({content: JSON.stringify(content)});
+                    document.querySelectorAll('.leaflet-control-layers-selector')[0].click();
+                    _this.controlDiv.click();
 
                 });
                 
@@ -713,6 +720,9 @@ special_tools_xyz.prototype.load_modal = function() {
                     self.component_geolocation.layer_control.addBaseLayer(tilelayer, basemap_name);
 
                     self.array_basemaps.push(tilelayer);
+                    document.querySelectorAll('.leaflet-control-layers-selector')[self.array_basemaps.length-1].click();
+                    
+                    
                     
                     _this.controlDiv.click();
 
