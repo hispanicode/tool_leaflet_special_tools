@@ -985,67 +985,69 @@ special_tools_upload.prototype.open_raster_modal_event = function() {
 
                        } else {
 
-                           point1 = self.map.getBounds().getNorthWest();
-                           point2 = self.map.getBounds().getNorthEast();
-                           point3 = self.map.getBounds().getSouthWest();
+                            point1 = self.map.getBounds().getNorthWest();
+                            point2 = self.map.getBounds().getNorthEast();
+                            point3 = self.map.getBounds().getSouthWest();
 
-                       }
-
-                       window.setTimeout(function() {
-
-                       const overlay = L.imageOverlay.rotated(url, point1, point2, point3, {
-
-                           opacity: 1,
-                           interactive: true
-
-                       });
-
-                       const image_id = self.make_id(20);
-
-                       overlay.addTo(self.map);
-
-                       const bounds_of_image = overlay.getBounds();
-
-                       const clip_polygon = L.rectangle(bounds_of_image, {opacity: 0, color: 'none'});
-
-                       overlay.removeFrom(self.map);
-
-                       clip_polygon.feature = clip_polygon.toGeoJSON();
-                       clip_polygon.feature.properties.images = [];
-                       clip_polygon.feature.properties.images.push(image_object);
-                       clip_polygon.feature.special_tools = {};
-                       clip_polygon.feature.special_tools.is_clipPolygon = true;
-                       clip_polygon.feature.special_tools.clipPolygon_image = url;
-                       clip_polygon.feature.special_tools.image_id = image_id;
-                       clip_polygon.feature.special_tools.imageOpacity = 1;
-                       clip_polygon.feature.special_tools.imageInteractive = true;
-                       clip_polygon.feature.special_tools.image_zIndex = 200;
-                       clip_polygon.feature.special_tools.point1 = point1;
-                       clip_polygon.feature.special_tools.point2 = point2;
-                       clip_polygon.feature.special_tools.point3 = point3;
-                       clip_polygon.feature.special_tools.geoman_edition = false;
-
-                       self.map.fire('pm:create', {layer: clip_polygon});
-
-                       self.map.fitBounds(bounds_of_image);
-
-                       self.modal_message("Imagen subida correctamente.");
+                        }
 
                         window.setTimeout(function() {
 
-                            self.map._container.querySelector('#modal_image').remove();
-                            
-                            self.map.dragging.enable();
-                            self.map.doubleClickZoom.enable();
+                            const overlay = L.imageOverlay.rotated(url, point1, point2, point3, {
 
-                            document.querySelector('.map_inputs').style.zIndex = 1;
+                                opacity: 1,
+                                interactive: true
 
-                        }, 100);
+                            });
 
-                       const leaflet_modal = self.map._container.querySelector('.leaflet-modal');
-                       leaflet_modal.querySelector('.close').click();
+                            const image_id = self.make_id(20);
 
-                       }, 5000);
+                            overlay.addTo(self.map);
+
+                            const bounds_of_image = overlay.getBounds();
+
+                            const clip_polygon = L.rectangle(bounds_of_image, {opacity: 0, color: 'none'});
+
+                            overlay.removeFrom(self.map);
+
+                            clip_polygon.feature = clip_polygon.toGeoJSON();
+                            clip_polygon.feature.properties.color = 'transparent';
+                            clip_polygon.feature.properties.layer_id = 1;
+                            clip_polygon.feature.properties.images = [];
+                            clip_polygon.feature.properties.images.push(image_object);
+                            clip_polygon.feature.special_tools = {};
+                            clip_polygon.feature.special_tools.is_clipPolygon = true;
+                            clip_polygon.feature.special_tools.clipPolygon_image = url;
+                            clip_polygon.feature.special_tools.image_id = image_id;
+                            clip_polygon.feature.special_tools.imageOpacity = 1;
+                            clip_polygon.feature.special_tools.imageInteractive = true;
+                            clip_polygon.feature.special_tools.image_zIndex = 200;
+                            clip_polygon.feature.special_tools.point1 = point1;
+                            clip_polygon.feature.special_tools.point2 = point2;
+                            clip_polygon.feature.special_tools.point3 = point3;
+                            clip_polygon.feature.special_tools.geoman_edition = false;
+
+                            self.map.fire('pm:create', {layer: clip_polygon});
+
+                            self.map.fitBounds(bounds_of_image);
+
+                            self.modal_message("Imagen subida correctamente.");
+
+                             window.setTimeout(function() {
+
+                                 self.map._container.querySelector('#modal_image').remove();
+
+                                 self.map.dragging.enable();
+                                 self.map.doubleClickZoom.enable();
+
+                                 document.querySelector('.map_inputs').style.zIndex = 1;
+
+                             }, 100);
+
+                            const leaflet_modal = self.map._container.querySelector('.leaflet-modal');
+                            leaflet_modal.querySelector('.close').click();
+
+                        }, 5000);
 
                     });
                 }
