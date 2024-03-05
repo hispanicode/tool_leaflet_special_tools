@@ -35,15 +35,15 @@ Centos: Run yum install php-imagick and restart your webserver.
 
 </pre>
 
-<p>
-El archivo <strong>component_geolocation.js</strong> se adjunta entre los archivos para que se pueda ver las partes modificadas. Se puede buscar a través del archivo con el siguiente texto <i>/* SPECIALTOOLS</i>
-</p>
-
 <p>Si en la subida o descarga de archivos tenéis algún error, hay que habilitar los permisos de escritura en la carpeta tool_leaflet_special_tools:<p>
 
 <pre>
 chmod -R 777 tool_leaflet_special_tools
 </pre>
+
+<p>Para activa el tool_leaflet_special_tools hacer clic en el siguiente botón: </p>
+
+<img src='https://raw.githubusercontent.com/hispanicode/tool_leaflet_special_tools/main/tool.png'>
 
 <p><strong>Configuración y registro del tool:</strong></p>
 

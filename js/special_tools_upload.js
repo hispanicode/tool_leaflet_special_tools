@@ -64,7 +64,7 @@ special_tools_upload.prototype.load_modal = function() {
 
     const modal = self.new_modal("Subir archivo al mapa");
 
-    const modal_body = modal._container.querySelector('.modal-body');
+    const modal_body = SpecialToolsModal.getBody();
 
     /**************************************************************************/
 

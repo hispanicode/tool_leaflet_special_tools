@@ -956,3 +956,9 @@ es      en      Mapa base creado con éxito      Basemap created successfully
 es      en      MaxZoom (requerido) Por defecto 22      MaxZoom (required) Default 22      
 es      es      MaxZoom (requerido) Por defecto 22      MaxZoom (requerido) Por defecto 22      
 es      es      Ha ocurrido un error inesperado.      Ha ocurrido un error inesperado.      
+es      es      No ha sido posible establecer una conexión      No ha sido posible establecer una conexión      
+es      es      Espere un momento a que finalice el proceso, cargando ...      Espere un momento a que finalice el proceso, cargando ...      
+es      es      El servidor donde se aloja la imagen ha rechazado la petición. Error CORS.      El servidor donde se aloja la imagen ha rechazado la petición. Error CORS.      
+es      es      El campo nombre de la propiedad no puede estar vacío      El campo nombre de la propiedad no puede estar vacío      
+es      es      manuel      manuel      
+es      es      Gitanos      Gitanos      

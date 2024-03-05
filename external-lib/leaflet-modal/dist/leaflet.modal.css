@@ -3,6 +3,8 @@
 .leaflet-modal {
   visibility: hidden;
   pointer-events: none;
+  position: absolute;
+  
 }
 .leaflet-modal .overlay {
   position: absolute;
@@ -82,4 +84,8 @@
 .leaflet-modal.show .overlay {
   opacity: 0.6;
   filter: alpha(opacity=60);
+}
+.leaflet-modal .modal-footer {
+    padding: 15px;
+    margin: 15px;
 }

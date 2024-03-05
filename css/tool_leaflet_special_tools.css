@@ -104,7 +104,7 @@
     width: 350px;
     height: auto;
     padding: 20px;
-    z-index: 1000000001;
+    z-index: 100001;
     background-color: #ffffff;
     border-radius: 2px;
     position: absolute;
@@ -127,7 +127,7 @@
     width: 100%;
     height: auto;
     padding: 20px;
-    z-index: 1000000001;
+    z-index: 10003 !important;
     background-color: #ebf5f7;
     border-radius: 2px;
     position: absolute;
@@ -140,7 +140,7 @@
     font-size: 12px;
     width: 100%;
     height: auto;
-    z-index: 1000000001;
+    z-index: 10003 !important;
     background-color: #ebf5f7;
     border-radius: 2px;
     position: absolute;
@@ -150,10 +150,8 @@
 
 
 .special-tools-modal-container {
-    
     font-size: 12px;
     padding: 30px;
-    
 }
 
 .special-tools-modal-container input[type='text'] {

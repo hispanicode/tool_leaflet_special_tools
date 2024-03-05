@@ -1,11 +1,10 @@
-
 export const special_tools = function() {
 
 	return true;
         
 };
 
-special_tools.prototype.load = function(L) {
+special_tools.prototype.load = async function(L) {
     
     L.Control.SpecialTools = L.Control.extend({
 
@@ -16,7 +15,8 @@ special_tools.prototype.load = function(L) {
             /******************************************************************/
 
             this.map = map;
-            special_tools.prototype.map = map;
+            
+            special_tools.prototype.map = this.map;
 
             /******************************************************************/
 
@@ -74,6 +74,7 @@ special_tools.prototype.load = function(L) {
                 lang: self.lang
 
             });
+            
 
             /******************************************************************/
 
@@ -964,7 +965,7 @@ special_tools.prototype.show_modal_vector_download = function(btn_show_modal_vec
 
         const modal = self.new_modal("Descargar objeto vectorial");
 
-        const modal_body = modal._container.querySelector('.modal-body');
+        const modal_body = SpecialToolsModal.getBody();
 
         /*********************************************************/
 
@@ -1220,7 +1221,7 @@ special_tools.prototype.show_modal_raster_download = function(btn_show_modal_ras
 
         const modal = self.new_modal("Descargar imagen");
 
-        const modal_body = modal._container.querySelector('.modal-body');
+        const modal_body = SpecialToolsModal.getBody();
 
         /**********************************************************/
 
@@ -1673,7 +1674,7 @@ special_tools.prototype.marker_style = function(btn_marker_style, layer) {
 
         const modal = self.new_modal("Editar estilos");
 
-        const modal_body = modal._container.querySelector('.modal-body');
+        const modal_body = SpecialToolsModal.getBody();
 
         /**********************************************************/
 
@@ -2129,7 +2130,7 @@ special_tools.prototype.linestring_style = function(btn_linestring_style, layer)
 
         const modal = self.new_modal("Editar estilos");
 
-        const modal_body = modal._container.querySelector('.modal-body');
+        const modal_body = SpecialToolsModal.getBody();
 
         /**********************************************************/
 
@@ -2751,7 +2752,7 @@ special_tools.prototype.polygon_circle_style = function(btn_obj_style, layer) {
 
         const modal = self.new_modal("Editar estilos");
 
-        const modal_body = modal._container.querySelector('.modal-body');
+        const modal_body = SpecialToolsModal.getBody();
 
         /**********************************************************/
 
@@ -4238,7 +4239,7 @@ special_tools.prototype.modal_properties = function(layer, overlay) {
 
     const modal = self.new_modal("Propiedades del objeto");
 
-    const modal_body = modal._container.querySelector('.modal-body');
+    const modal_body = SpecialToolsModal.getBody();
 
     /********************************************************/
 
@@ -4658,7 +4659,7 @@ special_tools.prototype.modal_associate_image = function(layer, overlay) {
 
     const modal = self.new_modal("Asociar imagen al objeto");
 
-    const modal_body = modal._container.querySelector('.modal-body');
+    const modal_body = SpecialToolsModal.getBody();
 
     /********************************************************/
 
@@ -4729,7 +4730,7 @@ special_tools.prototype.modal_associate_image = function(layer, overlay) {
 
                     }
 
-                    modal._container.querySelector('.close').click();
+                    SpecialToolsModal.getClose().click();
 
                 });
         });
@@ -6569,59 +6570,72 @@ special_tools.prototype.new_modal = function(title) {
     
     const self = this;
 
-    return self.map.fire('modal', {
+    SpecialToolsModal.show();
 
-        template: ['<div class="modal-header"></div>',
-          '<hr>',
-          '<div class="modal-body"></div>'
-        ].join(''),
+    const modal_content = SpecialToolsModal.getContent();
 
-        width: 'auto',
+    modal_content.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
+    modal_content.style.marginTop = '80px';
 
-        onShow: function(evt) {
+    const modal_header = SpecialToolsModal.getHeader();
 
-            const modal = evt.modal;
+    const modal_title = L.DomUtil.create('div');
+    modal_title.setAttribute('class', 'special-tools-h1');
 
-            const modal_content = modal._container.querySelector('.modal-content');
+    modal_header.appendChild(modal_title);
 
-            modal_content.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
-            modal_content.style.marginTop = '80px';
+    self.tool.google_translate({
 
-            const modal_header = modal._container.querySelector('.modal-header');
+        element_html: modal_title,
+        str: title, 
+        lang: self.lang
 
-            const modal_title = L.DomUtil.create('div');
-            modal_title.setAttribute('class', 'special-tools-h1');
+    });
+    
+    const separator = L.DomUtil.create('div');
+    separator.style.padding = '3px';
+    separator.style.marginBottom = '4px';
+    separator.style.borderTop = '1px solid #1BBCE3';
+    modal_header.appendChild(separator);
 
-            modal_header.appendChild(modal_title);
+    const span_close = SpecialToolsModal.getClose();
+    
+    span_close.addEventListener('click', function() {
+        try {
 
-            self.tool.google_translate({
+            const special_tools_controls = self.map._container.querySelectorAll('.special-tools-controls');
 
-                element_html: modal_title,
-                str: title, 
-                lang: self.lang
+            for (let x in special_tools_controls) {
 
-            });
+                L.DomUtil.addClass(special_tools_controls[x], 'special-tools-disable');
+                L.DomUtil.removeClass(special_tools_controls[x], 'special-tools-enable');
 
-        },
-        
-        onHide: function() {
-            
-            try {
-                
-                const special_tools_controls = self.map._container.querySelectorAll('.special-tools-controls');
-                
-                for (let x in special_tools_controls) {
-                
-                    L.DomUtil.addClass(special_tools_controls[x], 'special-tools-disable');
-                    L.DomUtil.removeClass(special_tools_controls[x], 'special-tools-enable');
-                
-                }
+            }
 
-            } catch (Exception) {};
+        } catch (Exception) {};
 
-        }
+    });
+    
+    const footer = SpecialToolsModal.getFooter();
+    const btn_cancel = L.DomUtil.create('button');
+    btn_cancel.type = 'button';
+    btn_cancel.setAttribute('class', 'special-tools-btn-default');
+    btn_cancel.style.float = 'right';
+    
+    self.tool.google_translate({
 
-    }).modal;
+        element_html: btn_cancel,
+        str: "Cerrar", 
+        lang: self.lang
+
+    });
+    
+    footer.appendChild(btn_cancel);
+    
+    btn_cancel.addEventListener('click', function() {
+        span_close.click();
+    });
+    
 
 };
 
@@ -7724,5 +7738,3 @@ special_tools.prototype.is_original_marker = function(layer) {
     return false;
     
 };
-
-

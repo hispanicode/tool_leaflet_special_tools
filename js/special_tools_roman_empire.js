@@ -66,7 +66,7 @@ special_tools_roman_empire.prototype.load_modal = function() {
     
     self.modal = self.new_modal("Servicios relacionados con el Imperio Romano");
 
-    self.modal_body = self.modal._container.querySelector('.modal-body');
+    self.modal_body = SpecialToolsModal.getBody();
 
     /**************************************************************************/
     
@@ -79,7 +79,6 @@ special_tools_roman_empire.prototype.load_modal = function() {
 special_tools_roman_empire.prototype.load_pleiades = function() {
 
     const self = this.special_tools;
-    
     const pleiades_title = L.DomUtil.create('div');
     pleiades_title.setAttribute('class', 'special-tools-h2');
     pleiades_title.innerText = 'Pleiades (pleiades.stoa.org)';
@@ -221,12 +220,11 @@ special_tools_roman_empire.prototype.load_pleiades = function() {
 
     L.DomEvent.on(btn_pleiades, 'click', function() {
 
-
-        const radio_option_checked = self.modal._container.querySelector('input[name="radio_pleiades"]:checked').value;
+        const radio_option_checked = self.modal_body.querySelector('input[name="radio_pleiades"]:checked').value;
         const input_value = self.simple_sanitize_string(search_pleiades.value);
-        const pleiades_array = self.modal._container.querySelectorAll('.get-pleiades');
-        const p_pleiades_array = self.modal._container.querySelectorAll('.p-get-pleiades');
-        const pleiades_items_founds = self.modal._container.querySelector('#pleiades_items_founds');
+        const pleiades_array = self.modal_body.querySelectorAll('.get-pleiades');
+        const p_pleiades_array = self.modal_body.querySelectorAll('.p-get-pleiades');
+        const pleiades_items_founds = self.modal_body.querySelector('#pleiades_items_founds');
         
         pleiades_items_founds.style.display = 'none';
         
@@ -276,8 +274,8 @@ special_tools_roman_empire.prototype.load_pleiades = function() {
 
             for (let index in json_content) {
 
-                const get_pleiades = self.modal._container.querySelectorAll('.get-pleiades')[index];
-                const p_pleiades = self.modal._container.querySelectorAll('.p-get-pleiades')[index];
+                const get_pleiades = self.modal_body.querySelectorAll('.get-pleiades')[index];
+                const p_pleiades = self.modal_body.querySelectorAll('.p-get-pleiades')[index];
 
                 try {
         
@@ -293,7 +291,7 @@ special_tools_roman_empire.prototype.load_pleiades = function() {
 
     });
     
-    const pleiades_array = self.modal._container.querySelectorAll('.get-pleiades');
+    const pleiades_array = self.modal_body.querySelectorAll('.get-pleiades');
     
     for (let index = 0; index < pleiades_array.length; index++) {
         
@@ -389,7 +387,7 @@ special_tools_roman_empire.prototype.load_pleiades = function() {
 };
 
 special_tools_roman_empire.prototype.load_pelagios = function() {
-
+    
     const self = this.special_tools;
     
     const pelagios_title = L.DomUtil.create('div');
@@ -789,12 +787,11 @@ special_tools_roman_empire.prototype.load_pelagios = function() {
     });
 
     L.DomEvent.on(btn_pelagios, 'click', function() {
-        
         const query = self.simple_sanitize_string(search_pelagios.value);
-        const pelagios_array = self.modal._container.querySelectorAll('.get-pelagios');   
-        const p_pelagios_array = self.modal._container.querySelectorAll('.p-get-pelagios');
+        const pelagios_array = self.modal_body.querySelectorAll('.get-pelagios');   
+        const p_pelagios_array = self.modal_body.querySelectorAll('.p-get-pelagios');
         
-        const pelagios_items_founds = self.modal._container.querySelector('#pelagios_items_founds');
+        const pelagios_items_founds = self.modal_body.querySelector('#pelagios_items_founds');
         
         pelagios_items_founds.style.display = 'none';
         
@@ -808,73 +805,73 @@ special_tools_roman_empire.prototype.load_pelagios = function() {
 
         let filter = new Array();
 
-        if (self.modal._container.querySelector('input[name="10m_lakes"]:checked')) {
+        if (self.modal_body.querySelector('input[name="10m_lakes"]:checked')) {
 
             filter.push("10m_lakes");
 
         }
 
-        if (self.modal._container.querySelector('input[name="10m_lakes_label"]:checked')) {
+        if (self.modal_body.querySelector('input[name="10m_lakes_label"]:checked')) {
 
             filter.push("10m_lakes_label");
 
         }
 
-        if (self.modal._container.querySelector('input[name="10m_rivers_lake_centerlines"]:checked')) {
+        if (self.modal_body.querySelector('input[name="10m_rivers_lake_centerlines"]:checked')) {
 
             filter.push("10m_rivers_lake_centerlines");
 
         }
 
-        if (self.modal._container.querySelector('input[name="fortifications"]:checked')) {
+        if (self.modal_body.querySelector('input[name="fortifications"]:checked')) {
 
             filter.push("fortifications");
 
         }
 
-        if (self.modal._container.querySelector('input[name="places_high"]:checked')) {
+        if (self.modal_body.querySelector('input[name="places_high"]:checked')) {
 
             filter.push("places_high");
 
         }
 
-        if (self.modal._container.querySelector('input[name="places_low"]:checked')) {
+        if (self.modal_body.querySelector('input[name="places_low"]:checked')) {
 
             filter.push("places_low");
 
         }
 
-        if (self.modal._container.querySelector('input[name="places_medium"]:checked')) {
+        if (self.modal_body.querySelector('input[name="places_medium"]:checked')) {
 
             filter.push("places_medium");
 
         }
 
-        if (self.modal._container.querySelector('input[name="places_subsites"]:checked')) {
+        if (self.modal_body.querySelector('input[name="places_subsites"]:checked')) {
 
             filter.push("places_subsites");
 
         }
 
-        if (self.modal._container.querySelector('input[name="provinces"]:checked')) {
+        if (self.modal_body.querySelector('input[name="provinces"]:checked')) {
 
             filter.push("provinces");
 
         }
 
-        if (self.modal._container.querySelector('input[name="provinces_label"]:checked')) {
+        if (self.modal_body.querySelector('input[name="provinces_label"]:checked')) {
 
             filter.push("provinces_label");
 
         }
 
-        if (self.modal._container.querySelector('input[name="roads_high"]:checked')) {
+        if (self.modal_body.querySelector('input[name="roads_high"]:checked')) {
 
             filter.push("roads_high");
 
         }
 
-        if (self.modal._container.querySelector('input[name="roads_low"]:checked')) {
+        if (self.modal_body.querySelector('input[name="roads_low"]:checked')) {
 
             filter.push("roads_low");
 
@@ -894,7 +891,7 @@ special_tools_roman_empire.prototype.load_pelagios = function() {
 
         let promise = self.tool.get_pelagios(options);
 
-        promise.then(function(data){
+        promise.then(function(data) {
 
             if (!data.success) {
 
@@ -906,8 +903,8 @@ special_tools_roman_empire.prototype.load_pelagios = function() {
 
             for (let index in data.content) {
 
-                const get_pelagios = self.modal._container.querySelectorAll('.get-pelagios')[index];
-                const p_pelagios = self.modal._container.querySelectorAll('.p-get-pelagios')[index];
+                const get_pelagios = self.modal_body.querySelectorAll('.get-pelagios')[index];
+                const p_pelagios = self.modal_body.querySelectorAll('.p-get-pelagios')[index];
                 
                 try {
                     
@@ -924,7 +921,7 @@ special_tools_roman_empire.prototype.load_pelagios = function() {
 
     });
     
-    const pelagios_array = self.modal._container.querySelectorAll('.get-pelagios');
+    const pelagios_array = self.modal_body.querySelectorAll('.get-pelagios');
     
     for (let index = 0; index < pelagios_array.length; index++) {
         
@@ -1008,7 +1005,6 @@ special_tools_roman_empire.prototype.load_pelagios = function() {
 special_tools_roman_empire.prototype.load_imperium = function() {
     
     const self = this.special_tools;
-
     const imperium_title = L.DomUtil.create('div');
     imperium_title.setAttribute('class', 'special-tools-h2');
     imperium_title.innerText = 'imperium.ahlfeldt.se (Lund University)';
@@ -1290,15 +1286,14 @@ special_tools_roman_empire.prototype.load_imperium = function() {
     });
 
     L.DomEvent.on(btn_imperium, 'click', function () {
-
         const type_site = select_imperium_type.options[select_imperium_type.selectedIndex].value;
         const type_name = select_imperium_name.options[select_imperium_name.selectedIndex].value;
         const type_country = select_imperium_country.options[select_imperium_country.selectedIndex].value;
-        const query = self.simple_sanitize_string(self.modal._container.querySelector('#search_imperium').value);
-        const imperium_array = self.modal._container.querySelectorAll('.get-imperium');
-        const p_imperium_array = self.modal._container.querySelectorAll('.p-get-imperium');
+        const query = self.simple_sanitize_string(self.modal_body.querySelector('#search_imperium').value);
+        const imperium_array = self.modal_body.querySelectorAll('.get-imperium');
+        const p_imperium_array = self.modal_body.querySelectorAll('.p-get-imperium');
 
-        const imperium_items_founds = self.modal._container.querySelector('#imperium_items_founds');
+        const imperium_items_founds = self.modal_body.querySelector('#imperium_items_founds');
         
         imperium_items_founds.style.display = 'none';
         
@@ -1331,8 +1326,8 @@ special_tools_roman_empire.prototype.load_imperium = function() {
 
             for (let index in content) {
 
-                const get_imperium = self.modal._container.querySelectorAll('.get-imperium')[index];
-                const p_imperium = self.modal._container.querySelectorAll('.p-get-imperium')[index];
+                const get_imperium = self.modal_body.querySelectorAll('.get-imperium')[index];
+                const p_imperium = self.modal_body.querySelectorAll('.p-get-imperium')[index];
 
                 try {
 
@@ -1348,8 +1343,8 @@ special_tools_roman_empire.prototype.load_imperium = function() {
         });
         
     });
-    
-    const imperium_array = self.modal._container.querySelectorAll('.get-imperium');
+
+    const imperium_array = self.modal_body.querySelectorAll('.get-imperium');
     
     for (let index = 0; index < imperium_array.length; index++) {
         

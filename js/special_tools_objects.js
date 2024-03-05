@@ -332,9 +332,9 @@ special_tools_objects.prototype.load_modal = function() {
 
     const self = this.special_tools;
     
-    const modal = self.new_modal("Objetos");
+    self.new_modal('Objetos');
 
-    const modal_body = modal._container.querySelector('.modal-body');
+    const modal_body = SpecialToolsModal.getBody();
 
     /**************************************************************************/
 
@@ -343,7 +343,7 @@ special_tools_objects.prototype.load_modal = function() {
     modal_body.appendChild(self.special_tools_title_2);
     modal_body.appendChild(self.special_tools_container_2);
 
-    const leaflet_id_inputs = modal._container.querySelectorAll(".leaflet-id");
+    const leaflet_id_inputs = modal_body.querySelectorAll(".leaflet-id");
 
     try {
         
@@ -686,7 +686,7 @@ special_tools_objects.prototype.load_modal = function() {
 
         var is_multi_id;
 
-        const icon_view_object = modal._container.querySelectorAll(".icon-view-object");
+        const icon_view_object = modal_body.querySelectorAll(".icon-view-object");
 
         for (let index in icon_view_object) {
 

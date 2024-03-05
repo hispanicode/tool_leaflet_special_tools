@@ -113,7 +113,7 @@ special_tools_wms.prototype.load_modal = function() {
     
     self.modal = self.new_modal("Servicios WMS");
 
-    self.modal_body = self.modal._container.querySelector('.modal-body');
+    self.modal_body = SpecialToolsModal.getBody();
     
     self.wms_array = new Array();
 

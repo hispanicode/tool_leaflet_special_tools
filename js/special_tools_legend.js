@@ -245,7 +245,7 @@ special_tools_legend.prototype.load_modal = function() {
 
     const modal = self.new_modal("Leyenda");
 
-    const modal_body = modal._container.querySelector('.modal-body');
+    const modal_body = SpecialToolsModal.getBody();
 
     /**************************************************************************/
 
@@ -383,15 +383,15 @@ special_tools_legend.prototype.load_modal = function() {
     
     /**************************************************************************/
 
-    self.legend_name_input = modal._container.querySelector('#legend_name_input');
+    self.legend_name_input = modal_body.querySelector('#legend_name_input');
 
-    self.legend_btn_save_legend = modal._container.querySelector('#legend_btn_save_legend');
+    self.legend_btn_save_legend = modal_body.querySelector('#legend_btn_save_legend');
 
-    self.legend_btn_add_column = modal._container.querySelector('#legend_btn_add_column');
+    self.legend_btn_add_column = modal_body.querySelector('#legend_btn_add_column');
 
-    self.columns_div = modal._container.querySelector('#columns_div');
+    self.columns_div = modal_body.querySelector('#columns_div');
 
-    self.chk_show_legend = modal._container.querySelector('#chk_show_legend');
+    self.chk_show_legend = modal_body.querySelector('#chk_show_legend');
 
     L.DomEvent.on(self.legend_name_input, 'keyup', function(){
 
@@ -443,7 +443,7 @@ special_tools_legend.prototype.load_modal = function() {
 
         /**********************************************************************/
 
-        const legend_title_value = modal._container.querySelector('#legend_name_input').value;
+        const legend_title_value = modal_body.querySelector('#legend_name_input').value;
 
         const legend_title = L.DomUtil.create('div');
         legend_title.setAttribute('class', 'special-tools-legend-name');

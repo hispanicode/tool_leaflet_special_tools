@@ -1,175 +1,230 @@
 {
-  "label": "Desarrollo de herramientas",
-  "relations": [
-    {
-      "type": "dd151",
-      "section_id": "-1",
-      "section_tipo": "dd128",
-      "from_component_tipo": "dd200"
-    },
-    {
-      "type": "dd675",
-      "section_id": "1",
-      "section_tipo": "dd153",
-      "from_component_tipo": "dd1337"
-    },
-    {
-      "type": "dd151",
-      "section_id": "1",
-      "section_tipo": "dd64",
-      "from_component_tipo": "dd1354"
-    },
-    {
-      "type": "dd151",
-      "section_id": "17",
-      "section_tipo": "dd1342",
-      "from_component_tipo": "dd1330"
-    },
-    {
-      "type": "dd151",
-      "section_id": "3",
-      "section_tipo": "dd1342",
-      "from_component_tipo": "dd1330"
-    },
-    {
-      "type": "dd151",
-      "section_id": "2",
-      "section_tipo": "dd64",
-      "from_component_tipo": "dd1333"
-    },
-    {
-      "type": "dd151",
-      "section_id": "2",
-      "section_tipo": "dd64",
-      "from_component_tipo": "dd1332"
-    },
-    {
-      "type": "dd151",
-      "section_id": "2",
-      "section_tipo": "dd64",
-      "from_component_tipo": "dd1331"
-    },
-    {
-      "type": "dd151",
-      "section_id": "2",
-      "section_tipo": "dd64",
-      "from_component_tipo": "dd1601"
-    },
-    {
-      "type": "dd151",
-      "section_id": "-1",
-      "section_tipo": "dd128",
-      "from_component_tipo": "dd197"
-    }
-  ],
-  "components": {
-    "dd199": {
-      "inf": "created_date [component_date]",
-      "dato": {
-        "lg-nolan": [
-          {
-            "start": {
-              "day": 13,
-              "hour": 12,
-              "time": 65046026299,
-              "year": 2023,
-              "month": 10,
-              "minute": 38,
-              "second": 19
+    "result": {
+        "label": "Desarrollo de herramientas",
+        "relations": [
+            {
+                "type": "dd151",
+                "section_id": "-1",
+                "section_tipo": "dd128",
+                "from_component_tipo": "dd200"
+            },
+            {
+                "type": "dd675",
+                "section_id": "1",
+                "section_tipo": "dd153",
+                "from_component_tipo": "dd1337"
+            },
+            {
+                "type": "dd151",
+                "section_id": "1",
+                "section_tipo": "dd64",
+                "from_component_tipo": "dd1354"
+            },
+            {
+                "type": "dd151",
+                "section_id": "17",
+                "section_tipo": "dd1342",
+                "from_component_tipo": "dd1330"
+            },
+            {
+                "type": "dd151",
+                "section_id": "1",
+                "section_tipo": "dd64",
+                "from_component_tipo": "dd1331"
+            },
+            {
+                "type": "dd151",
+                "section_id": "1",
+                "section_tipo": "dd64",
+                "from_component_tipo": "dd1601"
+            },
+            {
+                "type": "dd151",
+                "section_id": "1",
+                "section_tipo": "dd64",
+                "from_component_tipo": "dd1332"
+            },
+            {
+                "type": "dd151",
+                "section_id": "-1",
+                "section_tipo": "dd128",
+                "from_component_tipo": "dd197"
             }
-          }
-        ]
-      }
-    },
-    "dd201": {
-      "inf": "modified_date [component_date]",
-      "dato": {
-        "lg-nolan": [
-          {
-            "start": {
-              "day": 6,
-              "hour": 19,
-              "time": 65048126083,
-              "year": 2023,
-              "month": 11,
-              "minute": 54,
-              "second": 43
+        ],
+        "components": {
+            "dd199": {
+                "inf": "created_date [component_date]",
+                "dato": {
+                    "lg-nolan": [
+                        {
+                            "start": {
+                                "day": 3,
+                                "hour": 12,
+                                "time": 65058553450,
+                                "year": 2024,
+                                "month": 3,
+                                "minute": 24,
+                                "second": 10
+                            }
+                        }
+                    ]
+                }
+            },
+            "dd201": {
+                "inf": "modified_date [component_date]",
+                "dato": {
+                    "lg-nolan": [
+                        {
+                            "start": {
+                                "day": 3,
+                                "hour": 13,
+                                "time": 65058557486,
+                                "year": 2024,
+                                "month": 3,
+                                "minute": 31,
+                                "second": 26
+                            }
+                        }
+                    ]
+                }
+            },
+            "dd612": {
+                "inf": "Descripción [component_text_area]",
+                "dato": {
+                    "lg-spa": [
+                        "<p>Tool Leaflet Special Tools</p>"
+                    ]
+                }
+            },
+            "dd799": {
+                "inf": "Etiqueta [component_input_text]",
+                "dato": {
+                    "lg-spa": [
+                        "Tool Leaflet Special Tools"
+                    ]
+                }
+            },
+            "dd1326": {
+                "inf": "Nombre de la herramienta [component_input_text]",
+                "dato": {
+                    "lg-nolan": [
+                        "tool_leaflet_special_tools"
+                    ]
+                }
+            },
+            "dd1327": {
+                "inf": "Versión [component_input_text]",
+                "dato": {
+                    "lg-nolan": [
+                        "1.0.1"
+                    ]
+                }
+            },
+            "dd1328": {
+                "inf": "Versión Dédalo mínima [component_input_text]",
+                "dato": {
+                    "lg-nolan": [
+                        "6.0.0"
+                    ]
+                }
+            },
+            "dd1335": {
+                "inf": "Propiedades [component_json]",
+                "dato": {
+                    "lg-nolan": [
+                        {}
+                    ]
+                }
+            },
+            "dd1353": {
+                "inf": "Simple tool object [component_json]",
+                "dato": {
+                    "lg-nolan": [
+                        {
+                            "name": "tool_leaflet_special_tools",
+                            "label": [
+                                {
+                                    "lang": "lg-spa",
+                                    "value": "Tool Leaflet Special Tools"
+                                }
+                            ],
+                            "labels": null,
+                            "version": "1.0.1",
+                            "ontology": null,
+                            "developer": [
+                                {
+                                    "lang": "lg-nolan",
+                                    "value": [
+                                        "Manuel Jesús Dávila González"
+                                    ]
+                                }
+                            ],
+                            "dd_version": "6.0.0",
+                            "properties": null,
+                            "section_id": 15,
+                            "description": [
+                                {
+                                    "lang": "lg-spa",
+                                    "value": [
+                                        "<p>Tool Leaflet Special Tools</p>"
+                                    ]
+                                }
+                            ],
+                            "section_tipo": "dd1324",
+                            "always_active": true,
+                            "affected_tipos": null,
+                            "affected_models": [
+                                "component_geolocation"
+                            ],
+                            "show_in_component": true,
+                            "show_in_inspector": true,
+                            "requirement_translatable": false
+                        }
+                    ]
+                }
+            },
+            "dd1362": {
+                "inf": "Implementación [component_text_area]",
+                "dato": {
+                    "lg-nolan": [
+                        "<p>Manuel Jesús Dávila González</p>"
+                    ]
+                }
+            },
+            "dd1644": {
+                "inf": "Desarollador [component_input_text]",
+                "dato": {
+                    "lg-nolan": [
+                        "Manuel Jesús Dávila González"
+                    ]
+                }
             }
-          }
-        ]
-      }
+        },
+        "section_id": 15,
+        "created_date": "2024-03-03 12:24:10",
+        "section_tipo": "dd1324",
+        "modified_date": "2024-03-03 13:31:26",
+        "diffusion_info": null,
+        "created_by_userID": -1,
+        "section_real_tipo": "dd73",
+        "modified_by_userID": -1
     },
-    "dd612": {
-      "inf": "Descripción [component_text_area]",
-      "dato": {
-        "lg-eng": [
-          "<p>tool_leaflet_special_tools</p>"
-        ]
-      }
+    "msg": "OK. Request done",
+    "error": null,
+    "action": "read_raw",
+    "debug": {
+        "api_exec_time": "17.054 ms",
+        "memory_usage": "2 MB",
+        "rqo": {
+            "source": {
+                "section_tipo": "dd1324",
+                "section_id": "15"
+            },
+            "action": "read_raw",
+            "pretty_print": "true"
+        },
+        "rqo_string": "{\n    \"source\": {\n        \"section_tipo\": \"dd1324\",\n        \"section_id\": \"15\"\n    },\n    \"action\": \"read_raw\",\n    \"pretty_print\": \"true\"\n}",
+        "real_execution_time": "19.207 ms"
     },
-    "dd799": {
-      "inf": "Etiqueta [component_input_text]",
-      "dato": {
-        "lg-eng": [
-          "tool_leaflet_special_tools"
-        ]
-      }
-    },
-    "dd999": {
-      "inf": "Configuración [component_json]",
-      "dato": {
-        "lg-nolan": [
-          {}
-        ]
-      }
-    },
-    "dd1326": {
-      "inf": "Nombre de la herramienta [component_input_text]",
-      "dato": {
-        "lg-nolan": [
-          "tool_leaflet_special_tools"
-        ]
-      }
-    },
-    "dd1327": {
-      "inf": "Versión [component_input_text]",
-      "dato": {
-        "lg-nolan": [
-          "1.0.0"
-        ]
-      }
-    },
-    "dd1328": {
-      "inf": "Versión Dédalo mínima [component_input_text]",
-      "dato": {
-        "lg-nolan": [
-          "6.0.0"
-        ]
-      }
-    },
-    "dd1362": {
-      "inf": "Dev info [component_text_area]",
-      "dato": {
-        "lg-nolan": [
-          "<p>Manuel Jesús Dávila González</p>"
-        ]
-      }
-    },
-    "dd1372": {
-      "inf": "Etiquetas [component_json]",
-      "dato": {
-        "lg-nolan": [
-          {}
-        ]
-      }
-    }
-  },
-  "section_id": 17,
-  "created_date": "2023-10-13 12:38:19",
-  "section_tipo": "dd1340",
-  "modified_date": "2023-11-06 19:54:43",
-  "diffusion_info": null,
-  "created_by_userID": -1,
-  "section_real_tipo": "dd73",
-  "modified_by_userID": -1
+    "dedalo_last_error": null
 }

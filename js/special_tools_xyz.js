@@ -64,6 +64,14 @@ special_tools_xyz.prototype.init_xyz = function() {
     
     const self = this.special_tools;
     
+    const _layers = self.component_geolocation.layer_control._layers;
+    
+    for (let i in _layers) {
+        
+        if (_layers[i].layer instanceof L.TileLayer) self.component_geolocation.layer_control.removeLayer(_layers[i].layer);
+        
+    }
+
     self.array_basemaps = new Array();
 
     let promise = self.tool.select_basemaps({});
@@ -74,7 +82,7 @@ special_tools_xyz.prototype.init_xyz = function() {
 
             const content = JSON.parse(data.content);
             self.basemaps = content.basemaps;
-
+            
             if (self.basemaps.length > 0) {
 
                 self.map.eachLayer(function(layer) {
@@ -137,7 +145,7 @@ special_tools_xyz.prototype.load_modal = function() {
     
     self.modal = self.new_modal("Mapas base XYZ");
 
-    self.modal_body = self.modal._container.querySelector('.modal-body');
+    self.modal_body = SpecialToolsModal.getBody();;
     
     /**************************************************************************/                 
 
@@ -443,8 +451,7 @@ special_tools_xyz.prototype.load_modal = function() {
                     
                     self.tool.update_basemap({content: JSON.stringify(content)});
                     document.querySelectorAll('.leaflet-control-layers-selector')[index].click();
-                    _this.controlDiv.click();
-
+                    _this.load_modal();
                     
                 });
 

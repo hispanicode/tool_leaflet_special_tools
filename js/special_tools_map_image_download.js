@@ -65,7 +65,7 @@ special_tools_map_image_download.prototype.load_modal = function() {
     
     const modal = self.new_modal("Descargar mapa");
 
-    const modal_body = modal._container.querySelector('.modal-body');
+    const modal_body = SpecialToolsModal.getBody();
 
     /**************************************************************************/
 
