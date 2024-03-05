@@ -63,11 +63,12 @@ const SpecialToolsModal = {
         if (typeof callback === 'undefined') callback = '';  
         this.leaflet_modal.classList.remove('hide');
         this.leaflet_modal.classList.add('show');
-        
+        try {
         L.DomEvent
           .disableClickPropagation(this.leaflet_modal)
           .disableScrollPropagation(this.leaflet_modal);
         L.DomEvent.on(this.leaflet_modal, 'contextmenu', L.DomEvent.stopPropagation);
+        } catch(e){};
     },
     
     hide: function() {

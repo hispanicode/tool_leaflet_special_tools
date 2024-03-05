@@ -6632,8 +6632,10 @@ special_tools.prototype.new_modal = function(title) {
     
     footer.appendChild(btn_cancel);
     
-    btn_cancel.addEventListener('click', function() {
-        span_close.click();
+    btn_cancel.addEventListener('click', function(e) {
+        window.setTimeout(function() {
+            span_close.click();
+        }, 100);
     });
     
 
