@@ -3749,9 +3749,9 @@ special_tools.prototype.modal_properties_form_create = function(layer, overlay) 
 
             return;
 
-        } else if (value.length > 300) {
+        } else if (value.length > 1000) {
 
-            self.modal_message("El campo valor de la propiedad no puede superar los 300 caracteres");
+            self.modal_message("El campo valor de la propiedad no puede superar los 1000 caracteres");
 
             return;
 
@@ -4003,9 +4003,9 @@ special_tools.prototype.modal_properties_form_update = function(property, layer,
 
             return;
 
-        } else if (value.length > 300) {
+        } else if (value.length > 1000) {
 
-            self.modal_message("El campo valor de la propiedad no puede superar los 300 caracteres");
+            self.modal_message("El campo valor de la propiedad no puede superar los 1000 caracteres");
 
             return;
 

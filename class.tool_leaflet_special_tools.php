@@ -1710,10 +1710,10 @@ class tool_leaflet_special_tools extends tool_common  {
             $response->msg = "El campo valor de la propiedad no puede estar vacío";
 
 
-        } else if (strlen($response->value) > 300) {
+        } else if (strlen($response->value) > 1000) {
 
             $response->success = false;
-            $response->msg = "El campo valor de la propiedad no puede superar los 300 caracteres";
+            $response->msg = "El campo valor de la propiedad no puede superar los 1000 caracteres";
 
         } else {
             
@@ -1740,7 +1740,7 @@ class tool_leaflet_special_tools extends tool_common  {
 
             $response->success = false;
 
-        } else if (strlen($response->value) > 250) {
+        } else if (strlen($response->value) > 1000) {
 
             $response->success = false;
 
