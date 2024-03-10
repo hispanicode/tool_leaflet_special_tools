@@ -54,9 +54,6 @@ render_tool_leaflet_special_tools.prototype.edit = async function(options) {
 
     }).then(function() {
 
-        //Create modal
-        SpecialToolsModal.create(component_geolocation.map);
-
         render_tool_leaflet_special_tools.prototype.load_special_tools(L);
         render_tool_leaflet_special_tools.prototype.load_special_tools_catastro(L);
         render_tool_leaflet_special_tools.prototype.load_special_tools_geolocation(L);
@@ -249,7 +246,7 @@ render_tool_leaflet_special_tools.prototype.get_lib = async function() {
 
     /* CSS */
 
-    const modal_css = this.tool_url() + '/external-lib/leaflet-modal/dist/leaflet.modal.css';
+    const modal_css = this.tool_url() + '/external-lib/special-tools-modal/special-tools-modal.css';
     load_promises.push(common.prototype.load_style(modal_css));                     
 
     const graphicscale_css = this.tool_url() + '/external-lib/leaflet-graphicscale/dist/Leaflet.GraphicScale.min.css';
@@ -266,6 +263,9 @@ render_tool_leaflet_special_tools.prototype.get_lib = async function() {
     /* CSS */
 
     /* JS */
+
+    const translate_js = this.tool_url() + '/translate/translate.js?v=' + this.make_id(30);
+    load_promises.push(common.prototype.load_script(translate_js));
 
     const catiline_js = this.tool_url() + '/external-lib/leaflet.shapefile/catiline.js';
     load_promises.push(common.prototype.load_script(catiline_js));
@@ -294,7 +294,7 @@ render_tool_leaflet_special_tools.prototype.get_lib = async function() {
     const graphicscale_js = this.tool_url() + '/external-lib/leaflet-graphicscale/dist/Leaflet.GraphicScale.min.js';
     load_promises.push(common.prototype.load_script(graphicscale_js));                    
 
-    const modal_js = this.tool_url() + '/external-lib/leaflet-modal/dist/L.Modal.js';
+    const modal_js = this.tool_url() + '/external-lib/special-tools-modal/special-tools-modal.js';
     load_promises.push(common.prototype.load_script(modal_js));
 
     const utm_js = this.tool_url() + '/external-lib/Leaflet.UTM/L.LatLng.UTM.js';
@@ -1304,7 +1304,7 @@ render_tool_leaflet_special_tools.prototype.remove_wms = async function(options)
 
     this.model = 'tool_leaflet_special_tools';
     
-    options.geo_provider = this.get_component_geolocation().context.features.geo_provider;
+    options.section_tipo = this.get_section_tipo();
 
     const method = 'remove_wms';
     
@@ -1427,43 +1427,113 @@ render_tool_leaflet_special_tools.prototype.edit_property = async function(optio
 };
 
 render_tool_leaflet_special_tools.prototype.google_translate = async function(options) {
+    
+    const self = this;
+    let source;
+    let target;
+    
+    if (options.str === '') return;
+    
+    if (typeof options.source !== 'undefined') {
+        source = options.source;
+    } else {
+        source = 'es';
+    }
+    
+    switch(options.lang) {
 
-    this.model = 'tool_leaflet_special_tools';
+        case 'lg-spa': 
+            target = 'es';
+            break;
+        case 'lg-eng':
+            target = 'en';
+            break;
+        case 'lg-fra':
+            target = 'fr';
+            break;
+        case 'lg-ita':
+            target = 'it';
+            break;
+        case 'lg-por':
+            target = 'pt';
+            break;
+        case 'lg-cat':
+            target = 'ca';
+            break;
+        case 'lg-eus':
+            target = 'eu';
+            break;
 
-    const source = create_source(this, 'google_translate');
+    }
+    
+    new Promise(function(resolve) {
+    
+        if (special_tools_translate.translate.length === 0) resolve(true);
+    
+        for (let i in special_tools_translate.translate) {
 
-    const rqo = {
+            if (
+                    special_tools_translate.translate[i]['es'] == options.str ||
+                    special_tools_translate.translate[i]['en'] == options.str ||
+                    special_tools_translate.translate[i]['fr'] == options.str ||
+                    special_tools_translate.translate[i]['it'] == options.str ||
+                    special_tools_translate.translate[i]['pt'] == options.str ||
+                    special_tools_translate.translate[i]['ca'] == options.str ||
+                    special_tools_translate.translate[i]['eu'] == options.str
+                ) {
 
-            dd_api	: 'dd_tools_api',
-            action	: 'tool_request',
-            source	: source,
-            options	: options,
-            prevent_lock: true
-    };
+                if (options.hasOwnProperty('attribute')) {
 
-    // call to the API, fetch data and get response
-    return new Promise(function(resolve){
+                    options.element_html.setAttribute(options.attribute, special_tools_translate.translate[i][target]);
 
-        data_manager.request({
+                } else {
 
-            body : rqo
-
-        })
-        .then(function(response){
-
-            resolve(response);
-
-            if (options.hasOwnProperty('attribute')) {
-
-                options.element_html.setAttribute(options.attribute, response.str_translate);
-
-
-            } else {
-
-                options.element_html.innerText = response.str_translate;
-
+                    options.element_html.innerText = special_tools_translate.translate[i][target];
+                }
+                
+                break;
+                
             }
 
+            if (i == special_tools_translate.translate.length - 1) resolve(true);
+
+        }
+    }).then(function(response) {
+    
+        self.model = 'tool_leaflet_special_tools';
+
+        const rqo = {
+
+                dd_api	: 'dd_tools_api',
+                action	: 'tool_request',
+                source	: create_source(self, 'google_translate'),
+                options	: options,
+                prevent_lock: true
+        };
+
+        // call to the API, fetch data and get response
+        return new Promise(function(resolve) {
+
+            data_manager.request({
+
+                body : rqo
+
+            }).then(function(response) {
+
+                resolve(response);
+
+                if (options.hasOwnProperty('attribute')) {
+
+                    options.element_html.setAttribute(options.attribute, response.str_translate);
+
+
+                } else {
+
+                    options.element_html.innerText = response.str_translate;
+
+                }
+
+            });
         });
     });
 };
@@ -1764,7 +1834,7 @@ render_tool_leaflet_special_tools.prototype.tool_url = function() {
     
     const get_url = window.location;
     
-    const base_url = get_url.protocol + "//" + get_url.host + "/" + get_url.pathname.split('/')[1];
+    const base_url = "https:" + "//" + get_url.host + "/" + get_url.pathname.split('/')[1];
 
     return base_url + '/tools/tool_leaflet_special_tools';
 

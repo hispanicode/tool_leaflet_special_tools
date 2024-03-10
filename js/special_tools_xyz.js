@@ -15,7 +15,7 @@ special_tools_xyz.prototype.load = async function(L, special_tools) {
 
             const self = special_tools_xyz.prototype.special_tools;
 
-            const controlDiv = L.DomUtil.create('div', 'special-tools-XYZ special-tools-controls special-tools-disable');
+            const controlDiv = L.DomUtil.create('div', 'st-XYZ st-controls st-disable');
             controlDiv.innerText = 'XYZ';
             special_tools_xyz.prototype.controlDiv = controlDiv;
             
@@ -34,8 +34,8 @@ special_tools_xyz.prototype.load = async function(L, special_tools) {
             
             L.DomEvent.on(controlDiv, 'click', function() {
 
-                    L.DomUtil.addClass(controlDiv, 'special-tools-enable');
-                    L.DomUtil.removeClass(controlDiv, 'special-tools-disable');
+                    L.DomUtil.addClass(controlDiv, 'st-enable');
+                    L.DomUtil.removeClass(controlDiv, 'st-disable');
 
                     self.only_one_active_control(controlDiv);
 
@@ -118,9 +118,9 @@ special_tools_xyz.prototype.init_xyz = function() {
                 self.component_geolocation.layer_control.addBaseLayer(tilelayer, basemap_name);
 
                 if (index == 0) {
-
-                    document.querySelectorAll('.leaflet-control-layers-selector')[0].click();
-
+                    try {
+                        document.querySelectorAll('.leaflet-control-layers-selector')[0].click();
+                    } catch(e) {};
                 }
 
                 self.array_basemaps.push(tilelayer);
@@ -150,7 +150,7 @@ special_tools_xyz.prototype.load_modal = function() {
     /**************************************************************************/                 
 
     const basemap_input_div = L.DomUtil.create('div');
-    basemap_input_div.setAttribute('class', 'special-tools-container');
+    basemap_input_div.setAttribute('class', 'st-container');
 
     self.modal_body.appendChild(basemap_input_div);
     
@@ -159,7 +159,7 @@ special_tools_xyz.prototype.load_modal = function() {
     self.basemap_input = L.DomUtil.create('input');
     self.basemap_input.type = 'text';
     self.basemap_input.id = 'basemap_input';
-    self.basemap_input.setAttribute('class', 'special-tools-input-250');
+    self.basemap_input.setAttribute('class', 'st-input st-input-250');
 
     basemap_input_div.appendChild(self.basemap_input);
 
@@ -180,7 +180,7 @@ special_tools_xyz.prototype.load_modal = function() {
     /**************************************************************************/
 
     const name_input_div = L.DomUtil.create('div');
-    name_input_div.setAttribute('class', 'special-tools-container');
+    name_input_div.setAttribute('class', 'st-container');
 
     self.modal_body.appendChild(name_input_div);
     
@@ -189,7 +189,7 @@ special_tools_xyz.prototype.load_modal = function() {
     self.name_input = L.DomUtil.create('input');
     self.name_input.type = 'text';
     self.name_input.id = 'name_input';
-    self.name_input.setAttribute('class', 'special-tools-input-250');
+    self.name_input.setAttribute('class', 'st-input st-input-250');
 
     name_input_div.appendChild(self.name_input);
 
@@ -210,7 +210,7 @@ special_tools_xyz.prototype.load_modal = function() {
     /**************************************************************************/
 
     const attribution_input_div = L.DomUtil.create('div');
-    attribution_input_div.setAttribute('class', 'special-tools-container');
+    attribution_input_div.setAttribute('class', 'st-container');
 
     self.modal_body.appendChild(attribution_input_div);
     
@@ -219,7 +219,7 @@ special_tools_xyz.prototype.load_modal = function() {
     self.attribution_input = L.DomUtil.create('input');
     self.attribution_input.type = 'text';
     self.attribution_input.id = 'attribution_input';
-    self.attribution_input.setAttribute('class', 'special-tools-input-250');
+    self.attribution_input.setAttribute('class', 'st-input st-input-250');
 
     attribution_input_div.appendChild(self.attribution_input);
     
@@ -240,7 +240,7 @@ special_tools_xyz.prototype.load_modal = function() {
     /**************************************************************************/
 
     const minzoom_input_div = L.DomUtil.create('div');
-    minzoom_input_div.setAttribute('class', 'special-tools-container');
+    minzoom_input_div.setAttribute('class', 'st-container');
 
     self.modal_body.appendChild(minzoom_input_div);
     
@@ -249,7 +249,7 @@ special_tools_xyz.prototype.load_modal = function() {
     self.minzoom_input = L.DomUtil.create('input');
     self.minzoom_input.type = 'text';
     self.minzoom_input.id = 'minzoom_input';
-    self.minzoom_input.setAttribute('class', 'special-tools-input-50');
+    self.minzoom_input.setAttribute('class', 'st-input st-input-50');
     self.minzoom_input.value = 0;
 
     minzoom_input_div.appendChild(self.minzoom_input);
@@ -271,7 +271,7 @@ special_tools_xyz.prototype.load_modal = function() {
     /**************************************************************************/
 
     const maxzoom_input_div = L.DomUtil.create('div');
-    maxzoom_input_div.setAttribute('class', 'special-tools-container');
+    maxzoom_input_div.setAttribute('class', 'st-container');
 
     self.modal_body.appendChild(maxzoom_input_div);
     
@@ -280,7 +280,7 @@ special_tools_xyz.prototype.load_modal = function() {
     self.maxzoom_input = L.DomUtil.create('input');
     self.maxzoom_input.type = 'text';
     self.maxzoom_input.id = 'maxzoom_input';
-    self.maxzoom_input.setAttribute('class', 'special-tools-input-50');
+    self.maxzoom_input.setAttribute('class', 'st-input st-input-50');
     self.maxzoom_input.value = 22;
 
     maxzoom_input_div.appendChild(self.maxzoom_input);
@@ -302,7 +302,7 @@ special_tools_xyz.prototype.load_modal = function() {
     /**************************************************************************/
 
     const basemap_btn_div = L.DomUtil.create('div');
-    basemap_btn_div.setAttribute('class', 'special-tools-container');
+    basemap_btn_div.setAttribute('class', 'st-container');
 
     self.modal_body.appendChild(basemap_btn_div);
     
@@ -311,7 +311,7 @@ special_tools_xyz.prototype.load_modal = function() {
     self.basemap_btn = L.DomUtil.create('button');
     self.basemap_btn.type = 'button';
     self.basemap_btn.id = 'basemap_btn';
-    self.basemap_btn.setAttribute('class', 'special-tools-btn-success');
+    self.basemap_btn.setAttribute('class', 'st-btn st-btn-success');
     
     self.tool.google_translate({
 
@@ -326,7 +326,7 @@ special_tools_xyz.prototype.load_modal = function() {
     /**************************************************************************/
 
     const available_basemaps_title = L.DomUtil.create('div');
-    available_basemaps_title.setAttribute('class', 'special-tools-h2');
+    available_basemaps_title.setAttribute('class', 'st-h2');
 
     self.tool.google_translate({
 
@@ -343,7 +343,7 @@ special_tools_xyz.prototype.load_modal = function() {
     self.basemap_list = L.DomUtil.create('ul');
     self.basemap_list.id = 'draggable-list';
     self.basemap_list.setAttribute('class', 'draggable-list');
-    self.basemap_list.setAttribute('class', 'special-tools-container');
+    self.basemap_list.setAttribute('class', 'st-container');
 
     self.modal_body.appendChild(self.basemap_list);
     
@@ -391,7 +391,7 @@ special_tools_xyz.prototype.load_modal = function() {
             for (let index in self.basemaps) {
 
                 const box_container = L.DomUtil.create('li');
-                box_container.setAttribute('class', 'special-tools-container special-tools-element-basemap draggable-item');
+                box_container.setAttribute('class', 'st-container st-element-basemap draggable-item');
                 box_container.setAttribute('draggable', true);
                 box_container.setAttribute('data-id', index);
                 box_container.setAttribute('url', self.basemaps[index].url);
@@ -450,7 +450,9 @@ special_tools_xyz.prototype.load_modal = function() {
 
                     
                     self.tool.update_basemap({content: JSON.stringify(content)});
-                    document.querySelectorAll('.leaflet-control-layers-selector')[index].click();
+                    try {
+                        document.querySelectorAll('.leaflet-control-layers-selector')[index].click();
+                    } catch(e) {};
                     _this.load_modal();
                     
                 });
@@ -458,14 +460,14 @@ special_tools_xyz.prototype.load_modal = function() {
 
                 const element_input_name = L.DomUtil.create('input');
                 element_input_name.type = 'text';
-                element_input_name.setAttribute('class', 'special-tools-input-150');
+                element_input_name.setAttribute('class', 'st-input st-input-150');
                 element_input_name.setAttribute('readonly', true);
                 element_input_name.value = self.basemaps[index].name;
 
 
                 const element_btn_delete = L.DomUtil.create('button');
                 element_btn_delete.type = 'button';
-                element_btn_delete.setAttribute('class', 'special-tools-btn-danger element-btn-delete');
+                element_btn_delete.setAttribute('class', 'st-btn st-btn-danger element-btn-delete');
                 element_btn_delete.setAttribute('index', index);
                 element_btn_delete.style.position = 'relative';
                 element_btn_delete.style.top = '4px';
@@ -536,7 +538,9 @@ special_tools_xyz.prototype.load_modal = function() {
 
                     
                     self.tool.update_basemap({content: JSON.stringify(content)});
-                    document.querySelectorAll('.leaflet-control-layers-selector')[0].click();
+                    try {
+                        document.querySelectorAll('.leaflet-control-layers-selector')[0].click();
+                    } catch(e) {};
                     _this.controlDiv.click();
 
                 });
@@ -616,7 +620,7 @@ special_tools_xyz.prototype.load_modal = function() {
 
         test_basemap.addTo(self.map);
 
-        test_basemap.on('tileerror', function(){
+        test_basemap.on('tileerror', function() {
 
             self.is_valid_basemap = false;
 
@@ -635,8 +639,6 @@ special_tools_xyz.prototype.load_modal = function() {
         window.setTimeout(function() {
 
             if (!self.is_valid_basemap) return;
-
-            test_basemap.removeFrom(self.map);
 
             let options = {
 
@@ -727,7 +729,9 @@ special_tools_xyz.prototype.load_modal = function() {
                     self.component_geolocation.layer_control.addBaseLayer(tilelayer, basemap_name);
 
                     self.array_basemaps.push(tilelayer);
-                    document.querySelectorAll('.leaflet-control-layers-selector')[self.array_basemaps.length-1].click();
+                    try {
+                        document.querySelectorAll('.leaflet-control-layers-selector')[self.array_basemaps.length-1].click();
+                    } catch(e) {};
                     
                     
                     
@@ -737,7 +741,7 @@ special_tools_xyz.prototype.load_modal = function() {
 
             });
 
-        }, 300);
+        }, 3000);
 
     });
     

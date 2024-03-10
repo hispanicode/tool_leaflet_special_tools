@@ -18,7 +18,7 @@ special_tools_UA_es.prototype.load = async function(L, special_tools) {
             const controlDiv = L.DomUtil.create('div');
             special_tools_UA_es.prototype.controlDiv = controlDiv;
             
-            const controlDivButton = L.DomUtil.create('div', 'special-tools-button-UA special-tools-controls special-tools-disable', controlDiv);
+            const controlDivButton = L.DomUtil.create('div', 'st-button-UA st-controls st-disable', controlDiv);
             controlDivButton.innerText = 'U.A';
             special_tools_UA_es.prototype.controlDivButton = controlDivButton;
             
@@ -37,11 +37,11 @@ special_tools_UA_es.prototype.load = async function(L, special_tools) {
             
             L.DomEvent.on(controlDivButton, 'click', function(e) {
 
-                if (L.DomUtil.hasClass(controlDivButton, 'special-tools-disable')) {
+                if (L.DomUtil.hasClass(controlDivButton, 'st-disable')) {
 
-                    L.DomUtil.addClass(controlDivButton, 'special-tools-enable');
+                    L.DomUtil.addClass(controlDivButton, 'st-enable');
 
-                    L.DomUtil.removeClass(controlDivButton, 'special-tools-disable');
+                    L.DomUtil.removeClass(controlDivButton, 'st-disable');
 
                     self.only_one_active_control(controlDivButton);
 
@@ -49,9 +49,9 @@ special_tools_UA_es.prototype.load = async function(L, special_tools) {
 
                 }  else {
 
-                    L.DomUtil.addClass(controlDivButton, 'special-tools-disable');
+                    L.DomUtil.addClass(controlDivButton, 'st-disable');
 
-                    L.DomUtil.removeClass(controlDivButton, 'special-tools-enable');
+                    L.DomUtil.removeClass(controlDivButton, 'st-enable');
 
                     special_tools_UA_es.prototype.UA_off();
 
@@ -89,10 +89,10 @@ special_tools_UA_es.prototype.create_select = function() {
     
     const self = this.special_tools;
     
-    self.leaflet_control_select_UA = L.DomUtil.create('select', 'special-tools-menu-UA', _this.controlDiv);
+    self.leaflet_control_select_UA = L.DomUtil.create('select', 'st-menu-UA', _this.controlDiv);
     self.leaflet_control_select_UA.style.display = 'none';
 
-    self.leaflet_control_munic_UA = L.DomUtil.create('option', 'special-tools-option-UA', self.leaflet_control_select_UA);
+    self.leaflet_control_munic_UA = L.DomUtil.create('option', 'st-option-UA', self.leaflet_control_select_UA);
     self.leaflet_control_munic_UA.selected = true;
     self.leaflet_control_munic_UA.value = 'Municipio';
 
@@ -113,7 +113,7 @@ special_tools_UA_es.prototype.create_select = function() {
 
     });
 
-    self.leaflet_control_prov_UA = L.DomUtil.create('option', 'special-tools-option-UA', self.leaflet_control_select_UA);
+    self.leaflet_control_prov_UA = L.DomUtil.create('option', 'st-option-UA', self.leaflet_control_select_UA);
     self.leaflet_control_prov_UA.selected = false;
     self.leaflet_control_prov_UA.value = 'Provincia';
 
@@ -134,7 +134,7 @@ special_tools_UA_es.prototype.create_select = function() {
 
     });
 
-    self.leaflet_control_CCAA_UA = L.DomUtil.create('option', 'special-tools-option-UA', self.leaflet_control_select_UA);
+    self.leaflet_control_CCAA_UA = L.DomUtil.create('option', 'st-option-UA', self.leaflet_control_select_UA);
     self.leaflet_control_CCAA_UA.selected = false;
     self.leaflet_control_CCAA_UA.value = 'CCAA';
 

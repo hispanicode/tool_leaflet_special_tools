@@ -1683,8 +1683,8 @@ class tool_leaflet_special_tools extends tool_common  {
         $response->success = false;
         $response->msg = 'Ha ocurrido un error';
         
-        $response->name = $options->name;
-        $response->value = strip_tags($options->value);
+        $response->name = strip_tags(htmlspecialchars($options->name));
+        $response->value = strip_tags(htmlspecialchars($options->value));
         
         $name_allows = "/^[A-Za-z\_]+$/";
 
@@ -1733,8 +1733,8 @@ class tool_leaflet_special_tools extends tool_common  {
         $response->success = false;
         $response->msg = 'Ha ocurrido un error inesperado';
         
-        $response->name = $options->name;
-        $response->value = strip_tags($options->value);
+        $response->name = strip_tags(htmlspecialchars($options->name));
+        $response->value = strip_tags(htmlspecialchars($options->value));
 
         if ($response->value === '') {
 
@@ -1858,109 +1858,136 @@ class tool_leaflet_special_tools extends tool_common  {
     public static function google_translate(object $options): object {
         
         $response = new stdClass();
-        
-        if (!is_dir(self::base_path() . '/translate')) {
-            
-            chmod(self::base_path(), 0777);
-            
-            mkdir(self::base_path() . '/translate', 0777);
-            
-            if (!is_file(self::base_path() . '/translate/translate')) {
-                
-                $handle = fopen(self::base_path() . '/translate/translate', 'w+');
-                fwrite($handle, '');
-                fclose($handle);
+        $response->success = false;
 
-            }
-            
-        }
+        (isset($options->source)) ? $response->source = $options->source : $response->source = 'es';
 
-        if (isset($options->source)) {
-            
-            $response->source = $options->source;
-            
-        } else {
-            
-            $response->source = 'es';
-            
-        }
-        
         $response->str = $options->str;
         
+        if ($response->str === '') {
+            $response->str_translate = '';
+            return $response;
+            
+        }
+        
         $response->lang = $options->lang;
+        
+        $json = file_get_contents(self::base_path() . '/translate/translate.json');
+        
+        if (!json_validate($json)) {
+            $default_json = file_get_contents(self::base_path() . '/translate/translate.default.json');
+            $handle = fopen($json, 'w+');
+            fwrite($handle, $default_json);
+            fclose($handle);
+            
+            $json = $default_json;
+        }
+        
+        $translate = json_decode($json);
+        
+        $unique = [];
+
+        foreach ($translate->translate as $key => $element) {
+
+            if (!in_array($element, $unique)) {
+
+                array_push($unique, $element);
+
+            }
+
+        }
+
+        $translate->translate = $unique;
         
         switch($response->lang) {
             
             case 'lg-spa': 
-                $response->target_lang = 'es';
+                $response->target = 'es';
                 break;
             case 'lg-eng':
-                $response->target_lang = 'en';
+                $response->target = 'en';
                 break;
             case 'lg-fra':
-                $response->target_lang = 'fr';
+                $response->target = 'fr';
                 break;
             case 'lg-ita':
-                $response->target_lang = 'it';
+                $response->target = 'it';
                 break;
             case 'lg-por':
-                $response->target_lang = 'pt';
+                $response->target = 'pt';
                 break;
             case 'lg-cat':
-                $response->target_lang = 'ca';
+                $response->target = 'ca';
                 break;
             case 'lg-eus':
-                $response->target_lang = 'eu';
+                $response->target = 'eu';
                 break;
-        }
 
-        $contents = file_get_contents(self::base_path() . '/translate/translate');
-        
-        if ($file = fopen(self::base_path() . '/translate/translate', 'r')) {
-
-            while(!feof($file)) {
-                
-                $line = explode('      ', fgets($file));
-
-                $search = $line[0] . "      " . $line[1] . "      " . $line[2] . "      ";
-                
-                if ($line[0] === $response->source && $line[1] === $response->target_lang && $line[2] === $response->str) {
-                    
-                    $response->str_translate = $line[3];
-                    $response->msg = 'traducción correcta';
-                    
-                    return $response;
-                    
-                }
-
-            }
-            
-            fclose($file);
         }
         
-        sleep(1);
+        $langs = ['es', 'en', 'fr', 'it', 'pt', 'ca', 'eu'];
+        
+        $new_object = [];
+        $new_object[$response->source] = $response->str;
+        $tr = new GoogleTranslate();
         
         try {
 
-            $tr = new GoogleTranslate();
-
-            $tr->setSource($response->source);
-
-            $tr->setTarget($response->target_lang);
-
-            $response->str_translate = $tr->translate($response->str);
-            
-            $search = $response->source . '      ' . $response->target_lang . '      ' . $response->str . '      ' . $response->str_translate . "      ";
-            
-            if (!str_contains($contents, $search)) {
+            foreach($langs as $lang) {
                 
-                $handle = fopen(self::base_path() . '/translate/translate', 'a');
-                $new_line = $response->source . '      ' . $response->target_lang . '      ' . $response->str . '      ' . $response->str_translate . "      \r\n";
-                fwrite($handle, $new_line);
-                fclose($handle);
+                if ($lang !== $response->source) {
+                    
+                    
+                    $tr->setSource($response->source);
+
+                    $tr->setTarget($lang);
+                    try {
+                        $new_object[$lang] = $tr->translate($response->str);
+                    } catch(Exception $e) {
+                        $new_object[$lang] = $response->str;
+                    }
                 
+                }
+                
+                if ($lang === $response->target) {
+                    
+                    $response->str_translate = $new_object[$lang];
+                    
+                }
+            
             }
             
+            
+            array_push($translate->translate, $new_object);
+
+            $file_json = self::base_path() . '/translate/translate.json';
+            $handle_json = fopen($file_json, 'w+');
+            
+            if (flock($handle_json, LOCK_EX)) { 
+                
+                ftruncate($handle_json, 0);
+                fwrite($handle_json, json_encode($translate));
+                fflush($handle_json);
+                flock($handle_json, LOCK_UN);
+
+            }
+            
+            fclose($handle_json);
+
+            $file_js = self::base_path() . '/translate/translate.js';
+            $handle_js = fopen($file_js, 'w+');
+
+            if (flock($handle_js, LOCK_EX)) {
+
+                $javascript = "const special_tools_translate = " . file_get_contents($file_json) . ";";
+                ftruncate($handle_js, 0);
+                fwrite($handle_js, $javascript);
+                fflush($handle_js);
+                flock($handle_js, LOCK_UN);
+
+            } 
+            
+            fclose($handle_js);
             
         } catch (Exception $e) {
             
@@ -2327,16 +2354,20 @@ class tool_leaflet_special_tools extends tool_common  {
     public static function image_to_blob(object $options): object {
         
         $response = new stdClass();
-        
+        $response->success = false;
         $response->url = $options->url;
 
         $source = file_get_contents($response->url);
+        
+        if ($source) {
 
-        $finfo = new finfo(FILEINFO_MIME_TYPE);
-        $mimetype = $finfo->buffer($source);
+            $finfo = new finfo(FILEINFO_MIME_TYPE);
+            $mimetype = $finfo->buffer($source);
 
-        $base64 = base64_encode($source);
-        $response->blob = 'data:'.$mimetype.';base64,'.$base64;
+            $base64 = base64_encode($source);
+            $response->blob = 'data:'.$mimetype.';base64,'.$base64;
+            $response->success = true;
+        }
         
         return $response;
         

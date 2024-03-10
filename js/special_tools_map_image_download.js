@@ -15,7 +15,7 @@ special_tools_map_image_download.prototype.load = async function(L, special_tool
 
             const self = special_tools_map_image_download.prototype.special_tools;
             
-            const controlDiv = L.DomUtil.create('div', 'special-tools-map-image-download special-tools-controls special-tools-disable');
+            const controlDiv = L.DomUtil.create('div', 'st-map-image-download st-controls st-disable');
 
             special_tools_map_image_download.prototype.controlDiv = controlDiv;
 
@@ -32,8 +32,8 @@ special_tools_map_image_download.prototype.load = async function(L, special_tool
 
             L.DomEvent.addListener(controlDiv, 'click', function(){
 
-                L.DomUtil.addClass(controlDiv, 'special-tools-enable');
-                L.DomUtil.removeClass(controlDiv, 'special-tools-disable');
+                L.DomUtil.addClass(controlDiv, 'st-enable');
+                L.DomUtil.removeClass(controlDiv, 'st-disable');
 
                 self.only_one_active_control(controlDiv);
                 
@@ -71,7 +71,7 @@ special_tools_map_image_download.prototype.load_modal = function() {
 
     const special_tools_div_1 = L.DomUtil.create('div');
     special_tools_div_1.setAttribute('id', 'special_tools_div_1');
-    special_tools_div_1.setAttribute('class', 'special-tools-container special-tools-div-33');
+    special_tools_div_1.setAttribute('class', 'st-container st-div-33');
 
     modal_body.appendChild(special_tools_div_1);
 
@@ -93,7 +93,7 @@ special_tools_map_image_download.prototype.load_modal = function() {
     /********************************************************/
 
     const raster_export = L.DomUtil.create('select');
-    raster_export.setAttribute('class', 'special-tools-select');
+    raster_export.setAttribute('class', 'st-select');
     raster_export.setAttribute('id', 'raster_export');
 
     special_tools_div_1.appendChild(raster_export);
@@ -183,7 +183,7 @@ special_tools_map_image_download.prototype.load_modal = function() {
 
     const special_tools_div_2 = L.DomUtil.create('div');
     special_tools_div_2.setAttribute('id', 'special_tools_div_2');
-    special_tools_div_2.setAttribute('class', 'special-tools-container special-tools-div-66');
+    special_tools_div_2.setAttribute('class', 'st-container st-div-66');
 
     modal_body.appendChild(special_tools_div_2);
 
@@ -207,7 +207,7 @@ special_tools_map_image_download.prototype.load_modal = function() {
     const raster_name = L.DomUtil.create('input');
     raster_name.setAttribute('type', 'text');
     raster_name.setAttribute('id', 'raster_name');
-    raster_name.setAttribute('class', 'special-tools-input-150');
+    raster_name.setAttribute('class', 'st-input st-input-150');
 
     self.tool.google_translate({
 
@@ -224,7 +224,7 @@ special_tools_map_image_download.prototype.load_modal = function() {
 
     const btn_map_download = L.DomUtil.create('button');
     btn_map_download.id = 'btn_map_download';
-    btn_map_download.setAttribute('class', 'special-tools-btn-success');
+    btn_map_download.setAttribute('class', 'st-btn st-btn-success');
     btn_map_download.style.position = 'relative';
     btn_map_download.style.top = '4px';
 

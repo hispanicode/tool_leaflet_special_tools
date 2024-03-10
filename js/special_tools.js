@@ -13,7 +13,9 @@ special_tools.prototype.load = async function(L) {
             const self = this;
 
             /******************************************************************/
-
+            
+            SpecialToolsModal.create(map);
+            
             this.map = map;
             
             special_tools.prototype.map = this.map;
@@ -35,17 +37,17 @@ special_tools.prototype.load = async function(L) {
 
             /******************************************************************/
 
-            this.controlDiv = L.DomUtil.create('div', 'special-tools');
+            this.controlDiv = L.DomUtil.create('div', 'st');
             special_tools.prototype.controlDiv = this.controlDiv;
 
             /******************************************************************/
 
-            this.special_tools_btns = L.DomUtil.create('div', 'special-tools-btns', this.controlDiv);
+            this.special_tools_btns = L.DomUtil.create('div', 'st-btns', this.controlDiv);
             special_tools.prototype.special_tools_btns = this.special_tools_btns;
 
             /******************************************************************/
 
-            this.special_tools_panel_show_hide = L.DomUtil.create('div', 'special-tools-panel-show-hide', this.special_tools_btns);
+            this.special_tools_panel_show_hide = L.DomUtil.create('div', 'st-panel-show-hide', this.special_tools_btns);
             special_tools.prototype.special_tools_panel_show_hide = this.special_tools_panel_show_hide;
 
             this.tool.google_translate({
@@ -59,12 +61,12 @@ special_tools.prototype.load = async function(L) {
 
             /******************************************************************/
 
-            this.special_tools_console = L.DomUtil.create('div', 'special-tools-console', this.controlDiv);
+            this.special_tools_console = L.DomUtil.create('div', 'st-console', this.controlDiv);
             special_tools.prototype.special_tools_console = this.special_tools_console;
 
             /******************************************************************/
 
-            this.special_tools_info_console = L.DomUtil.create('div', 'special-tools-info-console', this.special_tools_console);
+            this.special_tools_info_console = L.DomUtil.create('div', 'st-info-console', this.special_tools_console);
             special_tools.prototype.special_tools_info_console = this.special_tools_info_console;
 
             self.tool.google_translate({
@@ -337,7 +339,6 @@ special_tools.prototype.set_info_console = function(layer) {
                     if (elements.length === 1) {
 
                         if (elements[0].feature.special_tools.oneXone_type === 'Rectangle') {
-
 
                             const marker = L.marker(layer.getBounds().getCenter());
 
@@ -941,19 +942,19 @@ special_tools.prototype.only_one_active_control = function(element) {
 
     try {
 
-        const special_tools_controls = self.map._container.querySelectorAll('.special-tools-controls');
+        const special_tools_controls = self.map._container.querySelectorAll('.st-controls');
 
         for (let x in special_tools_controls) {
 
-            L.DomUtil.addClass(special_tools_controls[x], 'special-tools-disable');
-            L.DomUtil.removeClass(special_tools_controls[x], 'special-tools-enable');
+            L.DomUtil.addClass(special_tools_controls[x], 'st-disable');
+            L.DomUtil.removeClass(special_tools_controls[x], 'st-enable');
 
         }
 
     } catch (Exception) {};
 
-    L.DomUtil.addClass(element, 'special-tools-enable');
-    L.DomUtil.removeClass(element, 'special-tools-disable');
+    L.DomUtil.addClass(element, 'st-enable');
+    L.DomUtil.removeClass(element, 'st-disable');
 
 };
 
@@ -970,7 +971,7 @@ special_tools.prototype.show_modal_vector_download = function(btn_show_modal_vec
         /*********************************************************/
 
         const vector_download_export_div = L.DomUtil.create('div');
-        vector_download_export_div.setAttribute('class', 'special-tools-container special-tools-div-33');
+        vector_download_export_div.setAttribute('class', 'st-container st-div-33');
 
         modal_body.appendChild(vector_download_export_div);
 
@@ -992,7 +993,7 @@ special_tools.prototype.show_modal_vector_download = function(btn_show_modal_vec
 
         const vector_export = L.DomUtil.create('select');
         vector_export.id = 'vector_export';
-        vector_export.setAttribute('class', 'special-tools-select');
+        vector_export.setAttribute('class', 'st-select');
 
         vector_download_export_div.appendChild(vector_export);
 
@@ -1023,7 +1024,7 @@ special_tools.prototype.show_modal_vector_download = function(btn_show_modal_vec
         /**********************************************************/
 
         const vector_name_div = L.DomUtil.create('div');
-        vector_name_div.setAttribute('class', 'special-tools-container special-tools-div-66');
+        vector_name_div.setAttribute('class', 'st-container st-div-66');
         modal_body.appendChild(vector_name_div);
 
         /**********************************************************/
@@ -1045,7 +1046,7 @@ special_tools.prototype.show_modal_vector_download = function(btn_show_modal_vec
         const vector_name = L.DomUtil.create('input');
         vector_name.type = 'text';
         vector_name.id = 'vector_name';
-        vector_name.setAttribute('class', 'special-tools-input-150');
+        vector_name.setAttribute('class', 'st-input st-input-150');
 
         self.tool.google_translate({
 
@@ -1063,7 +1064,7 @@ special_tools.prototype.show_modal_vector_download = function(btn_show_modal_vec
         const vector_export_button = L.DomUtil.create('button');
         vector_export_button.id = 'vector_export_button';
         vector_export_button.type = 'button';
-        vector_export_button.setAttribute('class', 'special-tools-btn-success');
+        vector_export_button.setAttribute('class', 'st-btn st-btn-success');
         vector_export_button.style.position = 'relative';
         vector_export_button.style.top = '4px';
 
@@ -1226,7 +1227,7 @@ special_tools.prototype.show_modal_raster_download = function(btn_show_modal_ras
         /**********************************************************/
 
         const raster_export_div = L.DomUtil.create('div');
-        raster_export_div.setAttribute('class', 'special-tools-container special-tools-div-33');
+        raster_export_div.setAttribute('class', 'st-container st-div-33');
         modal_body.appendChild(raster_export_div);
 
         /**********************************************************/
@@ -1247,7 +1248,7 @@ special_tools.prototype.show_modal_raster_download = function(btn_show_modal_ras
 
         const raster_export = L.DomUtil.create('select');
         raster_export.id = 'raster_export';
-        raster_export.setAttribute('class', 'special-tools-select');
+        raster_export.setAttribute('class', 'st-select');
         raster_export_div.appendChild(raster_export);
 
         /**********************************************************/
@@ -1296,7 +1297,7 @@ special_tools.prototype.show_modal_raster_download = function(btn_show_modal_ras
         /**********************************************************/
         
         const quality_select = L.DomUtil.create('select');
-        quality_select.setAttribute('class', 'special-tools-select');
+        quality_select.setAttribute('class', 'st-select');
         
         raster_export_div.appendChild(quality_select);
         
@@ -1409,7 +1410,7 @@ special_tools.prototype.show_modal_raster_download = function(btn_show_modal_ras
         /**********************************************************/
 
         const raster_export_name_div = L.DomUtil.create('div');
-        raster_export_name_div.setAttribute('class', 'special-tools-container special-tools-div-66');
+        raster_export_name_div.setAttribute('class', 'st-container st-div-66');
         modal_body.appendChild(raster_export_name_div);
 
         /**********************************************************/
@@ -1431,7 +1432,7 @@ special_tools.prototype.show_modal_raster_download = function(btn_show_modal_ras
         const raster_name = L.DomUtil.create('input');
         raster_name.type = 'text';
         raster_name.id = 'raster_name';
-        raster_name.setAttribute('class', 'special-tools-input-150');
+        raster_name.setAttribute('class', 'st-input st-input-150');
 
         self.tool.google_translate({
 
@@ -1448,7 +1449,7 @@ special_tools.prototype.show_modal_raster_download = function(btn_show_modal_ras
 
         const raster_export_button = L.DomUtil.create('button');
         raster_export_button.id = 'raster_export_button';
-        raster_export_button.setAttribute('class', 'special-tools-btn-success');
+        raster_export_button.setAttribute('class', 'st-btn st-btn-success');
         raster_export_button.style.position = 'relative';
         raster_export_button.style.top = '4px';
 
@@ -1496,8 +1497,6 @@ special_tools.prototype.show_modal_raster_download = function(btn_show_modal_ras
             
             const scale = parseFloat(quality_select.options[quality_select.selectedIndex].value);
 
-            window.setTimeout(function() {
-
             if (image_type === 'geotiff') {
 
                 const volatil_image = document.createElement('img');
@@ -1509,69 +1508,74 @@ special_tools.prototype.show_modal_raster_download = function(btn_show_modal_ras
 
                 volatil_image.width = overlay._rawImage.getBoundingClientRect().width*scale;
                 volatil_image.height = overlay._rawImage.getBoundingClientRect().height*scale;
-
+                
                 const canvas = L.DomUtil.create('canvas');
                 const ctx = canvas.getContext("2d");
                 ctx.globalAlpha = layer.feature.special_tools.imageOpacity;
 
                 var transform = volatil_image.style.transform;
                 transform = transform.replace('matrix(', '');
-                transform = transform.replace(')');
+                transform = transform.replace(')', '');
                 transform = transform.split(", ");
-
-
                 const trans_a = parseFloat(transform[0]);
                 const trans_b = parseFloat(transform[1]);
                 const trans_c = parseFloat(transform[2]);
                 const trans_d = parseFloat(transform[3]);
                 const trans_e = parseFloat(transform[4]);
                 const trans_f = parseFloat(transform[5]);
-
                 canvas.width = volatil_image.width;
                 canvas.height = volatil_image.height;
 
                 ctx.setTransform(trans_a*scale, trans_b*scale, trans_c*scale, trans_d*scale, trans_e*scale, trans_f*scale);
-
-                ctx.drawImage(volatil_image, 0, 0);
-
-                const dataURL = canvas.toDataURL();
                 
-                const _NW = overlay.getBounds().getNorthWest();
-                const _SE = overlay.getBounds().getSouthEast();
+                volatil_image.onload = function() {
+                    ctx.drawImage(volatil_image, 0, 0);
+                }
                 
-                const NW = self.epsg4326_to_Epsg3857([_NW.lng, _NW.lat]);
-                const SE = self.epsg4326_to_Epsg3857([_SE.lng, _SE.lat]);
-                
-                var overlay_bounds_str = NW[0];
-                overlay_bounds_str = overlay_bounds_str + ' ' + NW[1];
-                overlay_bounds_str = overlay_bounds_str + ' ' + SE[0];
-                overlay_bounds_str = overlay_bounds_str + ' ' + SE[1];
+                window.setTimeout(function() {
+                    
+                    const dataURL = canvas.toDataURL();
 
-                let options = {};
+                    const _NW = overlay.getBounds().getNorthWest();
+                    const _SE = overlay.getBounds().getSouthEast();
 
-                options.bounds = overlay_bounds_str;
+                    const NW = self.epsg4326_to_Epsg3857([_NW.lng, _NW.lat]);
+                    const SE = self.epsg4326_to_Epsg3857([_SE.lng, _SE.lat]);
 
-                options.url = dataURL;
+                    var overlay_bounds_str = NW[0];
+                    overlay_bounds_str = overlay_bounds_str + ' ' + NW[1];
+                    overlay_bounds_str = overlay_bounds_str + ' ' + SE[0];
+                    overlay_bounds_str = overlay_bounds_str + ' ' + SE[1];
 
-                options.raster_name = self.simple_sanitize_string(raster_name.value);
+                    let options = {};
 
-                let promise = self.tool.geotiff_download(options);
+                    options.bounds = overlay_bounds_str;
 
-                promise.then(function(data){
+                    options.url = dataURL;
 
-                    if (data.success) {
+                    options.raster_name = self.simple_sanitize_string(raster_name.value);
 
-                        window.open(data.zip, '_blank');
+                    let promise = self.tool.geotiff_download(options);
 
-                        self.modal_message("Imagen descargada correctamente");
+                    promise.then(function(data){
 
-                    } else {
+                        if (data.success) {
 
-                        self.modal_message(data.msg);
+                            window.open(data.zip, '_blank');
 
-                    }
+                            self.modal_message("Imagen descargada correctamente");
 
-                });
+                        } else {
+
+                            self.modal_message(data.msg);
+
+                        }
+                        
+                        volatil_image.remove();
+
+                    });
+                    
+                }, 10000);
 
             } else {
 
@@ -1605,40 +1609,46 @@ special_tools.prototype.show_modal_raster_download = function(btn_show_modal_ras
                 canvas.height = volatil_image.height;
 
                 ctx.setTransform(trans_a*scale, trans_b*scale, trans_c*scale, trans_d*scale, trans_e*scale, trans_f*scale);
+                
+                volatil_image.onload = function() {
+                    ctx.drawImage(volatil_image, 0, 0);
+                };
+                
+                    window.setTimeout(function() {
 
-                ctx.drawImage(volatil_image, 0, 0);
+                    const dataURL = canvas.toDataURL();
 
-                const dataURL = canvas.toDataURL();
+                    let options = {};
 
-                let options = {};
+                    options.image_src = dataURL;
 
-                options.image_src = dataURL;
+                    options.image_type = image_type;
 
-                options.image_type = image_type;
+                    options.raster_name = self.simple_sanitize_string(raster_name.value);
 
-                options.raster_name = self.simple_sanitize_string(raster_name.value);
+                    let promise = self.tool.image_download(options);
 
-                let promise = self.tool.image_download(options);
+                    promise.then(function(data) {
 
-                promise.then(function(data) {
+                        if (data.success) {
 
-                    if (data.success) {
+                            window.open(data.zip, '_blank');
 
-                        window.open(data.zip, '_blank');
+                            self.modal_message("Imagen descargada correctamente");
 
-                        self.modal_message("Imagen descargada correctamente");
+                        } else {
 
-                    } else {
+                            self.modal_message(data.msg);
 
-                        self.modal_message(data.msg);
+                        }
+                        
+                        volatil_image.remove();
 
-                    }
+                    });
 
-                });
-
-            }
+                }, 10000);
             
-        }, 500);
+            }
 
         });
 
@@ -1679,13 +1689,13 @@ special_tools.prototype.marker_style = function(btn_marker_style, layer) {
         /**********************************************************/
 
         const marker_div = L.DomUtil.create('div');
-        marker_div.setAttribute('class', 'special-tools-container');
+        marker_div.setAttribute('class', 'st-container');
         modal_body.appendChild(marker_div);
 
         /**********************************************************/
 
         const marker_color_div = L.DomUtil.create('div');
-        marker_color_div.setAttribute('class', 'special-tools-container special-tools-div-33');
+        marker_color_div.setAttribute('class', 'st-container st-div-33');
         marker_div.appendChild(marker_color_div);
 
         /**********************************************************/
@@ -1704,7 +1714,7 @@ special_tools.prototype.marker_style = function(btn_marker_style, layer) {
 
         const marker_color_input = L.DomUtil.create('input');
         marker_color_input.id = 'marker_color_input';
-        marker_color_input.setAttribute('class', 'special-tools-input-100');
+        marker_color_input.setAttribute('class', 'st-input st-input-100');
         marker_color_input.setAttribute('placeholder', '#000000');
         marker_color_input.style.marginTop = '7px';
 
@@ -1715,7 +1725,7 @@ special_tools.prototype.marker_style = function(btn_marker_style, layer) {
         const marker_color_btn = L.DomUtil.create('button');
         marker_color_btn.type = 'button';
         marker_color_btn.id = 'marker_color_btn';
-        marker_color_btn.setAttribute('class', 'special-tools-btn-success');
+        marker_color_btn.setAttribute('class', 'st-btn st-btn-success');
         marker_color_btn.style.position = 'relative';
         marker_color_btn.style.top = '4px';
 
@@ -1732,7 +1742,7 @@ special_tools.prototype.marker_style = function(btn_marker_style, layer) {
 
         const marker_iro_container = L.DomUtil.create('div');
         marker_iro_container.id = 'marker_iro_container';
-        marker_iro_container.setAttribute('class', 'special-tools-container special-tools-div-33');
+        marker_iro_container.setAttribute('class', 'st-container st-div-33');
         marker_div.appendChild(marker_iro_container);
 
 
@@ -1747,7 +1757,7 @@ special_tools.prototype.marker_style = function(btn_marker_style, layer) {
         /**********************************************************/
 
         const readonly_color_div = L.DomUtil.create('div');
-        readonly_color_div.setAttribute('class', 'special-tools-container special-tools-div-33');
+        readonly_color_div.setAttribute('class', 'st-container st-div-33');
         marker_div.appendChild(readonly_color_div);
 
         /**********************************************************/
@@ -1771,7 +1781,7 @@ special_tools.prototype.marker_style = function(btn_marker_style, layer) {
         readonly_color.id = 'readonly_color';
         readonly_color.setAttribute('readonly', true);
         readonly_color.value = color;
-        readonly_color.setAttribute('class', 'special-tools-input-100');
+        readonly_color.setAttribute('class', 'st-input st-input-100');
 
         readonly_color_div.appendChild(readonly_color);
 
@@ -1813,7 +1823,7 @@ special_tools.prototype.marker_style = function(btn_marker_style, layer) {
         /**********************************************************/
         
         const shadow_div = L.DomUtil.create('div');
-        shadow_div.setAttribute('class', 'special-tools-container');
+        shadow_div.setAttribute('class', 'st-container');
         
         modal_body.appendChild(shadow_div);
         
@@ -2135,13 +2145,13 @@ special_tools.prototype.linestring_style = function(btn_linestring_style, layer)
         /**********************************************************/
 
         const linestring_div = L.DomUtil.create('div');
-        linestring_div.setAttribute('class', 'special-tools-container');
+        linestring_div.setAttribute('class', 'st-container');
         modal_body.appendChild(linestring_div);
 
         /**********************************************************/
 
         const linestring_stroke_color_div = L.DomUtil.create('div');
-        linestring_stroke_color_div.setAttribute('class', 'special-tools-container special-tools-div-33');
+        linestring_stroke_color_div.setAttribute('class', 'st-container st-div-33');
         linestring_div.appendChild(linestring_stroke_color_div);
 
         /**********************************************************/
@@ -2160,7 +2170,7 @@ special_tools.prototype.linestring_style = function(btn_linestring_style, layer)
 
         const linestring_stroke_color_input = L.DomUtil.create('input');
         linestring_stroke_color_input.id = 'linestring_stroke_color_input';
-        linestring_stroke_color_input.setAttribute('class', 'special-tools-input-100');
+        linestring_stroke_color_input.setAttribute('class', 'st-input st-input-100');
         linestring_stroke_color_input.setAttribute('placeholder', '#000000');
         linestring_stroke_color_input.style.marginTop = '7px';
 
@@ -2171,7 +2181,7 @@ special_tools.prototype.linestring_style = function(btn_linestring_style, layer)
         const linestring_stroke_color_btn = L.DomUtil.create('button');
         linestring_stroke_color_btn.type = 'button';
         linestring_stroke_color_btn.id = 'linestring_stroke_color_btn';
-        linestring_stroke_color_btn.setAttribute('class', 'special-tools-btn-success');
+        linestring_stroke_color_btn.setAttribute('class', 'st-btn st-btn-success');
         linestring_stroke_color_btn.style.position = 'relative';
         linestring_stroke_color_btn.style.top = '4px';
 
@@ -2188,7 +2198,7 @@ special_tools.prototype.linestring_style = function(btn_linestring_style, layer)
 
         const linestring_iro_container = L.DomUtil.create('div');
         linestring_iro_container.id = 'linestring_iro_container';
-        linestring_iro_container.setAttribute('class', 'special-tools-container special-tools-div-33');
+        linestring_iro_container.setAttribute('class', 'st-container st-div-33');
         linestring_div.appendChild(linestring_iro_container);
 
 
@@ -2203,7 +2213,7 @@ special_tools.prototype.linestring_style = function(btn_linestring_style, layer)
         /**********************************************************/
 
         const readonly_stroke_color_div = L.DomUtil.create('div');
-        readonly_stroke_color_div.setAttribute('class', 'special-tools-container special-tools-div-33');
+        readonly_stroke_color_div.setAttribute('class', 'st-container st-div-33');
         linestring_div.appendChild(readonly_stroke_color_div);
 
         /**********************************************************/
@@ -2227,7 +2237,7 @@ special_tools.prototype.linestring_style = function(btn_linestring_style, layer)
         readonly_stroke_color.id = 'readonly_stroke_color';
         readonly_stroke_color.setAttribute('readonly', true);
         readonly_stroke_color.value = _stroke_color;
-        readonly_stroke_color.setAttribute('class', 'special-tools-input-100');
+        readonly_stroke_color.setAttribute('class', 'st-input st-input-100');
 
         readonly_stroke_color_div.appendChild(readonly_stroke_color);
 
@@ -2240,7 +2250,7 @@ special_tools.prototype.linestring_style = function(btn_linestring_style, layer)
         /**********************************************************/
 
         const stroke_width_div = L.DomUtil.create('div');
-        stroke_width_div.setAttribute('class', 'special-tools-container');
+        stroke_width_div.setAttribute('class', 'st-container');
         modal_body.appendChild(stroke_width_div);
 
         /**********************************************************/
@@ -2265,7 +2275,7 @@ special_tools.prototype.linestring_style = function(btn_linestring_style, layer)
         stroke_width.setAttribute('min', 1);
         stroke_width.setAttribute('max', 100);
         stroke_width.setAttribute('step', 1);
-        stroke_width.setAttribute('class', 'special-tools-input-range');
+        stroke_width.setAttribute('class', 'st-input-range');
         stroke_width.value = _stroke_width;
 
         stroke_width_div.appendChild(stroke_width);
@@ -2273,7 +2283,7 @@ special_tools.prototype.linestring_style = function(btn_linestring_style, layer)
         /**********************************************************/
 
         const stroke_opacity_div = L.DomUtil.create('div');
-        stroke_opacity_div.setAttribute('class', 'special-tools-container');
+        stroke_opacity_div.setAttribute('class', 'st-container');
         modal_body.appendChild(stroke_opacity_div);
 
         /**********************************************************/
@@ -2298,7 +2308,7 @@ special_tools.prototype.linestring_style = function(btn_linestring_style, layer)
         stroke_opacity.setAttribute('min', 0);
         stroke_opacity.setAttribute('max', 1);
         stroke_opacity.setAttribute('step', 0.1);
-        stroke_opacity.setAttribute('class', 'special-tools-input-range');
+        stroke_opacity.setAttribute('class', 'st-input-range');
         stroke_opacity.value = _stroke_opacity;
 
         stroke_opacity_div.appendChild(stroke_opacity);
@@ -2306,7 +2316,7 @@ special_tools.prototype.linestring_style = function(btn_linestring_style, layer)
         /**********************************************************/
 
         const stroke_dasharray_div = L.DomUtil.create('div');
-        stroke_dasharray_div.setAttribute('class', 'special-tools-container');
+        stroke_dasharray_div.setAttribute('class', 'st-container');
         modal_body.appendChild(stroke_dasharray_div);
 
         /**********************************************************/
@@ -2331,7 +2341,7 @@ special_tools.prototype.linestring_style = function(btn_linestring_style, layer)
         stroke_dasharray.setAttribute('min', 0);
         stroke_dasharray.setAttribute('max', 100);
         stroke_dasharray.setAttribute('step', 2);
-        stroke_dasharray.setAttribute('class', 'special-tools-input-range');
+        stroke_dasharray.setAttribute('class', 'st-input-range');
         stroke_dasharray.value = _stroke_dasharray;
 
         stroke_dasharray_div.appendChild(stroke_dasharray);
@@ -2339,7 +2349,7 @@ special_tools.prototype.linestring_style = function(btn_linestring_style, layer)
         /**********************************************************/
 
         const linestring_preview_div = L.DomUtil.create('div');
-        linestring_preview_div.setAttribute('class', 'special-tools-container');
+        linestring_preview_div.setAttribute('class', 'st-container');
 
         modal_body.appendChild(linestring_preview_div);
 
@@ -2757,13 +2767,13 @@ special_tools.prototype.polygon_circle_style = function(btn_obj_style, layer) {
         /**********************************************************/
 
         const object_div = L.DomUtil.create('div');
-        object_div.setAttribute('class', 'special-tools-container');
+        object_div.setAttribute('class', 'st-container');
         modal_body.appendChild(object_div);
 
         /**********************************************************/
 
         const object_stroke_color_div = L.DomUtil.create('div');
-        object_stroke_color_div.setAttribute('class', 'special-tools-container special-tools-div-33');
+        object_stroke_color_div.setAttribute('class', 'st-container st-div-33');
         object_div.appendChild(object_stroke_color_div);
 
         /**********************************************************/
@@ -2782,7 +2792,7 @@ special_tools.prototype.polygon_circle_style = function(btn_obj_style, layer) {
 
         const object_stroke_color_input = L.DomUtil.create('input');
         object_stroke_color_input.id = 'object_stroke_color_input';
-        object_stroke_color_input.setAttribute('class', 'special-tools-input-100');
+        object_stroke_color_input.setAttribute('class', 'st-input st-input-100');
         object_stroke_color_input.setAttribute('placeholder', '#000000');
         object_stroke_color_input.style.marginTop = '7px';
 
@@ -2793,7 +2803,7 @@ special_tools.prototype.polygon_circle_style = function(btn_obj_style, layer) {
         const object_stroke_color_btn = L.DomUtil.create('button');
         object_stroke_color_btn.type = 'button';
         object_stroke_color_btn.id = 'object_stroke_color_btn';
-        object_stroke_color_btn.setAttribute('class', 'special-tools-btn-success');
+        object_stroke_color_btn.setAttribute('class', 'st-btn st-btn-success');
         object_stroke_color_btn.style.position = 'relative';
         object_stroke_color_btn.style.top = '4px';
 
@@ -2810,7 +2820,7 @@ special_tools.prototype.polygon_circle_style = function(btn_obj_style, layer) {
 
         const object_iro_container = L.DomUtil.create('div');
         object_iro_container.id = 'object_iro_container';
-        object_iro_container.setAttribute('class', 'special-tools-container special-tools-div-33');
+        object_iro_container.setAttribute('class', 'st-container st-div-33');
         object_div.appendChild(object_iro_container);
 
 
@@ -2825,7 +2835,7 @@ special_tools.prototype.polygon_circle_style = function(btn_obj_style, layer) {
         /**********************************************************/
 
         const readonly_stroke_color_div = L.DomUtil.create('div');
-        readonly_stroke_color_div.setAttribute('class', 'special-tools-container special-tools-div-33');
+        readonly_stroke_color_div.setAttribute('class', 'st-container st-div-33');
         object_div.appendChild(readonly_stroke_color_div);
 
         /**********************************************************/
@@ -2849,7 +2859,7 @@ special_tools.prototype.polygon_circle_style = function(btn_obj_style, layer) {
         readonly_stroke_color.id = 'readonly_stroke_color';
         readonly_stroke_color.setAttribute('readonly', true);
         readonly_stroke_color.value = _stroke_color;
-        readonly_stroke_color.setAttribute('class', 'special-tools-input-100');
+        readonly_stroke_color.setAttribute('class', 'st-input st-input-100');
 
         readonly_stroke_color_div.appendChild(readonly_stroke_color);
 
@@ -2862,7 +2872,7 @@ special_tools.prototype.polygon_circle_style = function(btn_obj_style, layer) {
         /**********************************************************/
 
         const special_tools_container_2 = L.DomUtil.create('div');
-        special_tools_container_2.setAttribute('class', 'special-tools-container');
+        special_tools_container_2.setAttribute('class', 'st-container');
         special_tools_container_2.setAttribute('id', 'special_tools_container_2');
 
         modal_body.appendChild(special_tools_container_2);
@@ -2887,7 +2897,7 @@ special_tools.prototype.polygon_circle_style = function(btn_obj_style, layer) {
         const stroke_width = L.DomUtil.create('input');
         stroke_width.setAttribute('type', 'range');
         stroke_width.setAttribute('id', 'stroke_width');
-        stroke_width.setAttribute('class', 'special-tools-input-range');
+        stroke_width.setAttribute('class', 'st-input-range');
         stroke_width.setAttribute('min', '1');
         stroke_width.setAttribute('max', '100');
         stroke_width.setAttribute('step', '1');
@@ -2898,7 +2908,7 @@ special_tools.prototype.polygon_circle_style = function(btn_obj_style, layer) {
         /********************************************************/
 
         const special_tools_container_3 = L.DomUtil.create('div');
-        special_tools_container_3.setAttribute('class', 'special-tools-container');
+        special_tools_container_3.setAttribute('class', 'st-container');
         special_tools_container_3.setAttribute('id', 'special_tools_container_3');
 
         modal_body.appendChild(special_tools_container_3);
@@ -2923,7 +2933,7 @@ special_tools.prototype.polygon_circle_style = function(btn_obj_style, layer) {
         const stroke_opacity = L.DomUtil.create('input');
         stroke_opacity.setAttribute('type', 'range');
         stroke_opacity.setAttribute('id', 'stroke_opacity');
-        stroke_opacity.setAttribute('class', 'special-tools-input-range');
+        stroke_opacity.setAttribute('class', 'st-input-range');
         stroke_opacity.setAttribute('min', '0');
         stroke_opacity.setAttribute('max', '1');
         stroke_opacity.setAttribute('step', '0.1');
@@ -2934,7 +2944,7 @@ special_tools.prototype.polygon_circle_style = function(btn_obj_style, layer) {
         /********************************************************/
 
         const special_tools_container_4 = L.DomUtil.create('div');
-        special_tools_container_4.setAttribute('class', 'special-tools-container');
+        special_tools_container_4.setAttribute('class', 'st-container');
         special_tools_container_4.setAttribute('id', 'special_tools_container_4');
 
         modal_body.appendChild(special_tools_container_4);
@@ -2959,7 +2969,7 @@ special_tools.prototype.polygon_circle_style = function(btn_obj_style, layer) {
         const stroke_dasharray = L.DomUtil.create('input');
         stroke_dasharray.setAttribute('type', 'range');
         stroke_dasharray.setAttribute('id', 'stroke_dasharray');
-        stroke_dasharray.setAttribute('class', 'special-tools-input-range');
+        stroke_dasharray.setAttribute('class', 'st-input-range');
         stroke_dasharray.setAttribute('min', '0');
         stroke_dasharray.setAttribute('max', '100');
         stroke_dasharray.setAttribute('step', '2');
@@ -2970,7 +2980,7 @@ special_tools.prototype.polygon_circle_style = function(btn_obj_style, layer) {
         /********************************************************/
 
         const special_tools_container_5 = L.DomUtil.create('div');
-        special_tools_container_5.setAttribute('class', 'special-tools-container');
+        special_tools_container_5.setAttribute('class', 'st-container');
         special_tools_container_5.setAttribute('id', 'special_tools_container_5');
 
         modal_body.appendChild(special_tools_container_5);
@@ -2995,7 +3005,7 @@ special_tools.prototype.polygon_circle_style = function(btn_obj_style, layer) {
         const fill_opacity = L.DomUtil.create('input');
         fill_opacity.setAttribute('type', 'range');
         fill_opacity.setAttribute('id', 'fill_opacity');
-        fill_opacity.setAttribute('class', 'special-tools-input-range');
+        fill_opacity.setAttribute('class', 'st-input-range');
         fill_opacity.setAttribute('min', '0');
         fill_opacity.setAttribute('max', '1');
         fill_opacity.setAttribute('step', '0.1');
@@ -3006,7 +3016,7 @@ special_tools.prototype.polygon_circle_style = function(btn_obj_style, layer) {
         /********************************************************/
 
         const special_tools_container_6 = L.DomUtil.create('div');
-        special_tools_container_6.setAttribute('class', 'special-tools-container');
+        special_tools_container_6.setAttribute('class', 'st-container');
         special_tools_container_6.setAttribute('id', 'special_tools_container_6');
 
         modal_body.appendChild(special_tools_container_6);
@@ -3464,9 +3474,9 @@ special_tools.prototype.modal_message = function(message, miliseconds) {
 
     const self = this;
 
-    if (self.map._container.querySelector('.special-tools-modal-message') !== null) {
+    if (self.map._container.querySelector('.st-modal-message') !== null) {
 
-        self.map._container.querySelector('.special-tools-modal-message').remove();
+        self.map._container.querySelector('.st-modal-message').remove();
 
     }
 
@@ -3476,7 +3486,7 @@ special_tools.prototype.modal_message = function(message, miliseconds) {
     if (typeof miliseconds === 'undefined') miliseconds = 3500;
 
     const modal_message = L.DomUtil.create('div');
-    modal_message.setAttribute('class', 'special-tools-modal-message');
+    modal_message.setAttribute('class', 'st-modal-message');
 
 
     const modal_message_top = (map_height / 2) - 100;
@@ -3503,6 +3513,40 @@ special_tools.prototype.modal_message = function(message, miliseconds) {
 
 };
 
+special_tools.prototype.modal_loading = function() {
+
+    const self = this;
+    
+    if (self.map._container.querySelector('.st-modal-message') !== null) {
+
+        self.map._container.querySelector('.st-modal-message').remove();
+
+    }
+
+    const map_width = self.map._container.clientWidth;
+    const map_height = self.map._container.clientHeight;
+
+    const modal_message = L.DomUtil.create('div');
+    modal_message.setAttribute('class', 'st-modal-message');
+    
+    const loading = L.DomUtil.create('img');
+    loading.src = self.tool.tool_url() + "/img/loading.gif";
+    loading.style.width = '100%';
+    loading.style.maxWidth = '250px';
+    modal_message.appendChild(loading);
+
+    const modal_message_top = (map_height / 2) - 100;
+    modal_message.style.top = modal_message_top + 'px';
+
+    const modal_message_left = (map_width / 2) - (350 / 2);
+    modal_message.style.left = modal_message_left + 'px';
+    
+    self.map._container.append(modal_message);
+    
+    return modal_message;
+
+};
+
 special_tools.prototype.modal_properties_form_create = function(layer, overlay) {
 
     const self = this;
@@ -3513,46 +3557,40 @@ special_tools.prototype.modal_properties_form_create = function(layer, overlay) 
 
     }
 
-    if (self.map._container.querySelector('.special-tools-modal-properties-form') !== null) {
+    if (self.map._container.querySelector('.st-modal-properties-form') !== null) {
 
-        self.map._container.querySelector('.special-tools-modal-properties-form').remove();
+        self.map._container.querySelector('.st-modal-properties-form').remove();
 
     }
 
     /**************************************************************************/
 
     const modal_properties_form = L.DomUtil.create('div');
-    modal_properties_form.setAttribute('class', 'special-tools-modal-properties-form');
+    modal_properties_form.setAttribute('class', 'st-modal-properties-form');
 
     self.map._container.append(modal_properties_form);
 
-    L.DomEvent.on(modal_properties_form, 'mouseover', function() {
-
-        self.map.dragging.disable();
-        self.map.doubleClickZoom.disable();
-        
+    try {
         document.querySelector('.map_inputs').style.zIndex = 0;
+    } catch(e){};
 
-    });
-
-    L.DomEvent.on(modal_properties_form, 'mouseout', function() {
-
-        self.map.dragging.enable();
-        self.map.doubleClickZoom.enable();
-        
-    });
+    try {
+    L.DomEvent
+      .disableClickPropagation(modal_properties_form)
+      .disableScrollPropagation(modal_properties_form);
+    } catch(e){};
 
     /**************************************************************************/
 
     const container = L.DomUtil.create('div');
-    container.setAttribute('class', 'special-tools-modal-container');
+    container.setAttribute('class', 'st-modal-container');
 
     modal_properties_form.appendChild(container);
         
     /**************************************************************************/
 
     const title = L.DomUtil.create('div');
-    title.setAttribute('class', 'special-tools-h1');
+    title.setAttribute('class', 'st-h1');
 
     self.tool.google_translate({
 
@@ -3588,7 +3626,7 @@ special_tools.prototype.modal_properties_form_create = function(layer, overlay) 
 
     const text_property_name_input = L.DomUtil.create('input');
     text_property_name_input.type = 'text';
-    text_property_name_input.setAttribute('class', 'special-tools-input-200');
+    text_property_name_input.setAttribute('class', 'st-input st-input-200');
 
     container.appendChild(text_property_name_input);
 
@@ -3619,7 +3657,7 @@ special_tools.prototype.modal_properties_form_create = function(layer, overlay) 
     /**************************************************************************/
 
     const text_property_value_input = L.DomUtil.create('textarea');
-    text_property_value_input.setAttribute('class', 'special-tools-textarea');
+    text_property_value_input.setAttribute('class', 'st-textarea');
 
     container.appendChild(text_property_value_input);
 
@@ -3632,7 +3670,7 @@ special_tools.prototype.modal_properties_form_create = function(layer, overlay) 
 
     const create_button = L.DomUtil.create('button');
     create_button.type = 'button';
-    create_button.setAttribute('class', 'special-tools-btn-success');
+    create_button.setAttribute('class', 'st-btn st-btn-success');
 
     self.tool.google_translate({
 
@@ -3648,7 +3686,7 @@ special_tools.prototype.modal_properties_form_create = function(layer, overlay) 
 
     const close_button = L.DomUtil.create('button');
     close_button.type = 'button';
-    close_button.setAttribute('class', 'special-tools-btn-default');
+    close_button.setAttribute('class', 'st-btn st-btn-default');
 
     self.tool.google_translate({
 
@@ -3670,10 +3708,9 @@ special_tools.prototype.modal_properties_form_create = function(layer, overlay) 
 
             modal_properties_form.remove();
             
-            self.map.dragging.enable();
-            self.map.doubleClickZoom.enable();
-
-            document.querySelector('.map_inputs').style.zIndex = 1;
+            try {
+                document.querySelector('.map_inputs').style.zIndex = 1;
+            } catch(e) {};
 
         }, 100);
 
@@ -3681,8 +3718,8 @@ special_tools.prototype.modal_properties_form_create = function(layer, overlay) 
 
     L.DomEvent.on(create_button, 'click', function() {
 
-        const name = text_property_name_input.value;
-        const value = text_property_value_input.value;
+        const name = self.strip_tags(String(text_property_name_input.value));
+        const value = self.strip_tags(String(text_property_value_input.value));
 
         const name_allows = /^[A-Za-z\_]+$/;
 
@@ -3766,11 +3803,10 @@ special_tools.prototype.modal_properties_form_create = function(layer, overlay) 
                 window.setTimeout(function() {
 
                     modal_properties_form.remove();
-
-                    self.map.dragging.enable();
-                    self.map.doubleClickZoom.enable();
                     
-                    document.querySelector('.map_inputs').style.zIndex = 1;
+                    try {
+                        document.querySelector('.map_inputs').style.zIndex = 1;
+                    } catch(e) {};
                 
                 }, 100);
 
@@ -3798,30 +3834,40 @@ special_tools.prototype.modal_properties_form_update = function(property, layer,
 
     }
 
-    if (self.map._container.querySelector('.special-tools-modal-properties-form') !== null) {
+    if (self.map._container.querySelector('.st-modal-properties-form') !== null) {
 
-        self.map._container.querySelector('.special-tools-modal-properties-form').remove();
+        self.map._container.querySelector('.st-modal-properties-form').remove();
 
     }
     
     /**************************************************************************/
 
     const modal_properties_form = L.DomUtil.create('div');
-    modal_properties_form.setAttribute('class', 'special-tools-modal-properties-form');
+    modal_properties_form.setAttribute('class', 'st-modal-properties-form');
 
     self.map._container.append(modal_properties_form);
+    
+    try {
+        document.querySelector('.map_inputs').style.zIndex = 0;
+    } catch(e){};
+
+    try {
+    L.DomEvent
+      .disableClickPropagation(modal_properties_form)
+      .disableScrollPropagation(modal_properties_form);
+    } catch(e){};
     
     /**************************************************************************/
     
     const container = L.DomUtil.create('div');
-    container.setAttribute('class', 'special-tools-modal-container');
+    container.setAttribute('class', 'st-modal-container');
 
     modal_properties_form.appendChild(container);
         
     /**************************************************************************/
 
     const title = L.DomUtil.create('div');
-    title.setAttribute('class', 'special-tools-h1');
+    title.setAttribute('class', 'st-h1');
 
     self.tool.google_translate({
 
@@ -3855,7 +3901,7 @@ special_tools.prototype.modal_properties_form_update = function(property, layer,
     /**************************************************************************/
 
     const text_property_name_title = L.DomUtil.create('span');
-    text_property_name_title.setAttribute('class', 'special-tools-h2');
+    text_property_name_title.setAttribute('class', 'st-h2');
     text_property_name_title.innerText = " " + property.name;
 
     container.appendChild(text_property_name_title);
@@ -3887,8 +3933,8 @@ special_tools.prototype.modal_properties_form_update = function(property, layer,
     /**************************************************************************/
 
     const text_property_value_input = L.DomUtil.create('textarea');
-    text_property_value_input.setAttribute('class', 'special-tools-textarea');
-    text_property_value_input.value = property.value;
+    text_property_value_input.setAttribute('class', 'st-textarea');
+    text_property_value_input.value = self.strip_tags(String(property.value));
 
     container.appendChild(text_property_value_input);
 
@@ -3901,7 +3947,7 @@ special_tools.prototype.modal_properties_form_update = function(property, layer,
 
     const edit_button = L.DomUtil.create('button');
     edit_button.type = 'button';
-    edit_button.setAttribute('class', 'special-tools-btn-success');
+    edit_button.setAttribute('class', 'st-btn st-btn-success');
 
     self.tool.google_translate({
 
@@ -3917,7 +3963,7 @@ special_tools.prototype.modal_properties_form_update = function(property, layer,
 
     const close_button = L.DomUtil.create('button');
     close_button.type = 'button';
-    close_button.setAttribute('class', 'special-tools-btn-default');
+    close_button.setAttribute('class', 'st-btn st-btn-default');
 
     self.tool.google_translate({
 
@@ -3931,8 +3977,6 @@ special_tools.prototype.modal_properties_form_update = function(property, layer,
 
     /**************************************************************************/
 
-    document.querySelector('.map_inputs').style.zIndex = 0;
-
     L.DomEvent.on(close_button, 'click', function() {
 
         this.disabled = true;
@@ -3940,11 +3984,9 @@ special_tools.prototype.modal_properties_form_update = function(property, layer,
         window.setTimeout(function() {
 
             modal_properties_form.remove();
-            
-            self.map.dragging.enable();
-            self.map.doubleClickZoom.enable();
-
-            document.querySelector('.map_inputs').style.zIndex = 1;
+            try {
+                document.querySelector('.map_inputs').style.zIndex = 1;
+            } catch(e) {};
 
         }, 100);
 
@@ -3952,8 +3994,8 @@ special_tools.prototype.modal_properties_form_update = function(property, layer,
 
     L.DomEvent.on(edit_button, 'click', function() {
 
-        const name = property.name;
-        const value = text_property_value_input.value;
+        const name = self.strip_tags(String(property.name));
+        const value = self.strip_tags(String(text_property_value_input.value));
 
         if (value === '') {
 
@@ -4040,30 +4082,40 @@ special_tools.prototype.modal_properties_form_delete = function(property, layer,
 
     }
 
-    if (self.map._container.querySelector('.special-tools-modal-properties-form') !== null) {
+    if (self.map._container.querySelector('.st-modal-properties-form') !== null) {
 
-        self.map._container.querySelector('.special-tools-modal-properties-form').remove();
+        self.map._container.querySelector('.st-modal-properties-form').remove();
 
     }
     
     /**************************************************************************/
 
     const modal_properties_form = L.DomUtil.create('div');
-    modal_properties_form.setAttribute('class', 'special-tools-modal-properties-form');
+    modal_properties_form.setAttribute('class', 'st-modal-properties-form');
 
     self.map._container.append(modal_properties_form);
+    
+    try {
+        document.querySelector('.map_inputs').style.zIndex = 0;
+    } catch(e){};
+
+    try {
+    L.DomEvent
+      .disableClickPropagation(modal_properties_form)
+      .disableScrollPropagation(modal_properties_form);
+    } catch(e){};
     
     /**************************************************************************/
     
     const container = L.DomUtil.create('div');
-    container.setAttribute('class', 'special-tools-modal-container');
+    container.setAttribute('class', 'st-modal-container');
 
     modal_properties_form.appendChild(container);
         
     /**************************************************************************/
 
     const title = L.DomUtil.create('div');
-    title.setAttribute('class', 'special-tools-h1');
+    title.setAttribute('class', 'st-h1');
 
     self.tool.google_translate({
 
@@ -4098,7 +4150,7 @@ special_tools.prototype.modal_properties_form_delete = function(property, layer,
     /**************************************************************************/
 
     const text_property_name_title = L.DomUtil.create('span');
-    text_property_name_title.setAttribute('class', 'special-tools-h2');
+    text_property_name_title.setAttribute('class', 'st-h2');
     text_property_name_title.innerText = " " + property.name;
 
     container.appendChild(text_property_name_title);
@@ -4117,7 +4169,7 @@ special_tools.prototype.modal_properties_form_delete = function(property, layer,
 
     const delete_button = L.DomUtil.create('button');
     delete_button.type = 'button';
-    delete_button.setAttribute('class', 'special-tools-btn-danger');
+    delete_button.setAttribute('class', 'st-btn st-btn-danger');
 
     self.tool.google_translate({
 
@@ -4133,7 +4185,7 @@ special_tools.prototype.modal_properties_form_delete = function(property, layer,
 
     const close_button = L.DomUtil.create('button');
     close_button.type = 'button';
-    close_button.setAttribute('class', 'special-tools-btn-default');
+    close_button.setAttribute('class', 'st-btn st-btn-default');
 
     self.tool.google_translate({
 
@@ -4145,8 +4197,6 @@ special_tools.prototype.modal_properties_form_delete = function(property, layer,
 
     container.appendChild(close_button);
 
-    document.querySelector('.map_inputs').style.zIndex = 0;
-
     /**************************************************************************/
 
     L.DomEvent.on(close_button, 'click', function() {  
@@ -4156,11 +4206,10 @@ special_tools.prototype.modal_properties_form_delete = function(property, layer,
         window.setTimeout(function() {
 
             modal_properties_form.remove();
-            
-            self.map.dragging.enable();
-            self.map.doubleClickZoom.enable();
-            
-            document.querySelector('.map_inputs').style.zIndex = 1;
+
+            try {
+                document.querySelector('.map_inputs').style.zIndex = 1;
+            } catch(e) {};
 
         }, 100);
 
@@ -4216,10 +4265,9 @@ special_tools.prototype.modal_properties_form_delete = function(property, layer,
 
             modal_properties_form.remove();
             
-            self.map.dragging.enable();
-            self.map.doubleClickZoom.enable();
-            
-            document.querySelector('.map_inputs').style.zIndex = 1;
+            try {
+                document.querySelector('.map_inputs').style.zIndex = 1;
+            } catch(e) {};
 
         }, 100);
 
@@ -4244,7 +4292,7 @@ special_tools.prototype.modal_properties = function(layer, overlay) {
     /********************************************************/
 
     const select_container = L.DomUtil.create('div');
-    select_container.setAttribute('class', 'special-tools-container');
+    select_container.setAttribute('class', 'st-container');
 
     modal_body.appendChild(select_container); 
 
@@ -4252,7 +4300,7 @@ special_tools.prototype.modal_properties = function(layer, overlay) {
 
     const new_property = L.DomUtil.create('button');
     new_property.type = 'button';
-    new_property.setAttribute('class', 'special-tools-btn-success');
+    new_property.setAttribute('class', 'st-btn st-btn-success');
 
     self.tool.google_translate({
 
@@ -4268,7 +4316,7 @@ special_tools.prototype.modal_properties = function(layer, overlay) {
 
     const pdf_export = L.DomUtil.create('button');
     pdf_export.type = 'button';
-    pdf_export.setAttribute('class', 'special-tools-btn-success');
+    pdf_export.setAttribute('class', 'st-btn st-btn-success');
 
     self.tool.google_translate({
 
@@ -4282,7 +4330,7 @@ special_tools.prototype.modal_properties = function(layer, overlay) {
     /********************************************************/
 
     const properties_div = L.DomUtil.create('div');
-    properties_div.setAttribute('class', 'special-tools-container');
+    properties_div.setAttribute('class', 'st-container');
     properties_div.style.padding = '5px';
 
     modal_body.appendChild(properties_div);
@@ -4301,11 +4349,17 @@ special_tools.prototype.modal_properties = function(layer, overlay) {
         ){
 
             const properties_content_div = L.DomUtil.create('div');
-            properties_content_div.setAttribute('class', 'special-tools-container');
+            properties_content_div.setAttribute('class', 'st-container');
             properties_content_div.style.borderBottom = '1px solid #ee9113';
             properties_content_div.style.paddingBottom = '4px';
 
-            properties_content_div.innerHTML = "<strong>" + prop + "</strong>" + ": <br>" + properties[prop] + "<br>";
+            const properties_content_div_name = L.DomUtil.create('p');
+            properties_content_div_name.innerHTML = "<strong>" + self.strip_tags(String(prop)) + "</strong>" + ": ";
+            properties_content_div.appendChild(properties_content_div_name);
+
+            const properties_content_div_value = L.DomUtil.create('p');
+            properties_content_div_value.innerText = self.strip_tags(String(properties[prop]));
+            properties_content_div.appendChild(properties_content_div_value);
 
             properties_div.appendChild(properties_content_div);
 
@@ -4318,7 +4372,7 @@ special_tools.prototype.modal_properties = function(layer, overlay) {
 
             const update_property = L.DomUtil.create('button');
             update_property.type = 'button';
-            update_property.setAttribute('class', 'special-tools-btn-info');
+            update_property.setAttribute('class', 'st-btn st-btn-info');
             update_property.setAttribute('property-name', prop);
 
             properties_content_div.appendChild(update_property);
@@ -4336,7 +4390,7 @@ special_tools.prototype.modal_properties = function(layer, overlay) {
 
             const delete_property = L.DomUtil.create('button');
             delete_property.type = 'button';
-            delete_property.setAttribute('class', 'special-tools-btn-danger');
+            delete_property.setAttribute('class', 'st-btn st-btn-danger');
             delete_property.setAttribute('property-name', prop);
 
             properties_content_div.appendChild(delete_property);
@@ -4409,7 +4463,7 @@ special_tools.prototype.info_console_load_properties = function(layer, overlay) 
     /**************************************************************************/
 
     const properties_title = L.DomUtil.create('div');
-    properties_title.setAttribute('class', 'special-tools-h3');
+    properties_title.setAttribute('class', 'st-h3');
     properties_title.style.borderTop = '1px solid #fff';
 
     self.tool.google_translate({
@@ -4425,7 +4479,7 @@ special_tools.prototype.info_console_load_properties = function(layer, overlay) 
     /**************************************************************************/
 
     const properties_div = L.DomUtil.create('div');
-    properties_div.setAttribute('class', 'special-tools-container');
+    properties_div.setAttribute('class', 'st-container');
     self.special_tools_info_console.appendChild(properties_div);
 
     /**************************************************************************/
@@ -4433,7 +4487,7 @@ special_tools.prototype.info_console_load_properties = function(layer, overlay) 
     const properties_btn = L.DomUtil.create('button');
     properties_btn.type = 'button';
     properties_btn.id = 'properties_btn';
-    properties_btn.setAttribute('class', 'special-tools-btn-default');
+    properties_btn.setAttribute('class', 'st-btn st-btn-default');
 
     self.tool.google_translate({
 
@@ -4450,7 +4504,7 @@ special_tools.prototype.info_console_load_properties = function(layer, overlay) 
     const image_btn = L.DomUtil.create('button');
     image_btn.type = 'button';
     image_btn.id = 'image_btn';
-    image_btn.setAttribute('class', 'special-tools-btn-default');
+    image_btn.setAttribute('class', 'st-btn st-btn-default');
 
     self.tool.google_translate({
 
@@ -4467,7 +4521,7 @@ special_tools.prototype.info_console_load_properties = function(layer, overlay) 
    const images_gallery_btn = L.DomUtil.create('button');
     images_gallery_btn.type = 'button';
     images_gallery_btn.id = 'images_gallery';
-    images_gallery_btn.setAttribute('class', 'special-tools-btn-default');
+    images_gallery_btn.setAttribute('class', 'st-btn st-btn-default');
 
     self.tool.google_translate({
 
@@ -4504,8 +4558,6 @@ special_tools.prototype.info_console_load_properties = function(layer, overlay) 
     /**************************************************************************/
 
     const properties = layer.feature.properties;
-    var images_urls = new Array();
-    var images_captions = new Array();
 
     for (let prop in properties) {
 
@@ -4518,7 +4570,7 @@ special_tools.prototype.info_console_load_properties = function(layer, overlay) 
             if (self.is_url(properties[prop])) {
 
                 const properties_content_div = L.DomUtil.create('div');
-                properties_content_div.setAttribute('class', 'special-tools-container');
+                properties_content_div.setAttribute('class', 'st-container');
                 properties_content_div.style.borderTop = '1px solid #ee9113';
 
                 const properties_link_div = L.DomUtil.create('a');
@@ -4540,7 +4592,7 @@ special_tools.prototype.info_console_load_properties = function(layer, overlay) 
             } else {
 
                 const properties_content_div = L.DomUtil.create('div');
-                properties_content_div.setAttribute('class', 'special-tools-container');
+                properties_content_div.setAttribute('class', 'st-container');
                 properties_content_div.style.borderTop = '1px solid #ee9113';
 
                 if (properties[prop].length > 300) {
@@ -4549,7 +4601,13 @@ special_tools.prototype.info_console_load_properties = function(layer, overlay) 
 
                 }
 
-                properties_content_div.innerHTML = "<strong>" + prop + "</strong>" + ": " + properties[prop];
+                const properties_content_div_name = L.DomUtil.create('strong');
+                properties_content_div_name.innerText = self.strip_tags(String(prop)) + ': ';
+                properties_content_div.appendChild(properties_content_div_name);
+                
+                const properties_content_div_value = L.DomUtil.create('span');
+                properties_content_div_value.innerText = self.strip_tags(String(properties[prop]));
+                properties_content_div.appendChild(properties_content_div_value);
 
                 properties_div.appendChild(properties_content_div);
 
@@ -4557,56 +4615,6 @@ special_tools.prototype.info_console_load_properties = function(layer, overlay) 
         }
 
     }
-
-    /******************IMAGES GALLERY**********************/
-
-    if (properties.hasOwnProperty('images')) {
-
-        for (let x = 0; x < properties.images.length; x++) {
-            
-            if (properties.images[x] === null) continue;
-            
-            if (properties.images[x].hasOwnProperty('url')) {
-
-                //Check if image exist
-                fetch(properties.images[x].url, {method: 'HEAD'})
-                .then(function(res) {
-
-                    if (res.ok) {
-
-                        images_urls.push(properties.images[x].url);
-                        
-                        let caption;
-                        
-                        if (typeof properties.images[x].section_tipo !== 'undefined') {
-                        
-                            caption = "<a href='?t=" + properties.images[x].section_tipo + "&section_id=" + properties.images[x].section_id  + "&component_tipo=" + properties.images[x].tipo + "' target='_blank'><img src='"+self.tool.tool_url()+"/img/link.png"+"'></a>";
-
-                        
-                        } else {
-                            
-                            caption = "<a href='"+ properties.images[x].url + "' target='_blank'><img src='"+self.tool.tool_url()+"/img/link.png"+"'></a>";
-                            
-                        }
-                        
-                        images_captions.push(caption);
-
-                    } else {
-                        
-                        
-                       layer.feature.properties.images = properties.images.filter(item => item !== properties.images[x]);
-                        
-                    }
-
-                });
-
-            }
-
-        }
-
-    }
-
-    /******************IMAGES GALLERY**********************/
 
     L.DomEvent.on(properties_btn, 'click', function() {
 
@@ -4621,28 +4629,78 @@ special_tools.prototype.info_console_load_properties = function(layer, overlay) 
     });
 
     L.DomEvent.on(images_gallery_btn, 'click', function() {
+        
+        var images_urls = new Array();
+        var images_captions = new Array();
+        
+        new Promise(function(resolve) {
+            
+            if (!layer.feature.properties.hasOwnProperty('images')) {
+                self.modal_message('El objeto no tiene imágenes asociadas');
+                return;
+            }
+            
+            if (layer.feature.properties.hasOwnProperty('images')) {
+                if (layer.feature.properties.images.length === 0) {
+                    self.modal_message('El objeto no tiene imágenes asociadas');
+                    return;
+                }
+            }
 
-        if (images_urls.length > 0) {
+            for (let x = 0; x < layer.feature.properties.images.length; x++) {
+                
+                if (!layer.feature.properties.images[x].hasOwnProperty('url')) continue;
+
+                if (layer.feature.properties.images[x] === null) continue;
+
+                const volatil_image = document.createElement('img');
+                volatil_image.src = layer.feature.properties.images[x].url;
+
+                window.setTimeout(function() {
+                volatil_image.remove();
+                }, 5000);
+
+                volatil_image.onload = function() {
+                    images_urls.push(layer.feature.properties.images[x].url);
+                    const test_url = new URL(layer.feature.properties.images[x].url);
+                    let caption;
+
+                    if (
+                            typeof layer.feature.properties.images[x].section_tipo !== 'undefined' && 
+                            typeof layer.feature.properties.images[x].section_id !== 'undefined' &&
+                            test_url.hostname === window.location.hostname
+                        )
+                    {
+                        caption = "<a href='?tipo=" + layer.feature.properties.images[x].section_tipo + "&section_tipo=" + layer.feature.properties.images[x].section_tipo + "&id=" + layer.feature.properties.images[x].section_id  + "&mode=edit&menu=true&session_save=false' target='_blank'><img src='"+self.tool.tool_url()+"/img/link.png"+"'></a>";
+                    } else {
+                        caption = "<a href='"+ layer.feature.properties.images[x].url + "' target='_blank'><img src='"+self.tool.tool_url()+"/img/link.png"+"'></a>";
+                    }
+                    images_captions.push(caption);
+                    this.remove();
+                    if (x == layer.feature.properties.images.length - 1) resolve(true);
+                };
+
+                volatil_image.onerror = function() {
+                    layer.feature.properties.images = layer.feature.properties.images.filter(item => item !== layer.feature.properties.images[x]);
+                    this.remove();
+                    if (x == layer.feature.properties.images.length - 1) resolve(true);
+                };
+            }
+        }).then(function(response) {
             
             if (self.lightbox instanceof SimpleLightbox) {
 
                 self.lightbox.destroy();
 
             }
-
             self.lightbox = SimpleLightbox.open({
 
                 items: images_urls,
                 captions: images_captions
 
             });
-
-        } else {
-
-            self.modal_message("No existen imágenes asociadas al objeto");
-
-        }
-
+        });
+    
     });
 
 };
@@ -4664,7 +4722,7 @@ special_tools.prototype.modal_associate_image = function(layer, overlay) {
     /********************************************************/
 
     const container = L.DomUtil.create('div');
-    container.setAttribute('class', 'special-tools-container');
+    container.setAttribute('class', 'st-container');
 
     modal_body.appendChild(container);
 
@@ -4741,8 +4799,6 @@ special_tools.prototype.modal_associate_image = function(layer, overlay) {
 special_tools.prototype.create_pdf = function(layer) {
     
     const self = this;
-    
-    window.setTimeout(function() {
 
     const properties = layer.feature.properties;
 
@@ -4752,6 +4808,8 @@ special_tools.prototype.create_pdf = function(layer) {
     
     const object_to_3857 = turf.toMercator(layer.toGeoJSON());
     const coordinates_3857 = JSON.stringify(object_to_3857.geometry.coordinates);
+    
+    const modal_loading = self.modal_loading();
 
     const tipo = self.component_geolocation.tipo;
     const section_tipo = self.component_geolocation.section_tipo;
@@ -4872,7 +4930,7 @@ special_tools.prototype.create_pdf = function(layer) {
     self.tool.google_translate({
 
         element_html: images_title,
-        str: "Imágenes asociadas", 
+        str: "Imágenes asociadas (Max. 30)", 
         lang: self.lang
 
     });
@@ -4885,64 +4943,68 @@ special_tools.prototype.create_pdf = function(layer) {
 
     /****************************************************/
 
-    if (layer.feature.properties.hasOwnProperty('images')) {
+    new Promise(function(resolve) {
+        
+        if (!layer.feature.properties.hasOwnProperty('images')) resolve(true);
+        if (layer.feature.properties.images.length === 0) resolve(true);
 
-        const images = layer.feature.properties.images;
-
-        for (let i in images) {
+        for (let i in layer.feature.properties.images) {
             
-            if (images[i] === null) continue;
-
-            if (images[i].hasOwnProperty('url')) {
-
-                const img_gallery = document.createElement('img');
-                img_gallery.src = images[i].url;
-                img_gallery.style.width = '90%';
-                div.appendChild(img_gallery);
-                const img_ref = document.createElement('div');
-                img_ref.innerText = "tipo: " + images[i].tipo + ' - ' + "section_tipo: " + images[i].section_tipo + ' - ' + "id: " + images[i].section_id;
-                div.appendChild(img_ref);
+            if (i == 30) break;
+            
+            if (!layer.feature.properties.images[i].hasOwnProperty('url')) continue;
                 
-                img_gallery.onerror = function () {
+                const options = {url: layer.feature.properties.images[i].url};
+                self.tool.image_to_blob(options).then(function(data) {
                     
-                  this.remove();
-                  img_ref.remove();
-                  
-                  layer.feature.properties.images = images.filter(item => item !== images[i]);
+                if (!data.success) {
 
-                };
+                    const img = document.createElement('img');
+                    img.style.width = '90%';
+                    img.src = layer.feature.properties.images[i].url;
+                    div.appendChild(img);
 
-            }
+                    const img_ref = document.createElement('div');
+                    img_ref.innerHTML = "<a href='"+layer.feature.properties.images[i].url+"' target='_blank'>tipo: " + layer.feature.properties.images[i].tipo + ' - ' + "section_tipo: " + layer.feature.properties.images[i].section_tipo + ' - ' + "id: " + layer.feature.properties.images[i].section_id + "</a>";
+                    div.appendChild(img_ref);
 
+                    let hr = document.createElement('hr');
+                    div.appendChild(hr);
+
+                } else {
+
+                    const img = document.createElement('img');
+                    img.style.width = '90%';
+                    img.src = data.blob;
+                    div.appendChild(img);
+
+                    const img_ref = document.createElement('div');
+                    img_ref.innerHTML = "<a href='"+layer.feature.properties.images[i].url+"'>"+layer.feature.properties.images[i].url+"</a>";
+                    div.appendChild(img_ref);
+
+                    let hr = document.createElement('hr');
+                    div.appendChild(hr);
+
+                }
+
+                if (i == layer.feature.properties.images.length - 1) resolve(true);
+
+            });
         }
-
-    }
-
-    /****************************************************/
-
-    const iframe = document.createElement('iframe');
-    iframe.src = self.tool.tool_url() + '/pdf/layout.html';
-
-    document.body.appendChild(iframe);
-
-    self.modal_message("Creando el archivo pdf, por favor espere, ...");
-
-    window.setTimeout(function() {
-
-        iframe.contentWindow.document.body.querySelector('#container').innerHTML = div.innerHTML;
-
-    }, 3000);
     
-    window.setTimeout(function() {
-
-        iframe.remove();
-        div.remove();
-
-    }, 12000);
-    
-    }, 3000);
-
-    self.modal_message("Creando el archivo pdf, por favor espere, ...", 12000);
+    }).then(function(response) {
+        const iframe = document.createElement('iframe');
+        iframe.src = self.tool.tool_url() + '/pdf/layout.html?v=1.2';
+        document.body.appendChild(iframe);
+        iframe.onload = function() {
+            window.setTimeout(function(){modal_loading.remove();}, 10000);
+            this.contentWindow.document.body.querySelector('#container').appendChild(div);
+            window.setTimeout(function() {
+                iframe.remove();
+                div.remove();
+            }, 20000);
+        };
+    });
 
 };
 
@@ -4998,14 +5060,14 @@ special_tools.prototype.create_div_geometry_type = function(layer, options) {
         div_geometry_type.style.fontWeight = 'bold';
 
         div_geometry_type.innerText = geometry_type;
-        div_geometry_type.setAttribute('class', 'special-tools-container');
+        div_geometry_type.setAttribute('class', 'st-container');
 
         self.special_tools_info_console.appendChild(div_geometry_type);
 
     } else if (options.hasOwnProperty('is_overlay')) {
 
         const div_geometry_type = L.DomUtil.create('div');
-        div_geometry_type.setAttribute('class', 'special-tools-container');
+        div_geometry_type.setAttribute('class', 'st-container');
         div_geometry_type.style.fontWeight = 'bold';
 
         self.tool.google_translate({
@@ -5036,7 +5098,7 @@ special_tools.prototype.create_div_geometry_type = function(layer, options) {
 
         const div_geometry_type = L.DomUtil.create('div');
         div_geometry_type.style.fontWeight = 'bold';
-        div_geometry_type.setAttribute('class', 'special-tools-container');
+        div_geometry_type.setAttribute('class', 'st-container');
 
         if (!is_multipolygon) {
 
@@ -5081,7 +5143,7 @@ special_tools.prototype.create_div_elevation = function(layer) {
     }
 
     const elevation_div = L.DomUtil.create('div');
-    elevation_div.setAttribute('class', 'special-tools-container');
+    elevation_div.setAttribute('class', 'st-container');
 
     self.special_tools_info_console.appendChild(elevation_div);
 
@@ -5134,7 +5196,7 @@ special_tools.prototype.create_div_oneXone = function(layer) {
     if (self.is_oneXone(layer)) {
 
         let point_reference_div = L.DomUtil.create('div');
-        point_reference_div.setAttribute('class', 'special-tools-container');
+        point_reference_div.setAttribute('class', 'st-container');
         point_reference_div.style.fontWeight = 'bold';
 
         self.tool.google_translate({
@@ -5150,7 +5212,7 @@ special_tools.prototype.create_div_oneXone = function(layer) {
         /***************************************************************/
         
         const incert_div = L.DomUtil.create('div');
-        incert_div.setAttribute('class', 'special-tools-container');
+        incert_div.setAttribute('class', 'st-container');
         
         self.special_tools_info_console.appendChild(incert_div);
         
@@ -5217,7 +5279,7 @@ special_tools.prototype.create_div_latlng = function(layer, options) {
     }
 
     const lat_lng_div = L.DomUtil.create('div');
-    lat_lng_div.setAttribute('class', 'special-tools-container');
+    lat_lng_div.setAttribute('class', 'st-container');
 
     self.special_tools_info_console.appendChild(lat_lng_div);
 
@@ -5275,7 +5337,7 @@ special_tools.prototype.create_div_geoman_edition_mode = function(layer) {
     }
 
     const geoman_edition_div = L.DomUtil.create('div');
-    geoman_edition_div.setAttribute('class', 'special-tools-container');
+    geoman_edition_div.setAttribute('class', 'st-container');
 
     self.special_tools_info_console.appendChild(geoman_edition_div);
 
@@ -5336,7 +5398,7 @@ special_tools.prototype.create_div_options_buttons = function(layer, options) {
     /**************************************************************************/
 
     const options_div = L.DomUtil.create('div');
-    options_div.setAttribute('class', 'special-tools-container');
+    options_div.setAttribute('class', 'st-container');
     options_div.style.marginTop = '12px';
 
     self.special_tools_info_console.appendChild(options_div);
@@ -5345,7 +5407,7 @@ special_tools.prototype.create_div_options_buttons = function(layer, options) {
 
     const style_options_btn = L.DomUtil.create('button');
     style_options_btn.type = 'button';
-    style_options_btn.setAttribute('class', 'special-tools-btn-success');
+    style_options_btn.setAttribute('class', 'st-btn st-btn-success');
 
     self.tool.google_translate({
 
@@ -5361,7 +5423,7 @@ special_tools.prototype.create_div_options_buttons = function(layer, options) {
 
     const vector_download_options_btn = L.DomUtil.create('button');
     vector_download_options_btn.type = 'button';
-    vector_download_options_btn.setAttribute('class', 'special-tools-btn-success');
+    vector_download_options_btn.setAttribute('class', 'st-btn st-btn-success');
 
     self.tool.google_translate({
 
@@ -5447,7 +5509,7 @@ special_tools.prototype.create_div_hierarchy = function(layer) {
     }
 
     const hierarchy_div = L.DomUtil.create('div');
-    hierarchy_div.setAttribute('class', 'special-tools-container');
+    hierarchy_div.setAttribute('class', 'st-container');
     hierarchy_div.style.fontWeight = 'bold';
 
     self.tool.google_translate({
@@ -5463,7 +5525,7 @@ special_tools.prototype.create_div_hierarchy = function(layer) {
     /**************************************************************************/
 
     const checkbox_div = L.DomUtil.create('div');
-    checkbox_div.setAttribute('class', 'special-tools-container');
+    checkbox_div.setAttribute('class', 'st-container');
     self.special_tools_info_console.appendChild(checkbox_div);
     
     /**************************************************************************/
@@ -5581,7 +5643,7 @@ special_tools.prototype.create_div_radius = function(layer) {
     /**************************************************************************/
 
     const radius_div = L.DomUtil.create('div');
-    radius_div.setAttribute('class', 'special-tools-container');
+    radius_div.setAttribute('class', 'st-container');
     self.special_tools_info_console.appendChild(radius_div);
     
     /**************************************************************************/
@@ -5625,7 +5687,7 @@ special_tools.prototype.create_div_circle_area = function(layer) {
     /**************************************************************************/
 
     const area_div = L.DomUtil.create('div');
-    area_div.setAttribute('class', 'special-tools-container');
+    area_div.setAttribute('class', 'st-container');
 
     self.special_tools_info_console.appendChild(area_div);
     
@@ -5662,7 +5724,7 @@ special_tools.prototype.create_div_polygon_area = function(layer) {
     if (self.is_oneXone(layer)) {
 
         const onexone_div = L.DomUtil.create('div');
-        onexone_div.setAttribute('class', 'special-tools-container');
+        onexone_div.setAttribute('class', 'st-container');
         self.special_tools_info_console.appendChild(onexone_div);
         
         /**********************************************************************/
@@ -5700,7 +5762,7 @@ special_tools.prototype.create_div_polygon_area = function(layer) {
         /**********************************************************************/
         
         const area_div = L.DomUtil.create('div');
-        area_div.setAttribute('class', 'special-tools-container');
+        area_div.setAttribute('class', 'st-container');
         self.special_tools_info_console.appendChild(area_div);
 
         /**********************************************************************/
@@ -5750,7 +5812,7 @@ special_tools.prototype.create_div_centroid = function(layer) {
         /**********************************************************************/
 
         const centroide_div = L.DomUtil.create('div');
-        centroide_div.setAttribute('class', 'special-tools-container');
+        centroide_div.setAttribute('class', 'st-container');
 
         self.special_tools_info_console.appendChild(centroide_div);
         
@@ -5862,7 +5924,7 @@ special_tools.prototype.create_div_incertidumbre = function(layer) {
     /**********************************************************************/
 
     const incertidumbre_div = L.DomUtil.create('div');
-    incertidumbre_div.setAttribute('class', 'special-tools-container');
+    incertidumbre_div.setAttribute('class', 'st-container');
 
     self.special_tools_info_console.appendChild(incertidumbre_div);
 
@@ -5964,7 +6026,7 @@ special_tools.prototype.create_div_distance = function(layer) {
     /**************************************************************************/
 
     const distance_div = L.DomUtil.create('div');
-    distance_div.setAttribute('class', 'special-tools-container');
+    distance_div.setAttribute('class', 'st-container');
     
     self.special_tools_info_console.appendChild(distance_div);
     
@@ -6166,394 +6228,407 @@ special_tools.prototype.load_overlay = function(layer) {
     
     } catch(e) {};
     
-    const image_id = layer.feature.special_tools.image_id;
-    var image_opacity = layer.feature.special_tools.imageOpacity;
-    var image_interactive = layer.feature.special_tools.imageInteractive;
-    var image_zIndex = layer.feature.special_tools.image_zIndex;
-    const stored_image_data_item = layer.feature.properties.images;
-
-    const point1 = layer.feature.special_tools.point1;
-    const point2 = layer.feature.special_tools.point2;
-    const point3 = layer.feature.special_tools.point3;
-
-    const marker1 = L.marker(point1, {draggable: true, pmIgnore: true, snapIgnore: true} );
-    const marker2 = L.marker(point2, {draggable: true, pmIgnore: true, snapIgnore: true} );
-    const marker3 = L.marker(point3, {draggable: true, pmIgnore: true, snapIgnore: true} );
-
-    const icon = L.icon({
-
-        iconUrl: self.tool.tool_url() + '/img/button.png',
-        iconSize: [18, 18],
-        iconAnchor: [9, 9],
-        shadowUrl: self.tool.tool_url() + '/img/marker-shadow.png',
-        shadowSize: [41, 41],
-        shadowAnchor: [8, 36]
-
-    });
-
-    marker1.setIcon(icon);
-    marker2.setIcon(icon);
-    marker3.setIcon(icon);
-
-    marker1.addTo(self.map);
-    marker2.addTo(self.map);
-    marker3.addTo(self.map);
-
-    marker1.special_tools = {};
-    marker1.special_tools.image_id = image_id;
-    marker2.special_tools = {};
-    marker2.special_tools.image_id = image_id;
-    marker3.special_tools = {};
-    marker3.special_tools.image_id = image_id;
-
-    let is_interactive;
-
-    if (!image_interactive) {
-
-        marker1._icon.style.display = 'none';
-        marker2._icon.style.display = 'none';
-        marker3._icon.style.display = 'none';
-        marker1._shadow.style.display = 'none';
-        marker2._shadow.style.display = 'none';
-        marker3._shadow.style.display = 'none';
-        is_interactive = false;
-
-    } else {
-
-        marker1._icon.style.display = 'block';
-        marker2._icon.style.display = 'block';
-        marker3._icon.style.display = 'block';
-        marker1._shadow.style.display = 'block';
-        marker2._shadow.style.display = 'block';
-        marker3._shadow.style.display = 'block';
-        is_interactive = true;
-
-    }
-
-    const image_src = layer.feature.special_tools.clipPolygon_image;
-
-    const overlay = L.imageOverlay.rotated(image_src, point1, point2, point3, {
-        opacity: image_opacity,
-        interactive: true
-    });
-
-    //199 backToFront
-    overlay.setZIndex(image_zIndex);
-
-    overlay.special_tools = {};
-    overlay.special_tools.image_id = image_id;
-
-    overlay.addTo(self.map);
-
-    marker1.on('drag dragend', function(){
-
-        overlay.reposition(this.getLatLng(), marker2.getLatLng(), marker3.getLatLng());
-
-        const p1 = overlay.getBounds().getSouthWest();
-        const p2 = overlay.getBounds().getNorthEast();
-        const p3 = overlay.getBounds().getNorthWest();
-        const p4 = overlay.getBounds().getSouthEast();
-
-        layer.setLatLngs([
-            [p1.lat, p1.lng],
-            [p3.lat, p3.lng],
-            [p2.lat, p2.lng],
-            [p4.lat, p4.lng]
-        ]);
-
-        layer.feature.special_tools.point1 = this.getLatLng();
-        layer.feature.special_tools.point2 = marker2.getLatLng();
-        layer.feature.special_tools.point3 = marker3.getLatLng();
-    });
-
-    marker2.on('drag dragend', function(){
-
-        overlay.reposition(marker1.getLatLng(), this.getLatLng(), marker3.getLatLng());
-
-        const p1 = overlay.getBounds().getSouthWest();
-        const p2 = overlay.getBounds().getNorthEast();
-        const p3 = overlay.getBounds().getNorthWest();
-        const p4 = overlay.getBounds().getSouthEast();
-
-        layer.setLatLngs([
-            [p1.lat, p1.lng],
-            [p3.lat, p3.lng],
-            [p2.lat, p2.lng],
-            [p4.lat, p4.lng]
-        ]);
-
-        layer.feature.special_tools.point1 = marker1.getLatLng();
-        layer.feature.special_tools.point2 = this.getLatLng();
-        layer.feature.special_tools.point3 = marker3.getLatLng();
-
-    });
-
-    marker3.on('drag dragend', function(){
-
-        overlay.reposition(marker1.getLatLng(), marker2.getLatLng(), this.getLatLng());
-
-        const p1 = overlay.getBounds().getSouthWest();
-        const p2 = overlay.getBounds().getNorthEast();
-        const p3 = overlay.getBounds().getNorthWest();
-        const p4 = overlay.getBounds().getSouthEast();
-
-        layer.setLatLngs([
-            [p1.lat, p1.lng],
-            [p3.lat, p3.lng],
-            [p2.lat, p2.lng],
-            [p4.lat, p4.lng]
-        ]);
-
-        layer.feature.special_tools.point1 = marker1.getLatLng();
-        layer.feature.special_tools.point2 = marker2.getLatLng();
-        layer.feature.special_tools.point3 = this.getLatLng();
-
-    });
-
-    marker1.on('dragend', function(){
-
-        self.save_object();
-
-    });
-
-    marker2.on('dragend', function(){
-
-        self.save_object();
-
-    });
-
-    marker3.on('dragend', function(){
-
-        self.save_object();
-
-    });
-
-    overlay.on('pm:remove', function(){
-
-        marker1.removeFrom(self.map);
-        marker2.removeFrom(self.map);
-        marker3.removeFrom(self.map);
-        layer.pm.remove();
-
-    });
-
-    overlay.on('click', function () {
+    if (!layer.feature.special_tools.hasOwnProperty('clipPolygon_image')) return;
+    
+    const volatil_image = document.createElement('img');
+    volatil_image.src = layer.feature.special_tools.clipPolygon_image;
+    
+    volatil_image.onload = function() {
         
-        if (self.global_remove()) return;
+        window.setTimeout(function() {
+        volatil_image.remove();
+        }, 5000);
+    
+        const image_id = layer.feature.special_tools.image_id;
+        var image_opacity = layer.feature.special_tools.imageOpacity;
+        var image_interactive = layer.feature.special_tools.imageInteractive;
+        var image_zIndex = layer.feature.special_tools.image_zIndex;
+        const stored_image_data_item = layer.feature.properties.images;
 
-        self.init_console();
-        self.create_div_geometry_type(this, {is_overlay: true});
+        const point1 = layer.feature.special_tools.point1;
+        const point2 = layer.feature.special_tools.point2;
+        const point3 = layer.feature.special_tools.point3;
 
-        const image_interactive = layer.feature.special_tools.imageInteractive;
+        const marker1 = L.marker(point1, {draggable: true, pmIgnore: true, snapIgnore: true} );
+        const marker2 = L.marker(point2, {draggable: true, pmIgnore: true, snapIgnore: true} );
+        const marker3 = L.marker(point3, {draggable: true, pmIgnore: true, snapIgnore: true} );
+
+        const icon = L.icon({
+
+            iconUrl: self.tool.tool_url() + '/img/button.png',
+            iconSize: [18, 18],
+            iconAnchor: [9, 9],
+            shadowUrl: self.tool.tool_url() + '/img/marker-shadow.png',
+            shadowSize: [41, 41],
+            shadowAnchor: [8, 36]
+
+        });
+
+        marker1.setIcon(icon);
+        marker2.setIcon(icon);
+        marker3.setIcon(icon);
+
+        marker1.addTo(self.map);
+        marker2.addTo(self.map);
+        marker3.addTo(self.map);
+
+        marker1.special_tools = {};
+        marker1.special_tools.image_id = image_id;
+        marker2.special_tools = {};
+        marker2.special_tools.image_id = image_id;
+        marker3.special_tools = {};
+        marker3.special_tools.image_id = image_id;
+
+        let is_interactive;
 
         if (!image_interactive) {
 
+            marker1._icon.style.display = 'none';
+            marker2._icon.style.display = 'none';
+            marker3._icon.style.display = 'none';
+            marker1._shadow.style.display = 'none';
+            marker2._shadow.style.display = 'none';
+            marker3._shadow.style.display = 'none';
             is_interactive = false;
 
         } else {
 
+            marker1._icon.style.display = 'block';
+            marker2._icon.style.display = 'block';
+            marker3._icon.style.display = 'block';
+            marker1._shadow.style.display = 'block';
+            marker2._shadow.style.display = 'block';
+            marker3._shadow.style.display = 'block';
             is_interactive = true;
 
         }
 
-        const url_image_div = L.DomUtil.create('div');
-        url_image_div.setAttribute('class', 'special-tools-container');
-        self.special_tools_info_console.appendChild(url_image_div);
+        const image_src = layer.feature.special_tools.clipPolygon_image;
 
-        const url_image_link = L.DomUtil.create('a');
-        url_image_link.href = "?t=" + layer.feature.properties.images[0].section_tipo + "&section_id=" + layer.feature.properties.images[0].section_id  + "&component_tipo=" + layer.feature.properties.images[0].tipo;
-        url_image_link.target = '_blank';
-        url_image_div.appendChild(url_image_link);
+        const overlay = L.imageOverlay.rotated(image_src, point1, point2, point3, {
+            opacity: image_opacity,
+            interactive: true
+        });
 
-        self.tool.google_translate({
+        //199 backToFront
+        overlay.setZIndex(image_zIndex);
 
-            element_html: url_image_link,
-            str: "Ver imagen", 
-            lang: self.lang
+        overlay.special_tools = {};
+        overlay.special_tools.image_id = image_id;
+
+        overlay.addTo(self.map);
+
+        marker1.on('drag dragend', function(){
+
+            overlay.reposition(this.getLatLng(), marker2.getLatLng(), marker3.getLatLng());
+
+            const p1 = overlay.getBounds().getSouthWest();
+            const p2 = overlay.getBounds().getNorthEast();
+            const p3 = overlay.getBounds().getNorthWest();
+            const p4 = overlay.getBounds().getSouthEast();
+
+            layer.setLatLngs([
+                [p1.lat, p1.lng],
+                [p3.lat, p3.lng],
+                [p2.lat, p2.lng],
+                [p4.lat, p4.lng]
+            ]);
+
+            layer.feature.special_tools.point1 = this.getLatLng();
+            layer.feature.special_tools.point2 = marker2.getLatLng();
+            layer.feature.special_tools.point3 = marker3.getLatLng();
+        });
+
+        marker2.on('drag dragend', function() {
+
+            overlay.reposition(marker1.getLatLng(), this.getLatLng(), marker3.getLatLng());
+
+            const p1 = overlay.getBounds().getSouthWest();
+            const p2 = overlay.getBounds().getNorthEast();
+            const p3 = overlay.getBounds().getNorthWest();
+            const p4 = overlay.getBounds().getSouthEast();
+
+            layer.setLatLngs([
+                [p1.lat, p1.lng],
+                [p3.lat, p3.lng],
+                [p2.lat, p2.lng],
+                [p4.lat, p4.lng]
+            ]);
+
+            layer.feature.special_tools.point1 = marker1.getLatLng();
+            layer.feature.special_tools.point2 = this.getLatLng();
+            layer.feature.special_tools.point3 = marker3.getLatLng();
 
         });
 
-        const image_edition_div = L.DomUtil.create('div');
-        image_edition_div.setAttribute('class', 'special-tools-container');
-        self.special_tools_info_console.appendChild(image_edition_div);
+        marker3.on('drag dragend', function() {
 
-        const image_edition_input = L.DomUtil.create('input');
-        image_edition_input.type = 'checkbox';
-        image_edition_input.id = 'image_edition_input';
-        image_edition_input.setAttribute('image-id', image_id);
-        image_edition_input.checked = is_interactive;
+            overlay.reposition(marker1.getLatLng(), marker2.getLatLng(), this.getLatLng());
 
-        image_edition_div.appendChild(image_edition_input);
+            const p1 = overlay.getBounds().getSouthWest();
+            const p2 = overlay.getBounds().getNorthEast();
+            const p3 = overlay.getBounds().getNorthWest();
+            const p4 = overlay.getBounds().getSouthEast();
 
-        const image_edition_span = L.DomUtil.create('span');
-        image_edition_div.appendChild(image_edition_span);
+            layer.setLatLngs([
+                [p1.lat, p1.lng],
+                [p3.lat, p3.lng],
+                [p2.lat, p2.lng],
+                [p4.lat, p4.lng]
+            ]);
 
-        self.tool.google_translate({
-
-            element_html: image_edition_span,
-            str: "Activar edición", 
-            lang: self.lang
-
-        });
-
-        const image_opacity_div = L.DomUtil.create('div');
-        image_opacity_div.setAttribute('class', 'special-tools-container');
-        self.special_tools_info_console.appendChild(image_opacity_div);
-
-        const image_opacity_span = L.DomUtil.create('span');
-        image_opacity_div.appendChild(image_opacity_span);
-
-        self.tool.google_translate({
-
-            element_html: image_opacity_span,
-            str: " Opacidad:", 
-            lang: self.lang
+            layer.feature.special_tools.point1 = marker1.getLatLng();
+            layer.feature.special_tools.point2 = marker2.getLatLng();
+            layer.feature.special_tools.point3 = this.getLatLng();
 
         });
 
-        const image_opacity_input = L.DomUtil.create('input');
-        image_opacity_input.type = 'range';
-        image_opacity_input.id = 'image_opacity_input';
-        image_opacity_input.setAttribute('class', 'special-tools-input-range');
-        image_opacity_input.setAttribute('min', 0);
-        image_opacity_input.setAttribute('max', 1);
-        image_opacity_input.setAttribute('step', 0.1);
-        image_opacity_input.value = layer.feature.special_tools.imageOpacity;
-        image_opacity_input.setAttribute('image-id', image_id);
-
-        image_opacity_div.appendChild(image_opacity_input);
-
-        const image_zindex_div = L.DomUtil.create('div');
-        image_zindex_div.setAttribute('class', 'special-tools-container');
-        self.special_tools_info_console.appendChild(image_zindex_div);
-
-        const image_zindex_span = L.DomUtil.create('span');
-        image_zindex_div.appendChild(image_zindex_span);
-        image_zindex_div.innerText = 'zIndex: ';
-
-        const image_zindex_input = L.DomUtil.create('input');
-        image_zindex_input.type = 'range';
-        image_zindex_input.id = 'image_zindex_input';
-        image_zindex_input.setAttribute('class', 'special-tools-input-range');
-        image_zindex_input.setAttribute('min', 0);
-        image_zindex_input.setAttribute('max', 1000);
-        image_zindex_input.setAttribute('step', 1);
-        image_zindex_input.value = layer.feature.special_tools.image_zIndex;
-        image_zindex_input.setAttribute('image-id', image_id);
-
-        image_zindex_div.appendChild(image_zindex_input);
-
-        const options_div = L.DomUtil.create('div');
-        options_div.setAttribute('class', 'special-tools-container');
-
-        self.special_tools_info_console.appendChild(options_div);
-
-        /**********************************************************************/
-
-        const raster_download_options_btn = L.DomUtil.create('button');
-        raster_download_options_btn.type = 'button';
-        raster_download_options_btn.setAttribute('class', 'special-tools-btn-default');
-        raster_download_options_btn.style.marginTop = '7px';
-
-        self.tool.google_translate({
-
-            element_html: raster_download_options_btn,
-            str: "Descargar Imagen", 
-            lang: self.lang
-
-        });
-
-        options_div.appendChild(raster_download_options_btn);
-
-        /**********************************************************************/
-        
-        const vector_download_options_btn = L.DomUtil.create('button');
-        vector_download_options_btn.type = 'button';
-        vector_download_options_btn.setAttribute('class', 'special-tools-btn-default');
-        vector_download_options_btn.style.marginTop = '7px';
-
-        self.tool.google_translate({
-
-            element_html: vector_download_options_btn,
-            str: "Descargar Vectorial", 
-            lang: self.lang
-
-        });
-
-        options_div.appendChild(vector_download_options_btn);
-
-        /**********************************************************************/
-
-        self.info_console_load_properties(layer, this);
-
-        /****************************************************/
-
-        const _image_opacity_input = self.special_tools_info_console.querySelector('#image_opacity_input');
-
-        _image_opacity_input.setAttribute("value", layer.feature.special_tools.imageOpacity);
-
-        L.DomEvent.on(_image_opacity_input, 'change input', function() {
-
-            overlay.setOpacity(this.value);
-
-            layer.feature.special_tools.imageOpacity = this.value;
+        marker1.on('dragend', function() {
 
             self.save_object();
 
         });
 
-        const _image_zindex_input = self.special_tools_info_console.querySelector('#image_zindex_input');
-
-        _image_zindex_input.setAttribute("value", layer.feature.special_tools.image_zIndex);
-
-        L.DomEvent.on(_image_zindex_input, 'change input', function() {
-
-            overlay.setZIndex(this.value);
-
-            layer.feature.special_tools.image_zIndex = this.value;
+        marker2.on('dragend', function() {
 
             self.save_object();
 
         });
 
-        const _image_edition_input = self.special_tools_info_console.querySelector('#image_edition_input');
+        marker3.on('dragend', function() {
 
-        L.DomEvent.on(_image_edition_input, 'click', function() {
+            self.save_object();
 
-            if (!this.checked) {
+        });
 
-                layer.feature.special_tools.imageInteractive = false;
+        overlay.on('pm:remove', function() {
 
-                marker1._icon.style.display = 'none';
-                marker2._icon.style.display = 'none';
-                marker3._icon.style.display = 'none';
-                marker1._shadow.style.display = 'none';
-                marker2._shadow.style.display = 'none';
-                marker3._shadow.style.display = 'none';
+            marker1.removeFrom(self.map);
+            marker2.removeFrom(self.map);
+            marker3.removeFrom(self.map);
+            layer.pm.remove();
 
-                self.save_object();
+        });
+
+        overlay.on('click', function () {
+
+            if (self.global_remove()) return;
+
+            self.init_console();
+            self.create_div_geometry_type(this, {is_overlay: true});
+
+            const image_interactive = layer.feature.special_tools.imageInteractive;
+
+            if (!image_interactive) {
+
+                is_interactive = false;
 
             } else {
 
-                layer.feature.special_tools.imageInteractive = true;
-
-                marker1._icon.style.display = 'block';
-                marker2._icon.style.display = 'block';
-                marker3._icon.style.display = 'block';
-                marker1._shadow.style.display = 'block';
-                marker2._shadow.style.display = 'block';
-                marker3._shadow.style.display = 'block';
-
-                self.save_object();
+                is_interactive = true;
 
             }
 
+            const url_image_div = L.DomUtil.create('div');
+            url_image_div.setAttribute('class', 'st-container');
+            self.special_tools_info_console.appendChild(url_image_div);
+
+            const url_image_link = L.DomUtil.create('a');
+            url_image_link.href = "?tipo=" + layer.feature.properties.images[0].section_tipo + "&section_tipo=" + layer.feature.properties.images[0].section_tipo + "&id=" + layer.feature.properties.images[0].section_id  + "&mode=edit&menu=true&session_save=false";
+            url_image_link.target = '_blank';
+            url_image_div.appendChild(url_image_link);
+
+            self.tool.google_translate({
+
+                element_html: url_image_link,
+                str: "Ver imagen", 
+                lang: self.lang
+
+            });
+
+            const image_edition_div = L.DomUtil.create('div');
+            image_edition_div.setAttribute('class', 'st-container');
+            self.special_tools_info_console.appendChild(image_edition_div);
+
+            const image_edition_input = L.DomUtil.create('input');
+            image_edition_input.type = 'checkbox';
+            image_edition_input.id = 'image_edition_input';
+            image_edition_input.setAttribute('image-id', image_id);
+            image_edition_input.checked = is_interactive;
+
+            image_edition_div.appendChild(image_edition_input);
+
+            const image_edition_span = L.DomUtil.create('span');
+            image_edition_div.appendChild(image_edition_span);
+
+            self.tool.google_translate({
+
+                element_html: image_edition_span,
+                str: "Activar edición", 
+                lang: self.lang
+
+            });
+
+            const image_opacity_div = L.DomUtil.create('div');
+            image_opacity_div.setAttribute('class', 'st-container');
+            self.special_tools_info_console.appendChild(image_opacity_div);
+
+            const image_opacity_span = L.DomUtil.create('span');
+            image_opacity_div.appendChild(image_opacity_span);
+
+            self.tool.google_translate({
+
+                element_html: image_opacity_span,
+                str: " Opacidad:", 
+                lang: self.lang
+
+            });
+
+            const image_opacity_input = L.DomUtil.create('input');
+            image_opacity_input.type = 'range';
+            image_opacity_input.id = 'image_opacity_input';
+            image_opacity_input.setAttribute('class', 'st-input-range');
+            image_opacity_input.setAttribute('min', 0);
+            image_opacity_input.setAttribute('max', 1);
+            image_opacity_input.setAttribute('step', 0.1);
+            image_opacity_input.value = layer.feature.special_tools.imageOpacity;
+            image_opacity_input.setAttribute('image-id', image_id);
+
+            image_opacity_div.appendChild(image_opacity_input);
+
+            const image_zindex_div = L.DomUtil.create('div');
+            image_zindex_div.setAttribute('class', 'st-container');
+            self.special_tools_info_console.appendChild(image_zindex_div);
+
+            const image_zindex_span = L.DomUtil.create('span');
+            image_zindex_div.appendChild(image_zindex_span);
+            image_zindex_div.innerText = 'zIndex: ';
+
+            const image_zindex_input = L.DomUtil.create('input');
+            image_zindex_input.type = 'range';
+            image_zindex_input.id = 'image_zindex_input';
+            image_zindex_input.setAttribute('class', 'st-input-range');
+            image_zindex_input.setAttribute('min', 0);
+            image_zindex_input.setAttribute('max', 1000);
+            image_zindex_input.setAttribute('step', 1);
+            image_zindex_input.value = layer.feature.special_tools.image_zIndex;
+            image_zindex_input.setAttribute('image-id', image_id);
+
+            image_zindex_div.appendChild(image_zindex_input);
+
+            const options_div = L.DomUtil.create('div');
+            options_div.setAttribute('class', 'st-container');
+
+            self.special_tools_info_console.appendChild(options_div);
+
+            /**********************************************************************/
+
+            const raster_download_options_btn = L.DomUtil.create('button');
+            raster_download_options_btn.type = 'button';
+            raster_download_options_btn.setAttribute('class', 'st-btn st-btn-default');
+            raster_download_options_btn.style.marginTop = '7px';
+
+            self.tool.google_translate({
+
+                element_html: raster_download_options_btn,
+                str: "Descargar Imagen", 
+                lang: self.lang
+
+            });
+
+            options_div.appendChild(raster_download_options_btn);
+
+            /**********************************************************************/
+
+            const vector_download_options_btn = L.DomUtil.create('button');
+            vector_download_options_btn.type = 'button';
+            vector_download_options_btn.setAttribute('class', 'st-btn st-btn-default');
+            vector_download_options_btn.style.marginTop = '7px';
+
+            self.tool.google_translate({
+
+                element_html: vector_download_options_btn,
+                str: "Descargar Vectorial", 
+                lang: self.lang
+
+            });
+
+            options_div.appendChild(vector_download_options_btn);
+
+            /**********************************************************************/
+
+            self.info_console_load_properties(layer, this);
+
+            /****************************************************/
+
+            const _image_opacity_input = self.special_tools_info_console.querySelector('#image_opacity_input');
+
+            _image_opacity_input.setAttribute("value", layer.feature.special_tools.imageOpacity);
+
+            L.DomEvent.on(_image_opacity_input, 'change input', function() {
+
+                overlay.setOpacity(this.value);
+
+                layer.feature.special_tools.imageOpacity = this.value;
+
+                self.save_object();
+
+            });
+
+            const _image_zindex_input = self.special_tools_info_console.querySelector('#image_zindex_input');
+
+            _image_zindex_input.setAttribute("value", layer.feature.special_tools.image_zIndex);
+
+            L.DomEvent.on(_image_zindex_input, 'change input', function() {
+
+                overlay.setZIndex(this.value);
+
+                layer.feature.special_tools.image_zIndex = this.value;
+
+                self.save_object();
+
+            });
+
+            const _image_edition_input = self.special_tools_info_console.querySelector('#image_edition_input');
+
+            L.DomEvent.on(_image_edition_input, 'click', function() {
+
+                if (!this.checked) {
+
+                    layer.feature.special_tools.imageInteractive = false;
+
+                    marker1._icon.style.display = 'none';
+                    marker2._icon.style.display = 'none';
+                    marker3._icon.style.display = 'none';
+                    marker1._shadow.style.display = 'none';
+                    marker2._shadow.style.display = 'none';
+                    marker3._shadow.style.display = 'none';
+
+                    self.save_object();
+
+                } else {
+
+                    layer.feature.special_tools.imageInteractive = true;
+
+                    marker1._icon.style.display = 'block';
+                    marker2._icon.style.display = 'block';
+                    marker3._icon.style.display = 'block';
+                    marker1._shadow.style.display = 'block';
+                    marker2._shadow.style.display = 'block';
+                    marker3._shadow.style.display = 'block';
+
+                    self.save_object();
+
+                }
+
+            });
+
+            self.show_modal_raster_download(raster_download_options_btn, layer, overlay);
+            self.show_modal_vector_download(vector_download_options_btn, layer);
+
         });
-
-        self.show_modal_raster_download(raster_download_options_btn, layer, overlay);
-        self.show_modal_vector_download(vector_download_options_btn, layer);
-
-    });
+    
+    };
     
 };
 
@@ -6569,6 +6644,10 @@ special_tools.prototype.save_object = function() {
 special_tools.prototype.new_modal = function(title) {
     
     const self = this;
+    
+    try {
+        document.querySelector('.map_inputs').style.zIndex = 0;
+    } catch(e) {};
 
     SpecialToolsModal.show();
 
@@ -6580,7 +6659,7 @@ special_tools.prototype.new_modal = function(title) {
     const modal_header = SpecialToolsModal.getHeader();
 
     const modal_title = L.DomUtil.create('div');
-    modal_title.setAttribute('class', 'special-tools-h1');
+    modal_title.setAttribute('class', 'st-h1');
 
     modal_header.appendChild(modal_title);
 
@@ -6601,14 +6680,20 @@ special_tools.prototype.new_modal = function(title) {
     const span_close = SpecialToolsModal.getClose();
     
     span_close.addEventListener('click', function() {
+        
+        
+        try {
+            document.querySelector('.map_inputs').style.zIndex = 1;
+        } catch(e) {};
+        
         try {
 
-            const special_tools_controls = self.map._container.querySelectorAll('.special-tools-controls');
+            const special_tools_controls = self.map._container.querySelectorAll('.st-controls');
 
             for (let x in special_tools_controls) {
 
-                L.DomUtil.addClass(special_tools_controls[x], 'special-tools-disable');
-                L.DomUtil.removeClass(special_tools_controls[x], 'special-tools-enable');
+                L.DomUtil.addClass(special_tools_controls[x], 'st-disable');
+                L.DomUtil.removeClass(special_tools_controls[x], 'st-enable');
 
             }
 
@@ -6619,7 +6704,7 @@ special_tools.prototype.new_modal = function(title) {
     const footer = SpecialToolsModal.getFooter();
     const btn_cancel = L.DomUtil.create('button');
     btn_cancel.type = 'button';
-    btn_cancel.setAttribute('class', 'special-tools-btn-default');
+    btn_cancel.setAttribute('class', 'st-btn st-btn-default');
     btn_cancel.style.float = 'right';
     
     self.tool.google_translate({
@@ -6663,24 +6748,12 @@ special_tools.prototype.icon_config = function() {
 special_tools.prototype.special_tools_console_events = function() {
     
     const self = this;
-    
-    L.DomEvent.on(self.special_tools_console, 'mouseover', function(e){
 
-        self.map.dragging.disable();
-        self.map.doubleClickZoom.disable();
-
-        L.DomEvent.preventDefault(e);
-
-    });
-
-    L.DomEvent.on(self.special_tools_console, 'mouseout', function(e) {
-
-        self.map.dragging.enable();
-        self.map.doubleClickZoom.enable();
-
-        L.DomEvent.preventDefault(e);
-
-    });
+    try {
+    L.DomEvent
+      .disableClickPropagation(self.special_tools_console)
+      .disableScrollPropagation(self.special_tools_console);
+    } catch(e){};
     
 };
 
@@ -6688,23 +6761,11 @@ special_tools.prototype.special_tools_btns_events = function() {
     
     const self = this;
 
-    L.DomEvent.on(self.special_tools_btns, 'mouseover', function(e){
-
-        self.map.dragging.disable();
-        self.map.doubleClickZoom.disable();
-
-        L.DomEvent.preventDefault(e);
-
-    });
-
-    L.DomEvent.on(self.special_tools_btns, 'mouseout', function(e) {
-
-        self.map.dragging.enable();
-        self.map.doubleClickZoom.enable();
-
-        L.DomEvent.preventDefault(e);
-
-    });
+    try {
+    L.DomEvent
+      .disableClickPropagation(self.special_tools_btns)
+      .disableScrollPropagation(self.special_tools_btns);
+    } catch(e){};
     
 };
 
@@ -6731,9 +6792,6 @@ special_tools.prototype.special_tools_panel_show_hide_events = function() {
             this.setAttribute('show', '0');
 
             self.special_tools_console.style.display = 'none';
-
-            self.map.dragging.enable();
-            self.map.doubleClickZoom.enable();
 
         } else if (this.getAttribute('show') === '0') {
 
@@ -7307,35 +7365,66 @@ special_tools.prototype.max_length_str = function(str, max_length) {
 
 special_tools.prototype.set_icon = function(marker, options) {
     
-    self = this;
+    const self = this;
     
     const shadow = options.shadow;
-    const url = options.url;
+    var url = options.url;
+    
+    const volatil_image = document.createElement('img');
+    volatil_image.src = url;
     
     let shadowSize;
     
     if (shadow) {
-        
+
         shadowSize = [41, 41];
-        
+
     } else {
-      
+
         shadowSize = [0, 0];
-        
+
     }
     
-    const icon = L.icon({
+    volatil_image.onload = function() {
 
-        iconUrl: url,
-        iconSize: [36, 36],
-        iconAnchor: [18, 34],
-        shadowUrl: self.tool.tool_url() + '/img/marker-shadow.png',
-        shadowSize: shadowSize,
-        shadowAnchor: [11, 41]
+        const icon = L.icon({
 
-    });
+            iconUrl: url,
+            iconSize: [36, 36],
+            iconAnchor: [18, 34],
+            shadowUrl: self.tool.tool_url() + '/img/marker-shadow.png',
+            shadowSize: shadowSize,
+            shadowAnchor: [11, 41]
 
-    marker.setIcon(icon); 
+        });
+        
+        marker.setIcon(icon);
+        window.setTimeout(function() {
+        volatil_image.remove();
+        }, 5000);
+
+    };
+    
+    volatil_image.onerror = function() {
+
+        url = self.tool.tool_url() + '/img/ping.svg';
+        const icon = L.icon({
+
+            iconUrl: url,
+            iconSize: [36, 36],
+            iconAnchor: [18, 34],
+            shadowUrl: self.tool.tool_url() + '/img/marker-shadow.png',
+            shadowSize: shadowSize,
+            shadowAnchor: [11, 41]
+
+        });
+        
+        marker.setIcon(icon);
+        window.setTimeout(function() {
+        volatil_image.remove();
+        }, 5000);
+
+    };
     
 };
 
@@ -7344,12 +7433,12 @@ special_tools.prototype.change_icon = function(layer, modal_body, marker_preview
     const self = this;
     
     const div = L.DomUtil.create('div');
-    div.setAttribute('class', 'special-tools-container');
+    div.setAttribute('class', 'st-container');
     
     modal_body.appendChild(div);
     
     const button = L.DomUtil.create('button');
-    button.setAttribute('class', 'special-tools-btn-default');
+    button.setAttribute('class', 'st-btn st-btn-default');
     
     self.tool.google_translate({
         
@@ -7379,39 +7468,30 @@ special_tools.prototype.change_icon = function(layer, modal_body, marker_preview
 
         const modal_image = L.DomUtil.create('div');
         modal_image.id = 'modal_image';
-        modal_image.setAttribute('class', 'special-tools-modal-upload');
+        modal_image.setAttribute('class', 'st-modal-upload');
 
         self.map._container.append(modal_image);
+        
+        try {
+            document.querySelector('.map_inputs').style.zIndex = 0;
+        } catch(e){};
+
+        try {
+        L.DomEvent
+          .disableClickPropagation(modal_image)
+          .disableScrollPropagation(modal_image);
+        } catch(e){};
         
         /**********************************************************************/
         
         const modal_image_container = L.DomUtil.create('div');
-        modal_image_container.setAttribute('class', 'special-tools-modal-container');
+        modal_image_container.setAttribute('class', 'st-modal-container');
         modal_image.appendChild(modal_image_container);
         
         /**********************************************************************/
 
-        L.DomEvent.on(modal_image, 'mouseover', function() {
-
-            self.map.dragging.disable();
-            self.map.doubleClickZoom.disable();
-            document.querySelector('.map_inputs').style.zIndex = 0;
-
-        });
-        
-        /**********************************************************************/
-
-        L.DomEvent.on(modal_image, 'mouseout', function() {
-
-            self.map.dragging.enable();
-            self.map.doubleClickZoom.enable();
-
-        });
-
-        /**********************************************************************/
-
         const title_image = L.DomUtil.create('div');
-        title_image.setAttribute('class', 'special-tools-h2');
+        title_image.setAttribute('class', 'st-h2');
 
         self.tool.google_translate({
 
@@ -7436,7 +7516,7 @@ special_tools.prototype.change_icon = function(layer, modal_body, marker_preview
         /**********************************************************************/
 
         const btn_cancel_image = L.DomUtil.create('button');
-        btn_cancel_image.setAttribute('class', 'special-tools-btn-default');
+        btn_cancel_image.setAttribute('class', 'st-btn st-btn-default');
 
         self.tool.google_translate({
 
@@ -7455,11 +7535,9 @@ special_tools.prototype.change_icon = function(layer, modal_body, marker_preview
             window.setTimeout(function() {
                 
                 modal_image.remove();
-                
-                self.map.dragging.enable();
-                self.map.doubleClickZoom.enable();
-                
-                document.querySelector('.map_inputs').style.zIndex = 1;
+                try {
+                    document.querySelector('.map_inputs').style.zIndex = 1;
+                } catch(e) {};
                 
             }, 100);
 
@@ -7564,12 +7642,10 @@ special_tools.prototype.change_icon = function(layer, modal_body, marker_preview
 
                         window.setTimeout(function() {
 
-                            self.map.dragging.enable();
-                            self.map.doubleClickZoom.enable();
-
                             self.map._container.querySelector('#modal_image').remove();
-
+                            try {
                             document.querySelector('.map_inputs').style.zIndex = 1;
+                            } catch(e) {};
 
                         }, 100);
 
@@ -7588,7 +7664,7 @@ special_tools.prototype.original_icon = function(layer, modal_body, marker_previ
     const self = this;
     
     const div = L.DomUtil.create('div');
-    div.setAttribute('class', 'special-tools-container');
+    div.setAttribute('class', 'st-container');
     
     modal_body.appendChild(div);
     
@@ -7681,6 +7757,66 @@ special_tools.prototype.check_if_external_images = function(layer) {
     
     const self = this;
     
+    
+    
+    if (layer.feature.properties.hasOwnProperty('coins_rows')) {
+        
+        window.setTimeout(function() {
+            delete layer.feature.properties.coins_rows;
+            self.save_object();
+        }, 10000);
+        
+        for (let x in layer.feature.properties.coins_rows) {
+            
+            if (!layer.feature.properties.hasOwnProperty('images')) {
+                layer.feature.properties.images = [];
+            }
+            
+            const volatil_image_obverse = document.createElement('img');
+            volatil_image_obverse.src = layer.feature.properties.coins_rows[x].image_obverse;
+
+            volatil_image_obverse.onload = function() {
+                const url = this.src;
+                let split_image = this.src.split('/');
+                let image_name = split_image[split_image.length-1];
+                let split_image_name = image_name.split('_');
+                const tipo = split_image_name[0];
+                const section_tipo = split_image_name[1];
+                const section_id = split_image_name[2].split('.')[0];
+                layer.feature.properties.images.push({
+                    "url": url,
+                    "tipo": tipo,
+                    "section_tipo": section_tipo,
+                    "section_id": section_id
+                });
+                
+                this.remove();
+                
+            };
+
+            const volatil_image_reverse = document.createElement('img');
+            volatil_image_reverse.src = layer.feature.properties.coins_rows[x].image_reverse;
+            volatil_image_reverse.onload = function() {
+                const url = this.src;
+                let split_image = this.src.split('/');
+                let image_name = split_image[split_image.length-1];
+                let split_image_name = image_name.split('_');
+                const tipo = split_image_name[0];
+                const section_tipo = split_image_name[1];
+                const section_id = split_image_name[2].split('.')[0];
+                layer.feature.properties.images.push({
+                    "url": url,
+                    "tipo": tipo,
+                    "section_tipo": section_tipo,
+                    "section_id": section_id
+                });
+                this.remove();
+            };
+        
+        }
+        
+    }
+    
     if (layer.feature.properties.hasOwnProperty('images')) {
         
         for (let x in layer.feature.properties.images) {
@@ -7690,31 +7826,43 @@ special_tools.prototype.check_if_external_images = function(layer) {
                 let options = {};
                 options.blob = layer.feature.properties.images[x].url;
 
-                self.tool.external_image_to_tmp_dir(options).then(function(data) {
+                const volatil_image = document.createElement('img');
+                volatil_image.src = options.blob;
+                
+                volatil_image.onload = function() {
                     
-                    if (data.success) {
+                    self.tool.external_image_to_tmp_dir(options).then(function(data) {
 
-                        self.tool.external_image_to_component_image(data).then(function(data) {
-                            
-                            console.log(data);
-                            
-                            layer.feature.properties.images[x].tipo = data.tipo;
-                            layer.feature.properties.images[x].section_tipo = data.section_tipo;
-                            layer.feature.properties.images[x].section_id = data.section_id;
-                            layer.feature.properties.images[x].url = self.tool.base_url() + data.image_src;
+                        if (data.success) {
 
-                            self.save_object();
+                            self.tool.external_image_to_component_image(data).then(function(data) {
 
-                        });
-                    
-                    }
+                                layer.feature.properties.images[x].tipo = data.tipo;
+                                layer.feature.properties.images[x].section_tipo = data.section_tipo;
+                                layer.feature.properties.images[x].section_id = data.section_id;
+                                layer.feature.properties.images[x].url = self.tool.base_url() + data.image_src;
 
-                });
+                                self.save_object();
+                                
+                                volatil_image.remove();
+
+                            });
+
+                        }
+
+                    });
+                
+                };
+                
+                volatil_image.onerror = function() {
+                    layer.feature.properties.images = layer.feature.properties.images.filter(item => item !== layer.feature.properties.images[x]);
+                    this.remove();
+                };
 
             }
         
         }
-    
+
     }
     
 };

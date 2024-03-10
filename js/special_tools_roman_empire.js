@@ -15,7 +15,7 @@ special_tools_roman_empire.prototype.load = async function(L, special_tools) {
 
             const self = special_tools_roman_empire.prototype.special_tools;
 
-            const controlDiv = L.DomUtil.create('div', 'special-tools-roman-empire special-tools-controls special-tools-disable');
+            const controlDiv = L.DomUtil.create('div', 'st-roman-empire st-controls st-disable');
 
             special_tools_roman_empire.prototype.controlDiv = controlDiv;
             
@@ -32,8 +32,8 @@ special_tools_roman_empire.prototype.load = async function(L, special_tools) {
             
             L.DomEvent.on(controlDiv, 'click', function(){
 
-                    L.DomUtil.addClass(controlDiv, 'special-tools-enable');
-                    L.DomUtil.removeClass(controlDiv, 'special-tools-disable');
+                    L.DomUtil.addClass(controlDiv, 'st-enable');
+                    L.DomUtil.removeClass(controlDiv, 'st-disable');
 
                     self.only_one_active_control(controlDiv);
 
@@ -80,7 +80,7 @@ special_tools_roman_empire.prototype.load_pleiades = function() {
 
     const self = this.special_tools;
     const pleiades_title = L.DomUtil.create('div');
-    pleiades_title.setAttribute('class', 'special-tools-h2');
+    pleiades_title.setAttribute('class', 'st-h2');
     pleiades_title.innerText = 'Pleiades (pleiades.stoa.org)';
     self.modal_body.appendChild(pleiades_title);
 
@@ -92,13 +92,13 @@ special_tools_roman_empire.prototype.load_pleiades = function() {
     self.modal_body.appendChild(pleiades_div);
 
     const pleiades_div_container_1 = L.DomUtil.create('div');
-    pleiades_div_container_1.setAttribute('class', 'special-tools-container special-tools-div-50');
+    pleiades_div_container_1.setAttribute('class', 'st-container st-div-50');
     pleiades_div.appendChild(pleiades_div_container_1);
 
     const search_pleiades = L.DomUtil.create('input');
     search_pleiades.type = 'text';
     search_pleiades.id = 'search_pleiades';
-    search_pleiades.setAttribute('class', 'special-tools-input-150');
+    search_pleiades.setAttribute('class', 'st-input st-input-150');
     pleiades_div_container_1.appendChild(search_pleiades);
 
     /***********************************************************/
@@ -106,7 +106,7 @@ special_tools_roman_empire.prototype.load_pleiades = function() {
     const btn_pleiades = L.DomUtil.create('button');
     btn_pleiades.type = 'button';
     btn_pleiades.id = 'btn_pleiades';
-    btn_pleiades.setAttribute('class', 'special-tools-btn-success');
+    btn_pleiades.setAttribute('class', 'st-btn st-btn-success');
     btn_pleiades.style.position = 'relative';
     btn_pleiades.style.top = '4px';
     pleiades_div_container_1.appendChild(btn_pleiades);
@@ -120,7 +120,7 @@ special_tools_roman_empire.prototype.load_pleiades = function() {
     /************************************************************/
 
     const pleiades_div_container_2 = L.DomUtil.create('div');
-    pleiades_div_container_2.setAttribute('class', 'special-tools-container special-tools-div-33');
+    pleiades_div_container_2.setAttribute('class', 'st-container st-div-33');
     pleiades_div.appendChild(pleiades_div_container_2);
 
     const radio_pleiades_filter_span = L.DomUtil.create('span');
@@ -189,7 +189,7 @@ special_tools_roman_empire.prototype.load_pleiades = function() {
 
     const pleiades_items_founds = L.DomUtil.create('div');
     pleiades_items_founds.id = 'pleiades_items_founds';
-    pleiades_items_founds.setAttribute('class', 'special-tools-items-founds');
+    pleiades_items_founds.setAttribute('class', 'st-items-founds');
     
     pleiades_items_founds.style.top = search_pleiades.style.bottom;
     
@@ -200,12 +200,12 @@ special_tools_roman_empire.prototype.load_pleiades = function() {
     for (let n=1; n<=10; n++) {
 
         const p_get_pleiades = L.DomUtil.create('p');
-        p_get_pleiades.setAttribute('class', 'p-get-pleiades special-tools-item-found-p');
+        p_get_pleiades.setAttribute('class', 'p-get-pleiades st-item-found-p');
 
         pleiades_items_founds.appendChild(p_get_pleiades);
 
         const get_pleiades = L.DomUtil.create('span');
-        get_pleiades.setAttribute('class', 'get-pleiades special-tools-item-found-span');
+        get_pleiades.setAttribute('class', 'get-pleiades st-item-found-span');
         get_pleiades.setAttribute('pleiades-id', '');
 
         p_get_pleiades.appendChild(get_pleiades);
@@ -308,7 +308,9 @@ special_tools_roman_empire.prototype.load_pleiades = function() {
             promise.then(function(data) {
 
                 if (data.success) {
-
+                    
+                    self.modal_message('Creando el objeto..');
+                    
                     const GEOJSON = JSON.parse(data.content);
 
                     const OBJECTS_GEOJSON = self.project(GEOJSON);
@@ -391,7 +393,7 @@ special_tools_roman_empire.prototype.load_pelagios = function() {
     const self = this.special_tools;
     
     const pelagios_title = L.DomUtil.create('div');
-    pelagios_title.setAttribute('class', 'special-tools-h2');
+    pelagios_title.setAttribute('class', 'st-h2');
     pelagios_title.innerText = 'Pelagios D.A.R.E';
     self.modal_body.appendChild(pelagios_title);
 
@@ -407,7 +409,7 @@ special_tools_roman_empire.prototype.load_pelagios = function() {
     /**********************************************************/
 
     const pelagios_search_container = L.DomUtil.create('div');
-    pelagios_search_container.setAttribute('class', 'special-tools-container special-tools-div-50');
+    pelagios_search_container.setAttribute('class', 'st-container st-div-50');
 
     pelagios_div.appendChild(pelagios_search_container);
 
@@ -416,7 +418,7 @@ special_tools_roman_empire.prototype.load_pelagios = function() {
     const search_pelagios = L.DomUtil.create('input');
     search_pelagios.type = 'text';
     search_pelagios.id = 'search_pelagios';
-    search_pelagios.setAttribute('class', 'special-tools-input-150');
+    search_pelagios.setAttribute('class', 'st-input st-input-150');
 
     pelagios_search_container.appendChild(search_pelagios);
 
@@ -427,7 +429,7 @@ special_tools_roman_empire.prototype.load_pelagios = function() {
     btn_pelagios.id = 'btn_pelagios';
     btn_pelagios.style.position = 'relative';
     btn_pelagios.style.top = '4px';
-    btn_pelagios.setAttribute('class', 'special-tools-btn-success');
+    btn_pelagios.setAttribute('class', 'st-btn st-btn-success');
     pelagios_search_container.appendChild(btn_pelagios);
 
     /******************************************************/
@@ -439,7 +441,7 @@ special_tools_roman_empire.prototype.load_pelagios = function() {
     /************************************************************/
 
     const pelagios_checkbox_div = L.DomUtil.create('div');
-    pelagios_checkbox_div.setAttribute('class', 'special-tools-container special-tools-div-33');
+    pelagios_checkbox_div.setAttribute('class', 'st-container st-div-33');
     pelagios_div.appendChild(pelagios_checkbox_div);
 
     /******************************************************/
@@ -476,7 +478,7 @@ special_tools_roman_empire.prototype.load_pelagios = function() {
     
     const pelagios_items_founds = L.DomUtil.create('div');
     pelagios_items_founds.id = 'pelagios_items_founds';
-    pelagios_items_founds.setAttribute('class', 'special-tools-items-founds');
+    pelagios_items_founds.setAttribute('class', 'st-items-founds');
     
     pelagios_items_founds.style.top = search_pelagios.style.bottom;
 
@@ -487,12 +489,12 @@ special_tools_roman_empire.prototype.load_pelagios = function() {
     for (let n = 1; n <= 10; n++) {
 
         const p_get_pelagios = L.DomUtil.create('p');
-        p_get_pelagios.setAttribute('class', 'p-get-pelagios special-tools-item-found-p');
+        p_get_pelagios.setAttribute('class', 'p-get-pelagios st-item-found-p');
 
         pelagios_items_founds.appendChild(p_get_pelagios);
 
         const get_pelagios = L.DomUtil.create('span');
-        get_pelagios.setAttribute('class', 'get-pelagios special-tools-item-found-span');
+        get_pelagios.setAttribute('class', 'get-pelagios st-item-found-span');
         get_pelagios.setAttribute('pelagios-geojson', '');
 
         p_get_pelagios.appendChild(get_pelagios);
@@ -502,7 +504,7 @@ special_tools_roman_empire.prototype.load_pelagios = function() {
     /***********************************************************/
 
     const pelagios_filter_div = L.DomUtil.create('div');
-    pelagios_filter_div.setAttribute('class', 'special-tools-container');
+    pelagios_filter_div.setAttribute('class', 'st-container');
 
     pelagios_div.appendChild(pelagios_filter_div);
 
@@ -523,7 +525,7 @@ special_tools_roman_empire.prototype.load_pelagios = function() {
     /*********************************************************/
 
     const pelagios_options_div = L.DomUtil.create('div');
-    pelagios_options_div.setAttribute('class', 'special-tools-container');
+    pelagios_options_div.setAttribute('class', 'st-container');
     pelagios_div.appendChild(pelagios_options_div);
 
     /*********************************************************/
@@ -926,7 +928,9 @@ special_tools_roman_empire.prototype.load_pelagios = function() {
     for (let index = 0; index < pelagios_array.length; index++) {
         
         L.DomEvent.addListener(pelagios_array[index], 'click', function() {
-
+            
+            self.modal_message('Creando el objeto');
+            
             const GEOJSON = JSON.parse(this.getAttribute('pelagios-geojson'));
 
             const OBJECTS_GEOJSON = self.project(GEOJSON);
@@ -1006,7 +1010,7 @@ special_tools_roman_empire.prototype.load_imperium = function() {
     
     const self = this.special_tools;
     const imperium_title = L.DomUtil.create('div');
-    imperium_title.setAttribute('class', 'special-tools-h2');
+    imperium_title.setAttribute('class', 'st-h2');
     imperium_title.innerText = 'imperium.ahlfeldt.se (Lund University)';
 
     self.modal_body.appendChild(imperium_title);
@@ -1022,7 +1026,7 @@ special_tools_roman_empire.prototype.load_imperium = function() {
     /******************************************************/
 
     const imperium_search_div = L.DomUtil.create('div');
-    imperium_search_div.setAttribute('class', 'special-tools-container');
+    imperium_search_div.setAttribute('class', 'st-container');
     imperium_div.appendChild(imperium_search_div);
 
     /******************************************************/
@@ -1030,7 +1034,7 @@ special_tools_roman_empire.prototype.load_imperium = function() {
     const search_imperium = L.DomUtil.create('input');
     search_imperium.type = 'text';
     search_imperium.id = 'search_imperium';
-    search_imperium.setAttribute('class', 'special-tools-input-150');
+    search_imperium.setAttribute('class', 'st-input st-input-150');
     imperium_search_div.appendChild(search_imperium);
 
     /******************************************************/
@@ -1038,7 +1042,7 @@ special_tools_roman_empire.prototype.load_imperium = function() {
     const btn_imperium = L.DomUtil.create('button');
     btn_imperium.type = 'button';
     btn_imperium.id = 'btn_imperium';
-    btn_imperium.setAttribute('class', 'special-tools-btn-success');
+    btn_imperium.setAttribute('class', 'st-btn st-btn-success');
     btn_imperium.style.position = 'relative';
     btn_imperium.style.top = '4px';
     imperium_search_div.appendChild(btn_imperium);
@@ -1053,7 +1057,7 @@ special_tools_roman_empire.prototype.load_imperium = function() {
     
     const imperium_items_founds = L.DomUtil.create('div');
     imperium_items_founds.id = 'imperium_items_founds';
-    imperium_items_founds.setAttribute('class', 'special-tools-items-founds');
+    imperium_items_founds.setAttribute('class', 'st-items-founds');
     
     imperium_items_founds.style.top = search_imperium.style.bottom;
     
@@ -1064,12 +1068,12 @@ special_tools_roman_empire.prototype.load_imperium = function() {
     for (let n = 1; n <= 10; n++) {
 
         const p_get_imperium = L.DomUtil.create('p');
-        p_get_imperium.setAttribute('class', 'p-get-imperium special-tools-item-found-p');
+        p_get_imperium.setAttribute('class', 'p-get-imperium st-item-found-p');
 
         imperium_items_founds.appendChild(p_get_imperium);
 
         const get_imperium = L.DomUtil.create('span');
-        get_imperium.setAttribute('class', 'get-imperium special-tools-item-found-span');
+        get_imperium.setAttribute('class', 'get-imperium st-item-found-span');
         get_imperium.setAttribute('imperium-geojson', '');
 
         p_get_imperium.appendChild(get_imperium);
@@ -1079,13 +1083,13 @@ special_tools_roman_empire.prototype.load_imperium = function() {
     /************************************************************/
 
     const select_imperium_type_div = L.DomUtil.create('div');
-    select_imperium_type_div.setAttribute('class', 'special-tools-container special-tools-div-33');
+    select_imperium_type_div.setAttribute('class', 'st-container st-div-33');
     imperium_div.appendChild(select_imperium_type_div);
 
     /*******************************************************/
 
     const select_imperium_type = L.DomUtil.create('select');
-    select_imperium_type.setAttribute('class', 'special-tools-select');
+    select_imperium_type.setAttribute('class', 'st-select');
     select_imperium_type.id = 'select_imperium_type';
     select_imperium_type_div.appendChild(select_imperium_type);
 
@@ -1134,14 +1138,14 @@ special_tools_roman_empire.prototype.load_imperium = function() {
     /**********************************************************/
 
     const select_imperium_name_div = L.DomUtil.create('div');
-    select_imperium_name_div.setAttribute('class', 'special-tools-container special-tools-div-33');
+    select_imperium_name_div.setAttribute('class', 'st-container st-div-33');
     imperium_div.appendChild(select_imperium_name_div);
 
     /***********************************************************/
 
     const select_imperium_name = L.DomUtil.create('select');
     select_imperium_name.id = 'select_imperium_name';
-    select_imperium_name.setAttribute('class', 'special-tools-select');
+    select_imperium_name.setAttribute('class', 'st-select');
 
     select_imperium_name_div.appendChild(select_imperium_name);
 
@@ -1178,14 +1182,14 @@ special_tools_roman_empire.prototype.load_imperium = function() {
     /************************************************************/
 
     const select_imperium_country_div = L.DomUtil.create('div');
-    select_imperium_country_div.setAttribute('class', 'special-tools-container special-tools-div-33');
+    select_imperium_country_div.setAttribute('class', 'st-container st-div-33');
     imperium_div.appendChild(select_imperium_country_div);
 
     /*************************************************************/
 
     const select_imperium_country = L.DomUtil.create('select');
     select_imperium_country.id = 'select_imperium_country';
-    select_imperium_country.setAttribute('class', 'special-tools-select');
+    select_imperium_country.setAttribute('class', 'st-select');
 
     select_imperium_country_div.appendChild(select_imperium_country);
 
@@ -1350,6 +1354,7 @@ special_tools_roman_empire.prototype.load_imperium = function() {
         
         L.DomEvent.addListener(imperium_array[index], 'click', function () {
 
+            self.modal_message('Creando el objeto...');
             const GEOJSON = JSON.parse(this.getAttribute('imperium-geojson'));
 
             const OBJECTS_GEOJSON = self.project(GEOJSON);

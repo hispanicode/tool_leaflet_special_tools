@@ -70,6 +70,8 @@ const projections = {
                                     
                                 }
                                 
+                            } else {
+                                if (json.properties.hasOwnProperty('color')) delete json.properties.color;
                             }
 
                             let point;
@@ -152,6 +154,8 @@ const projections = {
                                     
                                 }
                                 
+                            } else {
+                                if (json.properties.hasOwnProperty('color')) delete json.properties.color;
                             }
                             
                             let point;
@@ -235,6 +239,8 @@ const projections = {
 
                     }
 
+                } else {
+                    if (json.properties.hasOwnProperty('color')) delete json.properties.color;
                 }
 
                 let point;
@@ -346,6 +352,8 @@ const projections = {
                                         }
                                     }
 
+                                } else {
+                                    if (json.properties.hasOwnProperty('color')) delete json.properties.color;
                                 }
 
                                 let point;
@@ -430,6 +438,8 @@ const projections = {
 
                                     }
 
+                                } else {
+                                    if (json.properties.hasOwnProperty('color')) delete json.properties.color;
                                 }
 
                                 let point;
@@ -518,6 +528,8 @@ const projections = {
 
                         }
 
+                    } else {
+                        if (json.properties.hasOwnProperty('color')) delete json.properties.color;
                     }
 
                     let point;

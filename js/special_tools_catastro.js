@@ -15,7 +15,7 @@ special_tools_catastro.prototype.load = async function(L, special_tools) {
 
             const self = special_tools_catastro.prototype.special_tools;
             
-            const controlDiv = L.DomUtil.create('div', 'special-tools-catastro special-tools-controls special-tools-disable');
+            const controlDiv = L.DomUtil.create('div', 'st-catastro st-controls st-disable');
             controlDiv.innerText = 'Catast';
             
             special_tools_catastro.prototype.controlDiv = controlDiv;
@@ -39,7 +39,7 @@ special_tools_catastro.prototype.load = async function(L, special_tools) {
 
             L.DomEvent.addListener(controlDiv, 'click', function(e) {
                 
-            if (L.DomUtil.hasClass(controlDiv, 'special-tools-disable')) {
+            if (L.DomUtil.hasClass(controlDiv, 'st-disable')) {
 
                 special_tools_catastro.prototype.catastro_on();
 
@@ -132,9 +132,9 @@ special_tools_catastro.prototype.catastro_off = function() {
    
     self.map.off('click', _this.map_click);
 
-    L.DomUtil.addClass(_this.controlDiv, 'special-tools-disable');
+    L.DomUtil.addClass(_this.controlDiv, 'st-disable');
 
-    L.DomUtil.removeClass(_this.controlDiv, 'special-tools-enable');
+    L.DomUtil.removeClass(_this.controlDiv, 'st-enable');
 
     self.component_geolocation.layer_control.removeLayer(self.wms_catastro);
 

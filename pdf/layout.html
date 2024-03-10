@@ -15,34 +15,36 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
         <script>
-
-	var opt = {
             
-	  margin:       1,
-	  filename:     'file.pdf',
-	  image:        { type: 'jpeg', quality: 0.90 },
-	  html2canvas:  { scale: 2 },
-	  jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait', putTotalPages: true },
-          pagebreak: { mode: 'avoid-all', before: '#page2el' }
-	
+        window.onload = function() {
+            var opt = {
+
+              margin:       1,
+              filename:     'file.pdf',
+              image:        { type: 'jpeg', quality: 0.90 },
+              html2canvas:  { scale: 2 },
+              jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait', putTotalPages: true },
+              pagebreak:    { mode: 'avoid-all', before: '#page2el' }
+
+            };
+
+            window.setTimeout(function() {
+
+                const element = document.body.querySelector('#container');
+
+                html2pdf().from(element).set(opt).toPdf().get('pdf').then(function(pdf){
+                    var totalPages = pdf.internal.getNumberOfPages();
+                    for (i = 1; i <= totalPages; i++) {
+                        pdf.setPage(i);
+                        pdf.setFontSize(10);
+                        pdf.setTextColor(100);
+                        pdf.text('Page ' + i + ' of ' + totalPages, (pdf.internal.pageSize.getWidth() / 2.3), (pdf.internal.pageSize.getHeight() - 0.8));
+                    }
+
+                }).save();
+
+            }, 10000);
         };
-        
-        window.setTimeout(function() {
-            
-            const element = document.body.querySelector('#container');
-
-            html2pdf().from(element).set(opt).toPdf().get('pdf').then(function(pdf){
-                var totalPages = pdf.internal.getNumberOfPages();
-                for (i = 1; i <= totalPages; i++) {
-                    pdf.setPage(i);
-                    pdf.setFontSize(10);
-                    pdf.setTextColor(100);
-                    pdf.text('Page ' + i + ' of ' + totalPages, (pdf.internal.pageSize.getWidth() / 2.3), (pdf.internal.pageSize.getHeight() - 0.8));
-                }
-                
-            }).save();
-            
-        }, 3000);
 
         </script>
         

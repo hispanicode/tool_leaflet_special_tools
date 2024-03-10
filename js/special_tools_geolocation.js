@@ -16,7 +16,7 @@ special_tools_geolocation.prototype.load = async function(L, special_tools) {
             
             const self = special_tools_geolocation.prototype.special_tools;
             
-            const controlDiv = L.DomUtil.create('div', 'special-tools-geolocation special-tools-controls special-tools-disable');
+            const controlDiv = L.DomUtil.create('div', 'st-geolocation st-controls st-disable');
             
             special_tools_geolocation.prototype.controlDiv = controlDiv;
             
@@ -33,8 +33,8 @@ special_tools_geolocation.prototype.load = async function(L, special_tools) {
             
             L.DomEvent.addListener(controlDiv, 'click', function() {
 
-                L.DomUtil.addClass(controlDiv, 'special-tools-enable');
-                L.DomUtil.removeClass(controlDiv, 'special-tools-disable');
+                L.DomUtil.addClass(controlDiv, 'st-enable');
+                L.DomUtil.removeClass(controlDiv, 'st-disable');
 
                 self.only_one_active_control(controlDiv);
 
@@ -85,7 +85,7 @@ special_tools_geolocation.prototype.location_found_event = function() {
     
     self.map.on('locationfound', function(e){
 
-        if (L.DomUtil.hasClass(_this.controlDiv, 'special-tools-disable')) {
+        if (L.DomUtil.hasClass(_this.controlDiv, 'st-disable')) {
 
             return;
 
@@ -102,8 +102,8 @@ special_tools_geolocation.prototype.location_found_event = function() {
 
         self.map.stopLocate();
 
-        L.DomUtil.addClass(_this.controlDiv, 'special-tools-disable');
-        L.DomUtil.removeClass(_this.controlDiv, 'special-tools-enable');
+        L.DomUtil.addClass(_this.controlDiv, 'st-disable');
+        L.DomUtil.removeClass(_this.controlDiv, 'st-enable');
 
         L.DomEvent.preventDefault(e);
 
@@ -120,8 +120,8 @@ special_tools_geolocation.prototype.location_error_event = function() {
 
         self.modal_message("No ha sido posible encontrar la localización");
 
-        L.DomUtil.addClass(_this.controlDiv, 'special-tools-disable');
-        L.DomUtil.removeClass(_this.controlDiv, 'special-tools-enable');
+        L.DomUtil.addClass(_this.controlDiv, 'st-disable');
+        L.DomUtil.removeClass(_this.controlDiv, 'st-enable');
 
         L.DomEvent.preventDefault(e);
 

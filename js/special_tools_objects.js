@@ -15,7 +15,7 @@ special_tools_objects.prototype.load = async function(L, special_tools) {
 
             const self = special_tools_objects.prototype.special_tools;
 
-            const controlDiv = L.DomUtil.create('div', 'special-tools-objects special-tools-controls special-tools-disable');
+            const controlDiv = L.DomUtil.create('div', 'st-objects st-controls st-disable');
 
             special_tools_objects.prototype.controlDiv = controlDiv;
 
@@ -33,8 +33,8 @@ special_tools_objects.prototype.load = async function(L, special_tools) {
 
             L.DomEvent.addListener(controlDiv, 'click', function(){
 
-                L.DomUtil.addClass(controlDiv, 'special-tools-enable');
-                L.DomUtil.removeClass(controlDiv, 'special-tools-disable');
+                L.DomUtil.addClass(controlDiv, 'st-enable');
+                L.DomUtil.removeClass(controlDiv, 'st-disable');
 
                 self.only_one_active_control(controlDiv);
                 
@@ -64,7 +64,7 @@ special_tools_objects.prototype.create_containers = function() {
     const self = this.special_tools;
     
     self.special_tools_title_1 = L.DomUtil.create('div');
-    self.special_tools_title_1.setAttribute('class', 'special-tools-h2');
+    self.special_tools_title_1.setAttribute('class', 'st-h2');
 
     self.tool.google_translate({
 
@@ -77,7 +77,7 @@ special_tools_objects.prototype.create_containers = function() {
     /******************************************************************/
 
     self.special_tools_container_1 = L.DomUtil.create('div');
-    self.special_tools_container_1.setAttribute('class', 'special-tools-container');
+    self.special_tools_container_1.setAttribute('class', 'st-container');
 
     /******************************************************************/
 
@@ -235,7 +235,7 @@ special_tools_objects.prototype.create_containers = function() {
     /******************************************************************/
 
     self.special_tools_title_2 = L.DomUtil.create('div');
-    self.special_tools_title_2.setAttribute('class', 'special-tools-h2');
+    self.special_tools_title_2.setAttribute('class', 'st-h2');
 
     self.tool.google_translate({
 
@@ -248,7 +248,7 @@ special_tools_objects.prototype.create_containers = function() {
     /******************************************************************/
 
     self.special_tools_container_2 = L.DomUtil.create('div');
-    self.special_tools_container_2.setAttribute('class', 'special-tools-container');
+    self.special_tools_container_2.setAttribute('class', 'st-container');
 
     /******************************************************************/
 

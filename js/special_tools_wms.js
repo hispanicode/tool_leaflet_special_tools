@@ -15,7 +15,7 @@ special_tools_wms.prototype.load = async function(L, special_tools) {
 
             const self = special_tools_wms.prototype.special_tools;
 
-            const controlDiv = L.DomUtil.create('div', 'special-tools-WMS special-tools-controls special-tools-disable');
+            const controlDiv = L.DomUtil.create('div', 'st-WMS st-controls st-disable');
             controlDiv.innerText = 'WMS';
             special_tools_wms.prototype.controlDiv = controlDiv;
             
@@ -34,8 +34,8 @@ special_tools_wms.prototype.load = async function(L, special_tools) {
             
             L.DomEvent.on(controlDiv, 'click', function() {
 
-                    L.DomUtil.addClass(controlDiv, 'special-tools-enable');
-                    L.DomUtil.removeClass(controlDiv, 'special-tools-disable');
+                    L.DomUtil.addClass(controlDiv, 'st-enable');
+                    L.DomUtil.removeClass(controlDiv, 'st-disable');
 
                     self.only_one_active_control(controlDiv);
 
@@ -120,7 +120,7 @@ special_tools_wms.prototype.load_modal = function() {
     /**************************************************************************/
 
     const wms_url_div_1 = L.DomUtil.create('div');
-    wms_url_div_1.setAttribute('class', 'special-tools-container special-tools-div-50');
+    wms_url_div_1.setAttribute('class', 'st-container st-div-50');
 
     self.modal_body.appendChild(wms_url_div_1);
     
@@ -143,14 +143,14 @@ special_tools_wms.prototype.load_modal = function() {
     self.wms_url_input = L.DomUtil.create('input');
     self.wms_url_input.type = 'text';
     self.wms_url_input.id = 'wms_url_input';
-    self.wms_url_input.setAttribute('class', 'special-tools-input-200');
+    self.wms_url_input.setAttribute('class', 'st-input st-input-200');
 
     wms_url_div_1.appendChild(self.wms_url_input);
 
     /**************************************************************************/
 
     const wms_url_div_2 = L.DomUtil.create('div');
-    wms_url_div_2.setAttribute('class', 'special-tools-container special-tools-div-50');
+    wms_url_div_2.setAttribute('class', 'st-container st-div-50');
 
     self.modal_body.appendChild(wms_url_div_2);
 
@@ -159,7 +159,7 @@ special_tools_wms.prototype.load_modal = function() {
     self.wms_url_btn = L.DomUtil.create('button');
     self.wms_url_btn.type = 'button';
     self.wms_url_btn.id = 'wms_url_btn';
-    self.wms_url_btn.setAttribute('class', 'special-tools-btn-success');
+    self.wms_url_btn.setAttribute('class', 'st-btn st-btn-success');
 
     self.tool.google_translate({
 
@@ -176,7 +176,7 @@ special_tools_wms.prototype.load_modal = function() {
     self.wms_clear_btn = L.DomUtil.create('button');
     self.wms_clear_btn.type = 'button';
     self.wms_clear_btn.id = 'wms_clear_btn';
-    self.wms_clear_btn.setAttribute('class', 'special-tools-btn-default');
+    self.wms_clear_btn.setAttribute('class', 'st-btn st-btn-default');
 
     self.tool.google_translate({
 
@@ -199,14 +199,14 @@ special_tools_wms.prototype.load_modal = function() {
 
     self.list_layers_div = L.DomUtil.create('div');
     self.list_layers_div.id = 'list_layers_div';
-    self.list_layers_div.setAttribute('class', 'special-tools-container');
+    self.list_layers_div.setAttribute('class', 'st-container');
 
     self.modal_body.appendChild(self.list_layers_div);
     
     /**************************************************************************/
 
     const title_layers_div = L.DomUtil.create('div');
-    title_layers_div.setAttribute('class', 'special-tools-container special-tools-h1');
+    title_layers_div.setAttribute('class', 'st-container st-h1');
 
     self.tool.google_translate({
 
@@ -222,7 +222,7 @@ special_tools_wms.prototype.load_modal = function() {
 
     self.my_list_layers_div = L.DomUtil.create('div');
     self.my_list_layers_div.id = 'my_list_layers_div';
-    self.my_list_layers_div.setAttribute('class', 'special-tools-container');
+    self.my_list_layers_div.setAttribute('class', 'st-container');
 
     self.modal_body.appendChild(self.my_list_layers_div);
     
@@ -295,13 +295,13 @@ special_tools_wms.prototype.wms_search_event = function() {
                         const layer_title = layers[x].getElementsByTagName('Title')[0].textContent;
 
                         const layer_div = L.DomUtil.create('div');
-                        layer_div.setAttribute('class', 'special-tools-container');
+                        layer_div.setAttribute('class', 'st-container');
 
                         self.list_layers_div.appendChild(layer_div);
 
                         const layer_btn = L.DomUtil.create('button');
                         layer_btn.type = 'button';
-                        layer_btn.setAttribute('class', 'special-tools-btn-transparent');
+                        layer_btn.setAttribute('class', 'st-btn st-btn-transparent');
                         layer_btn.setAttribute('layer-name', layer_name);
                         layer_btn.innerText = layer_title;
 
@@ -339,14 +339,14 @@ special_tools_wms.prototype.wms_search_event = function() {
                                     self.modal_message("Capa guardada con éxito");
 
                                     const layer_div = L.DomUtil.create('div');
-                                    layer_div.setAttribute('class', 'special-tools-container layer-div');
+                                    layer_div.setAttribute('class', 'st-container layer-div');
 
                                     self.my_list_layers_div.appendChild(layer_div);
 
                                     const layer_input_text = L.DomUtil.create('input');
                                     layer_input_text.readonly = true;
                                     layer_input_text.value = layer_title;
-                                    layer_input_text.setAttribute('class', 'special-tools-input-175');
+                                    layer_input_text.setAttribute('class', 'st-input st-input-175');
                                     layer_input_text.style.position = 'relative';
                                     layer_input_text.style.top = '-4px';
 
@@ -355,7 +355,7 @@ special_tools_wms.prototype.wms_search_event = function() {
                                     /************************************************************/
 
                                     const layer_view_btn = L.DomUtil.create('button');
-                                    layer_view_btn.setAttribute('class', 'special-tools-btn-white layer-view-btn');
+                                    layer_view_btn.setAttribute('class', 'st-btn st-btn-white layer-view-btn');
                                     layer_view_btn.setAttribute('wms-index', self.wms_array.length-1);
                                     layer_view_btn.setAttribute('view', '0');
 
@@ -389,7 +389,7 @@ special_tools_wms.prototype.wms_search_event = function() {
                                     const layer_opacity_input = L.DomUtil.create('input');
                                     layer_opacity_input.type = 'range';
                                     layer_opacity_input.id = 'layer_opacity_input';
-                                    layer_opacity_input.setAttribute('class', 'special-tools-input-75');
+                                    layer_opacity_input.setAttribute('class', 'st-input st-input-75');
                                     layer_opacity_input.setAttribute('wms-index', self.wms_array.length-1);
                                     layer_opacity_input.setAttribute('min', 0);
                                     layer_opacity_input.setAttribute('max', 1);
@@ -403,7 +403,7 @@ special_tools_wms.prototype.wms_search_event = function() {
                                     /*************************************************************/
 
                                     const layer_delete_btn = L.DomUtil.create('button');
-                                    layer_delete_btn.setAttribute('class', 'special-tools-btn-danger layer-delete-btn');
+                                    layer_delete_btn.setAttribute('class', 'st-btn st-btn-danger layer-delete-btn');
                                     layer_delete_btn.setAttribute('wms-index', self.wms_array.length-1);
 
                                     layer_div.appendChild(layer_delete_btn);
@@ -586,21 +586,21 @@ special_tools_wms.prototype.load_wms = function() {
                 self.wms_array.push(wms_layer);
 
                 const layer_div = L.DomUtil.create('div');
-                layer_div.setAttribute('class', 'special-tools-container layer-div');
+                layer_div.setAttribute('class', 'st-container layer-div');
 
                 self.my_list_layers_div.appendChild(layer_div);
 
                 const layer_input_text = L.DomUtil.create('input');
                 layer_input_text.setAttribute('readonly', true);
                 layer_input_text.value = self.wms[index].title;
-                layer_input_text.setAttribute('class', 'special-tools-input-175');
+                layer_input_text.setAttribute('class', 'st-input st-input-175');
                 layer_input_text.style.position = 'relative';
                 layer_input_text.style.top = '-4px';
 
                 layer_div.appendChild(layer_input_text);
 
                 const layer_view_btn = L.DomUtil.create('button');
-                layer_view_btn.setAttribute('class', 'special-tools-btn-white layer-view-btn');
+                layer_view_btn.setAttribute('class', 'st-btn st-btn-white layer-view-btn');
                 layer_view_btn.setAttribute('wms-index', index);
 
                 layer_div.appendChild(layer_view_btn);
@@ -643,7 +643,7 @@ special_tools_wms.prototype.load_wms = function() {
                 const layer_opacity_input = L.DomUtil.create('input');
                 layer_opacity_input.type = 'range';
                 layer_opacity_input.id = 'layer_opacity_input';
-                layer_opacity_input.setAttribute('class', 'special-tools-input-75');
+                layer_opacity_input.setAttribute('class', 'st-input st-input-75');
                 layer_opacity_input.setAttribute('wms-index', index);
                 layer_opacity_input.setAttribute('min', 0);
                 layer_opacity_input.setAttribute('max', 1);
@@ -657,7 +657,7 @@ special_tools_wms.prototype.load_wms = function() {
                 /*************************************************************/
 
                 const layer_delete_btn = L.DomUtil.create('button');
-                layer_delete_btn.setAttribute('class', 'special-tools-btn-danger layer-delete-btn');
+                layer_delete_btn.setAttribute('class', 'st-btn st-btn-danger layer-delete-btn');
                 layer_delete_btn.setAttribute('wms-index', index);
 
                 layer_div.appendChild(layer_delete_btn);

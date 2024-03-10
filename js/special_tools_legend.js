@@ -14,7 +14,7 @@ special_tools_legend.prototype.load = async function(L, special_tools) {
             
             const self = special_tools_legend.prototype.special_tools;
             
-            const controlDiv = L.DomUtil.create('div', 'special-tools-legend special-tools-controls special-tools-disable');
+            const controlDiv = L.DomUtil.create('div', 'st-legend st-controls st-disable');
             
             special_tools_legend.prototype.controlDiv = controlDiv;
             
@@ -26,12 +26,38 @@ special_tools_legend.prototype.load = async function(L, special_tools) {
                 lang: self.lang
 
             });
+            
+            switch(self.lang) {
+
+                case 'lg-spa': 
+                    self.source = 'es';
+                    break;
+                case 'lg-eng':
+                    self.source = 'en';
+                    break;
+                case 'lg-fra':
+                    self.source = 'fr';
+                    break;
+                case 'lg-ita':
+                    self.source = 'it';
+                    break;
+                case 'lg-por':
+                    self.source = 'pt';
+                    break;
+                case 'lg-cat':
+                    self.source = 'ca';
+                    break;
+                case 'lg-eus':
+                    self.source = 'eu';
+                    break;
+
+            }
 
             self.special_tools_btns.appendChild(controlDiv);
             
-            self.legend_div_container = L.DomUtil.create('div', 'special-tools-container-legend-div');
+            self.legend_div_container = L.DomUtil.create('div', 'st-container-legend-div');
 
-            self.legend_div = L.DomUtil.create('div', 'special-tools-legend-div');
+            self.legend_div = L.DomUtil.create('div', 'st-legend-div');
 
             self.legend_div.style.left = ((self.map.getSize().x / 2)) + "px";
 
@@ -70,8 +96,8 @@ special_tools_legend.prototype.load = async function(L, special_tools) {
             
             L.DomEvent.addListener(controlDiv, 'click', function(){
 
-                L.DomUtil.addClass(controlDiv, 'special-tools-enable');
-                L.DomUtil.removeClass(controlDiv, 'special-tools-disable');
+                L.DomUtil.addClass(controlDiv, 'st-enable');
+                L.DomUtil.removeClass(controlDiv, 'st-disable');
 
                 self.only_one_active_control(controlDiv);
                 
@@ -119,10 +145,10 @@ special_tools_legend.prototype.init_legend = function(data) {
     self.legend_div.innerHTML = '';
 
     const legend_title = L.DomUtil.create('div');
-    legend_title.setAttribute('class', 'special-tools-legend-name');
+    legend_title.setAttribute('class', 'st-legend-name');
     
     self.tool.google_translate({
-        
+        source: self.source,
         element_html: legend_title,
         str: self.legend_json.legend,
         lang: self.lang
@@ -153,23 +179,24 @@ special_tools_legend.prototype.init_legend = function(data) {
 
         if (count_columns === 1) {
             
-            column_div.setAttribute('class', 'special-tools-div-100');
+            column_div.setAttribute('class', 'st-div-100');
             
         } else if (count_columns === 2) {
             
-            column_div.setAttribute('class', 'special-tools-div-50');
+            column_div.setAttribute('class', 'st-div-50');
             
         } else if (count_columns === 3) {
             
-            column_div.setAttribute('class', 'special-tools-div-33');
+            column_div.setAttribute('class', 'st-div-33');
             
         }
 
         const column_name = L.DomUtil.create('div');
-        column_name.setAttribute('class', 'special-tools-container special-tools-column-name');
+        column_name.setAttribute('class', 'st-container st-column-name');
         
         self.tool.google_translate({
             
+            source: self.source,
             element_html: column_name,
             str: self.legend_json.columns[col].name,
             lang: self.lang
@@ -192,10 +219,11 @@ special_tools_legend.prototype.init_legend = function(data) {
 
 
             const element_name = L.DomUtil.create('div');
-            element_name.setAttribute('class', 'special-tools-legend-element-name');
+            element_name.setAttribute('class', 'st-legend-element-name');
             
             self.tool.google_translate({
                 
+                source: self.source,
                 element_html: element_name,
                 str: self.legend_json.columns[col].elements[elem].name,
                 lang: self.lang
@@ -250,7 +278,7 @@ special_tools_legend.prototype.load_modal = function() {
     /**************************************************************************/
 
     const legend_name_div = L.DomUtil.create('div');
-    legend_name_div.setAttribute('class', 'special-tools-container special-tools-div-33');
+    legend_name_div.setAttribute('class', 'st-container st-div-33');
 
     modal_body.appendChild(legend_name_div);
     
@@ -273,7 +301,7 @@ special_tools_legend.prototype.load_modal = function() {
     const legend_name_input = L.DomUtil.create('input');
     legend_name_input.type = 'text';
     legend_name_input.id = 'legend_name_input';
-    legend_name_input.setAttribute('class', 'special-tools-input-150');
+    legend_name_input.setAttribute('class', 'st-input st-input-150');
     legend_name_input.value = self.legend_json.legend;
 
     legend_name_div.appendChild(legend_name_input);
@@ -281,7 +309,7 @@ special_tools_legend.prototype.load_modal = function() {
     /**************************************************************************/
 
     const legend_btns_div = L.DomUtil.create('div');
-    legend_btns_div.setAttribute('class', 'special-tools-container special-tools-div-40');
+    legend_btns_div.setAttribute('class', 'st-container st-div-40');
 
     modal_body.appendChild(legend_btns_div);
     
@@ -290,7 +318,7 @@ special_tools_legend.prototype.load_modal = function() {
     const legend_btn_add_column = L.DomUtil.create('button');
     legend_btn_add_column.type = 'button';
     legend_btn_add_column.id = 'legend_btn_add_column';
-    legend_btn_add_column.setAttribute('class', 'special-tools-btn-default');
+    legend_btn_add_column.setAttribute('class', 'st-btn st-btn-default');
     
     self.tool.google_translate({
 
@@ -307,7 +335,7 @@ special_tools_legend.prototype.load_modal = function() {
     const legend_btn_save_legend = L.DomUtil.create('button');
     legend_btn_save_legend.type = 'button';
     legend_btn_save_legend.id = 'legend_btn_save_legend';
-    legend_btn_save_legend.setAttribute('class', 'special-tools-btn-primary');
+    legend_btn_save_legend.setAttribute('class', 'st-btn st-btn-primary');
     legend_btn_save_legend.style.display = 'none';
 
     self.tool.google_translate({
@@ -323,7 +351,7 @@ special_tools_legend.prototype.load_modal = function() {
     /**************************************************************************/
 
     const legend_show_hide_div = L.DomUtil.create('div');
-    legend_show_hide_div.setAttribute('class', 'special-tools-container special-tools-div-33');
+    legend_show_hide_div.setAttribute('class', 'st-container st-div-33');
 
     modal_body.appendChild(legend_show_hide_div);
 
@@ -358,7 +386,7 @@ special_tools_legend.prototype.load_modal = function() {
     /**************************************************************************/
 
     const columns_div_container = L.DomUtil.create('div');
-    columns_div_container.setAttribute('class', 'special-tools-container');
+    columns_div_container.setAttribute('class', 'st-container');
 
     modal_body.appendChild(columns_div_container);
     
@@ -446,10 +474,10 @@ special_tools_legend.prototype.load_modal = function() {
         const legend_title_value = modal_body.querySelector('#legend_name_input').value;
 
         const legend_title = L.DomUtil.create('div');
-        legend_title.setAttribute('class', 'special-tools-legend-name');
+        legend_title.setAttribute('class', 'st-legend-name');
         
         self.tool.google_translate({
-            
+            source: self.source,
             element_html: legend_title,
             str: self.strip_tags(legend_title_value),
             lang: self.lang
@@ -482,23 +510,23 @@ special_tools_legend.prototype.load_modal = function() {
  
             if (count_columns === 1) {
                 
-                column_div.setAttribute('class', 'special-tools-div-100');
+                column_div.setAttribute('class', 'st-div-100');
                 
             } else if (count_columns === 2) {
                 
-                column_div.setAttribute('class', 'special-tools-div-50'); 
+                column_div.setAttribute('class', 'st-div-50'); 
                 
             } else if (count_columns === 3) {
                 
-                column_div.setAttribute('class', 'special-tools-div-33');
+                column_div.setAttribute('class', 'st-div-33');
                 
             }
 
             const column_name = L.DomUtil.create('div');
-            column_name.setAttribute('class', 'special-tools-container special-tools-column-name');
+            column_name.setAttribute('class', 'st-container st-column-name');
             
             self.tool.google_translate({
-                
+                source: self.source,
                 element_html: column_name,
                 str: self.columns[col].name,
                 lang: self.lang
@@ -523,10 +551,10 @@ special_tools_legend.prototype.load_modal = function() {
                 
 
                 const element_name = L.DomUtil.create('div');
-                element_name.setAttribute('class', 'special-tools-legend-element-name');
+                element_name.setAttribute('class', 'st-legend-element-name');
                 
                 self.tool.google_translate({
-                    
+                    source: self.source,
                     element_html: element_name,
                     str: self.columns[col].elements[elem].name,
                     lang: self.lang
@@ -560,7 +588,7 @@ special_tools_legend.prototype.load_modal = function() {
         div.setAttribute('class', 'div-column');
 
         const div_container_1 = L.DomUtil.create('div');
-        div_container_1.setAttribute('class', 'special-tools-container special-tools-div-33');
+        div_container_1.setAttribute('class', 'st-container st-div-33');
 
         const input_column_span = L.DomUtil.create('span');
 
@@ -574,7 +602,7 @@ special_tools_legend.prototype.load_modal = function() {
 
         const input_column = L.DomUtil.create('input');
         input_column.type = 'text';
-        input_column.setAttribute('class', 'special-tools-input-150');
+        input_column.setAttribute('class', 'st-input st-input-150');
         input_column.setAttribute('index-column', index);
         input_column.value = self.legend_json.columns[index].name;
 
@@ -583,11 +611,11 @@ special_tools_legend.prototype.load_modal = function() {
 
 
         const div_container_2 = L.DomUtil.create('div');
-        div_container_2.setAttribute('class', 'special-tools-container special-tools-div-50');
+        div_container_2.setAttribute('class', 'st-container st-div-50');
 
         const btn_column_add_element = L.DomUtil.create('button');
         btn_column_add_element.type = 'button';
-        btn_column_add_element.setAttribute('class', 'special-tools-btn-default');
+        btn_column_add_element.setAttribute('class', 'st-btn st-btn-default');
         btn_column_add_element.setAttribute('index-column', index);
 
         self.tool.google_translate({
@@ -599,7 +627,7 @@ special_tools_legend.prototype.load_modal = function() {
         });
 
         const btn_column_delete = L.DomUtil.create('button');
-        btn_column_delete.setAttribute('class', 'special-tools-btn-danger');
+        btn_column_delete.setAttribute('class', 'st-btn st-btn-danger');
         btn_column_delete.setAttribute('index-column', index);
 
         self.tool.google_translate({
@@ -717,7 +745,7 @@ special_tools_legend.prototype.load_modal = function() {
             }
 
             const column = L.DomUtil.create('div');
-            column.setAttribute('class', 'special-tools-container div-elements');
+            column.setAttribute('class', 'st-container div-elements');
 
             const element_name_span = L.DomUtil.create('span');
 
@@ -731,13 +759,13 @@ special_tools_legend.prototype.load_modal = function() {
 
             const element_name = L.DomUtil.create('input');
             element_name.type = 'text';
-            element_name.setAttribute('class', 'special-tools-input-150');
+            element_name.setAttribute('class', 'st-input st-input-150');
             element_name.setAttribute('index-column', index_column);
             element_name.setAttribute('index-element', index_element);
 
             const element_icon_button = L.DomUtil.create('button');
             element_icon_button.type = 'button';
-            element_icon_button.setAttribute('class', 'special-tools-btn-default');
+            element_icon_button.setAttribute('class', 'st-btn st-btn-default');
             element_icon_button.setAttribute('index-column', index_column);
             element_icon_button.setAttribute('index-element', index_element);
             
@@ -766,7 +794,7 @@ special_tools_legend.prototype.load_modal = function() {
             const element_delete = L.DomUtil.create('button');
             element_delete.innerHTML = "<img width='14' height='14' src='" + self.tool.tool_url() + "/img/trash.png'>";
             element_delete.style.marginLeft = '6px';
-            element_delete.setAttribute('class', 'special-tools-btn-danger');
+            element_delete.setAttribute('class', 'st-btn st-btn-danger');
             element_delete.setAttribute('index-column', index_column);
             element_delete.setAttribute('index-element', index_element);
 
@@ -857,7 +885,7 @@ special_tools_legend.prototype.load_modal = function() {
         for (let index_elem in self.columns[index].elements) {
 
             const column = L.DomUtil.create('div');
-            column.setAttribute('class', 'special-tools-container div-elements');
+            column.setAttribute('class', 'st-container div-elements');
 
             const element_name_span = L.DomUtil.create('span');
 
@@ -871,14 +899,14 @@ special_tools_legend.prototype.load_modal = function() {
 
             const element_name = L.DomUtil.create('input');
             element_name.type = 'text';
-            element_name.setAttribute('class', 'special-tools-input-150');
+            element_name.setAttribute('class', 'st-input st-input-150');
             element_name.setAttribute('index-column', index);
             element_name.setAttribute('index-element', index_elem);
             element_name.value = self.columns[index].elements[index_elem].name;
             
             const element_icon_button = L.DomUtil.create('button');
             element_icon_button.type = 'button';
-            element_icon_button.setAttribute('class', 'special-tools-btn-default');
+            element_icon_button.setAttribute('class', 'st-btn st-btn-default');
             element_icon_button.setAttribute('index-column', index);
             element_icon_button.setAttribute('index-element', index_elem);
             
@@ -907,7 +935,7 @@ special_tools_legend.prototype.load_modal = function() {
             const element_delete = L.DomUtil.create('button');
             element_delete.innerHTML = "<img width='14' height='14' src='" + self.tool.tool_url() + "/img/trash.png'>";
             element_delete.style.marginLeft = '6px';
-            element_delete.setAttribute('class', 'special-tools-btn-danger');
+            element_delete.setAttribute('class', 'st-btn st-btn-danger');
             element_delete.setAttribute('index-column',index);
             element_delete.setAttribute('index-element', index_elem);
 
@@ -1025,7 +1053,7 @@ special_tools_legend.prototype.load_modal = function() {
         div.setAttribute('class', 'div-column');
 
         const div_container_1 = L.DomUtil.create('div');
-        div_container_1.setAttribute('class', 'special-tools-container special-tools-div-33');
+        div_container_1.setAttribute('class', 'st-container st-div-33');
 
         const input_column_span = L.DomUtil.create('span');
 
@@ -1039,18 +1067,18 @@ special_tools_legend.prototype.load_modal = function() {
 
         const input_column = L.DomUtil.create('input');
         input_column.type = 'text';
-        input_column.setAttribute('class', 'special-tools-input-150');
+        input_column.setAttribute('class', 'st-input st-input-150');
         input_column.setAttribute('index-column', index_column);
 
         div_container_1.appendChild(input_column_span);
         div_container_1.appendChild(input_column);
 
         const div_container_2 = L.DomUtil.create('div');
-        div_container_2.setAttribute('class', 'special-tools-container special-tools-div-50');
+        div_container_2.setAttribute('class', 'st-container st-div-50');
 
         const btn_column_add_element = L.DomUtil.create('button');
         btn_column_add_element.type = 'button';
-        btn_column_add_element.setAttribute('class', 'special-tools-btn-default');
+        btn_column_add_element.setAttribute('class', 'st-btn st-btn-default');
         btn_column_add_element.setAttribute('index-column', index_column);
 
         self.tool.google_translate({
@@ -1062,7 +1090,7 @@ special_tools_legend.prototype.load_modal = function() {
         });
 
         const btn_column_delete = L.DomUtil.create('button');
-        btn_column_delete.setAttribute('class', 'special-tools-btn-danger');
+        btn_column_delete.setAttribute('class', 'st-btn st-btn-danger');
         btn_column_delete.setAttribute('index-column', index_column);
 
         self.tool.google_translate({
@@ -1180,7 +1208,7 @@ special_tools_legend.prototype.load_modal = function() {
             }
 
             const column = L.DomUtil.create('div');
-            column.setAttribute('class', 'special-tools-container div-elements');
+            column.setAttribute('class', 'st-container div-elements');
 
             const element_name_span = L.DomUtil.create('span');
 
@@ -1194,13 +1222,13 @@ special_tools_legend.prototype.load_modal = function() {
 
             const element_name = L.DomUtil.create('input');
             element_name.type = 'text';
-            element_name.setAttribute('class', 'special-tools-input-150');
+            element_name.setAttribute('class', 'st-input st-input-150');
             element_name.setAttribute('index-column', index_column);
             element_name.setAttribute('index-element', index_element);
 
             const element_icon_button = L.DomUtil.create('button');
             element_icon_button.type = 'button';
-            element_icon_button.setAttribute('class', 'special-tools-btn-default');
+            element_icon_button.setAttribute('class', 'st-btn st-btn-default');
             element_icon_button.setAttribute('index-column', index_column);
             element_icon_button.setAttribute('index-element', index_element);
             
@@ -1229,7 +1257,7 @@ special_tools_legend.prototype.load_modal = function() {
             const element_delete = L.DomUtil.create('button');
             element_delete.innerHTML = "<img width='14' height='14' src='" + self.tool.tool_url() + "/img/trash.png'>";
             element_delete.style.marginLeft = '6px';
-            element_delete.setAttribute('class', 'special-tools-btn-danger');
+            element_delete.setAttribute('class', 'st-btn st-btn-danger');
             element_delete.setAttribute('index-column', index_column);
             element_delete.setAttribute('index-element', index_element);
 

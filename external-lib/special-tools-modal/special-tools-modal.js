@@ -67,7 +67,6 @@ const SpecialToolsModal = {
         L.DomEvent
           .disableClickPropagation(this.leaflet_modal)
           .disableScrollPropagation(this.leaflet_modal);
-        //L.DomEvent.on(this.leaflet_modal, 'contextmenu', L.DomEvent.stopPropagation);
         } catch(e){};
     },
     
@@ -104,5 +103,4 @@ const SpecialToolsModal = {
         return this.span_close;
     }
     
- 
 };

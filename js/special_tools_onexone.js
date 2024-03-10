@@ -15,7 +15,7 @@ special_tools_onexone.prototype.load = async function(L, special_tools) {
 
             const self = special_tools_onexone.prototype.special_tools;
 
-            const controlDiv = L.DomUtil.create('div', 'special-tools-oneXone special-tools-controls special-tools-disable');
+            const controlDiv = L.DomUtil.create('div', 'st-oneXone st-controls st-disable');
             controlDiv.innerText = '1x1';
 
             special_tools_onexone.prototype.controlDiv = controlDiv;
@@ -33,10 +33,10 @@ special_tools_onexone.prototype.load = async function(L, special_tools) {
             
             L.DomEvent.on(controlDiv, 'click', function(e) {
 
-                if (L.DomUtil.hasClass(controlDiv, 'special-tools-disable')) {
+                if (L.DomUtil.hasClass(controlDiv, 'st-disable')) {
 
-                    L.DomUtil.addClass(controlDiv, 'special-tools-enable');
-                    L.DomUtil.removeClass(controlDiv, 'special-tools-disable');
+                    L.DomUtil.addClass(controlDiv, 'st-enable');
+                    L.DomUtil.removeClass(controlDiv, 'st-disable');
 
                     self.only_one_active_control(controlDiv);
 
@@ -44,8 +44,8 @@ special_tools_onexone.prototype.load = async function(L, special_tools) {
 
                 }  else {
 
-                    L.DomUtil.addClass(controlDiv, 'special-tools-disable');
-                    L.DomUtil.removeClass(controlDiv, 'special-tools-enable');
+                    L.DomUtil.addClass(controlDiv, 'st-disable');
+                    L.DomUtil.removeClass(controlDiv, 'st-enable');
                     
                     self.enable_oneXone = false;
 
@@ -124,8 +124,8 @@ special_tools_onexone.prototype.oneXone_event = function() {
 
                         rectangle.fireEvent('click');
 
-                        L.DomUtil.addClass(_this.controlDiv, 'special-tools-enable');
-                        L.DomUtil.removeClass(_this.controlDiv, 'special-tools-disable');
+                        L.DomUtil.addClass(_this.controlDiv, 'st-enable');
+                        L.DomUtil.removeClass(_this.controlDiv, 'st-disable');
                         
                         self.enable_oneXone = true;
 

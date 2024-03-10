@@ -15,7 +15,7 @@ special_tools_upload.prototype.load = async function(L, special_tools) {
 
             const self = special_tools_upload.prototype.special_tools;
             
-            const controlDiv = L.DomUtil.create('div', 'special-tools-upload special-tools-controls special-tools-disable');
+            const controlDiv = L.DomUtil.create('div', 'st-upload st-controls st-disable');
 
             special_tools_upload.prototype.controlDiv = controlDiv;
 
@@ -70,7 +70,7 @@ special_tools_upload.prototype.load_modal = function() {
 
     self.open_vector_modal = L.DomUtil.create('button');
     self.open_vector_modal.id = 'open_vector_modal';
-    self.open_vector_modal.setAttribute('class', 'special-tools-btn-success');
+    self.open_vector_modal.setAttribute('class', 'st-btn st-btn-success');
 
     self.tool.google_translate({
 
@@ -86,7 +86,7 @@ special_tools_upload.prototype.load_modal = function() {
 
     self.open_raster_modal = L.DomUtil.create('button');
     self.open_raster_modal.id = 'open_raster_modal';
-    self.open_raster_modal.setAttribute('class', 'special-tools-btn-success');
+    self.open_raster_modal.setAttribute('class', 'st-btn st-btn-success');
 
     self.tool.google_translate({
 
@@ -125,36 +125,31 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
 
         const modal_vector = L.DomUtil.create('div');
         modal_vector.id = 'modal_vector';
-        modal_vector.setAttribute('class', 'special-tools-modal-upload');
+        modal_vector.setAttribute('class', 'st-modal-upload');
 
         self.map._container.append(modal_vector);
 
-        L.DomEvent.on(modal_vector, 'mouseover', function() {
-
-            self.map.dragging.disable();
-            self.map.doubleClickZoom.disable();
+        try {
             document.querySelector('.map_inputs').style.zIndex = 0;
+        } catch(e){};
 
-        });
-
-        L.DomEvent.on(modal_vector, 'mouseout', function() {
-
-            self.map.dragging.enable();
-            self.map.doubleClickZoom.enable();
-
-        });
+        try {
+        L.DomEvent
+          .disableClickPropagation(modal_vector)
+          .disableScrollPropagation(modal_vector);
+        } catch(e){};
 
         /**********************************************************************/
 
         const container = L.DomUtil.create('div');
-        container.setAttribute('class', 'special-tools-modal-container');
+        container.setAttribute('class', 'st-modal-container');
         
         modal_vector.appendChild(container);
         
         /**********************************************************************/
 
         const title_vector = L.DomUtil.create('div');
-        title_vector.setAttribute('class', 'special-tools-h2');
+        title_vector.setAttribute('class', 'st-h2');
 
         self.tool.google_translate({
 
@@ -180,7 +175,7 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
         /**********************************************************************/
 
         const msg_extension_vector = L.DomUtil.create('div');
-        msg_extension_vector.setAttribute('class', 'special-tools-container special-tools-text-info');
+        msg_extension_vector.setAttribute('class', 'st-container st-text-info');
 
         self.tool.google_translate({
 
@@ -197,7 +192,7 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
         const btn_list_projections = L.DomUtil.create('button');
         btn_list_projections.type = 'button';
         btn_list_projections.id = 'btn_list_projections';
-        btn_list_projections.setAttribute('class', 'special-tools-btn-info');
+        btn_list_projections.setAttribute('class', 'st-btn st-btn-info');
         btn_list_projections.style.fontSize = '9px';
 
         self.tool.google_translate({
@@ -213,7 +208,7 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
         /**********************************************************************/
 
         const info_div = L.DomUtil.create('div');
-        info_div.setAttribute('class', 'special-tools-container');
+        info_div.setAttribute('class', 'st-container');
 
         self.tool.google_translate({
 
@@ -228,7 +223,7 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
         /**********************************************************************/
 
         const project_div = L.DomUtil.create('div');
-        project_div.setAttribute('class', 'special-tools-container');
+        project_div.setAttribute('class', 'st-container');
 
         container.appendChild(project_div);
         
@@ -244,7 +239,7 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
         const project_crs = L.DomUtil.create('input');
         project_crs.type = 'text';
         project_crs.id = 'project_crs';
-        project_crs.setAttribute('class', 'special-tools-input-50');
+        project_crs.setAttribute('class', 'st-input st-input-50');
         project_crs.setAttribute('placeholder', '32619');
 
         project_div.appendChild(project_crs);
@@ -261,7 +256,7 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
         const project_zone = L.DomUtil.create('input');
         project_zone.type = 'text';
         project_zone.id = 'project_zone';
-        project_zone.setAttribute('class', 'special-tools-input-25');
+        project_zone.setAttribute('class', 'st-input st-input-25');
         project_zone.setAttribute('placeholder', '19');
 
         project_div.appendChild(project_zone);
@@ -278,7 +273,7 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
         const project_band = L.DomUtil.create('input');
         project_band.type = 'text';
         project_band.id = 'project_band';
-        project_band.setAttribute('class', 'special-tools-input-25');
+        project_band.setAttribute('class', 'st-input st-input-25');
         project_band.setAttribute('placeholder', 'N');
 
         project_div.appendChild(project_band);
@@ -296,7 +291,7 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
         /**********************************************************************/
 
         const list_projections_div = L.DomUtil.create('div');
-        list_projections_div.setAttribute('class', 'special-tools-container');
+        list_projections_div.setAttribute('class', 'st-container');
 
         container.appendChild(list_projections_div);
         
@@ -304,7 +299,7 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
 
         const list_projections = L.DomUtil.create('div');
         list_projections.id = 'list_projections';
-        list_projections.setAttribute('class', 'special-tools-display-none special-tools-text-info');
+        list_projections.setAttribute('class', 'st-display-none st-text-info');
 
         self.tool.google_translate({
 
@@ -324,7 +319,7 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
         /**********************************************************************/
 
         const btn_cancel_vector = L.DomUtil.create('button');
-        btn_cancel_vector.setAttribute('class', 'special-tools-btn-default');
+        btn_cancel_vector.setAttribute('class', 'st-btn st-btn-default');
 
         self.tool.google_translate({
 
@@ -339,15 +334,13 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
         /**********************************************************************/
 
         L.DomEvent.on(btn_cancel_vector, 'click', function() {
-            
-            self.map.dragging.enable();
-            self.map.doubleClickZoom.enable();
 
             window.setTimeout(function() {
 
                 modal_vector.remove();
-                
-                document.querySelector('.map_inputs').style.zIndex = 1;
+                try {
+                    document.querySelector('.map_inputs').style.zIndex = 1;
+                } catch(e) {};
 
             }, 100);
 
@@ -355,15 +348,15 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
 
         L.DomEvent.on(btn_list_projections, 'click', function() {
 
-            if (L.DomUtil.hasClass(list_projections, 'special-tools-display-none')) {
+            if (L.DomUtil.hasClass(list_projections, 'st-display-none')) {
 
-                L.DomUtil.removeClass(list_projections, 'special-tools-display-none');
-                L.DomUtil.addClass(list_projections, 'special-tools-display-block');
+                L.DomUtil.removeClass(list_projections, 'st-display-none');
+                L.DomUtil.addClass(list_projections, 'st-display-block');
 
             } else {
 
-                L.DomUtil.removeClass(list_projections, 'special-tools-display-block');
-                L.DomUtil.addClass(list_projections, 'special-tools-display-none');
+                L.DomUtil.removeClass(list_projections, 'st-display-block');
+                L.DomUtil.addClass(list_projections, 'st-display-none');
             }
 
         });
@@ -485,6 +478,7 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
                                     window.setTimeout(function(){
 
                                         self.map.fire("pm:create", {layer: OBJECTS_GEOJSON[index][obj]});
+                                        self.check_if_external_images(OBJECTS_GEOJSON[index][obj]);
 
                                     }, 100);
 
@@ -543,15 +537,13 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
 
                                 self.map._container.querySelector('#modal_vector').remove();
                                 
-                                self.map.dragging.enable();
-                                self.map.doubleClickZoom.enable();
-
-                                document.querySelector('.map_inputs').style.zIndex = 1;
+                                try {
+                                    document.querySelector('.map_inputs').style.zIndex = 1;
+                                } catch(e) {};
 
                             }, 100);
 
-                            const leaflet_modal = self.map._container.querySelector('.leaflet-modal');
-                            leaflet_modal.querySelector('.close').click();
+                            SpecialToolsModal.getClose().click();
 
                             self.modal_message("Archivo subido correctamente.");
 
@@ -559,7 +551,7 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
 
                         });
 
-                        window.setTimeout(function(){
+                        window.setTimeout(function() {
 
                             if (!is_valid_shape) {
 
@@ -596,6 +588,7 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
                                 window.setTimeout(function(){
 
                                     self.map.fire("pm:create", {layer: OBJECTS_GEOJSON[index][obj]});
+                                    self.check_if_external_images(OBJECTS_GEOJSON[index][obj]);
 
                                 }, 100);
 
@@ -653,18 +646,15 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
                         }
 
                         window.setTimeout(function() {
-                            
-                            self.map.dragging.enable();
-                            self.map.doubleClickZoom.enable();
-
-                            document.querySelector('.map_inputs').style.zIndex = 1;
+                            try {
+                                document.querySelector('.map_inputs').style.zIndex = 1;
+                            } catch(e) {};
 
                             self.map._container.querySelector('#modal_vector').remove();
 
                         }, 100);
 
-                        const leaflet_modal = self.map._container.querySelector('.leaflet-modal');
-                        leaflet_modal.querySelector('.close').click();
+                        SpecialToolsModal.getClose().click();
 
                         self.modal_message("Archivo subido correctamente.");
 
@@ -704,6 +694,7 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
                                 window.setTimeout(function(){
 
                                     self.map.fire("pm:create", {layer: OBJECTS_GEOJSON[index][obj]});
+                                    self.check_if_external_images(OBJECTS_GEOJSON[index][obj]);
 
                                 }, 100);
 
@@ -759,18 +750,16 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
                         }
 
                         window.setTimeout(function() {
-                            
-                            self.map.dragging.enable();
-                            self.map.doubleClickZoom.enable();
 
-                            document.querySelector('.map_inputs').style.zIndex = 1;
+                            try {
+                                document.querySelector('.map_inputs').style.zIndex = 1;
+                            } catch(e) {};
 
                             self.map._container.querySelector('#modal_vector').remove();
 
                         }, 100);
 
-                        const leaflet_modal = self.map._container.querySelector('.leaflet-modal');
-                        leaflet_modal.querySelector('.close').click();
+                        SpecialToolsModal.getClose().click();
 
                         self.modal_message("Archivo subido correctamente.");
 
@@ -805,38 +794,33 @@ special_tools_upload.prototype.open_raster_modal_event = function() {
 
         const modal_image = L.DomUtil.create('div');
         modal_image.id = 'modal_image';
-        modal_image.setAttribute('class', 'special-tools-modal-upload');
+        modal_image.setAttribute('class', 'st-modal-upload');
 
         self.map._container.append(modal_image);
         
         /**********************************************************************/
 
-        L.DomEvent.on(modal_image, 'mouseover', function() {
-
-            self.map.dragging.disable();
-            self.map.doubleClickZoom.disable();
+        try {
             document.querySelector('.map_inputs').style.zIndex = 0;
+        } catch(e){};
 
-        });
-
-        L.DomEvent.on(modal_image, 'mouseout', function() {
-
-            self.map.dragging.enable();
-            self.map.doubleClickZoom.enable();
-
-        });
+        try {
+        L.DomEvent
+          .disableClickPropagation(modal_image)
+          .disableScrollPropagation(modal_image);
+        } catch(e){};
 
         /**********************************************************************/
 
         const container = L.DomUtil.create('div');
-        container.setAttribute('class', 'special-tools-modal-container');
+        container.setAttribute('class', 'st-modal-container');
         
         modal_image.appendChild(container);
         
         /**********************************************************************/
 
         const title_image = L.DomUtil.create('div');
-        title_image.setAttribute('class', 'special-tools-h2');
+        title_image.setAttribute('class', 'st-h2');
 
         self.tool.google_translate({
 
@@ -863,7 +847,7 @@ special_tools_upload.prototype.open_raster_modal_event = function() {
         /**********************************************************************/
 
         const msg_extension_images = L.DomUtil.create('div');
-        msg_extension_images.setAttribute('class', 'special-tools-container special-tools-text-info');
+        msg_extension_images.setAttribute('class', 'st-container st-text-info');
 
         self.tool.google_translate({
 
@@ -883,7 +867,7 @@ special_tools_upload.prototype.open_raster_modal_event = function() {
         /**********************************************************************/
 
         const btn_cancel_image = L.DomUtil.create('button');
-        btn_cancel_image.setAttribute('class', 'special-tools-btn-default');
+        btn_cancel_image.setAttribute('class', 'st-btn st-btn-default');
 
         self.tool.google_translate({
 
@@ -899,14 +883,13 @@ special_tools_upload.prototype.open_raster_modal_event = function() {
 
         L.DomEvent.on(btn_cancel_image, 'click', function() {
             
-            self.map.dragging.enable();
-            self.map.doubleClickZoom.enable();
-            
             window.setTimeout(function() {
 
                 modal_image.remove();
                 
-                document.querySelector('.map_inputs').style.zIndex = 1;
+                try {
+                    document.querySelector('.map_inputs').style.zIndex = 1;
+                } catch(e) {};
 
             }, 100);
             
@@ -1033,19 +1016,17 @@ special_tools_upload.prototype.open_raster_modal_event = function() {
 
                             self.modal_message("Imagen subida correctamente.");
 
-                             window.setTimeout(function() {
+                            window.setTimeout(function() {
 
-                                 self.map._container.querySelector('#modal_image').remove();
-
-                                 self.map.dragging.enable();
-                                 self.map.doubleClickZoom.enable();
-
-                                 document.querySelector('.map_inputs').style.zIndex = 1;
+                                self.map._container.querySelector('#modal_image').remove();
+                                 
+                                try {
+                                    document.querySelector('.map_inputs').style.zIndex = 1;
+                                } catch(e) {};
 
                              }, 100);
 
-                            const leaflet_modal = self.map._container.querySelector('.leaflet-modal');
-                            leaflet_modal.querySelector('.close').click();
+                            SpecialToolsModal.getClose().click();
 
                         }, 5000);
 
