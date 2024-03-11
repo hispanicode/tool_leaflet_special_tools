@@ -1681,7 +1681,7 @@ class tool_leaflet_special_tools extends tool_common  {
         $response = new stdClass();
         
         $response->success = false;
-        $response->msg = 'Ha ocurrido un error';
+        $response->msg = 'Ha ocurrido un error inesperado';
         
         $response->name = strip_tags(htmlspecialchars($options->name));
         $response->value = strip_tags(htmlspecialchars($options->value));
@@ -1704,16 +1704,31 @@ class tool_leaflet_special_tools extends tool_common  {
             $response->success = false;
             $response->msg = "El campo nombre de la propiedad solo acepta valores alfanúmericos y guiones bajos";
 
-        } else if ($response->value === '') {
+        } else if ($response->name === 'color') {
+            
+            $response->success = false;
+            $response->msg = "La propiedad color es exclusiva de Dédalo y no puede ser creada.";
+            
+        } else if ($response->name === 'shape') {
+            
+            $response->success = false;
+            $response->msg = "La propiedad shape es exclusiva de Dédalo y no puede ser creada.";
+            
+        }  else if ($response->name === 'layer_id') {
+            
+            $response->success = false;
+            $response->msg = "La propiedad layer_id es exclusiva de Dédalo y no puede ser creada.";
+            
+        }  else if ($response->value === '') {
 
             $response->success = false;
             $response->msg = "El campo valor de la propiedad no puede estar vacío";
 
 
-        } else if (strlen($response->value) > 1000) {
+        } else if (strlen($response->value) > 2000) {
 
             $response->success = false;
-            $response->msg = "El campo valor de la propiedad no puede superar los 1000 caracteres";
+            $response->msg = "El campo valor de la propiedad no puede superar los 2000 caracteres";
 
         } else {
             
@@ -1721,9 +1736,7 @@ class tool_leaflet_special_tools extends tool_common  {
             $response->msg = "ok";
             
         }
-        
         return $response;
-
     }
     
     public static function edit_property(object $options): object {
@@ -1736,13 +1749,49 @@ class tool_leaflet_special_tools extends tool_common  {
         $response->name = strip_tags(htmlspecialchars($options->name));
         $response->value = strip_tags(htmlspecialchars($options->value));
 
-        if ($response->value === '') {
+        $name_allows = "/^[A-Za-z\_]+$/";
+
+        if ($response->name === '') {
 
             $response->success = false;
+            $response->msg = "El campo nombre de la propiedad no puede estar vacío";
 
-        } else if (strlen($response->value) > 1000) {
+
+        } else if (strlen($response->name) > 50) {
 
             $response->success = false;
+            $response->msg = "El campo nombre de la propiedad no puede superar los 50 caracteres";
+
+        } else if (!preg_match($name_allows, $response->name)) {
+
+            $response->success = false;
+            $response->msg = "El campo nombre de la propiedad solo acepta valores alfanúmericos y guiones bajos";
+
+        } else if ($response->name === 'color') {
+            
+            $response->success = false;
+            $response->msg = "La propiedad color es exclusiva de Dédalo y no puede ser creada.";
+            
+        } else if ($response->name === 'shape') {
+            
+            $response->success = false;
+            $response->msg = "La propiedad shape es exclusiva de Dédalo y no puede ser creada.";
+            
+        }  else if ($response->name === 'layer_id') {
+            
+            $response->success = false;
+            $response->msg = "La propiedad layer_id es exclusiva de Dédalo y no puede ser creada.";
+            
+        }  else if ($response->value === '') {
+
+            $response->success = false;
+            $response->msg = "El campo valor de la propiedad no puede estar vacío";
+
+
+        } else if (strlen($response->value) > 2000) {
+
+            $response->success = false;
+            $response->msg = "El campo valor de la propiedad no puede superar los 2000 caracteres";
 
         } else {
             
@@ -1750,9 +1799,7 @@ class tool_leaflet_special_tools extends tool_common  {
             $response->msg = "ok";
             
         }
-        
         return $response;
-
     }
     
     public static function base_path(): string {

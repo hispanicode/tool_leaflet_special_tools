@@ -155,7 +155,7 @@ special_tools.prototype.set_info_console = function(layer) {
         if (self.is_point(layer) && !self.is_circle(layer)) {
 
             if (layer instanceof L.Marker) {
-                
+
                 if (self.is_oneXone(layer)) {
 
                     const elements = self.get_layers_by_multi_id(layer.feature.special_tools.multi_id);
@@ -3724,43 +3724,35 @@ special_tools.prototype.modal_properties_form_create = function(layer, overlay) 
         const name_allows = /^[A-Za-z\_]+$/;
 
         if (name === '') {
-
             self.modal_message("El campo nombre de la propiedad no puede estar vacío");
-
             return;
-
         } else if (name.length > 50) {
-
             self.modal_message("El campo nombre de la propiedad no puede superar los 50 caracteres");
-
             return;
-
         } else if (!name.match(name_allows)) {
-
             self.modal_message("El campo nombre de la propiedad solo acepta valores alfanúmericos y guiones bajos");
-
             return;
-
-        }
-
-        if (value === '') {
-
+        } else if (name === 'color') {
+            self.modal_message("La propiedad color es exclusiva de Dédalo y no puede ser creada.");
+            return;
+        } else if (name === 'shape') {
+            self.modal_message("La propiedad shape es exclusiva de Dédalo y no puede ser creada.");
+            return;
+        } else if (name === 'layer_id') {
+            self.modal_message("La propiedad layer_id es exclusiva de Dédalo y no puede ser creada.");
+            return;
+        } else if (value === '') {
             self.modal_message("El campo valor de la propiedad no puede estar vacío");
-
             return;
-
-        } else if (value.length > 1000) {
-
-            self.modal_message("El campo valor de la propiedad no puede superar los 1000 caracteres");
-
+        } else if (value.length > 2000) {
+            self.modal_message("El campo valor de la propiedad no puede superar los 2000 caracteres");
             return;
-
         }
 
         let options = {};
 
         options.name = name;
-        options.value = self.strip_tags(value);
+        options.value = value;
 
         let promise = self.tool.create_property(options);
 
@@ -3768,7 +3760,8 @@ special_tools.prototype.modal_properties_form_create = function(layer, overlay) 
 
             if (data.success) {
 
-                const new_property = JSON.parse('{"'+data.name+'": "'+data.value+'"}');
+                const new_property = {};
+                new_property[data.name] = data.value;
 
                 if (layer.feature.special_tools.hasOwnProperty('is_oneXone')) {
                     
@@ -3997,24 +3990,38 @@ special_tools.prototype.modal_properties_form_update = function(property, layer,
         const name = self.strip_tags(String(property.name));
         const value = self.strip_tags(String(text_property_value_input.value));
 
-        if (value === '') {
+        const name_allows = /^[A-Za-z\_]+$/;
 
+        if (name === '') {
+            self.modal_message("El campo nombre de la propiedad no es válido");
+            return;
+        } else if (name.length > 50) {
+            self.modal_message("El campo nombre de la propiedad no puede superar los 50 caracteres");
+            return;
+        } else if (!name.match(name_allows)) {
+            self.modal_message("El campo nombre de la propiedad solo acepta valores alfanúmericos y guiones bajos");
+            return;
+        } else if (name === 'color') {
+            self.modal_message("La propiedad color es exclusiva de Dédalo y no puede ser creada.");
+            return;
+        } else if (name === 'shape') {
+            self.modal_message("La propiedad shape es exclusiva de Dédalo y no puede ser creada.");
+            return;
+        } else if (name === 'layer_id') {
+            self.modal_message("La propiedad layer_id es exclusiva de Dédalo y no puede ser creada.");
+            return;
+        } else if (value === '') {
             self.modal_message("El campo valor de la propiedad no puede estar vacío");
-
             return;
-
-        } else if (value.length > 1000) {
-
-            self.modal_message("El campo valor de la propiedad no puede superar los 1000 caracteres");
-
+        } else if (value.length > 2000) {
+            self.modal_message("El campo valor de la propiedad no puede superar los 2000 caracteres");
             return;
-
         }
 
         let options = {};
 
         options.name = name;
-        options.value = self.strip_tags(value);
+        options.value = value;
 
         let promise = self.tool.edit_property(options);
 
@@ -4062,7 +4069,7 @@ special_tools.prototype.modal_properties_form_update = function(property, layer,
 
                 }, 100);
 
-                self.modal_message("Ha ocurrido un error inesperado");
+                self.modal_message(data.msg);
 
             }
 
@@ -4594,11 +4601,13 @@ special_tools.prototype.info_console_load_properties = function(layer, overlay) 
                 const properties_content_div = L.DomUtil.create('div');
                 properties_content_div.setAttribute('class', 'st-container');
                 properties_content_div.style.borderTop = '1px solid #ee9113';
-
+                let property_value;
                 if (properties[prop].length > 300) {
 
-                    properties[prop] = properties[prop].substring(0, 300) + '...';
+                    property_value = properties[prop].substring(0, 300) + '...';
 
+                } else {
+                    property_value = properties[prop];
                 }
 
                 const properties_content_div_name = L.DomUtil.create('strong');
@@ -4606,7 +4615,7 @@ special_tools.prototype.info_console_load_properties = function(layer, overlay) 
                 properties_content_div.appendChild(properties_content_div_name);
                 
                 const properties_content_div_value = L.DomUtil.create('span');
-                properties_content_div_value.innerText = self.strip_tags(String(properties[prop]));
+                properties_content_div_value.innerText = self.strip_tags(String(property_value));
                 properties_content_div.appendChild(properties_content_div_value);
 
                 properties_div.appendChild(properties_content_div);
