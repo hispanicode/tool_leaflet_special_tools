@@ -615,30 +615,39 @@ special_tools_xyz.prototype.load_modal = function() {
         self.is_valid_basemap = true;
 
         const basemap_url = self.basemap_input.value;
+        try {
+            
+            const test_basemap = L.tileLayer(basemap_url);
 
-        const test_basemap = L.tileLayer(basemap_url);
+            test_basemap.addTo(self.map);
 
-        test_basemap.addTo(self.map);
+            test_basemap.on('tileerror', function() {
 
-        test_basemap.on('tileerror', function() {
+                self.is_valid_basemap = false;
 
-            self.is_valid_basemap = false;
+                self.modal_message("El mapa base no es correcto");
 
+                window.setTimeout(function() {
+
+                    test_basemap.removeFrom(self.map);
+
+                }, 100);
+
+                return;
+
+            });
+        
+        } catch(e) {
             self.modal_message("El mapa base no es correcto");
-
-            window.setTimeout(function() {
-
-                test_basemap.removeFrom(self.map);
-
-            }, 100);
-
             return;
-
-        });
+        }
 
         window.setTimeout(function() {
 
-            if (!self.is_valid_basemap) return;
+            if (!self.is_valid_basemap) {
+                self.modal_message("Ha ocurrido un error, el mapa base no está disponible");
+                return;
+            }
 
             let options = {
 

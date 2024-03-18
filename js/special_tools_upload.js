@@ -367,8 +367,7 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
             link_epsg_io.innerText = 'https://epsg.io/' + self.simple_sanitize_string(this.value);
 
         });
-
-
+        
         self.tool.vector_service_upload(container_vector, ['zip', 'geojson', 'kml'])
         .then(function() {
 
@@ -545,7 +544,7 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
 
                             SpecialToolsModal.getClose().click();
 
-                            self.modal_message("Archivo subido correctamente.");
+                            self.modal_message("Archivo subido correctamente, por favor, espere a que finalice el proceso.");
 
                             return;
 
@@ -656,7 +655,7 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
 
                         SpecialToolsModal.getClose().click();
 
-                        self.modal_message("Archivo subido correctamente.");
+                        self.modal_message("Archivo subido correctamente, por favor, espere a que finalice el proceso.");
 
                         return;
 
@@ -761,7 +760,7 @@ special_tools_upload.prototype.open_vector_modal_event = function() {
 
                         SpecialToolsModal.getClose().click();
 
-                        self.modal_message("Archivo subido correctamente.");
+                        self.modal_message("Archivo subido correctamente, por favor, espere a que finalice el proceso.");
 
                         return;
 
