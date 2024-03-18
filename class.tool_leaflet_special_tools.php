@@ -2222,10 +2222,10 @@ class tool_leaflet_special_tools extends tool_common  {
 
         if ($response->type === "application/zip") {
 
-            if ($response->size > 1500000) {
+            if ($response->size > 10000000) {
                 
                 $response->success = false;
-                $response->msg = 'El archivo no debe superar los 1500 kilobytes';
+                $response->msg = 'El archivo no debe superar los 10 MB';
             
                 return $response;
                 
@@ -2270,10 +2270,10 @@ class tool_leaflet_special_tools extends tool_common  {
 
         } else if ($response->type === 'application/geo+json') {
 
-            if ($response->size > 1500000) {
+            if ($response->size > 10000000) {
 
                 $response->success = false;
-                $response->msg = 'El archivo no debe superar los 1500 kilobytes';
+                $response->msg = 'El archivo no debe superar los 10 MB';
                 
                 return $response;
 
@@ -2320,10 +2320,10 @@ class tool_leaflet_special_tools extends tool_common  {
 
         else if ($response->type === 'application/vnd.google-earth.kml+xml') {
 
-            if ($response->size > 1500000) {
+            if ($response->size > 10000000) {
 
                 $response->success = false;
-                $response->msg = 'El archivo no debe superar los 1500 kilobytes';
+                $response->msg = 'El archivo no debe superar los 10 MB';
 
                 return $response;
 
